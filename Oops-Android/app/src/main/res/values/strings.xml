@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Oops-Android</string>
+    <string name="app_name">Oops</string>
+    <!-- Bnv 제목 -->
+    <string name="bnv_menu_1">홈</string>
+    <string name="bnv_menu_2">인벤토리</string>
+    <string name="bnv_menu_3">일정 추가</string>
+    <string name="bnv_menu_4">마이페이지</string>
 </resources>
