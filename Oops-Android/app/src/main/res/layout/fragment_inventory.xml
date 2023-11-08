@@ -1,16 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/inventory"
+<LinearLayout
+    android:id="@+id/linearlayout_inventory_top"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Main.Inventory.InventoryFragment">
+    android:background="@color/Main_500"
+    android:orientation="vertical"
+    tools:context=".ui.Main.Inventory.InventoryFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_main_title_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bnv_menu_2"
+        android:textSize="24sp"
+        android:textColor="@color/White"
+        android:fontFamily="@font/pretendard_bold"
+        android:gravity="center"
+        android:paddingTop="34dp"
+        android:paddingBottom="34dp"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="inventoryFragment" />
+        android:orientation="horizontal"
+        android:layout_marginStart="9dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <!-- ALL 버튼 -->
+            <Button
+                android:id="@+id/btn_inventory_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="6dp"
+                android:text="ALL"
+                android:textSize="25sp"
+                android:textColor="@color/White"
+                android:fontFamily="@font/pretendard_bold"
+                android:drawableStart="@drawable/ic_all_box_24"
+                android:background="@drawable/inventory_category_background"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+            </Button>
+
+            <!-- 인벤토리 목록 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_inventory_category"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:layout_marginTop="30dp"
+                tools:listitem="@layout/item_inventory_category_rv"
+                app:layout_constraintTop_toBottomOf="@id/btn_inventory_all"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- Create 버튼 -->
+            <Button
+                android:id="@+id/btn_inventory_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="8dp"
+                android:text="Create"
+                android:textSize="20sp"
+                android:textColor="#80FFFFFF"
+                android:fontFamily="@font/pretendard_bold"
+                android:drawableStart="@drawable/ic_add_24"
+                android:background="@drawable/inventory_category_background"
+                android:backgroundTint="#80FFFFFF"
+                app:layout_constraintTop_toBottomOf="@id/rv_inventory_category"
+                app:layout_constraintStart_toStartOf="parent">
+            </Button>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:clipToPadding="false">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/inventory_stuff_box_background"
+                android:backgroundTint="#80FFFFFF"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/inventory_stuff_box_background"
+                android:backgroundTint="@color/White"
+                android:layout_marginStart="15dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_inventory_stuff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stuff"
+                    android:textColor="#ABABAB"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="22dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <!-- 인벤토리 내 물건 갯수 -->
+                <TextView
+                    android:id="@+id/tv_inventory_stuff_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/0"
+                    android:textColor="#ABABAB"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_inventory_stuff"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_inventory_stuff"/>
+
+                <!-- Edit 버튼 -->
+                <TextView
+                    android:id="@+id/tv_inventory_stuff_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="edit"
+                    android:textColor="@color/Main_500"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 인벤토리 목록 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_inventory_stuff"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
+                    android:overScrollMode="never"
+                    android:layout_marginTop="18dp"
+                    tools:listitem="@layout/item_inventory_stuff_box_rv"
+                    app:layout_constraintTop_toBottomOf="@id/tv_inventory_stuff"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

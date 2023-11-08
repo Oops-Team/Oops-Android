@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 인벤토리 화면의 물품 목록 박스 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="22dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginBottom="18dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_inventory_stuff_box_cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="@null">
+
+        <!-- 물품 사진 -->
+        <ImageView
+            android:id="@+id/item_inventory_stuff_image_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/untitled"
+            android:background="#F3F3F3"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 물품 이름 -->
+    <TextView
+        android:id="@+id/item_inventory_stuff_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="물품 이름"
+        android:textSize="14sp"
+        android:textColor="#303030"
+        android:maxLines="2"
+        android:fontFamily="@font/pretendard_medium"
+        android:layout_marginTop="8dp"
+        android:gravity="center"/>
+</LinearLayout>
