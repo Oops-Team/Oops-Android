@@ -2,9 +2,9 @@
 <!-- Bnv 인벤토리 클릭 이벤트 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/ic_inventory_unselected_50"
+        android:drawable="@drawable/ic_menu_inventory_unselected_50"
         android:state_checked="false"/>
     <item
-        android:drawable="@drawable/ic_inventory_selected_50"
+        android:drawable="@drawable/ic_menu_inventory_selected_50"
         android:state_checked="true"/>
 </selector>
