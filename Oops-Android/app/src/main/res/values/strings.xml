@@ -5,4 +5,6 @@
     <string name="bnv_menu_2">인벤토리</string>
     <string name="bnv_menu_3">콕콕 찌르기</string>
     <string name="bnv_menu_4">마이페이지</string>
+    <!-- sub 제목 -->
+    <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>
 </resources>
