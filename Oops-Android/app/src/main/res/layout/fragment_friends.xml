@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Main.Sting.FriendsFragment">
+
+    <include
+        android:id="@+id/friends_toolbar_sub"
+        layout="@layout/toolbar_sub"/>
+
+    <EditText
+        android:id="@+id/edt_friends_search_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="친구의 닉네임을 입력해 주세요"
+        android:textColorHint="@color/Gray_400"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="16sp"
+        android:background="@drawable/all_radius_50"
+        android:backgroundTint="@color/Gray_100"
+        android:drawableStart="@drawable/ic_search_32"
+        android:paddingStart="24dp"
+        android:drawablePadding="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:background="@color/Gray_100"
+        android:layout_marginTop="24dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="새로운 친구들이 될거에요"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="20sp"
+                android:textColor="@color/Black"
+                android:layout_marginTop="12dp"/>
+
+            <!-- 새로운 친구 목록 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_friends_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none"
+                tools:listitem="@layout/item_friends_box_rv"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나의 친구들"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="20sp"
+                android:textColor="@color/Black"
+                android:layout_marginTop="24dp"/>
+
+            <!-- 기존 친구 목록 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_friends_old"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none"
+                tools:listitem="@layout/item_friends_box_rv_2"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

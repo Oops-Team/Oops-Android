@@ -44,6 +44,22 @@
         <action
             android:id="@+id/action_stingFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
+        <action
+            android:id="@+id/action_stingFrm_to_friendsFrm"
+            app:destination="@id/friendsFragment" />
+    </fragment>
+
+    <!-- 친구 목록 -->
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.oops_android.ui.Main.Sting.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFrm_to_stingFrm"
+            app:destination="@id/stingFragment"
+            app:popUpTo="@id/stingFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <!-- 마이페이지 -->
