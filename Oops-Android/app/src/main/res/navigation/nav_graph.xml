@@ -35,14 +35,14 @@
             app:destination="@id/loginActivity"/>
     </fragment>
 
-    <!-- 일정 추가 -->
+    <!-- 콕콕 찌르기 -->
     <fragment
-        android:id="@+id/toDoFragment"
-        android:name="com.example.oops_android.ui.Main.Todo.ToDoFragment"
-        android:label="frm_toDo"
-        tools:layout="@layout/fragment_to_do">
+        android:id="@+id/stingFragment"
+        android:name="com.example.oops_android.ui.Main.Sting.StingFragment"
+        android:label="frm_sting"
+        tools:layout="@layout/fragment_sting">
         <action
-            android:id="@+id/action_toDoFrm_to_loginActivity"
+            android:id="@+id/action_stingFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
     </fragment>
 

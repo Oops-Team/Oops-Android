@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bnv 콕콕 찌르기 클릭 이벤트 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_sting_unselected_50"
+        android:state_checked="false"/>
+    <item
+        android:drawable="@drawable/ic_sting_selected_50"
+        android:state_checked="true"/>
+</selector>

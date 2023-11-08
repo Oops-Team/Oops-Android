@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Bnv 메뉴 설정 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <!--<item
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
         android:id="@+id/homeFragment"
-        app:showAsAction="never"
-        android:enabled="true"
-        android:title="@string/bnv_menu_1"/>-->
+        android:icon="@drawable/selector_bnv_home"
+        android:title="@string/bnv_menu_1"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/inventoryFragment"
-        android:icon="@drawable/ic_inventory_unselected_64"
+        android:icon="@drawable/selector_bnv_inventory"
+        android:title="@string/bnv_menu_2"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/stingFragment"
+        android:icon="@drawable/selector_bnv_sting"
+        android:title="@string/bnv_menu_3"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/myPageFragment"
+        android:icon="@drawable/selector_bnv_mypage"
+        android:title="@string/bnv_menu_4"
+        app:showAsAction="always"/>
+
+    <!--<item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_50"
+        android:title="@string/bnv_menu_1"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/inventoryFragment"
+        android:icon="@drawable/selector_bnv_inventory"
         android:iconTint="@color/Gray_300"
         android:title="@string/bnv_menu_2"
         app:showAsAction="always"/>
@@ -22,8 +42,8 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/myPageFragment"
-        android:icon="@drawable/ic_mypage_unselected_64"
+        android:icon="@drawable/selector_bnv_mypage"
         android:iconTint="@color/Gray_300"
         android:title="@string/bnv_menu_4"
-        app:showAsAction="always"/>
+        app:showAsAction="always"/>-->
 </menu>
