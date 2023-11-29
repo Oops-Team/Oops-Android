@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeWeeklyFragment">
 
     <!-- 로그인 화면 -->
     <activity
@@ -13,14 +13,14 @@
         android:label="activity_login"
         tools:layout="@layout/activity_login"/>
 
-    <!-- 홈 -->
+    <!-- 홈 - 주간 -->
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.oops_android.ui.Main.Home.HomeFragment"
+        android:id="@+id/homeWeeklyFragment"
+        android:name="com.example.oops_android.ui.Main.Home.HomeWeeklyFragment"
         android:label="frm_home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_home_weekly">
         <action
-            android:id="@+id/action_homeFrm_to_loginActivity"
+            android:id="@+id/action_homeWeeklyFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
     </fragment>
 
