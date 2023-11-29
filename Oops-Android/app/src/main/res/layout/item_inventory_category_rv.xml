@@ -14,7 +14,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="6dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
         android:text="학교갑시다"
         android:textSize="20sp"
         android:textColor="#B3FFFFFF"

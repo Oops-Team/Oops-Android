@@ -22,7 +22,8 @@
             android:id="@+id/item_inventory_stuff_image_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/untitled"/>
     </androidx.cardview.widget.CardView>
 
     <!-- 물품 이름 -->

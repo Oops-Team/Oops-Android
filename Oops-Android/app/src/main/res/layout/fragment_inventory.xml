@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginStart="9dp">
+        android:layout_marginStart="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -61,7 +61,6 @@
                 android:orientation="vertical"
                 android:scrollbars="none"
                 android:overScrollMode="never"
-                android:layout_marginTop="30dp"
                 tools:listitem="@layout/item_inventory_category_rv"
                 app:layout_constraintTop_toBottomOf="@id/btn_inventory_all"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -72,9 +71,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
+                android:layout_marginTop="30dp"
                 android:text="Create"
                 android:textSize="20sp"
                 android:textColor="#80FFFFFF"
@@ -114,19 +114,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_inventory_stuff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Stuff"
-                    android:textColor="#ABABAB"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="22dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
                 <!-- 인벤토리 내 물건 갯수 -->
                 <TextView
                     android:id="@+id/tv_inventory_stuff_num"
@@ -135,24 +122,20 @@
                     android:text="0/0"
                     android:textColor="#ABABAB"
                     android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/pretendard_medium"
                     android:layout_marginTop="20dp"
-                    android:layout_marginStart="14dp"
+                    android:layout_marginStart="22dp"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_inventory_stuff"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_inventory_stuff"/>
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <!-- Edit 버튼 -->
-                <TextView
+                <ImageView
                     android:id="@+id/tv_inventory_stuff_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="edit"
-                    android:textColor="@color/Main_500"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:src="@drawable/ic_edit_24"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -162,11 +145,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
+                    android:visibility="invisible"
                     android:scrollbars="none"
                     android:overScrollMode="never"
                     android:layout_marginTop="18dp"
                     tools:listitem="@layout/item_inventory_stuff_box_rv"
-                    app:layout_constraintTop_toBottomOf="@id/tv_inventory_stuff"
+                    app:layout_constraintTop_toBottomOf="@id/tv_inventory_stuff_num"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- 인벤토리내 소지품 추가 버튼 -->
+                <ImageView
+                    android:id="@+id/iv_inventory_stuff_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_50"
+                    android:layout_marginBottom="104dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="위 버튼을 눌러 소지품을 담아 주세요"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textSize="10sp"
+                    android:textColor="@color/Main_200"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/iv_inventory_stuff_create"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
