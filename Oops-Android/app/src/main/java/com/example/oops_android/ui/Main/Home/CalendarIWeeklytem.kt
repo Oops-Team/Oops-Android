@@ -5,5 +5,6 @@ data class CalendarIWeeklytem(
     var day: String,  // 요일
     var date: String, // 날짜
     var fullDate: String, // 년도-날짜-요일
-    var isSelected: Boolean  // 선택된 날짜
+    var isSelected: Boolean,  // 선택된 날짜
+    var isToday: Boolean // 오늘 날짜
 )
