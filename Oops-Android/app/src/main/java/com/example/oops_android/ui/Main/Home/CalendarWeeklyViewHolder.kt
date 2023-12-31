@@ -15,11 +15,13 @@ import com.example.oops_android.databinding.ItemHomeCalendarBinding
 class CalendarWeeklyViewHolder(val context: Context, val binding: ItemHomeCalendarBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: CalendarIWeeklytem) {
 
-        // 날짜 0 제거
-        var tempDate: String? = item.date
-        if (item.date[0].toString() == "0") {
-            tempDate = "  " + item.date[1].toString() + "  "
-        }
+        // 날짜 0 제거 및 공백 설정
+        val tempDate: String =
+            if (item.date[0].toString() == "0") {
+                "  " + item.date[1].toString() + "  "
+            } else {
+                " " + item.date + " "
+            }
 
         // 선택된 날짜라면
         if (item.isSelected) {
