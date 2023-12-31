@@ -3,7 +3,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/weeklyFragment"
         android:icon="@drawable/selector_bnv_home"
         android:title="@string/bnv_menu_1"
         app:showAsAction="always"/>
