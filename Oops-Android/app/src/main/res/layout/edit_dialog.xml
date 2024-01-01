@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 화면의 수정 버튼을 클릭하면 보이는 다이얼로그 화면 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="95dp"
+    tools:context=".ui.Main.Home.EditDialog">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="무엇을 수정할까요?"
+        android:textColor="@color/White"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_bold"/>
+
+    <!-- 수정 버튼 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="28dp">
+        <!-- 소지품 수정 버튼 -->
+        <LinearLayout
+            android:id="@+id/dialog_edit_stuff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/all_radius_12"
+            android:backgroundTint="#374151"
+            android:paddingTop="29.48dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="24dp"
+            android:orientation="vertical"
+            android:layout_marginEnd="30dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stuff_edit_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소지품"
+                android:textSize="18sp"
+                android:textColor="@color/White"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_gravity="center"
+                android:layout_marginTop="24.19dp"/>
+        </LinearLayout>
+
+        <!-- 오늘 할일 수정 버튼 -->
+        <LinearLayout
+            android:id="@+id/dialog_edit_todo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/all_radius_12"
+            android:backgroundTint="#374151"
+            android:paddingTop="20.07dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="24dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/todo_edit_img"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘 할 일"
+                android:textSize="18sp"
+                android:textColor="@color/White"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_gravity="center"
+                android:layout_marginTop="22.57dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
