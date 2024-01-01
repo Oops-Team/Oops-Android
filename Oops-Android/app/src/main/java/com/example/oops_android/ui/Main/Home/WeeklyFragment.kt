@@ -1,10 +1,6 @@
 package com.example.oops_android.ui.Main.Home
 
 import android.content.Context
-import android.graphics.RenderEffect
-import android.graphics.Shader
-import android.os.Build
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentWeeklyBinding
@@ -94,6 +90,19 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         // 날짜 클릭 이벤트
         adapter?.onItemClickListener = { position ->
             adapter?.setDateSelected(position)
+        }
+
+        // 수정 버튼 클릭 이벤트
+        binding.ivHomeEdit.setOnClickListener {
+            val dialog = EditDialog(requireContext(), mainActivity!!)
+            dialog.editDialogShow()
+
+            dialog.setOnClickedListener(object : EditDialog.ButtonClickListener {
+                override fun onClicked() {
+                    // TODO 소지품 수정 or 할일 수정
+                }
+
+            })
         }
     }
 }

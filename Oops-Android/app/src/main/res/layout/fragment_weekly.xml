@@ -242,5 +242,4 @@
                 android:layout_height="72dp"/>
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
