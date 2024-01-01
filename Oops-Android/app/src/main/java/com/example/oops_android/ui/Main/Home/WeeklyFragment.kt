@@ -84,6 +84,16 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             // 값 넣기
             adapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
         }
+
+        // 챙겨야 할 것 목록
+        // TODO:: 현재는 임시 데이터 적용
+        val stuffAdapter = StuffListAdapter(requireContext())
+        binding.rvHomeStuff.adapter = stuffAdapter
+        stuffAdapter.addStuffList(StuffItem(1, R.drawable.untitled, "책"))
+        stuffAdapter.addStuffList(StuffItem(2, R.drawable.untitled, "책"))
+        stuffAdapter.addStuffList(StuffItem(3, R.drawable.untitled, "책"))
+        stuffAdapter.addStuffList(StuffItem(4, R.drawable.untitled, "책"))
+        stuffAdapter.addStuffList(StuffItem(5, R.drawable.untitled, "책"))
     }
 
     override fun initAfterBinding() {
