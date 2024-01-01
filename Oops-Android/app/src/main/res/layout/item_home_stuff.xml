@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 홈 화면의 챙겨야 할 것 - 소지품 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cLayout_home_stuff_top"
     android:layout_width="88dp"
     android:layout_height="112dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"

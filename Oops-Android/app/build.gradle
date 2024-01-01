@@ -62,4 +62,7 @@ dependencies {
 
     // flex-box layout(rv내 아이템 중앙 정렬)
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
 }
