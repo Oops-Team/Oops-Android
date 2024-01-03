@@ -9,7 +9,7 @@
     android:paddingEnd="6dp"
     android:paddingBottom="7dp"
     android:layout_marginEnd="12dp"
-    android:background="@drawable/home_stuff_radius_box">
+    android:background="@drawable/all_radius_08">
 
     <!-- 소지품 사진 -->
     <ImageView
