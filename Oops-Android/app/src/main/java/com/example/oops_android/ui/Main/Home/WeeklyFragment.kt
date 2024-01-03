@@ -143,36 +143,9 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
         }
 
-        // TODO:: 일정 수정&삭제 버튼 클릭 이벤트
+        // 일정 수정&삭제 버튼 클릭 이벤트
         todoAdapter?.onItemClickListener = { position, iv ->
-            val popup = layoutInflater.inflate(R.layout.item_home_todo_popup, null)
-
-            // popupwindow 생성
-            val popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            popupWindow.isOutsideTouchable = true // 팝업 바깥 영역 클릭시 팝업 닫침
-            popupWindow.showAsDropDown(iv, -210, 0) // ... 아래에 팝업 위치하도록 함
-
-            // 팝업 배경 뒤 흐리게
-            val container: View = popupWindow.contentView.parent as View
-            val windowManager: WindowManager = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val params: WindowManager.LayoutParams = container.layoutParams as WindowManager.LayoutParams
-            params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            params.dimAmount = 0.25f
-            windowManager.updateViewLayout(container, params)
-
-            // 수정 버튼 클릭 이벤트
-            val editBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_edit_popup)
-            editBtn.setOnClickListener {
-                popupWindow.dismiss()
-                showToast("$position edit 클릭!")
-            }
-
-            // 삭제 버튼 클릭 이벤트
-            val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
-            deleteBtn.setOnClickListener {
-                popupWindow.dismiss()
-                showToast("$position delete 클릭!")
-            }
+            showEditPopup(position, iv)
         }
 
         // TODO:: 소지품 클릭 이벤트
