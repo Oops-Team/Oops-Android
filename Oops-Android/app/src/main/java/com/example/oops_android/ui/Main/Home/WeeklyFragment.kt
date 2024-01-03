@@ -1,6 +1,10 @@
 package com.example.oops_android.ui.Main.Home
 
 import android.content.Context
+import android.view.View
+import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.activity.OnBackPressedCallback
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentWeeklyBinding
@@ -20,7 +24,9 @@ import java.util.TimeZone
 class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate) {
 
     private lateinit var callback: OnBackPressedCallback // 뒤로가기 콜백
-    private var adapter: CalendarWeeklyAdapter? = null // 주간 달력 어뎁터
+    private var weeklyAdapter: CalendarWeeklyAdapter? = null // 주간 달력 어댑터
+    private var stuffAdapter: StuffListAdapter? = null // 소지품 어댑터
+    private var todoAdapter: TodoListAdapter? = null // 할 일 어댑터
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,15 +47,15 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
     override fun initViewCreated() {
         // 주간 달력 어댑터
-        adapter = CalendarWeeklyAdapter(requireContext())
-        binding.rvHomeCalendar.adapter = adapter
+        weeklyAdapter = CalendarWeeklyAdapter(requireContext())
+        binding.rvHomeCalendar.adapter = weeklyAdapter
 
         // 달력 내의 아이템 중앙 정렬
         FlexboxLayoutManager(requireContext()).apply {
             justifyContent = JustifyContent.SPACE_AROUND // 축 기준 정렬 방향
         }.let {
             binding.rvHomeCalendar.layoutManager = it
-            binding.rvHomeCalendar.adapter = adapter
+            binding.rvHomeCalendar.adapter = weeklyAdapter
         }
 
         // 요일 배열
@@ -82,24 +88,41 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             }
 
             // 값 넣기
-            adapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
+            weeklyAdapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
         }
 
         // 챙겨야 할 것 목록
         // TODO:: 현재는 임시 데이터 적용
-        val stuffAdapter = StuffListAdapter(requireContext())
+        stuffAdapter = StuffListAdapter(requireContext())
         binding.rvHomeStuff.adapter = stuffAdapter
-        stuffAdapter.addStuffList(StuffItem(1, R.drawable.untitled, "책"))
-        stuffAdapter.addStuffList(StuffItem(2, R.drawable.untitled, "책"))
-        stuffAdapter.addStuffList(StuffItem(3, R.drawable.untitled, "책"))
-        stuffAdapter.addStuffList(StuffItem(4, R.drawable.untitled, "책"))
-        stuffAdapter.addStuffList(StuffItem(5, R.drawable.untitled, "책"))
+        stuffAdapter?.addStuffList(StuffItem(1, R.drawable.untitled, "책"))
+        stuffAdapter?.addStuffList(StuffItem(2, R.drawable.untitled, "책"))
+        stuffAdapter?.addStuffList(StuffItem(3, R.drawable.untitled, "책"))
+        stuffAdapter?.addStuffList(StuffItem(4, R.drawable.untitled, "책"))
+        stuffAdapter?.addStuffList(StuffItem(5, R.drawable.untitled, "책"))
+
+        // 일정 목록
+        todoAdapter = TodoListAdapter(requireContext())
+        binding.rvHomeTodo.adapter = todoAdapter
+        // TODO:: 임시 데이터 적용(list값이 있다면 뷰 띄우기)
+        binding.lLayoutHomeTodoDefault.visibility = View.GONE
+        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE
+        todoAdapter?.addTodoList(TodoItem(1, "일정 이름1", "태그1", false))
+        todoAdapter?.addTodoList(TodoItem(2, "일정 이름2", "태그2", false))
+        todoAdapter?.addTodoList(TodoItem(3, "일정 이름3", "태그3", true))
+        todoAdapter?.addTodoList(TodoItem(4, "일정 이름4", "태그4", true))
+        todoAdapter?.addTodoList(TodoItem(5, "일정 이름5", "태그5", true))
+        todoAdapter?.addTodoList(TodoItem(6, "일정 이름6", "태그5", true))
+        todoAdapter?.addTodoList(TodoItem(7, "일정 이름7", "태그5", true))
+        todoAdapter?.addTodoList(TodoItem(8, "일정 이름8", "태그5", true))
+        todoAdapter?.addTodoList(TodoItem(9, "일정 이름9", "태그5", true))
+        todoAdapter?.addTodoList(TodoItem(10, "일정 이름10", "태그5", true))
     }
 
     override fun initAfterBinding() {
         // 날짜 클릭 이벤트
-        adapter?.onItemClickListener = { position ->
-            adapter?.setDateSelected(position)
+        weeklyAdapter?.onItemClickListener = { position ->
+            weeklyAdapter?.setDateSelected(position)
         }
 
         // 수정 버튼 클릭 이벤트
@@ -114,5 +137,20 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
             })
         }
+
+        // 일정 추가 버튼 클릭 이벤트
+        binding.iBtnHomeTodoAdd.setOnClickListener {
+
+        }
+
+        // 일정 수정&삭제 버튼 클릭 이벤트
+        todoAdapter?.onItemClickListener = { position, iv ->
+            showEditPopup(position, iv)
+        }
+
+        // TODO:: 소지품 클릭 이벤트
+
     }
+
+
 }

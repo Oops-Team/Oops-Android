@@ -7,4 +7,7 @@
     <string name="bnv_menu_4">마이페이지</string>
     <!-- sub 제목 -->
     <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>
+    <!-- 홈 화면의 edit popup menu -->
+    <string name="home_todo_edit">edit</string>
+    <string name="home_todo_delete">delete</string>
 </resources>

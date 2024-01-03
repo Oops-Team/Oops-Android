@@ -10,7 +10,7 @@ import com.example.oops_android.databinding.ItemHomeStuffBinding
 class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListViewHolder>() {
 
     private var stuffList = ArrayList<StuffItem>() // 소지품 목록
-    private var onItemClickListener: ((Int) -> Unit)? = null // 소지품 클릭
+    var onItemClickListener: ((Int) -> Unit)? = null // 소지품 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffListViewHolder {
         val binding: ItemHomeStuffBinding = ItemHomeStuffBinding.inflate(
