@@ -38,9 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="S"
-                    android:textSize="12sp"
-                    android:textColor="#707070"
-                    android:fontFamily="@font/pretendard_bold"/>
+                    style="@style/weekTextStyle"/>
 
                 <!-- 일 -->
                 <TextView
@@ -48,9 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
-                    android:textSize="12sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/pretendard_bold"
+                    style="@style/dateTextStyle"
                     android:layout_marginTop="18dp"/>
             </LinearLayout>
         </FrameLayout>
