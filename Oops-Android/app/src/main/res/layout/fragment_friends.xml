@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/White"
     tools:context=".ui.Main.Sting.FriendsFragment">
 
     <include
@@ -14,11 +15,12 @@
     <EditText
         android:id="@+id/edt_friends_search_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="친구의 닉네임을 입력해 주세요"
         android:textColorHint="@color/Gray_400"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="16sp"
+        android:textColor="#111827"
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Gray_100"
         android:drawableStart="@drawable/ic_search_32"
