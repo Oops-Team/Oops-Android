@@ -30,6 +30,10 @@
         <item name="android:navigationBarColor">@color/White</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+    <!-- 로그인 EditText 스타일 -->
+    <style name="loginEditTextStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorAccent">@color/Main_500</item>
+    </style>
     <!-- 월간 캘린더 텍스트 스타일 -->
     <style name="CalendarViewCustom">
         <item name="android:textColor">@drawable/selector_monthly_calendar_event_text</item>
