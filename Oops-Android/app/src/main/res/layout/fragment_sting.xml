@@ -5,8 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
+    android:background="@color/White"
+    android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.Main.Sting.StingFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_sting_bg_0"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="-100dp"
+        android:layout_marginBottom="-150dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_sting_hand_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_sting_hand_3"
+        android:layout_marginBottom="-40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_sting_title"
@@ -37,124 +59,152 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
+        android:id="@+id/iv_sting_hand_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_sting_hand_1"
         android:layout_marginTop="60dp"
-        android:layout_marginStart="-105dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <!-- 친구1 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_sting_friend_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        app:cardCornerRadius="100dp"
-        android:scaleType="centerCrop"
-        app:cardElevation="@null"
+    <!-- 친구 5명 일 때 -->
+    <FrameLayout
+        android:id="@+id/rLayout_sting_friends_5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="35dp"
         app:layout_constraintTop_toBottomOf="@id/tv_sting_sub_title"
-        app:layout_constraintEnd_toEndOf="parent">
-        <ImageView
-            android:id="@+id/iv_sting_friend_1"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:src="@drawable/ic_friends_profile_default_50"/>
-    </androidx.cardview.widget.CardView>
-
-    <!-- 친구2 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_sting_friend_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        app:cardCornerRadius="100dp"
-        android:scaleType="centerCrop"
-        app:cardElevation="@null"
-        app:layout_constraintTop_toBottomOf="@id/cv_sting_friend_1"
-        app:layout_constraintStart_toStartOf="parent">
-        <ImageView
-            android:id="@+id/iv_sting_friend_2"
-            android:layout_width="79dp"
-            android:layout_height="79dp"
-            android:src="@drawable/ic_friends_profile_default_50"/>
-    </androidx.cardview.widget.CardView>
-
-    <!-- 친구3 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_sting_friend_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="89dp"
-        app:cardCornerRadius="100dp"
-        android:scaleType="centerCrop"
-        app:cardElevation="@null"
-        app:layout_constraintTop_toBottomOf="@id/cv_sting_friend_1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_sting_friends">
-        <ImageView
-            android:id="@+id/iv_sting_friend_3"
-            android:layout_width="79dp"
-            android:layout_height="79dp"
-            android:src="@drawable/ic_friends_profile_default_50"/>
-    </androidx.cardview.widget.CardView>
 
-    <!-- 친구4 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_sting_friend_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="93dp"
-        android:layout_marginBottom="60dp"
-        app:cardCornerRadius="100dp"
-        android:scaleType="centerCrop"
-        app:cardElevation="@null"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_sting_friends">
-        <ImageView
-            android:id="@+id/iv_sting_friend_4"
-            android:layout_width="114dp"
-            android:layout_height="114dp"
-            android:src="@drawable/ic_friends_profile_default_50"/>
-    </androidx.cardview.widget.CardView>
+        <!-- 친구1, 2 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <!-- 친구5 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_sting_friend_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="100dp"
-        android:scaleType="centerCrop"
-        app:cardElevation="@null"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_sting_sub_title"
-        app:layout_constraintStart_toStartOf="parent">
-        <ImageView
-            android:id="@+id/iv_sting_friend_5"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/ic_friends_profile_default_50"/>
-    </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_sting_friend5_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp"
+                android:scaleType="centerCrop"
+                app:cardElevation="@null"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="75dp"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@id/cv_sting_friend5_2">
+
+                <ImageView
+                    android:id="@+id/iv_sting_friend5_1"
+                    android:layout_width="57dp"
+                    android:layout_height="57dp"
+                    android:src="@drawable/ic_friends_profile_default_50"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_sting_friend5_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                app:cardCornerRadius="100dp"
+                android:scaleType="centerCrop"
+                app:cardElevation="@null"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+                <ImageView
+                    android:id="@+id/iv_sting_friend5_2"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:src="@drawable/ic_friends_profile_default_50"/>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <!-- 친구3 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="122dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_sting_friend5_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp"
+                android:scaleType="centerCrop"
+                app:cardElevation="@null"
+                android:layout_marginStart="44dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:id="@+id/iv_sting_friend5_3"
+                    android:layout_width="79dp"
+                    android:layout_height="79dp"
+                    android:src="@drawable/ic_friends_profile_default_50"/>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <!-- 친구4 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_sting_friend5_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp"
+                android:scaleType="centerCrop"
+                app:cardElevation="@null"
+                android:layout_marginEnd="76dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:id="@+id/iv_sting_friend5_4"
+                    android:layout_width="79dp"
+                    android:layout_height="79dp"
+                    android:src="@drawable/ic_friends_profile_default_50"/>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <!-- 친구5 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_sting_friend5_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp"
+                android:scaleType="centerCrop"
+                app:cardElevation="@null"
+                android:layout_marginStart="108dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true">
+
+                <ImageView
+                    android:id="@+id/iv_sting_friend5_5"
+                    android:layout_width="114dp"
+                    android:layout_height="114dp"
+                    android:src="@drawable/ic_friends_profile_default_50"/>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </FrameLayout>
 
     <ImageView
+        android:id="@+id/iv_sting_hand_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_sting_hand_2"
-        android:layout_marginEnd="-124dp"
-        app:layout_constraintTop_toBottomOf="@id/cv_sting_friend_3"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_sting_hand_3"
-        android:layout_marginStart="-45dp"
-        android:layout_marginBottom="-40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- 친구 목록 버튼 -->
     <Button
@@ -172,10 +222,11 @@
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Main_500"
         android:layout_marginBottom="40dp"
+        android:layout_gravity="center"
         android:elevation="10dp"
         android:stateListAnimator="@null"
         android:outlineSpotShadowColor="#80000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
