@@ -104,13 +104,11 @@
                     android:id="@+id/iBtn_login_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pwd_mask_on_25"
+                    android:src="@drawable/ic_pwd_mask_on_24"
                     android:layout_gravity="end|center_vertical"
                     android:background="@color/transparent"
-                    android:paddingTop="14dp"
                     android:paddingStart="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="14dp"/>
+                    android:paddingEnd="16dp"/>
             </FrameLayout>
 
             <!-- 비밀번호 경고 문구 -->
