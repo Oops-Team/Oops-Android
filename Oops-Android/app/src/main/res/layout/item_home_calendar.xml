@@ -37,16 +37,14 @@
                     android:id="@+id/tv_home_calendar_day_default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S"
-                    style="@style/weekTextStyle"/>
+                    style="@style/WeekTextStyle"/>
 
                 <!-- 일 -->
                 <TextView
                     android:id="@+id/tv_home_calendar_date_default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2"
-                    style="@style/dateTextStyle"
+                    style="@style/DateTextStyle"
                     android:layout_marginTop="18dp"/>
             </LinearLayout>
         </FrameLayout>

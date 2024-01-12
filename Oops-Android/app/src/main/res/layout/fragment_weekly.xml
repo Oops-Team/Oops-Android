@@ -79,7 +79,7 @@
             android:visibility="gone"
             app:mcv_firstDayOfWeek="sunday"
             app:mcv_weekDayLabels="@array/calendar_week_array2"
-            app:mcv_weekDayTextAppearance="@style/weekTextStyle"
+            app:mcv_weekDayTextAppearance="@style/WeekTextStyle"
             app:mcv_dateTextAppearance="@style/CalendarViewCustom"
             app:mcv_showWeekDays="true"
             app:mcv_selectionColor="@color/Main_500"
