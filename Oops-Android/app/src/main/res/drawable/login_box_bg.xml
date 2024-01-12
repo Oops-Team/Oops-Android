@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 로그인 화면에 있는 박스 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="34.5dp"/>
+    <solid android:color="@color/Main_50"/>
+</shape>
