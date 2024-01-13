@@ -18,6 +18,11 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         // 비밀번호 mask의 메소드(스타일) 지정
         binding.edtLoginPwd.transformationMethod = CustomPasswordTransformationMethod()
 
+        // 회원가입 페이지로 이동
+        binding.tvLoginSignup.setOnClickListener {
+            startActivityWithClear(SignUpActivity::class.java)
+        }
+
         // 비밀번호 mask on/off 이벤트
         binding.iBtnLoginToggle.setOnClickListener {
             // 비밀번호가 보인다면

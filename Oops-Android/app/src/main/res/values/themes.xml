@@ -30,6 +30,10 @@
         <item name="android:navigationBarColor">@color/White</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+    <!-- 회원가입 EditText 스타일 -->
+    <style name="SignUpEditTextStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorAccent">#33BDBDBD</item>
+    </style>
     <!-- 로그인 EditText 스타일 -->
     <style name="LoginEditTextStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorAccent">@color/Main_500</item>
