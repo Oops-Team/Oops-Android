@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 화면의 오늘 할 일 태그 레이아웃 -->
+<LinearLayout
+    android:id="@+id/lLayout_home_todo_tag"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="22dp"
+    android:background="@drawable/all_radius_50"
+    android:backgroundTint="@color/Main_100"
+    android:paddingTop="4dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/tv_home_todo_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="운동"
+        android:textSize="12sp"
+        android:textColor="@color/Main_500"
+        android:fontFamily="@font/pretendard_regular"/>
+</LinearLayout>

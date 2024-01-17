@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     android:id="@+id/home"
     android:tag="home"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@color/Gray_100"
     tools:context=".ui.Main.Home.WeeklyFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -14,7 +15,7 @@
     <LinearLayout
         android:id="@+id/cLayout_home_calendar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/home_calendar_background"
         android:elevation="11dp"
         android:orientation="vertical"
@@ -163,7 +164,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/cLayout_home_calendar"
@@ -248,15 +249,30 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_home_stuff"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="오늘 할 일"
-                android:textSize="18sp"
-                android:textColor="#1C1C1C"
-                android:fontFamily="@font/pretendard_bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="16dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오늘 할 일"
+                    android:textSize="18sp"
+                    android:textColor="#1C1C1C"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:layout_marginStart="16dp"/>
+
+                <!-- 홈 화면의 오늘 할 일 태그가 들어 갈 레이아웃 -->
+                <LinearLayout
+                    android:id="@+id/lLayout_home_todo_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8dp">
+                </LinearLayout>
+            </LinearLayout>
 
             <!-- 할 일이 없을 때 보이는 뷰 -->
             <LinearLayout
@@ -322,7 +338,7 @@
             <!-- 공백 -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="270dp"/>
+                android:layout_height="100dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
