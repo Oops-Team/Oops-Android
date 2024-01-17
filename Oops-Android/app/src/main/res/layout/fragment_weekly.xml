@@ -68,12 +68,78 @@
             tools:listitem="@layout/item_home_calendar"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"/>
 
+        <LinearLayout
+            android:id="@+id/lLayout_weekly_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="24dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="S"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="M"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="T"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1dp"
+                android:text="W"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="0.5dp"
+                android:text="T"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="F"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="-1dp"
+                android:text="S"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+        </LinearLayout>
+
         <!-- 월간 달력 -->
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/mcv_home_monthly_calendarview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="-5dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:visibility="gone"
@@ -81,7 +147,7 @@
             app:mcv_weekDayLabels="@array/calendar_week_array2"
             app:mcv_weekDayTextAppearance="@style/WeekTextStyle"
             app:mcv_dateTextAppearance="@style/CalendarViewCustom"
-            app:mcv_showWeekDays="true"
+            app:mcv_showWeekDays="false"
             app:mcv_selectionColor="@color/Main_500"
             app:mcv_selectionMode="single"/>
 
@@ -113,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="32dp"
+                android:paddingTop="24dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -173,7 +239,7 @@
                 android:id="@+id/rv_home_stuff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="4dp"
                 android:overScrollMode="never"

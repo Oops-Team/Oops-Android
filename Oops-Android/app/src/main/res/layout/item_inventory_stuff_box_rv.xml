@@ -12,17 +12,20 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/item_inventory_stuff_box_cv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:padding="18dp"
         app:cardCornerRadius="15dp"
         app:cardElevation="@null">
 
         <!-- 물품 사진 -->
         <ImageView
             android:id="@+id/item_inventory_stuff_image_iv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ex_img"
+            android:scaleType="centerCrop"
+            android:background="#F3F3F3"/>
     </androidx.cardview.widget.CardView>
 
     <!-- 물품 이름 -->

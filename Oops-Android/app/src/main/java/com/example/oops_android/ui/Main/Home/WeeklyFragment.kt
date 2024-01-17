@@ -144,11 +144,13 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             if (isWeeklyCalendar) {
                 binding.rvHomeWeeklyCalendar.visibility = View.GONE
                 binding.mcvHomeMonthlyCalendarview.visibility = View.VISIBLE
+                binding.lLayoutWeeklyWeek.visibility = View.VISIBLE
                 isWeeklyCalendar = false
             }
             else {
                 binding.rvHomeWeeklyCalendar.visibility = View.VISIBLE
                 binding.mcvHomeMonthlyCalendarview.visibility = View.GONE
+                binding.lLayoutWeeklyWeek.visibility = View.GONE
                 isWeeklyCalendar = true
             }
         }
@@ -185,7 +187,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         val dates = mutableListOf<CalendarDay>()
         dates.add(CalendarDay.today())
         dates.add(CalendarDay.from(2024, 1, 24))
-        val eventDecorator = EventDecorator(requireContext(), R.color.Main_200, dates)
+        val eventDecorator = EventDecorator(requireContext(), R.color.Main_100, dates)
         binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
     }
 }
