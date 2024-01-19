@@ -23,40 +23,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <LinearLayout
+    <!-- 할 일 이름 -->
+    <TextView
+        android:id="@+id/tv_home_todo_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:textColor="#1C1C1C"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_medium"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/iBtn_home_todo_complete"
         app:layout_constraintEnd_toStartOf="@id/iv_home_todo_edit"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!-- 할 일 태그 -->
-        <TextView
-            android:id="@+id/tv_home_todo_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/Gray_400"
-            android:textSize="12sp"
-            android:fontFamily="@font/pretendard_regular"
-            android:ellipsize="end"
-            android:maxLines="1"/>
-
-        <!-- 할 일 이름 -->
-        <TextView
-            android:id="@+id/tv_home_todo_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#1C1C1C"
-            android:textSize="14sp"
-            android:fontFamily="@font/pretendard_medium"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginTop="6dp"/>
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- 수정&삭제 버튼 -->
     <ImageView

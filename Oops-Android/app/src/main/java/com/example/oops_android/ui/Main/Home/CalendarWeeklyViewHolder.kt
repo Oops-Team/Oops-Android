@@ -3,10 +3,7 @@ package com.example.oops_android.ui.Main.Home
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
-import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ItemHomeCalendarBinding
@@ -43,6 +40,7 @@ class CalendarWeeklyViewHolder(val context: Context, val binding: ItemHomeCalend
         }
 
         // 오늘 날짜라면
+        binding.fLayoutHomeCalendarDefaultTop.setBackgroundResource(R.color.White)
         if (item.isToday && item.isSelected) {
             binding.fLayoutHomeCalendarDefaultTop.setBackgroundResource(R.drawable.home_calendar_today)
         }

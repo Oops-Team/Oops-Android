@@ -1,5 +1,6 @@
 package com.example.oops_android.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,8 +17,6 @@ import com.example.oops_android.R
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T) : AppCompatActivity() {
     private var mBinding: T? = null
     protected val binding get() = mBinding!!
-
-    private var imm: InputMethodManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeSetContentView()
@@ -66,7 +65,8 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
 
     // 키보드 숨기기
     fun getHideKeyboard(view: View) {
-        imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     // 토스트 메시지 띄우기

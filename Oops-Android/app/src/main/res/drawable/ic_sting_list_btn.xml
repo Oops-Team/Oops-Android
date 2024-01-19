@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 콕콕 찌르기 화면의 친구 목록 버튼 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/Main_500"/>
+    <corners android:radius="50dp"/>
+</shape>

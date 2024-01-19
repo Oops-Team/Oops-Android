@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_gravity="center"
             android:background="@drawable/all_radius_50"
             app:layout_constraintTop_toTopOf="parent">
@@ -37,20 +37,14 @@
                     android:id="@+id/tv_home_calendar_day_default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S"
-                    android:textSize="12sp"
-                    android:textColor="#707070"
-                    android:fontFamily="@font/pretendard_bold"/>
+                    style="@style/WeekTextStyle"/>
 
                 <!-- 일 -->
                 <TextView
                     android:id="@+id/tv_home_calendar_date_default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textSize="12sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/pretendard_bold"
+                    style="@style/DateTextStyle"
                     android:layout_marginTop="18dp"/>
             </LinearLayout>
         </FrameLayout>

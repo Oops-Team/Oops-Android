@@ -8,6 +8,7 @@
     app:contentInsetStart="0dp"
     android:paddingTop="17dp"
     android:paddingBottom="13dp"
+    android:background="@color/White"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     android:id="@+id/home"
     android:tag="home"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@color/Gray_100"
     tools:context=".ui.Main.Home.WeeklyFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- 주간 캘린더 -->
+    <!-- 캘린더 -->
     <LinearLayout
         android:id="@+id/cLayout_home_calendar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/home_calendar_background"
         android:elevation="11dp"
         android:orientation="vertical"
@@ -30,7 +31,7 @@
 
             <!-- 일주일/월별 전환 버튼 -->
             <ImageView
-                android:id="@+id/iv_home_calendar"
+                android:id="@+id/iv_home_switch_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_calendar_24"
@@ -55,21 +56,101 @@
 
         <!-- 주간 달력 -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_calendar"
+            android:id="@+id/rv_home_weekly_calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:layout_marginBottom="24dp"
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_home_calendar"
-            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/iv_home_calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view_home_calendar"/>
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"/>
+
+        <LinearLayout
+            android:id="@+id/lLayout_weekly_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="24dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="S"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="M"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1.5dp"
+                android:text="T"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="1dp"
+                android:text="W"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="0.5dp"
+                android:text="T"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="F"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="-1dp"
+                android:text="S"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                style="@style/WeekTextStyle"/>
+        </LinearLayout>
+
+        <!-- 월간 달력 -->
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/mcv_home_monthly_calendarview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:visibility="gone"
+            app:mcv_firstDayOfWeek="sunday"
+            app:mcv_weekDayLabels="@array/calendar_week_array2"
+            app:mcv_weekDayTextAppearance="@style/WeekTextStyle"
+            app:mcv_dateTextAppearance="@style/CalendarViewCustom"
+            app:mcv_showWeekDays="false"
+            app:mcv_selectionColor="@color/Main_500"
+            app:mcv_selectionMode="single"/>
 
         <View
             android:id="@+id/view_home_calendar"
@@ -77,17 +158,13 @@
             android:layout_height="3dp"
             android:background="@drawable/signup_btn_bg"
             android:backgroundTint="#26707070"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="12dp"
-            android:layout_gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/cLayout_home_calendar"/>
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/cLayout_home_calendar"
@@ -103,7 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="32dp"
+                android:paddingTop="24dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -163,7 +240,7 @@
                 android:id="@+id/rv_home_stuff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="4dp"
                 android:overScrollMode="never"
@@ -172,15 +249,30 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_home_stuff"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="오늘 할 일"
-                android:textSize="18sp"
-                android:textColor="#1C1C1C"
-                android:fontFamily="@font/pretendard_bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="16dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오늘 할 일"
+                    android:textSize="18sp"
+                    android:textColor="#1C1C1C"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:layout_marginStart="16dp"/>
+
+                <!-- 홈 화면의 오늘 할 일 태그가 들어 갈 레이아웃 -->
+                <LinearLayout
+                    android:id="@+id/lLayout_home_todo_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8dp">
+                </LinearLayout>
+            </LinearLayout>
 
             <!-- 할 일이 없을 때 보이는 뷰 -->
             <LinearLayout
@@ -246,7 +338,7 @@
             <!-- 공백 -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="270dp"/>
+                android:layout_height="100dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -4,6 +4,5 @@ package com.example.oops_android.ui.Main.Home
 data class TodoItem(
     var todoIdx: Long, // 일정 인덱스
     var todoName: String, // 이름
-    var todoTag: String, // 태그
     var isComplete: Boolean // 완료 여부
 )
