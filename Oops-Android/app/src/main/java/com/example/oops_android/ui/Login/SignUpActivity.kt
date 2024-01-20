@@ -61,6 +61,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             else if (edt.text.isNotEmpty()){
                 checkNickName(alert, edt, alertImg)
             }
+
+            getHideKeyboard(binding.root) // 키보드 숨기기
         }
 
         /** 닉네임 edt 입력 이벤트 **/
@@ -75,6 +77,11 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 binding.ivSignUpAlert.visibility = View.GONE // 알럿 제거
                 binding.tvSignUpAlert.visibility = View.GONE // alert 제거
             }
+        }
+
+        // 다음 버튼 클릭 이벤트
+        binding.btnSignUp1Next.setOnClickListener {
+            startActivityWithClear(SignUp2Activity::class.java)
         }
     }
 
