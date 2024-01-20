@@ -1,9 +1,8 @@
 package com.example.oops_android.ui.Login
 
-import android.text.method.HideReturnsTransformationMethod
-import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityLoginBinding
 import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.utils.ButtonUtils
 import com.example.oops_android.utils.CustomPasswordTransformationMethod
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
@@ -25,23 +24,14 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
         // 비밀번호 mask on/off 이벤트
         binding.iBtnLoginToggle.setOnClickListener {
-            // 비밀번호가 보인다면
-            if (isPwdMask) {
-                binding.iBtnLoginToggle.setImageResource(R.drawable.ic_pwd_mask_on_24)
-                /* 기본으로 제공하는 메소드
-                 binding.edtLoginPwd.transformationMethod = PasswordTransformationMethod.getInstance()
-                 */
-                binding.edtLoginPwd.transformationMethod = CustomPasswordTransformationMethod() // 커스텀 메소드 적용 '●'
-                binding.edtLoginPwd.setSelection(binding.edtLoginPwd.length()) // 커서를 끝으로 이동
-                isPwdMask = false
-            }
-            // 비밀번호가 안 보인다면
-            else {
-                binding.iBtnLoginToggle.setImageResource(R.drawable.ic_pwd_mask_off_24)
-                binding.edtLoginPwd.transformationMethod = HideReturnsTransformationMethod.getInstance() // 비밀번호 보여주기
-                binding.edtLoginPwd.setSelection(binding.edtLoginPwd.length()) // 커서를 끝으로 이동
-                isPwdMask = true
-            }
+            isPwdMask =
+                if (isPwdMask) {
+                    ButtonUtils().setOnClickToggleBtn(binding.iBtnLoginToggle, isPwdMask, binding.edtLoginPwd)
+                    false
+                } else {
+                    ButtonUtils().setOnClickToggleBtn(binding.iBtnLoginToggle, isPwdMask, binding.edtLoginPwd)
+                    true
+                }
         }
     }
 }
