@@ -1,7 +1,7 @@
 package com.example.oops_android.ui.Login
 
 import com.example.oops_android.databinding.ActivityLoginBinding
-import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.ButtonUtils
 import com.example.oops_android.utils.CustomPasswordTransformationMethod
 

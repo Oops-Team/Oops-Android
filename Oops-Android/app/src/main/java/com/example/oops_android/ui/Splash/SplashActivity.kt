@@ -1,16 +1,14 @@
 package com.example.oops_android.ui.Splash
 
 import android.animation.ObjectAnimator
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.oops_android.databinding.ActivitySplashBinding
-import com.example.oops_android.ui.BaseActivity
 import com.example.oops_android.ui.Main.MainActivity
+import com.example.oops_android.ui.Base.BaseActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 

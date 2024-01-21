@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentInventoryBinding
-import com.example.oops_android.ui.BaseFragment
+import com.example.oops_android.ui.Base.BaseFragment
 
 class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate) {
     override fun initViewCreated() {

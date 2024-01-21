@@ -1,12 +1,16 @@
-package com.example.oops_android.ui
+package com.example.oops_android.ui.Base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -72,5 +76,38 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     // 토스트 메시지 띄우기
     fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    // 취소 버튼 이벤트
+    @SuppressLint("ClickableViewAccessibility")
+    fun clickCancelBtn(edt: EditText, alert: TextView) {
+        if (edt.text.toString().isNotBlank()) {
+            val cancelBtn = ContextCompat.getDrawable(applicationContext, R.drawable.ic_cancel_25)
+            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, cancelBtn, null)
+
+            // 취소 버튼 클릭 이벤트
+            edt.setOnTouchListener(View.OnTouchListener { _, event ->
+                val DRAWABLE_RIGHT = 2
+
+                try {
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        if (event.rawX >= (edt.right -
+                                    edt.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
+                            // 취소 버튼 삭제 및 입력된 text 삭제
+                            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                            edt.text = null
+                            alert.text = null
+                            alert.visibility = View.INVISIBLE
+                            return@OnTouchListener true
+                        }
+                    }
+                    false
+                } catch (e: Exception) {
+                    false
+                }
+            })
+        }
+        else
+            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.oops_android.ui
+package com.example.oops_android.ui.Base
 
 import android.content.Context
 import android.os.Bundle

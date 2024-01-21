@@ -5,12 +5,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUp2Binding
-import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.ButtonUtils
 import com.example.oops_android.utils.CustomPasswordTransformationMethod
 import com.example.oops_android.utils.EditTextUtils
 import com.example.oops_android.utils.onTextChanged
-import java.util.regex.Pattern
 
 // 회원가입 - 이메일, 비밀번호 입력하는 화면
 class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Binding::inflate) {

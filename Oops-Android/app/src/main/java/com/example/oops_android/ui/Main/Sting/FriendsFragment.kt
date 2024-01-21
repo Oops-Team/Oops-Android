@@ -2,7 +2,7 @@ package com.example.oops_android.ui.Main.Sting
 
 import androidx.navigation.findNavController
 import com.example.oops_android.databinding.FragmentFriendsBinding
-import com.example.oops_android.ui.BaseFragment
+import com.example.oops_android.ui.Base.BaseFragment
 
 class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate) {
 

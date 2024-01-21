@@ -12,7 +12,7 @@ import com.example.oops_android.custom.EventDecorator
 import com.example.oops_android.custom.SelectedDecorator
 import com.example.oops_android.custom.TodayDecorator
 import com.example.oops_android.databinding.FragmentWeeklyBinding
-import com.example.oops_android.ui.BaseFragment
+import com.example.oops_android.ui.Base.BaseFragment
 import com.example.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent

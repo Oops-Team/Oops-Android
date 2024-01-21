@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUpBinding
-import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.onTextChanged
 import java.util.regex.Pattern
 
