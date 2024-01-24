@@ -45,7 +45,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             // 11자 이상 입력했다면
             if (edt.text.length >= 11) {
                 alert.visibility = View.VISIBLE
-                alert.text = "10자 미만으로 입력해 주세요!"
+                alert.text = getString(R.string.signup_nickname_alert)
                 alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                 edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 alertImg.visibility = View.VISIBLE
@@ -97,7 +97,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
 
         alert.visibility = View.VISIBLE
-        alert.text = "정말 멋진 이름이에요!"
+        alert.text = getString(R.string.signup_nickname_alert_confirm)
         alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
         edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
         alertImg.visibility = View.VISIBLE

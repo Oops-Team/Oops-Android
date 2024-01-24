@@ -39,7 +39,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 // 중복이 아니라면
                 isEmailValid = true
                 binding.edtSignUp2Email.isEnabled = false // 이메일 입력 막기
-                binding.tvSignUp2EmailAlert.text = "사용 가능한 이메일이에요!"
+                binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert_confirm)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                 binding.edtSignUp2Email.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
                 binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
@@ -49,7 +49,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 /*
                 // 중복 이라면
                 isEmailValid = false
-                binding.tvSignUp2EmailAlert.text = "이미 사용 중인 이메일이에요"
+                binding.tvSignUp2EmailAlert.text = R.string.signup_email_alert.toString()
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                 binding.edtSignUp2Email.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2OverlapBtn.visibility = View.VISIBLE
@@ -90,7 +90,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
-                    binding.tvSignUp2PwdCheckAlert.text = "비밀번호가 일치하지 않습니다"
+                    binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 }
@@ -98,7 +98,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 else {
                     isPwdCheckValid = true
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
-                    binding.tvSignUp2PwdCheckAlert.text = "비밀번호가 일치합니다"
+                    binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid()
@@ -109,7 +109,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             if (binding.edtSignUp2Pwd.length() >= 15) {
                 isPwdValid = false
                 // 알럿 텍스트 출력
-                binding.tvSignUp2PwdAlert.text = "비밀번호는 15자까지 입력 가능해요"
+                binding.tvSignUp2PwdAlert.text = getString(R.string.signup_pwd_alert_2)
                 binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
             }
@@ -117,7 +117,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             else if (!EditTextUtils.passwordRegex(binding.edtSignUp2Pwd.text.toString())) {
                 isPwdValid = false
                 // 알럿 텍스트 출력
-                binding.tvSignUp2PwdAlert.text = "영문, 숫자, 특수문자를 포함해야 해요"
+                binding.tvSignUp2PwdAlert.text = getString(R.string.signup_pwd_alert_3)
                 binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
             }
@@ -141,14 +141,14 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
-                    binding.tvSignUp2PwdCheckAlert.text = "비밀번호가 일치하지 않습니다"
+                    binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 }
                 // 일치한다면
                 else {
                     isPwdCheckValid = true
-                    binding.tvSignUp2PwdCheckAlert.text = "비밀번호가 일치합니다"
+                    binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid() // 모든 유효성 확인

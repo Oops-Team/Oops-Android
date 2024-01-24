@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="안전한 이용을 위해 동의해 주세요"
+        android:text="@string/terms_info_1"
         android:textColor="@color/Black"
         android:textSize="20sp"
         android:fontFamily="@font/pretendard_bold"
@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="필수 "
+            android:text="@string/terms_info_2"
             android:textColor="@color/Black"
             android:textSize="14sp"
             android:fontFamily="@font/pretendard_bold"/>
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="개인정보 수집 및 이용 동의"
+            android:text="@string/terms_vital"
             android:textSize="14sp"
             android:textColor="@color/Black"
             android:fontFamily="@font/pretendard_medium"/>
@@ -72,7 +72,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="선택"
+        android:text="@string/terms_info_3"
         android:textColor="@color/Black"
         android:textSize="14sp"
         android:fontFamily="@font/pretendard_bold"
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="앱 푸시 알림 동의"
+            android:text="@string/terms_choice"
             android:textSize="14sp"
             android:textColor="@color/Black"
             android:fontFamily="@font/pretendard_medium"/>
@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/WideButtonDisableStyle"
-        android:text="다음"
+        android:text="@string/btn_next"
         android:layout_marginTop="37dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"

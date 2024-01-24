@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="무엇을 수정할까요?"
+        android:text="@string/home_edit_info"
         android:textColor="@color/White"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="소지품"
+                android:text="@string/home_edit_stuff"
                 android:textSize="18sp"
                 android:textColor="@color/White"
                 android:fontFamily="@font/pretendard_semibold"
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="오늘 할 일"
+                android:text="@string/home_edit_todo"
                 android:textSize="18sp"
                 android:textColor="@color/White"
                 android:fontFamily="@font/pretendard_semibold"

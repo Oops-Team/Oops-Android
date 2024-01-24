@@ -5,9 +5,58 @@
     <string name="bnv_menu_2">인벤토리</string>
     <string name="bnv_menu_3">콕콕 찌르기</string>
     <string name="bnv_menu_4">마이페이지</string>
-    <!-- sub 제목 -->
-    <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>
+    <!-- 버튼 -->
+    <string name="btn_next">다음</string>
+    <string name="btn_overlap">중복 확인</string>
+    <!-- 로그인 -->
+    <string name="login_email">ID(E-mail)</string>
+    <string name="login_email_alert">입력된 이메일이 올바르지 않아요</string>
+    <string name="login_pwd">Password</string>
+    <string name="login_pwd_alert">입력된 비밀번호가 올바르지 않아요</string>
+    <string name="login_login">로그인</string>
+    <string name="login_find">ID/PW 찾기</string>
+    <string name="login_signup">회원가입</string>
+    <string name="login_info">더욱 쉽게 시작하세요</string>
+    <string name="login_recent">가장 최근에 로그인했어요</string>
+    <!-- 회원가입 -->
+    <string name="signup_info_1">환영해요!</string>
+    <string name="signup_info_2">어떻게 불러 드릴까요?</string>
+    <string name="signup_nickname">사용하실 닉네임을 입력해 주세요</string>
+    <string name="signup_nickname_alert">10자 미만으로 입력해 주세요!</string>
+    <string name="signup_nickname_alert_confirm">정말 멋진 이름이에요!</string>
+    <string name="signup_info_3">님,</string>
+    <string name="signup_info_4">본격적으로 회원가입을 위한\n이메일을 입력해 주세요</string>
+    <string name="signup_email">이메일 (ex: oops@naver.com)</string>
+    <string name="signup_pwd">비밀번호</string>
+    <string name="signup_pwd_check">비밀번호 재확인</string>
+    <string name="signup_email_alert">이미 사용 중인 이메일이에요</string>
+    <string name="signup_email_alert_confirm">사용 가능한 이메일이에요!</string>
+    <string name="signup_pwd_alert_1">비밀번호가 일치하지 않습니다</string>
+    <string name="signup_pwd_alert_2">비밀번호는 15자까지 입력 가능해요</string>
+    <string name="signup_pwd_alert_3">영문, 숫자, 특수문자를 포함해야 해요</string>
+    <string name="signup_pwd_alert_confirm">비밀번호가 일치합니다</string>
+    <!-- 개인정보 수집 및 이용 약관 -->
+    <string name="terms_info_1">안전한 이용을 위해 동의해 주세요</string>
+    <string name="terms_info_2">필수 </string>
+    <string name="terms_vital">개인정보 수집 및 이용 동의</string>
+    <string name="terms_info_3">선택</string>
+    <string name="terms_choice">앱 푸시 알림 동의</string>
     <!-- 홈 화면의 edit popup menu -->
     <string name="home_todo_edit">edit</string>
     <string name="home_todo_delete">delete</string>
+    <!-- 홈 화면의 수정 메뉴 -->
+    <string name="home_edit_info">무엇을 수정할까요?</string>
+    <string name="home_edit_stuff">소지품</string>
+    <string name="home_edit_todo">오늘 할 일</string>
+    <!-- 인벤토리 -->
+    <string name="inventory_info">위 버튼을 눌러 소지품을 담아 주세요</string>
+    <string name="inventory_all">ALL</string>
+    <string name="inventory_create">Create</string>
+    <!-- 콕콕 찌르기 -->
+    <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>
+    <string name="sting_friends">친구 목록</string>
+    <!-- 친구 목록 -->
+    <string name="friends_nickname">친구의 닉네임을 입력해 주세요</string>
+    <string name="friends_new">새로운 친구들이 될거에요</string>
+    <string name="friends_old">나의 친구들</string>
 </resources>
