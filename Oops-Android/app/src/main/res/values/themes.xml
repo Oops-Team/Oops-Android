@@ -56,4 +56,27 @@
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
+    <!-- Enable Wide 버튼 스타일 -->
+    <style name="WideButtonEnableStyle">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/wide_btn_bg</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
+    <!-- Disable Wide 버튼 스타일 -->
+    <style name="WideButtonDisableStyle">
+        <item name="android:textColor">@color/Gray_400</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/wide_btn_bg</item>
+        <item name="android:backgroundTint">@color/Gray_200</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
 </resources>

@@ -156,7 +156,7 @@
             android:id="@+id/view_home_calendar"
             android:layout_width="77dp"
             android:layout_height="3dp"
-            android:background="@drawable/signup_btn_bg"
+            android:background="@drawable/wide_btn_bg"
             android:backgroundTint="#26707070"
             android:layout_marginBottom="12dp"
             android:layout_gravity="center"/>

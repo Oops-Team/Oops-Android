@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 개인정보 이용 동의 약관 바텀 시트에 사용하는 배경 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/White"/>
+    <corners
+        android:topLeftRadius="30dp"
+        android:topRightRadius="30dp"/>
+</shape>
