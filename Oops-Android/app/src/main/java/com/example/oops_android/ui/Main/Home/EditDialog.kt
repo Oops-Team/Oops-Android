@@ -6,18 +6,19 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.WindowManager
-import com.example.oops_android.databinding.EditDialogBinding
+import com.example.oops_android.databinding.DialogEditBinding
 import com.example.oops_android.ui.Main.MainActivity
 
 // 홈 화면의 수정 버튼을 누르면 보이는 다이얼로그
 class EditDialog(
     private val context: Context,
     private val mainActivity: MainActivity) {
-    private lateinit var binding: EditDialogBinding
+    private var mBinding: DialogEditBinding? = null
+    private val binding get() = mBinding!!
 
     // dialog 띄우기
     fun editDialogShow() {
-        binding = EditDialogBinding.inflate(mainActivity.layoutInflater)
+        mBinding = DialogEditBinding.inflate(mainActivity.layoutInflater)
 
         // dialog 설정
         val dialog = Dialog(context)
