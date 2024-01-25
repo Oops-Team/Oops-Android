@@ -81,6 +81,35 @@
         <item name="android:backgroundTint">@color/Gray_200</item>
         <item name="android:outlineProvider">none</item>
     </style>
+    <!-- Enable 팝업 버튼 스타일 -->
+    <style name="PopUpButtonEnableStyle">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/popup_btn_bg</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
+    <!-- 취소 팝업 버튼 스타일 -->
+    <style name="PopUpButtonCancelStyle">
+        <item name="android:textColor">@color/Gray_500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/popup_btn_bg</item>
+        <item name="android:backgroundTint">@color/Gray_50</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
+    <!-- Disable 팝업 버튼 스타일 -->
+    <style name="PopUpButtonDisableStyle">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/popup_btn_bg</item>
+        <item name="android:backgroundTint">@color/Red_Dark</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
     <!-- 바텀 시트 스타일 -->
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/top_radius_30</item>

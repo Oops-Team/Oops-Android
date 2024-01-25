@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 푸시 알림 비활성화 팝업 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="247dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/all_radius_12"
+    android:padding="16dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_push_alert_disable"
+        android:textSize="16sp"
+        android:textColor="@color/Black"
+        android:fontFamily="@font/pretendard_bold"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_push_alert_disable_info"
+        android:textSize="10sp"
+        android:textColor="@color/Gray_400"
+        android:fontFamily="@font/pretendard_medium"
+        android:gravity="center"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp">
+        <Button
+            android:id="@+id/popup_push_alert_disable_cancel"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            style="@style/PopUpButtonCancelStyle"
+            android:text="@string/popup_cancel"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"/>
+        <Button
+            android:id="@+id/popup_push_alert_disable"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            style="@style/PopUpButtonDisableStyle"
+            android:text="@string/popup_disable"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>
