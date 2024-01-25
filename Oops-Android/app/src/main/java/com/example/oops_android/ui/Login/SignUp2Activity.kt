@@ -90,6 +90,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
+                    binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
@@ -98,6 +99,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 else {
                     isPwdCheckValid = true
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
+                    binding.ivSignUp2PwdAlert.visibility = View.VISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
@@ -126,7 +128,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (EditTextUtils.passwordRegex(binding.edtSignUp2Pwd.text.toString())) {
                     isPwdValid = true
                     binding.tvSignUp2PwdAlert.visibility = View.INVISIBLE
-                    binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
                     binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid() // 모든 유효성 확인
                 }
@@ -141,6 +142,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
                     binding.tvSignUp2PwdCheckAlert.visibility = View.VISIBLE
+                    binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
@@ -149,6 +151,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 else {
                     isPwdCheckValid = true
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
+                    binding.ivSignUp2PwdAlert.visibility = View.VISIBLE
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid() // 모든 유효성 확인
@@ -157,6 +160,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             // 입력이 안 되어있는 상태라면
             else {
                 binding.tvSignUp2PwdCheckAlert.visibility = View.INVISIBLE
+                binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
                 binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Gray_300))
             }
         }
@@ -167,9 +171,32 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         // TODO: 개인정보 수집 및 이용 동의 바텀 시트띄우기
         if (isEmailValid && isPwdValid && isPwdCheckValid) {
             showToast("모두 만족!")
+            // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
+            val termsBottomSheet = TermsBottomSheetFragment { item, isCheck ->
+                when (item) {
+                    0 -> clickVitalText(isCheck) // 개인정보 이용약관 보기 버튼
+                    1 -> clickNextBtn(isCheck) // 다음 버튼
+                }
+            }
+            termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
         }
         else {
             showToast("1.$isEmailValid, 2.$isPwdValid, 3.$isPwdCheckValid 불만족!")
         }
+    }
+
+    // 개인정보 이용약관 보기 버튼 클릭 이벤트
+    private fun clickVitalText(isCheck: Boolean) {
+        startNextActivity(MoreTermsActivity::class.java)
+    }
+
+    // 알림 동의 버튼 클릭 이벤트
+    private fun clickChoiceBtn(isChoiceCheck: Boolean) {
+
+    }
+
+    // 다음 버튼 클릭 이벤트
+    private fun clickNextBtn(isVitalCheck: Boolean) {
+
     }
 }

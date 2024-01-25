@@ -11,6 +11,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/White</item>
         <item name="android:windowLightStatusBar">true</item>
+        <!-- 앱 전체에 바텀 시트 테마 적용 -->
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
     <!-- 스플래시 스크린 -->
     <style name="SplashTheme" parent="Theme.SplashScreen">
@@ -78,5 +80,13 @@
         <item name="android:background">@drawable/wide_btn_bg</item>
         <item name="android:backgroundTint">@color/Gray_200</item>
         <item name="android:outlineProvider">none</item>
+    </style>
+    <!-- 바텀 시트 스타일 -->
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/top_radius_30</item>
+    </style>
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:windowIsFloating">false</item>
     </style>
 </resources>
