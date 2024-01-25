@@ -1,15 +1,9 @@
 package com.example.oops_android.ui.Main.Sting
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentStingBinding
-import com.example.oops_android.ui.BaseFragment
+import com.example.oops_android.ui.Base.BaseFragment
 
 class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::inflate) {
     override fun initViewCreated() {

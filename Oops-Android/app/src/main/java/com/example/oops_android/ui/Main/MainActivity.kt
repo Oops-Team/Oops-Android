@@ -6,7 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityMainBinding
-import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.ui.Base.BaseActivity
 
 class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 

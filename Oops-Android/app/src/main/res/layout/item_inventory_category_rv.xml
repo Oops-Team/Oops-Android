@@ -15,7 +15,7 @@
         android:paddingEnd="10dp"
         android:paddingBottom="6dp"
         android:layout_marginTop="30dp"
-        android:text="학교갑시다"
+        android:text="카테고리 이름"
         android:textSize="20sp"
         android:textColor="#B3FFFFFF"
         android:fontFamily="@font/pretendard_bold"

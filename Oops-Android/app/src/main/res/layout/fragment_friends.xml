@@ -16,7 +16,7 @@
         android:id="@+id/edt_friends_search_box"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="친구의 닉네임을 입력해 주세요"
+        android:hint="@string/friends_nickname"
         android:textColorHint="@color/Gray_400"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="16sp"
@@ -41,14 +41,14 @@
         android:layout_marginTop="24dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="새로운 친구들이 될거에요"
+                android:text="@string/friends_new"
                 android:fontFamily="@font/pretendard_bold"
                 android:textSize="20sp"
                 android:textColor="@color/Black"
@@ -68,7 +68,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="나의 친구들"
+                android:text="@string/friends_old"
                 android:fontFamily="@font/pretendard_bold"
                 android:textSize="20sp"
                 android:textColor="@color/Black"

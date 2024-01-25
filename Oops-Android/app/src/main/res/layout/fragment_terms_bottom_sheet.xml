@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 개인정보 수집 및 이용 동의 약관 바텀 시트 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/top_radius_30"
+    tools:context=".ui.Login.TermsBottomSheetFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_info_1"
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="32dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terms_info_2"
+            android:textColor="@color/Black"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="@color/Red_Dark"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="9dp"
+        android:layout_marginStart="32dp"
+        android:gravity="center">
+
+        <!-- 필수 동의 버튼 -->
+        <ImageView
+            android:id="@+id/iv_terms_bottom_sheet_vital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_24"/>
+
+        <!-- 개인정보 수집 및 이용 동의 화면 이동 버튼 -->
+        <TextView
+            android:id="@+id/tv_terms_bottom_sheet_vital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/terms_vital"
+            android:textSize="14sp"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/pretendard_medium"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_info_3"
+        android:textColor="@color/Black"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="32dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="9dp"
+        android:layout_marginStart="32dp"
+        android:gravity="center">
+
+        <!-- 선택 동의 버튼 -->
+        <ImageView
+            android:id="@+id/iv_terms_bottom_sheet_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_24"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/terms_choice"
+            android:textSize="14sp"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/pretendard_medium"/>
+    </LinearLayout>
+
+    <!-- 다음 버튼 -->
+    <Button
+        android:id="@+id/btn_terms_bottom_sheet_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/WideButtonDisableStyle"
+        android:text="@string/btn_next"
+        android:layout_marginTop="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="46dp"/>
+</LinearLayout>

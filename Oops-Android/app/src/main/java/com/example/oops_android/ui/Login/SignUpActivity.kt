@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUpBinding
-import com.example.oops_android.ui.BaseActivity
+import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.onTextChanged
 import java.util.regex.Pattern
 
@@ -45,7 +45,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             // 11자 이상 입력했다면
             if (edt.text.length >= 11) {
                 alert.visibility = View.VISIBLE
-                alert.text = "10자 미만으로 입력해 주세요!"
+                alert.text = getString(R.string.signup_nickname_alert)
                 alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                 edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 alertImg.visibility = View.VISIBLE
@@ -61,6 +61,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             else if (edt.text.isNotEmpty()){
                 checkNickName(alert, edt, alertImg)
             }
+
+            getHideKeyboard(binding.root) // 키보드 숨기기
         }
 
         /** 닉네임 edt 입력 이벤트 **/
@@ -76,6 +78,11 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 binding.tvSignUpAlert.visibility = View.GONE // alert 제거
             }
         }
+
+        // 다음 버튼 클릭 이벤트
+        binding.btnSignUp1Next.setOnClickListener {
+            startActivityWithClear(SignUp2Activity::class.java)
+        }
     }
 
     // 닉네임을 잘 입력했는지 체크
@@ -90,7 +97,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
 
         alert.visibility = View.VISIBLE
-        alert.text = "정말 멋진 이름이에요!"
+        alert.text = getString(R.string.signup_nickname_alert_confirm)
         alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
         edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
         alertImg.visibility = View.VISIBLE
