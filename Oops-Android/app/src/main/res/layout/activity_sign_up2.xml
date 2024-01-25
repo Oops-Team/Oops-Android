@@ -9,6 +9,7 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:layout_weight="10"
+    android:id="@+id/lLayout_sign_up_2_top"
     android:background="@color/White"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.Login.SignUp2Activity">

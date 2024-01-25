@@ -15,6 +15,16 @@ class CalendarUtils {
         fun getTodayDate(): ZonedDateTime =
             Instant.now().atZone(TimeZone.getDefault().toZoneId())
 
+        // 오늘 날짜 및 현재 시간 구하기
+        fun getToday(): ArrayList<List<String>> {
+            val todayList = getTodayDate().toString().split("T")
+
+            val dateList = todayList[0].split("-") // 오늘 날짜
+            val timeList = todayList[1].split(".")[0].split(":") // 현재 시간
+
+            return arrayListOf(dateList, timeList)
+        }
+
         // 사용자의 기기에 따른 오늘 날짜 구하기
         fun getTodayDateList(): Array<Any?> {
 

@@ -28,7 +28,8 @@ class EditDialog(
         dialog.setCancelable(true) // dialog의 바깥 화면 클릭 시 dialog 닫히도록 함
         dialog.show()
 
-        // TODO:: blur 효과 적용x..
+        // 문제: blur 적용 안됨..
+        /*
         dialog.window?.apply {
             setFlags(
                 WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
@@ -38,7 +39,8 @@ class EditDialog(
                 setBackgroundBlurRadius(30)
                 attributes!!.blurBehindRadius = 30
             }
-        }
+         }
+         */
 
         // 소지품 수정 버튼을 누른 경우
         binding.dialogEditStuff.setOnClickListener {

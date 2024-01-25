@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.example.oops_android.R
@@ -58,7 +59,7 @@ class TermsBottomSheetFragment(val itemClick: (Int, Boolean) -> Unit): BottomShe
         // 개인정보 수집 및 이용 동의 버튼을 클릭한 경우
         binding.ivTermsBottomSheetVital.setOnClickListener {
             isVitalCheck = true
-            binding.ivTermsBottomSheetVital.imageTintList = ColorStateList.valueOf(Color.parseColor("#5F77E1")) // 아이콘 보라색으로
+            binding.ivTermsBottomSheetVital.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Main_500)) // 아이콘 보라색으로
 
             // 버튼 색상 바꾸기
             binding.btnTermsBottomSheetNext.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Main_500))
@@ -73,9 +74,9 @@ class TermsBottomSheetFragment(val itemClick: (Int, Boolean) -> Unit): BottomShe
         // 앱 푸시 알림 동의 버튼을 클릭한 경우
         binding.ivTermsBottomSheetChoice.setOnClickListener {
             if (isChoiceCheck)
-                binding.ivTermsBottomSheetChoice.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Main_500))
+                binding.ivTermsBottomSheetChoice.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300))
             else
-                binding.ivTermsBottomSheetChoice.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300))
+                binding.ivTermsBottomSheetChoice.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Main_500))
 
             isChoiceCheck = !isChoiceCheck
         }
