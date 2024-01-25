@@ -57,6 +57,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     fun startActivityWithClear(activity: Class<*>?) {
         val intent = Intent(this, activity)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }
 
