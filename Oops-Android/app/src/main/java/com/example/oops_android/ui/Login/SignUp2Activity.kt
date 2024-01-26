@@ -25,6 +25,10 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     override fun initAfterBinding() {
+        // 화면 터치 시 키보드 숨기기
+        binding.lLayoutSignUp2Top.setOnClickListener {
+            getHideKeyboard(binding.root)
+        }
 
         // 비밀번호 mask의 스타일 지정
         binding.edtSignUp2Pwd.transformationMethod = CustomPasswordTransformationMethod()
@@ -168,14 +172,13 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
 
     // 이메일, 비밀번호, 비밀번호 재확인 유효성 검사
     private fun checkValid() {
-        // TODO: 개인정보 수집 및 이용 동의 바텀 시트띄우기
         if (isEmailValid && isPwdValid && isPwdCheckValid) {
             showToast("모두 만족!")
             // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
-            val termsBottomSheet = TermsBottomSheetFragment { item, isCheck ->
+            val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
                 when (item) {
-                    0 -> clickVitalText(isCheck) // 개인정보 이용약관 보기 버튼
-                    1 -> clickNextBtn(isCheck) // 다음 버튼
+                    0 -> clickVitalText() // 개인정보 이용약관 보기 버튼
+                    1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
                 }
             }
             termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
@@ -186,17 +189,57 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // 개인정보 이용약관 보기 버튼 클릭 이벤트
-    private fun clickVitalText(isCheck: Boolean) {
+    private fun clickVitalText() {
         startNextActivity(MoreTermsActivity::class.java)
     }
 
-    // 알림 동의 버튼 클릭 이벤트
-    private fun clickChoiceBtn(isChoiceCheck: Boolean) {
-
+    // 다음 버튼 클릭 이벤트
+    private fun clickNextBtn(isChoiceCheck: Boolean) {
+        // 알림에 동의했다면
+        if (isChoiceCheck) {
+            clickAgreeBtn()
+        }
+        // 알림에 미동의했다면
+        else {
+            // 푸시 알림 미동의 팝업 띄우기
+            val dialog = PushAlertDialog(this@SignUp2Activity)
+            dialog.showPushAlertDialog()
+            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
+                override fun onClicked(isAgree: Boolean) {
+                    // 동의 버튼을 누른 경우
+                    if (isAgree)
+                        clickAgreeBtn()
+                    // 동의 안함 버튼을 누른 경우
+                    else
+                        clickDisAgreeBtn()
+                }
+            })
+        }
     }
 
-    // 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isVitalCheck: Boolean) {
+    // 동의 버튼을 누른 경우
+    private fun clickAgreeBtn() {
+        val agreeDialog = PushAlertAgreeDialog(this@SignUp2Activity)
+        agreeDialog.showAgreeDialog()
+        agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
+            override fun onClicked() {
+                // 확인 버튼을 누른 경우
+                // TODO: 튜토리얼 화면으로 이동
+                showToast("agree 튜토리얼로 이동하기!")
+            }
+        })
+    }
 
+    // 동의 안함 버튼을 누른 경우
+    private fun clickDisAgreeBtn() {
+        val disagreeDialog = PushAlertDisagreeDialog(this@SignUp2Activity)
+        disagreeDialog.showDisagreeDialog()
+        disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
+            override fun onClicked() {
+                // 확인 버튼을 누른 경우
+                // TODO: 튜토리얼 화면으로 이동
+                showToast("disagree 튜토리얼로 이동하기")
+            }
+        })
     }
 }

@@ -172,4 +172,22 @@
     <string name="friends_nickname">친구의 닉네임을 입력해 주세요</string>
     <string name="friends_new">새로운 친구들이 될거에요</string>
     <string name="friends_old">나의 친구들</string>
+    <!-- 팝업 -->
+    <string name="popup_nickname">닉네임 변경 불가</string>
+    <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
+    <string name="popup_cancel">취소</string>
+    <string name="popup_use">사용</string>
+    <string name="popup_push_alert">푸시 알림 미동의</string>
+    <string name="popup_push_alert_info">푸시 알림 미전송 시\n꼼꼼하게 챙겨드리기 어려워요!\n알림을 받으시겠어요?</string>
+    <string name="popup_disagree">동의 안함</string>
+    <string name="popup_agree">동의</string>
+    <string name="popup_push_alert_disagree">앱 푸시 알림 미동의</string>
+    <string name="popup_push_alert_disagree_info">푸시 알림에 미동의하셨습니다</string>
+    <string name="popup_confirm">확인</string>
+    <string name="popup_push_alert_agree">앱 푸시 알림 동의</string>
+    <string name="popup_push_alert_agree_info_1">동의해 주셔서 감사해요!\n앞으로 더욱 꼼꼼한 Oops가 될게요</string>
+    <string name="popup_push_alert_agree_info_2">푸시 알림에 동의하셨습니다</string>
+    <string name="popup_push_alert_disable">알림 비활성화</string>
+    <string name="popup_push_alert_disable_info">앗! 잠깐! 알림을 끄면 꼼꼼하게 챙겨 드릴 수가 없어요\n그래도 알림을 그만 보낼까요?</string>
+    <string name="popup_disable">비활성화</string>
 </resources>

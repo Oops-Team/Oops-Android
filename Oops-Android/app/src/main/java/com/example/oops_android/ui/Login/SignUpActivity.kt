@@ -81,7 +81,16 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
 
         // 다음 버튼 클릭 이벤트
         binding.btnSignUp1Next.setOnClickListener {
-            startActivityWithClear(SignUp2Activity::class.java)
+            // 닉네임 변경 불가 팝업 띄우기
+            val dialog = NicknameDialog(this@SignUpActivity)
+            dialog.nicknameDialogShow()
+
+            dialog.setOnClickedListener(object : NicknameDialog.ButtonClickListener {
+                override fun onClicked() {
+                    // 사용 버튼을 클릭한 경우
+                    startActivityWithClear(SignUp2Activity::class.java)
+                }
+            })
         }
     }
 
