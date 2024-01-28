@@ -170,8 +170,13 @@
     <string name="sting_friends">친구 목록</string>
     <!-- 친구 목록 -->
     <string name="friends_nickname">친구의 닉네임을 입력해 주세요</string>
-    <string name="friends_new">새로운 친구들이 될거에요</string>
-    <string name="friends_old">나의 친구들</string>
+    <string name="friends_new">친구 신청 현황</string>
+    <string name="friends_old">친구 목록</string>
+    <string name="friends_add">친구 신청</string>
+    <string name="friends_wait">대기중</string>
+    <string name="friends_confirm">수락</string>
+    <string name="friends_refuse">거절</string>
+    <string name="friend_delete">친구 끊기</string>
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
