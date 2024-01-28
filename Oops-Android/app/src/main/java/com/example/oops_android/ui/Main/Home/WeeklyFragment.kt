@@ -97,11 +97,10 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         // TODO:: 현재는 임시 데이터 적용
         stuffAdapter = StuffListAdapter(requireContext())
         binding.rvHomeStuff.adapter = stuffAdapter
-        stuffAdapter?.addStuffList(StuffItem(1, R.drawable.ic_ex_img, "헤드셋"))
-        stuffAdapter?.addStuffList(StuffItem(2, R.drawable.ic_ex_img, "헤드셋"))
-        stuffAdapter?.addStuffList(StuffItem(3, R.drawable.ic_ex_img, "헤드셋"))
-        stuffAdapter?.addStuffList(StuffItem(4, R.drawable.ic_ex_img, "헤드셋"))
-        stuffAdapter?.addStuffList(StuffItem(5, R.drawable.ic_ex_img, "헤드셋"))
+        stuffAdapter?.addStuffList(StuffItem(1, R.drawable.ex_head, "헤드셋"))
+        stuffAdapter?.addStuffList(StuffItem(2, R.drawable.ex_wallet, "지갑"))
+        stuffAdapter?.addStuffList(StuffItem(3, R.drawable.ex_keyboard, "키보드"))
+        stuffAdapter?.addStuffList(StuffItem(4, R.drawable.ex_diary, "다이어리"))
 
         // 일정 목록
         todoAdapter = TodoListAdapter(requireContext())
