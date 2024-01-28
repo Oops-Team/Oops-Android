@@ -13,7 +13,7 @@
         android:label="activity_login"
         tools:layout="@layout/activity_login"/>
 
-    <!-- 홈 - 주간 -->
+    <!-- 홈 화면 -->
     <fragment
         android:id="@+id/weeklyFragment"
         android:name="com.example.oops_android.ui.Main.Home.WeeklyFragment"
@@ -22,6 +22,20 @@
         <action
             android:id="@+id/action_homeWeeklyFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
+        <action
+            android:id="@+id/action_homeWeeklyFrm_to_todoFrm"
+            app:destination="@id/todoFragment"/>
+    </fragment>
+
+    <!-- 일정 화면 -->
+    <fragment
+        android:id="@+id/todoFragment"
+        android:name="com.example.oops_android.ui.Main.Home.Todo.TodoFragment"
+        android:label="frm_todo"
+        tools:layout="@layout/fragment_todo">
+        <action
+            android:id="@+id/action_todoFrm_to_weeklyFrm"
+            app:destination="@id/weeklyFragment"/>
     </fragment>
 
     <!-- 인벤토리 -->

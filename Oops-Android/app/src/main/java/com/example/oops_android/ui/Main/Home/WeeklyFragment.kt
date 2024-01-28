@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.example.oops_android.R
 import com.example.oops_android.custom.EventDecorator
 import com.example.oops_android.custom.SelectedDecorator
@@ -47,6 +49,9 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     }
 
     override fun initViewCreated() {
+        // 바텀 네비게이션 보이기
+        mainActivity?.hideBnv(false)
+
         // 주간 달력 어댑터
         weeklyAdapter = CalendarWeeklyAdapter(requireContext())
         binding.rvHomeWeeklyCalendar.adapter = weeklyAdapter
@@ -166,7 +171,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             }
         }
 
-
         // 수정 버튼 클릭 이벤트
         binding.ivHomeEdit.setOnClickListener {
             val dialog = EditDialog(requireContext(), mainActivity!!)
@@ -176,12 +180,19 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                 override fun onClicked() {
                     // TODO 소지품 수정 or 할일 수정
                 }
-
             })
         }
 
-        // 일정 추가 버튼 클릭 이벤트
+        // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
+            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+            findNavController().navigate(actionToTodo)
+        }
+
+        // 일정 추가 버튼(상단 버튼) 클릭 이벤트
+        binding.ivHomeTodoAdd.setOnClickListener {
+            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+            findNavController().navigate(actionToTodo)
         }
 
         // 일정 수정&삭제 버튼 클릭 이벤트
