@@ -217,4 +217,6 @@
     <string name="popup_disable">비활성화</string>
     <!-- 버튼 -->
     <string name="button_create">등록하기</string>
+    <string name="button_delete">삭제하기</string>
+    <string name="button_edit">수정하기</string>
 </resources>
