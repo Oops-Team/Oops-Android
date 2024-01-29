@@ -161,6 +161,26 @@
     <string name="home_edit_info">무엇을 수정할까요?</string>
     <string name="home_edit_stuff">소지품</string>
     <string name="home_edit_todo">오늘 할 일</string>
+    <!-- 일정 추가 -->
+    <string name="todo_date">날짜</string>
+    <string name="todo_today">오늘 할 일</string>
+    <string name="todo_today_info">할일을 20자 이내로 입력해 주세요</string>
+    <string name="todo_tag">관련 태그</string>
+    <string name="todo_tag_1">일상</string>
+    <string name="todo_tag_2">직장</string>
+    <string name="todo_tag_3">취미</string>
+    <string name="todo_tag_4">공부</string>
+    <string name="todo_tag_5">운동</string>
+    <string name="todo_tag_6">독서</string>
+    <string name="todo_tag_7">여행</string>
+    <string name="todo_tag_8">쇼핑</string>
+    <string name="todo_go_out_time">외출 시간</string>
+    <string name="todo_remind">언제 알림을 보내드릴까요?</string>
+    <string name="todo_remind_1">없음</string>
+    <string name="todo_remind_2">5분전</string>
+    <string name="todo_remind_3">30분전</string>
+    <string name="todo_remind_4">한시간전</string>
+    <string name="todo_remind_5">하루전</string>
     <!-- 인벤토리 -->
     <string name="inventory_info">위 버튼을 눌러 소지품을 담아 주세요</string>
     <string name="inventory_all">ALL</string>
@@ -170,8 +190,13 @@
     <string name="sting_friends">친구 목록</string>
     <!-- 친구 목록 -->
     <string name="friends_nickname">친구의 닉네임을 입력해 주세요</string>
-    <string name="friends_new">새로운 친구들이 될거에요</string>
-    <string name="friends_old">나의 친구들</string>
+    <string name="friends_new">친구 신청 현황</string>
+    <string name="friends_old">친구 목록</string>
+    <string name="friends_add">친구 신청</string>
+    <string name="friends_wait">대기중</string>
+    <string name="friends_confirm">수락</string>
+    <string name="friends_refuse">거절</string>
+    <string name="friend_delete">친구 끊기</string>
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
@@ -190,4 +215,8 @@
     <string name="popup_push_alert_disable">알림 비활성화</string>
     <string name="popup_push_alert_disable_info">앗! 잠깐! 알림을 끄면 꼼꼼하게 챙겨 드릴 수가 없어요\n그래도 알림을 그만 보낼까요?</string>
     <string name="popup_disable">비활성화</string>
+    <!-- 버튼 -->
+    <string name="button_create">등록하기</string>
+    <string name="button_delete">삭제하기</string>
+    <string name="button_edit">수정하기</string>
 </resources>

@@ -53,8 +53,7 @@
                 android:paddingTop="14dp"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
-                android:paddingBottom="14dp"
-                android:theme="@style/LoginEditTextStyle"/>
+                android:paddingBottom="14dp"/>
 
             <!-- 이메일 경고 문구 -->
             <TextView
@@ -98,8 +97,7 @@
                     android:paddingTop="14dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="48dp"
-                    android:paddingBottom="14dp"
-                    android:theme="@style/LoginEditTextStyle"/>
+                    android:paddingBottom="14dp"/>
                 <ImageButton
                     android:id="@+id/iBtn_login_toggle"
                     android:layout_width="wrap_content"

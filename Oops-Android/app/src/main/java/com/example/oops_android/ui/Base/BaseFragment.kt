@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -72,6 +73,11 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
     // 키보드 숨기기
     fun getHideKeyboard(view: View) {
         mainActivity!!.getHideKeyboard(view)
+    }
+
+    // 툴 바 제목 설정
+    fun setToolbarTitle(toolbar: TextView, title: String) {
+        toolbar.text = title
     }
 
     // 수정 팝업 띄우기(홈 화면의 오늘 할 일에서 사용)

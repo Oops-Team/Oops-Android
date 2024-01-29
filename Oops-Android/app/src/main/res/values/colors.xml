@@ -17,6 +17,7 @@
     <color name="Red_Medium">#F58D55</color>
     <color name="Red_Light">#FCE2D4</color>
     <!-- GrayScale -->
+    <color name="Gray_900">#111827</color>
     <color name="Gray_500">#6B7280</color>
     <color name="Gray_400">#9CA3AF</color>
     <color name="Gray_300">#D1D5DB</color>
@@ -24,7 +25,9 @@
     <color name="Gray_100">#F3F4F6</color>
     <color name="Gray_50">#F9FAFB</color>
     <!-- Other Color -->
-
+    <color name="Black_1C">#1C1C1C</color>
+    <color name="Black_70">#707070</color>
+    <color name="Cursor_main">#33BDBDBD</color>
     <!-- 투명 색상 -->
     <color name="transparent">#00ff0000</color>
 </resources>

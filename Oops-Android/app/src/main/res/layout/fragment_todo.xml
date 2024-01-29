@@ -7,10 +7,527 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.Main.Home.Todo.TodoFragment">
+    android:background="@color/White"
+    tools:context=".ui.Main.Home.Todo.TodoFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
         android:id="@+id/toolbar_todo"
         layout="@layout/toolbar_sub"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- 날짜 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/todo_date"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black_1C"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textSize="18sp"
+                    android:textColor="@color/Red_Dark"
+                    android:fontFamily="@font/pretendard_bold"/>
+            </LinearLayout>
+
+            <!-- 요일 정보 -->
+            <LinearLayout
+                android:id="@+id/lLayout_weekly_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="1.5dp"
+                    android:text="S"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="1.5dp"
+                    android:text="M"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="1.5dp"
+                    android:text="T"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="1dp"
+                    android:text="W"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0.5dp"
+                    android:text="T"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="F"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="-1dp"
+                    android:text="S"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    style="@style/WeekTextStyle2"/>
+            </LinearLayout>
+
+            <!-- 월간 달력 -->
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/mcv_todo_calendarview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:mcv_firstDayOfWeek="sunday"
+                app:mcv_showWeekDays="false"
+                app:mcv_dateTextAppearance="@style/CalendarViewCustom"
+                app:mcv_selectionColor="@color/Main_500"
+                app:mcv_selectionMode="single"/>
+
+            <!-- 오늘 할 일 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/todo_today"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black_1C"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textSize="18sp"
+                    android:textColor="@color/Red_Dark"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/iv_todo_delete"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_delete_35"/>
+            </LinearLayout>
+
+            <!-- 오늘 할 일 입력 박스 -->
+            <EditText
+                android:id="@+id/edt_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/todo_today_info"
+                android:textColorHint="@color/Gray_300"
+                android:textColor="@color/Gray_900"
+                android:textSize="14sp"
+                android:typeface="normal"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:backgroundTint="@color/Gray_300"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
+
+            <!-- 추가될 오늘 할 일 입력 박스가 들어갈 레이아웃 -->
+            <LinearLayout
+                android:id="@+id/lLayout_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingBottom="12dp"
+                android:orientation="vertical"/>
+
+            <!-- 오늘 할 일 추가 버튼 -->
+            <ImageButton
+                android:id="@+id/iBtn_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/all_radius_12"
+                android:backgroundTint="@color/Main_100"
+                android:src="@drawable/ic_add_24"
+                android:layout_marginTop="21dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <!-- 관련 태그 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/todo_tag"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black_1C"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textSize="18sp"
+                    android:textColor="@color/Red_Dark"
+                    android:fontFamily="@font/pretendard_bold"/>
+            </LinearLayout>
+
+            <!-- 관련 태그 레이아웃 -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="16dp"
+                android:columnCount="4"
+                android:orientation="horizontal"
+                android:rowCount="2"
+                android:useDefaultMargins="true">
+                <CheckBox
+                    android:id="@+id/cb_tag_daily"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_1"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_job"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_2"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_hobby"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_3"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_study"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_4"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_sports"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_5"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_reading"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_6"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_travel"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_7"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_tag_shopping"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_tag_8"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+            </GridLayout>
+
+            <!-- 외출 시간 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/todo_go_out_time"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black_1C"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textSize="18sp"
+                    android:textColor="@color/Red_Dark"
+                    android:fontFamily="@font/pretendard_bold"/>
+            </LinearLayout>
+
+            <!-- 외출 시간 타임 피커 -->
+            <TimePicker
+                android:id="@+id/timepicker_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"
+                android:theme="@style/TimePickerTheme"/>
+
+            <!-- 알림 시간 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/todo_remind"
+                    android:textSize="18sp"
+                    android:textColor="@color/Black_1C"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" *"
+                    android:textSize="18sp"
+                    android:textColor="@color/Red_Dark"
+                    android:fontFamily="@font/pretendard_bold"/>
+            </LinearLayout>
+
+            <!-- 알림 시간 레이아웃 -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="16dp"
+                android:columnCount="5"
+                android:orientation="horizontal"
+                android:useDefaultMargins="true"
+                android:layout_marginBottom="40dp">
+                <CheckBox
+                    android:id="@+id/cb_remind_no"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_remind_1"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_remind_5m"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_remind_2"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_remind_30m"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_remind_3"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_remind_1h"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_remind_4"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/cb_remind_1d"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_rowWeight="0"
+                    android:layout_columnWeight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:outlineProvider="none"
+                    android:text="@string/todo_remind_5"
+                    android:textColor="@color/Gray_400"
+                    android:textSize="14sp" />
+            </GridLayout>
+
+            <!-- 등록하기 버튼 -->
+            <Button
+                android:id="@+id/btn_todo_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                style="@style/WideButtonDisableStyle"
+                android:backgroundTint="@color/Gray_100"
+                android:text="@string/button_create"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="40dp"/>
+
+            <!-- 수정 화면에 나타 날 버튼 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="40dp">
+                <!-- 삭제하기 버튼 -->
+                <Button
+                    android:id="@+id/btn_todo_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/WideButtonDisableStyle"
+                    android:backgroundTint="@color/Gray_100"
+                    android:text="@string/button_delete" />
+
+                <!-- 수정하기 버튼 -->
+                <Button
+                    android:id="@+id/btn_todo_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/WideButtonDisableStyle"
+                    android:backgroundTint="@color/Gray_100"
+                    android:text="@string/button_edit"
+                    android:layout_marginTop="16dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
