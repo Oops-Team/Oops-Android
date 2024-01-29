@@ -13,6 +13,10 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- 앱 전체에 바텀 시트 테마 적용 -->
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
+        <!-- 앱 전체에 커서 색이 회색인 EditText 스타일 적용 -->
+        <item name="colorAccent">@color/Gray_400</item>
+        <item name="android:textColorHighlight">@color/Gray_300</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color_main</item>
     </style>
     <!-- 스플래시 스크린 -->
     <style name="SplashTheme" parent="Theme.SplashScreen">
@@ -31,14 +35,6 @@
         <item name="android:statusBarColor">@color/White</item>
         <item name="android:navigationBarColor">@color/White</item>
         <item name="android:windowLightStatusBar">true</item>
-    </style>
-    <!-- 커서 색이 회색인 EditText 스타일 -->
-    <style name="GrayEditTextStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorAccent">#33BDBDBD</item>
-    </style>
-    <!-- 커서 색이 보라색인 EditText 스타일 -->
-    <style name="ColorEditTextStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorAccent">@color/Main_500</item>
     </style>
     <!-- 월간 캘린더 텍스트 스타일 -->
     <style name="CalendarViewCustom">

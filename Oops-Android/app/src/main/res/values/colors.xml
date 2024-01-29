@@ -27,6 +27,7 @@
     <!-- Other Color -->
     <color name="Black_1C">#1C1C1C</color>
     <color name="Black_70">#707070</color>
+    <color name="Cursor_main">#33BDBDBD</color>
     <!-- 투명 색상 -->
     <color name="transparent">#00ff0000</color>
 </resources>

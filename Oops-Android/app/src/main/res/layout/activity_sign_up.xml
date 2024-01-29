@@ -63,7 +63,6 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:imeOptions="actionDone"
                 android:backgroundTint="@color/Gray_300"
-                android:theme="@style/GrayEditTextStyle"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
                 android:includeFontPadding="true"

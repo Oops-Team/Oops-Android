@@ -163,24 +163,30 @@
                 android:id="@+id/edt_todo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/ColorEditTextStyle"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:hint="@string/todo_today_info"
                 android:textColorHint="@color/Gray_300"
                 android:textColor="@color/Gray_900"
                 android:textSize="14sp"
-                android:fontFamily="@font/pretendard_medium"
+                android:typeface="normal"
                 android:maxLines="1"
                 android:maxLength="20"
                 android:backgroundTint="@color/Gray_300"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
-                android:includeFontPadding="true"
-                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
+
+            <!-- 추가될 오늘 할 일 입력 박스가 들어갈 레이아웃 -->
+            <LinearLayout
+                android:id="@+id/lLayout_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="32dp"
-                android:paddingBottom="14dp"/>
+                android:paddingBottom="12dp"
+                android:orientation="vertical"/>
 
             <!-- 오늘 할 일 추가 버튼 -->
             <ImageButton
@@ -230,97 +236,113 @@
                 android:orientation="horizontal"
                 android:rowCount="2"
                 android:useDefaultMargins="true">
-                <Button
-                    android:id="@+id/btn_tag_daily"
+                <CheckBox
+                    android:id="@+id/cb_tag_daily"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_1"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_job"
+                <CheckBox
+                    android:id="@+id/cb_tag_job"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_2"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_hobby"
+                <CheckBox
+                    android:id="@+id/cb_tag_hobby"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_3"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_study"
+                <CheckBox
+                    android:id="@+id/cb_tag_study"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_4"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_sports"
+                <CheckBox
+                    android:id="@+id/cb_tag_sports"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_5"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_reading"
+                <CheckBox
+                    android:id="@+id/cb_tag_reading"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_6"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_travel"
+                <CheckBox
+                    android:id="@+id/cb_tag_travel"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_7"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_tag_shopping"
+                <CheckBox
+                    android:id="@+id/cb_tag_shopping"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_tag_8"
@@ -391,62 +413,73 @@
                 android:layout_marginEnd="16dp"
                 android:columnCount="5"
                 android:orientation="horizontal"
-                android:useDefaultMargins="true">
-                <Button
-                    android:id="@+id/btn_remind_no"
+                android:useDefaultMargins="true"
+                android:layout_marginBottom="40dp">
+                <CheckBox
+                    android:id="@+id/cb_remind_no"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_remind_1"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_remind_5m"
+                <CheckBox
+                    android:id="@+id/cb_remind_5m"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_remind_2"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_remind_30m"
+                <CheckBox
+                    android:id="@+id/cb_remind_30m"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_remind_3"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_remind_1h"
+                <CheckBox
+                    android:id="@+id/cb_remind_1h"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_remind_4"
                     android:textColor="@color/Gray_400"
                     android:textSize="14sp" />
-                <Button
-                    android:id="@+id/btn_remind_1d"
+                <CheckBox
+                    android:id="@+id/cb_remind_1d"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_rowWeight="0"
                     android:layout_columnWeight="1"
-                    android:background="@drawable/todo_tag_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/selector_todo"
                     android:fontFamily="@font/pretendard_medium"
                     android:outlineProvider="none"
                     android:text="@string/todo_remind_5"
@@ -463,7 +496,6 @@
                 style="@style/WideButtonDisableStyle"
                 android:backgroundTint="@color/Gray_100"
                 android:text="@string/button_create"
-                android:layout_marginTop="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="40dp"/>
@@ -474,7 +506,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
-                android:layout_marginTop="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="40dp">
