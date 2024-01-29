@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 일정 추가 화면의 관련 태그 박스 -->
+<!-- 일정 추가 화면의 관련 태그 박스 - default -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="30dp"/>
     <solid android:color="@color/Gray_50"/>
