@@ -18,6 +18,7 @@ import com.example.oops_android.ui.Base.BaseFragment
 // TODO: 일정 추가 or 일정 수정에 맞게 화면 세팅 필요
 class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::inflate), CompoundButton.OnCheckedChangeListener {
     private var remindList = ArrayList<Long>() // 선택된 알림 시간 리스트
+    private var edtCount = 1 // 추가된 edittext 갯수
 
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
@@ -36,6 +37,41 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         // 뒤로 가기 버튼 클릭
         binding.toolbarTodo.ivSubToolbarBack.setOnClickListener {
             view?.findNavController()?.popBackStack()
+        }
+
+        // 오늘 할 일 추가 버튼을 누른 경우
+        binding.iBtnTodo.setOnClickListener {
+            // 30개 이상이라면
+            if (edtCount >= 30) {
+                // 토스트 띄우기
+                showCustomSnackBar(R.string.toast_todo_not_add)
+            }
+            else {
+                ++edtCount // 추가된 edittext 갯수 세기
+
+                // 동적으로 EditText 추가하기
+                val edtView = EditText(requireContext())
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                )
+                params.setMargins(0, 16, 0, 0)
+                // 스타일 적용
+                edtView.apply {
+                    hint = getString(R.string.todo_today_info)
+                    setHintTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300)))
+                    setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_900)))
+                    textSize = 14f
+                    maxLines = 1
+                    filters = arrayOf<InputFilter>(InputFilter.LengthFilter(20)) // 최대 20자까지 작성 가능하도록 설정
+                    inputType = InputType.TYPE_CLASS_TEXT
+                    imeOptions = EditorInfo.IME_ACTION_DONE
+                    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300))
+                    typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 기본값 사용
+                    layoutParams = params
+                }
+                binding.lLayoutTodo.addView(edtView) // 레이아웃에 EditText 추가
+            }
         }
 
         // 각 태그 선택한 경우에 따른 이벤트 처리
