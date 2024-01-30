@@ -182,8 +182,18 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             dialog.editDialogShow()
 
             dialog.setOnClickedListener(object : EditDialog.ButtonClickListener {
-                override fun onClicked() {
+                override fun onClicked(isStuffEdit: Boolean) {
                     // TODO 소지품 수정 or 할일 수정
+                    // 소지품 수정 버튼을 눌렀다면
+                    if (isStuffEdit) {
+                        // 소지품 수정 화면으로 이동
+                    }
+                    // 할일 수정을 눌렀다면
+                    else {
+                        // 일정 수정 화면으로 이동
+                        val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+                        findNavController().navigate(actionToTodo)
+                    }
                 }
             })
         }
