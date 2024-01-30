@@ -2,9 +2,15 @@ package com.example.oops_android.ui.Main.Home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.NavDirections
@@ -195,8 +201,8 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         }
 
         // 일정 수정&삭제 버튼 클릭 이벤트
-        todoAdapter?.onItemClickListener = { position, iv ->
-            showEditPopup(position, iv)
+        todoAdapter?.onItemClickListener = { itemPos, iv, tv, edt ->
+            showEditPopup(itemPos, iv, tv, edt)
         }
 
         // TODO:: 소지품 클릭 이벤트
@@ -234,6 +240,91 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
             // 뷰에 동적 layout 띄우기
             binding.lLayoutHomeTodoTag.addView(layout)
+        }
+    }
+
+    // 수정 팝업 띄우기(홈 화면의 오늘 할 일에서 사용)
+    private fun showEditPopup(itemPos: Int, iv: ImageView, tv: TextView, edt: EditText) {
+        val popup = layoutInflater.inflate(R.layout.item_home_todo_popup, null)
+
+        // popupwindow 생성
+        val popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        popupWindow.isOutsideTouchable = true // 팝업 바깥 영역 클릭시 팝업 닫침
+        popupWindow.showAsDropDown(iv, -210, 0) // ... 아래에 팝업 위치하도록 함
+
+        // 팝업 배경 뒤 흐리게
+        val container: View = popupWindow.contentView.parent as View
+        val windowManager: WindowManager = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val params: WindowManager.LayoutParams = container.layoutParams as WindowManager.LayoutParams
+        params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+        params.dimAmount = 0.25f
+        windowManager.updateViewLayout(container, params)
+
+        // 수정 버튼 클릭 이벤트
+        val editBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_edit_popup)
+        editBtn.setOnClickListener {
+            popupWindow.dismiss()
+            // 선택한 아이템 정보 가져오기
+            val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
+
+            // tv -> edt 전환
+            tv.visibility = View.INVISIBLE
+            edt.visibility = View.VISIBLE
+
+            edt.apply {
+                setText(todoItem?.todoName) // 정보 넣기
+                setSelection(edt.length()) // 포커스 마지막에 주기
+
+                // 딜레이를 주어 키보드 띄우기
+                postDelayed({
+                    getShowKeyboard(edt)
+                }, 300)
+            }
+
+            // 사용자가 완료 버튼을 클릭했다면
+            edt.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+                override fun onEditorAction(
+                    v: TextView?,
+                    actionId: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        getEditDone(edt, tv, itemPos)
+                        return true
+                    }
+                    return false
+                }
+            })
+
+            // 사용자가 입력 도중 바깥을 클릭했다면
+            binding.lLayoutHomeInside.setOnClickListener {
+                getEditDone(edt, tv, itemPos)
+            }
+        }
+
+        // 삭제 버튼 클릭 이벤트
+        val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
+        deleteBtn.setOnClickListener {
+            popupWindow.dismiss()
+        }
+    }
+
+    // 일정 수정 완료 이벤트
+    private fun getEditDone(edt: EditText, tv: TextView, itemPos: Int) {
+        // 키보드 내리기
+        getHideKeyboard(binding.root)
+
+        // edt -> tv 전환
+        edt.visibility = View.INVISIBLE
+        tv.visibility = View.VISIBLE
+
+        // 입력된 값이 있다면
+        if (edt.text.isNotEmpty()) {
+            // 입력한 값 저장 및 아이템 값 수정
+            tv.text = edt.text.toString()
+            todoAdapter?.modifyTodoList(itemPos, edt.text.toString())
+
+            // TODO: API에 저장
         }
     }
 }

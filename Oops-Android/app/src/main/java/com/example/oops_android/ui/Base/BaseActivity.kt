@@ -3,6 +3,7 @@ package com.example.oops_android.ui.Base
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.hardware.input.InputManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -72,6 +73,13 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     fun getHideKeyboard(view: View) {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    // 키보드 띄우기
+    fun getShowKeyboard(edt: EditText) {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        edt.requestFocus()
+        imm.showSoftInput(edt, InputMethodManager.SHOW_IMPLICIT)
     }
 
     // 토스트 메시지 띄우기

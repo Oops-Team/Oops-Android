@@ -14,8 +14,6 @@ class TodoListViewHolder(val context: Context, val binding: ItemHomeTodoBinding)
 
         todoName.text = item.todoName
 
-        Log.d("데이터", "true")
-
         if (item.isComplete)
             isComplete.setImageResource(R.drawable.ic_todo_selected_rbtn_27)
         else

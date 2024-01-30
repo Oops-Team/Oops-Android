@@ -1,16 +1,19 @@
 package com.example.oops_android.ui.Main.Home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oops_android.databinding.ItemHomeTodoBinding
 
 class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHolder>() {
 
     private var todoList = ArrayList<TodoItem>() // 일정 목록
-    var onItemClickListener: ((Int, ImageView) -> Unit)? = null // 일정의 ... 버튼 클릭
+    var onItemClickListener: ((Int, ImageView, TextView, EditText) -> Unit)? = null // 일정의 ... 버튼 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         val binding: ItemHomeTodoBinding = ItemHomeTodoBinding.inflate(
@@ -26,7 +29,12 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
 
         // ... 클릭
         holder.binding.ivHomeTodoEdit.setOnClickListener {
-            onItemClickListener?.invoke(position, holder.binding.ivHomeTodoEdit)
+            onItemClickListener?.invoke(
+                position,
+                holder.binding.ivHomeTodoEdit,
+                holder.binding.tvHomeTodoName,
+                holder.binding.edtHomeTodoName
+            )
         }
     }
 
@@ -34,5 +42,19 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
     fun addTodoList(todoItem: TodoItem) {
         todoList.add(todoItem)
         notifyItemChanged(todoList.size)
+    }
+
+    // 일정 정보 내보내기
+    fun getTodoList(itemPos: Int): TodoItem {
+        return todoList[itemPos]
+    }
+
+    // 일정 이름 수정하기
+    fun modifyTodoList(itemPos: Int, name: String) {
+        // 일정 이름이 변경되었다면
+        if (todoList[itemPos].todoName != name) {
+            todoList[itemPos].todoName = name
+            notifyItemChanged(itemPos)
+        }
     }
 }
