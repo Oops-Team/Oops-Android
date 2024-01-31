@@ -1,9 +1,12 @@
 package com.example.oops_android.ui.Main.Home.Todo
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.InputFilter
 import android.text.InputType
+import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -19,6 +22,8 @@ import com.example.oops_android.ui.Base.BaseFragment
 class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::inflate), CompoundButton.OnCheckedChangeListener {
     private var remindList = ArrayList<Long>() // 선택된 알림 시간 리스트
     private var edtCount = 1 // 추가된 edittext 갯수
+    private var todoList = ArrayList<EditText>() // 추가된 일정 리스트
+    private var isShowDeleteBtn = false // EditText의 삭제 버튼 보임 여부
 
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
@@ -31,6 +36,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     }
 
     override fun initAfterBinding() {
+        // 일정 리스트에 기본 EditText 추가
+        todoList.add(binding.edtTodo)
+
         // 월간 캘린더
         binding.mcvTodoCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
 
@@ -71,6 +79,33 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     layoutParams = params
                 }
                 binding.lLayoutTodo.addView(edtView) // 레이아웃에 EditText 추가
+                todoList.add(edtView) // 리스트에 EditText 추가
+            }
+        }
+
+        // 휴지통 버튼을 누른 경우
+        binding.ivTodoDelete.setOnClickListener {
+            clickDeleteBtn()
+        }
+
+        // todo: 화면 바깥을 클릭한 경우, edittext에 입력된 값이 없다면 edittext 삭제
+        // 화면 바깥을 클릭한 경우
+        binding.todo.setOnClickListener {
+            // 각 일정에 값이 없는 경우 EditText 삭제
+            for (i in 0 until todoList.size) {
+                if (todoList[i].text.toString().isEmpty() && todoList.size > 1) {
+                    todoList.remove(todoList[i]) // 리스트에서 요소 삭제
+
+                    // 첫번째 EditText가 아니라면
+                    if (i != 0) {
+                        // 뷰 삭제
+                        binding.lLayoutTodo.removeViewAt(i - 1)
+                    }
+                    // 첫번째 EditText라면
+                    else {
+                        binding.edtTodo.visibility = View.GONE
+                    }
+                }
             }
         }
 
@@ -123,6 +158,65 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         // 하루 전을 선택한 경우
         binding.cbRemind1d.setOnCheckedChangeListener { checkBox, isChecked ->
             setRemindCheckedChanged(checkBox, isChecked, 5)
+        }
+    }
+
+    // 휴지통 클릭 이벤트 처리 함수
+    @SuppressLint("ClickableViewAccessibility")
+    private fun clickDeleteBtn() {
+        if (isShowDeleteBtn) {
+            for (i in 0 until todoList.size) {
+                // 각 EditText의 delete 버튼이 보인다면
+                todoList[i].setCompoundDrawables(null, null, null, null) // delete 버튼 숨기기
+                isShowDeleteBtn = false
+            }
+        }
+        // 각 EditText의 delete 버튼이 안 보인다면
+        else {
+            // EditText의 삭제 버튼 띄우기
+            for (i in 0 until todoList.size) {
+                val deleteBtn = ContextCompat.getDrawable(requireContext(), R.drawable.ic_todo_delete_24)
+                todoList[i].setCompoundDrawablesWithIntrinsicBounds(null, null, deleteBtn, null) // delete 버튼 보이기
+                isShowDeleteBtn = true
+
+                // 삭제 버튼을 클릭한 경우
+                todoList[i].setOnTouchListener(View.OnTouchListener { _, event ->
+                    val DRAWABLE_RIGHT = 2
+
+                    try {
+                        if (event.action == MotionEvent.ACTION_UP) {
+                            if (event.rawX >= (todoList[i].right -
+                                        todoList[i].compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
+
+                                // 일정이 2개 이상이라면
+                                if (todoList.size > 1) {
+                                    // EditText 삭제
+                                    todoList.remove(todoList[i])
+
+                                    // 첫번째 EditText가 아니라면
+                                    if (i != 0) {
+                                        // 뷰 삭제
+                                        binding.lLayoutTodo.removeViewAt(i - 1)
+                                    }
+                                    // 첫번째 EditText라면
+                                    else {
+                                        binding.edtTodo.visibility = View.GONE
+                                    }
+                                }
+                                // 일정이 1개라면
+                                else {
+                                    // todo: 삭제 안된다는 스낵바 띄우기 디자인 작업 요청해보기
+                                    showCustomSnackBar(R.string.toast_todo_not_delete)
+                                }
+                                return@OnTouchListener true
+                            }
+                        }
+                        false
+                    } catch (e: Exception) {
+                        false
+                    }
+                })
+            }
         }
     }
 
