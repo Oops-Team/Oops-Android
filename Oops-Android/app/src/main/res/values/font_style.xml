@@ -7,4 +7,54 @@
         <item name="android:fontFamily">@font/pretendard_regular</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="H0">
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:lineSpacingExtra">9sp</item>
+    </style>
+    <style name="H1">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:lineSpacingExtra">9sp</item>
+    </style>
+    <style name="H2">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="H3">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="H4">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="SubTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+    <style name="Button1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="Button2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="Button3">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="Button3_Active">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
 </resources>
