@@ -5,12 +5,15 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.InputFilter
 import android.text.InputType
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.example.oops_android.R
@@ -51,8 +54,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         binding.iBtnTodo.setOnClickListener {
             // 30개 이상이라면
             if (edtCount >= 30) {
-                // 토스트 띄우기
-                showCustomSnackBar(R.string.toast_todo_not_add)
+                showCustomSnackBar(R.string.toast_todo_not_add) // 스낵바 띄우기
             }
             else {
                 ++edtCount // 추가된 edittext 갯수 세기
@@ -80,33 +82,18 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 }
                 binding.lLayoutTodo.addView(edtView) // 레이아웃에 EditText 추가
                 todoList.add(edtView) // 리스트에 EditText 추가
+
+                // 동적 생성한 EditText에 대한 입력 처리
+                setOtherEdtEvent(edtView)
             }
         }
+
+        // 가장 첫번째 있는 EditText박스에 대한 입력 처리
+        setFirstEdtEvent()
 
         // 휴지통 버튼을 누른 경우
         binding.ivTodoDelete.setOnClickListener {
             clickDeleteBtn()
-        }
-
-        // todo: 화면 바깥을 클릭한 경우, edittext에 입력된 값이 없다면 edittext 삭제
-        // 화면 바깥을 클릭한 경우
-        binding.todo.setOnClickListener {
-            // 각 일정에 값이 없는 경우 EditText 삭제
-            for (i in 0 until todoList.size) {
-                if (todoList[i].text.toString().isEmpty() && todoList.size > 1) {
-                    todoList.remove(todoList[i]) // 리스트에서 요소 삭제
-
-                    // 첫번째 EditText가 아니라면
-                    if (i != 0) {
-                        // 뷰 삭제
-                        binding.lLayoutTodo.removeViewAt(i - 1)
-                    }
-                    // 첫번째 EditText라면
-                    else {
-                        binding.edtTodo.visibility = View.GONE
-                    }
-                }
-            }
         }
 
         // 각 태그 선택한 경우에 따른 이벤트 처리
@@ -158,6 +145,82 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         // 하루 전을 선택한 경우
         binding.cbRemind1d.setOnCheckedChangeListener { checkBox, isChecked ->
             setRemindCheckedChanged(checkBox, isChecked, 5)
+        }
+    }
+
+    // 가장 첫번째에 있는 EditText에 대한 입력 처리
+    private fun setFirstEdtEvent() {
+        // 가장 첫번째에 있는 EditText에서 완료 버튼을 눌렀다면
+        binding.edtTodo.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(
+                v: TextView?,
+                actionId: Int,
+                event: KeyEvent?
+            ): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // 일정에 값이 없는 경우 EditText 삭제
+                    if (binding.edtTodo.text.toString().isBlank() && todoList.size > 1) {
+                        todoList.remove(binding.edtTodo)
+                        binding.edtTodo.visibility = View.GONE
+                    }
+                    getHideKeyboard(binding.root)
+                    return true
+                }
+                return false
+            }
+        })
+
+        // 가장 첫번째에 있는 EditText에 Focus가 되어 있다면
+        binding.edtTodo.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                // 화면 바깥을 클릭한 경우
+                binding.lLayoutTodoTop.setOnClickListener {
+                    // 일정에 값이 없는 경우 EditText 숨기기
+                    if (binding.edtTodo.text.toString().isBlank() && todoList.size > 1) {
+                        todoList.remove(binding.edtTodo)
+                        binding.edtTodo.visibility = View.GONE
+                    }
+                    getHideKeyboard(binding.root)
+                }
+            }
+        }
+    }
+
+    // 동적 생성한 EditText에 대한 입력 처리
+    private fun setOtherEdtEvent(edtView: EditText) {
+        // 완료 버튼을 눌렀을 경우
+        edtView.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(
+                v: TextView?,
+                actionId: Int,
+                event: KeyEvent?
+            ): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // 일정에 값이 없는 경우 EditText 삭제
+                    if (edtView.text.toString().isBlank() && todoList.size > 1) {
+                        todoList.remove(edtView)
+                        binding.lLayoutTodo.removeView(edtView)
+                    }
+                    getHideKeyboard(binding.root)
+                    return true
+                }
+                return false
+            }
+        })
+
+        // EditText에 Focus가 되어 있다면
+        edtView.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                // 화면 바깥을 클릭한 경우
+                binding.lLayoutTodoTop.setOnClickListener {
+                    // 일정에 값이 없는 경우 EditText 삭제
+                    if (edtView.text.toString().isBlank() && todoList.size > 1) {
+                        todoList.remove(edtView) // 리스트에서 요소 삭제
+                        binding.lLayoutTodo.removeView(edtView)
+                    }
+                    getHideKeyboard(binding.root)
+                }
+            }
         }
     }
 
