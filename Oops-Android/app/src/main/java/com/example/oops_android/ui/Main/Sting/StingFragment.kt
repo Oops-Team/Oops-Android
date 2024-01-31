@@ -7,6 +7,7 @@ import com.example.oops_android.ui.Base.BaseFragment
 
 class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::inflate) {
     override fun initViewCreated() {
+        mainActivity?.hideBnv(false) // 나타내기
     }
 
     override fun initAfterBinding() {
