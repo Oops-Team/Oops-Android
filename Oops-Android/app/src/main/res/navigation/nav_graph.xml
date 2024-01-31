@@ -85,5 +85,33 @@
         <action
             android:id="@+id/action_myPageFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
+        <action
+            android:id="@+id/action_myPageFrm_to_noticeFrm"
+            app:destination="@id/noticeFragment"/>
+    </fragment>
+
+    <!-- 공지사항 -->
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.example.oops_android.ui.MyPage.NoticeFragment"
+        android:label="frm_notice"
+        tools:layout="@layout/fragment_notice">
+        <action
+            android:id="@+id/action_noticeFrm_to_myPageFrm"
+            app:destination="@id/myPageFragment"/>
+        <action
+            android:id="@+id/action_noticeFrm_to_noticeDetailFrm"
+            app:destination="@id/noticeDetailFragment"/>
+    </fragment>
+
+    <!-- 공지사항 상세 -->
+    <fragment
+        android:id="@+id/noticeDetailFragment"
+        android:name="com.example.oops_android.ui.MyPage.NoticeDetailFragment"
+        android:label="frm_notice_detail"
+        tools:layout="@layout/fragment_notice_detail">
+        <action
+            android:id="@+id/action_noticeDetailFrm_to_noticeFrm"
+            app:destination="@id/noticeFragment"/>
     </fragment>
 </navigation>

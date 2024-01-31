@@ -197,6 +197,13 @@
     <string name="friends_confirm">수락</string>
     <string name="friends_refuse">거절</string>
     <string name="friend_delete">친구 끊기</string>
+    <!-- 마이페이지 -->
+    <string name="myPage_default">일반</string>
+    <string name="myPage_account">계정 관리</string>
+    <string name="myPage_alarm">알림 설정</string>
+    <string name="myPage_tag">받은 태그</string>
+    <string name="myPage_tag_lock">업데이트 준비 중입니다</string>
+    <string name="myPage_logout">로그아웃</string>
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
