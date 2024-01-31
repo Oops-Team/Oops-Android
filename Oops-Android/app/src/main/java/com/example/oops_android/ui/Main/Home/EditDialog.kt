@@ -4,8 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.view.WindowManager
 import com.example.oops_android.databinding.DialogEditBinding
 import com.example.oops_android.ui.Main.MainActivity
 
@@ -45,14 +43,16 @@ class EditDialog(
         // 소지품 수정 버튼을 누른 경우
         binding.dialogEditStuff.setOnClickListener {
             dialog.dismiss() // dialog 숨기기
+            onClickListener.onClicked(true)
         }
         // 오늘 할 일 수정 버튼을 누른 경우
         binding.dialogEditTodo.setOnClickListener {
             dialog.dismiss() // dialog 숨기기
+            onClickListener.onClicked(false)
         }
     }
     interface ButtonClickListener {
-        fun onClicked()
+        fun onClicked(isStuffEdit: Boolean)
     }
 
     private lateinit var onClickListener: ButtonClickListener

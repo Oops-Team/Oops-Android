@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/White"
     tools:context=".ui.Main.Sting.FriendsFragment">
@@ -24,7 +24,7 @@
         android:maxLines="1"
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Gray_100"
-        android:drawableStart="@drawable/ic_search_32"
+        android:drawableStart="@drawable/ic_search_20"
         android:paddingTop="14dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
@@ -65,6 +65,7 @@
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_friends_box_rv"/>
 
             <TextView
@@ -85,6 +86,7 @@
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_friends_box_rv_2"/>
 
             <View

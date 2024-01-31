@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 폰트 스타일 정의 -->
+    <style name="toastMessageStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/Gray_900</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+</resources>

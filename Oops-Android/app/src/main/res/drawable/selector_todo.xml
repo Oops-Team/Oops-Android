@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 일정 화면의 태그 및 알림 시간 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/todo_bg_unselected"
+        android:state_checked="false" />
+    <item
+        android:drawable="@drawable/todo_bg_selected"
+        android:state_checked="true"/>
+</selector>
