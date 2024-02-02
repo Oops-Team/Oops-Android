@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_myPageFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
+        <action
+            android:id="@+id/action_myPageFrm_to_alertFrm"
+            app:destination="@id/alertFragment"/>
     </fragment>
 
     <!-- 공지사항 -->
@@ -113,5 +116,16 @@
         <action
             android:id="@+id/action_noticeDetailFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
+    </fragment>
+
+    <!-- 알림 설정 -->
+    <fragment
+        android:id="@+id/alertFragment"
+        android:name="com.example.oops_android.ui.MyPage.AlertFragment"
+        android:label="frm_alert"
+        tools:layout="@layout/fragment_alert">
+        <action
+            android:id="@+id/action_alertFrm_to_myPageFrm"
+            app:destination="@id/myPageFragment"/>
     </fragment>
 </navigation>

@@ -24,6 +24,12 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
             val actionToNotice: NavDirections = MyPageFragmentDirections.actionMyPageFrmToNoticeFrm()
             view?.findNavController()?.navigate(actionToNotice)
         }
+
+        // 알림 설정 탭을 클릭한 경우
+        binding.lLayoutMyPageAlarm.setOnClickListener {
+            val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm()
+            view?.findNavController()?.navigate(actionToAlert)
+        }
     }
 
 }

@@ -204,6 +204,7 @@
     <string name="myPage_tag">받은 태그</string>
     <string name="myPage_tag_lock">업데이트 준비 중입니다</string>
     <string name="myPage_logout">로그아웃</string>
+    <string name="myPage_alert">푸시 알림</string>
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>

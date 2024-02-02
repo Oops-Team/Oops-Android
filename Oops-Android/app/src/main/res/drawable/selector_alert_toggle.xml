@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 마이페이지의 알림 설정 화면에서 사용하는 토글 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_toggle_off_55" android:state_checked="false"/>
+    <item android:drawable="@drawable/ic_toggle_on_55" android:state_checked="true"/>
+</selector>
