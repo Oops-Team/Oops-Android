@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 스위치의 버튼 부분 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item android:top="3dp" android:start="4dp" android:end="4dp" android:bottom="3dp">
+                <shape android:shape="oval">
+                    <size android:width="24dp" android:height="24dp"/>
+                    <corners android:radius="45dp"/>
+                    <solid android:color="@color/White"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item android:top="3dp" android:start="4dp" android:end="4dp" android:bottom="3dp">
+                <shape android:shape="oval">
+                    <size android:width="24dp" android:height="24dp"/>
+                    <corners android:radius="45dp"/>
+                    <solid android:color="@color/White"/>
+                </shape>
+            </item>
+        </layer-list>
+
+    </item>
+</selector>

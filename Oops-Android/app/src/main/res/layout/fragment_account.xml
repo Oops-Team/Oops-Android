@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 마이페이지 - 계정관리 화면 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/White"
+    tools:context=".ui.MyPage.AccountFragment">
+
+    <include
+        android:id="@+id/toolbar_account"
+        layout="@layout/toolbar_sub"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/all_radius_12"
+        android:backgroundTint="@color/Gray_100"
+        android:layout_marginTop="8dp"
+        android:paddingTop="27dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="27dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/myPage_nickname"
+                style="@style/Body1"
+                android:textColor="@color/Black_33"/>
+
+            <TextView
+                android:id="@+id/tv_account_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Oops"
+                android:textSize="15sp"
+                android:textColor="@color/Gray_400"
+                android:fontFamily="@font/pretendard_semibold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="21dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/myPage_email"
+                style="@style/Body1"
+                android:textColor="@color/Black_33"/>
+
+            <TextView
+                android:id="@+id/tv_account_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="end"
+                android:text="Oops@naver.com"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="15sp"
+                android:textColor="@color/Gray_400"
+                android:fontFamily="@font/pretendard_semibold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/all_radius_12"
+        android:backgroundTint="@color/Gray_100"
+        android:layout_marginTop="16dp"
+        android:paddingTop="27dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="27dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myPage_profile"
+            style="@style/Body1"
+            android:textColor="@color/Black_33"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_account_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:thumb="@drawable/selector_switch_thumb"
+            app:track="@drawable/selector_switch_track"
+            app:switchMinWidth="55dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/myPage_account_info"
+        style="@style/Button2"
+        android:textColor="@color/Black_87"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="26dp">
+
+        <!-- 구글 로그인 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="0dp"
+            android:elevation="0dp">
+            <ImageView
+                android:id="@+id/iBtn_account_google"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="16dp"
+                android:outlineProvider="background"
+                android:src="@drawable/ic_login_google_unselected_18"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 네이버 로그인 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="0dp"
+            android:elevation="0dp">
+            <ImageView
+                android:id="@+id/iBtn_account_naver"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:outlineProvider="background"
+                android:src="@drawable/ic_login_naver_18"/>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
+
+    <!-- 회원 탈퇴 -->
+    <TextView
+        android:id="@+id/tv_account_withdrawal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/myPage_withdrawal"
+        android:textSize="16sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/Gray_300"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="45dp"/>
+</LinearLayout>

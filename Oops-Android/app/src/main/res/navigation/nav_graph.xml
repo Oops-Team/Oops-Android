@@ -89,6 +89,9 @@
             android:id="@+id/action_myPageFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
         <action
+            android:id="@+id/action_myPageFrm_to_accountFrm"
+            app:destination="@id/accountFragment"/>
+        <action
             android:id="@+id/action_myPageFrm_to_alertFrm"
             app:destination="@id/alertFragment"/>
     </fragment>
@@ -116,6 +119,17 @@
         <action
             android:id="@+id/action_noticeDetailFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
+    </fragment>
+
+    <!-- 계정 관리 -->
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.oops_android.ui.MyPage.AccountFragment"
+        android:label="frm_account"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_accountFrm_to_myPageFrm"
+            app:destination="@id/myPageFragment"/>
     </fragment>
 
     <!-- 알림 설정 -->

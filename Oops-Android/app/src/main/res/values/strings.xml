@@ -205,6 +205,11 @@
     <string name="myPage_tag_lock">업데이트 준비 중입니다</string>
     <string name="myPage_logout">로그아웃</string>
     <string name="myPage_alert">푸시 알림</string>
+    <string name="myPage_nickname">닉네임</string>
+    <string name="myPage_email">아이디(이메일)</string>
+    <string name="myPage_profile">프로필 공개</string>
+    <string name="myPage_withdrawal">회원 탈퇴</string>
+    <string name="myPage_account_info">SNS를 연동하고\n더욱 편하게 로그인하세요</string>
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
