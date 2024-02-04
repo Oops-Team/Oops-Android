@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White"
     android:orientation="vertical"
     tools:context=".ui.MyPage.AlertFragment">
@@ -34,6 +35,7 @@
             android:layout_weight="1"/>
 
         <ToggleButton
+            android:visibility="gone"
             android:id="@+id/toggleBtn_alert"
             android:layout_width="55dp"
             android:layout_height="30dp"
@@ -41,5 +43,15 @@
             android:textOff=""
             android:checked="false"
             android:background="@drawable/selector_alert_toggle"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:background="@null"
+            android:thumb="@drawable/selector_switch_thumb"
+            app:track="@drawable/selector_switch_track"
+            app:switchMinWidth="55dp"/>
     </LinearLayout>
 </LinearLayout>
