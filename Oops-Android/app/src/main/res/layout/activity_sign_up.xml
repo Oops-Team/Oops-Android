@@ -62,13 +62,21 @@
                 android:textColor="@color/Black"
                 android:fontFamily="@font/pretendard_regular"
                 android:imeOptions="actionDone"
-                android:backgroundTint="@color/Gray_300"
+                android:background="@null"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
                 android:includeFontPadding="true"
                 android:paddingTop="20dp"
+                android:paddingStart="0dp"
                 android:paddingEnd="75dp"
-                android:paddingBottom="14dp"/>
+                android:paddingBottom="10dp"/>
+
+            <View
+                android:id="@+id/view_sign_up_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/Gray_300"
+                android:layout_gravity="bottom"/>
 
             <!-- 중복 확인 -->
             <TextView

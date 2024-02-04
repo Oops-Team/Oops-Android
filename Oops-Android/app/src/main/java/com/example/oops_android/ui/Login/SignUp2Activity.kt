@@ -49,7 +49,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 binding.edtSignUp2Email.isEnabled = false // 이메일 입력 막기
                 binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert_confirm)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-                binding.edtSignUp2Email.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                 binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
                 binding.tvSignUp2OverlapBtn.visibility = View.INVISIBLE
                 checkValid() // 모든 유효성 확인
@@ -101,7 +101,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                     binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
-                    binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                    binding.viewSignUp2PwdCheck.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 }
                 // 두 개의 필드가 같다면
                 else {
@@ -110,7 +110,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                     binding.ivSignUp2PwdAlert.visibility = View.VISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-                    binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                    binding.viewSignUp2PwdCheck.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid()
                 }
             }
@@ -120,7 +120,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 isPwdValid = false
                 // 알럿 텍스트 출력
                 binding.tvSignUp2PwdAlert.text = getString(R.string.signup_pwd_alert_2)
-                binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                binding.viewSignUp2Pwd.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
             }
             // 영문, 숫자, 특수 문자가 없다면
@@ -128,7 +128,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 isPwdValid = false
                 // 알럿 텍스트 출력
                 binding.tvSignUp2PwdAlert.text = getString(R.string.signup_pwd_alert_3)
-                binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                binding.viewSignUp2Pwd.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
             }
             else {
@@ -136,7 +136,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 if (EditTextUtils.passwordRegex(binding.edtSignUp2Pwd.text.toString())) {
                     isPwdValid = true
                     binding.tvSignUp2PwdAlert.visibility = View.INVISIBLE
-                    binding.edtSignUp2Pwd.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                    binding.viewSignUp2Pwd.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid() // 모든 유효성 확인
                 }
             }
@@ -153,7 +153,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                     binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_1)
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
-                    binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                    binding.viewSignUp2PwdCheck.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 }
                 // 일치한다면
                 else {
@@ -161,7 +161,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                     binding.tvSignUp2PwdCheckAlert.text = getString(R.string.signup_pwd_alert_confirm)
                     binding.ivSignUp2PwdAlert.visibility = View.VISIBLE
                     binding.tvSignUp2PwdCheckAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-                    binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                    binding.viewSignUp2PwdCheck.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
                     checkValid() // 모든 유효성 확인
                 }
             }
@@ -169,7 +169,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             else {
                 binding.tvSignUp2PwdCheckAlert.visibility = View.INVISIBLE
                 binding.ivSignUp2PwdAlert.visibility = View.INVISIBLE
-                binding.edtSignUp2PwdCheck.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Gray_300))
+                binding.viewSignUp2PwdCheck.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300))
             }
         }
     }
