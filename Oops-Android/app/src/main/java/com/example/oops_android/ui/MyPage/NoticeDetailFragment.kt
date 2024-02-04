@@ -7,6 +7,8 @@ import com.example.oops_android.ui.Base.BaseFragment
 
 class NoticeDetailFragment: BaseFragment<FragmentNoticeDetailBinding>(FragmentNoticeDetailBinding::inflate) {
     override fun initViewCreated() {
+        mainActivity?.hideBnv(true) // bnv 숨기기
+
         // 툴 바 제목 설정
         binding.toolbarNoticeDetail.tvSubToolbarTitle.text = "공지사항"
     }
