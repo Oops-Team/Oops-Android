@@ -43,13 +43,13 @@
         <!-- 오른쪽 버튼 -->
         <ImageView
             android:id="@+id/iv_sub_toolbar_right"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_delete_35"
-            android:visibility="invisible"
+            android:src="@drawable/ic_delete_24"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.Toolbar>

@@ -16,10 +16,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.os.HandlerCompat
-import androidx.core.os.HandlerCompat.postDelayed
-import androidx.core.view.allViews
-import androidx.core.view.get
 import androidx.navigation.findNavController
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentTodoBinding
@@ -54,6 +50,15 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
             view?.findNavController()?.popBackStack()
         }
 
+        // 가장 첫번째 있는 EditText박스에 대한 입력 처리
+        setFirstEdtEvent()
+
+        // 휴지통 버튼을 누른 경우
+        binding.ivTodoDelete.setOnClickListener {
+            getHideKeyboard(binding.root) // 키보드 숨기기
+            clickDeleteBtn() // delete 버튼 숨기기 or 보여주기
+        }
+
         // 오늘 할 일 추가 버튼을 누른 경우
         binding.iBtnTodo.setOnClickListener {
             // 30개 이상이라면
@@ -75,9 +80,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 val edtView = EditText(requireContext())
                 val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    102,
                 )
-                params.setMargins(0, 16, 0, 0)
+                params.setMargins(0, 24, 0, 0)
                 // 스타일 적용
                 edtView.apply {
                     hint = getString(R.string.todo_today_info)
@@ -88,8 +93,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     filters = arrayOf<InputFilter>(InputFilter.LengthFilter(20)) // 최대 20자까지 작성 가능하도록 설정
                     inputType = InputType.TYPE_CLASS_TEXT
                     imeOptions = EditorInfo.IME_ACTION_DONE
-                    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300))
+                    setBackgroundResource(R.drawable.edit_text_bg)
                     typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 기본값 사용
+                    setPadding(0, 16, 0, 8)
                     layoutParams = params
                 }
                 binding.lLayoutTodo.addView(edtView) // 레이아웃에 EditText 추가
@@ -98,16 +104,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 동적 생성한 EditText에 대한 입력 처리
                 setOtherEdtEvent(edtView)
             }
-        }
-
-        // 가장 첫번째 있는 EditText박스에 대한 입력 처리
-        setFirstEdtEvent()
-
-        // 휴지통 버튼을 누른 경우
-        binding.ivTodoDelete.setOnClickListener {
-            // setDeleteEdtFocus() // EditText 포커스 삭제
-            getHideKeyboard(binding.root) // 키보드 숨기기
-            clickDeleteBtn() // delete 버튼 숨기기 or 보여주기
         }
 
         // 각 태그 선택한 경우에 따른 이벤트 처리
@@ -120,9 +116,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         setOnCheckedChanged(binding.cbTagTravel)
         setOnCheckedChanged(binding.cbTagShopping)
 
-        // TODO: 푸시알림 off인 상태에서 클릭 시 7번 클릭하였을 때 푸시 알림 on 유도 팝업 노출
-        // 알림 시간 선택한 경우에 따른 이벤트 처리
-        // 없음을 선택한 경우
+        // 알림 시간 없음을 클릭한 경우
         binding.cbRemindNo.setOnCheckedChangeListener { checkBox, isChecked ->
             if (isChecked) {
                 remindList.clear() // 배열 항목 모두 삭제
@@ -159,17 +153,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         // 하루 전을 선택한 경우
         binding.cbRemind1d.setOnCheckedChangeListener { checkBox, isChecked ->
             setRemindCheckedChanged(checkBox, isChecked, 5)
-        }
-    }
-
-    // 포커스 되어있는 EditText 포커스 제거 및 키보드 내리기
-    private fun setDeleteEdtFocus() {
-        for (j in 0 until todoList.size) {
-            if (todoList[j].hasFocus()) { // 포커스 되어있는 EditText가 있다면
-                todoList[j].clearFocus() // EditText 포커스 제거
-                getHideKeyboard(binding.root) // 키보드 내리기
-                break
-            }
         }
     }
 
@@ -213,7 +196,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
 
         // delete 버튼을 눌렀다면
         binding.edtTodo.setOnTouchListener(View.OnTouchListener { _, event ->
-            // setDeleteEdtFocus() // EditText 포커스 삭제
             getHideKeyboard(binding.root) // 키보드 숨기기
 
             val DRAWABLE_RIGHT = 2
@@ -228,7 +210,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 }
                 false
             } catch (e: Exception) {
-                Log.d("기존 EditText 포커스 문제: ", e.toString())
                 false
             }
         })
@@ -267,11 +248,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                         todoList.remove(edtView) // 리스트에서 요소 삭제
                         binding.lLayoutTodo.removeView(edtView)
                     }
-                    // EditText가 한개라면
-                    /*if (todoList.size == 1) {
-                        todoList[0].setCompoundDrawables(null, null, null, null) // delete 버튼 숨기기
-                        isShowDeleteBtn = false
-                    }*/
                     getHideKeyboard(binding.root)
                 }
             }
@@ -282,22 +258,17 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
             getHideKeyboard(binding.root) // 키보드 숨기기
 
             val DRAWABLE_RIGHT = 2
-
             try {
                 if (event.action == MotionEvent.ACTION_UP) {
                     if (event.rawX >= (edtView.right -
                                 edtView.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
-
                         binding.lLayoutTodo.removeView(edtView) // 뷰 삭제
                         todoList.remove(edtView) // EditText 삭제
-
-
                         return@OnTouchListener true
                     }
                 }
                 false
             } catch (e: Exception) {
-                Log.d("동적 EditText 포커스 문제: ", e.toString())
                 false
             }
         })
@@ -322,6 +293,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     // 일정 삭제 버튼 이벤트
     @SuppressLint("ClickableViewAccessibility")
     private fun showTodoDeleteBtn() {
+        isShowDeleteBtn = true
         // delete 버튼
         val deleteBtn = ContextCompat.getDrawable(requireContext(), R.drawable.ic_todo_delete_24)
 
@@ -334,59 +306,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         for (i in 0 until todoCount) {
             val editText: EditText = binding.lLayoutTodo.getChildAt(i) as EditText
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, deleteBtn, null)
-            isShowDeleteBtn = true
         }
-
-        // EditText의 삭제 버튼 띄우기
-        /*for (i in 0 until todoList.size) {
-            // delete 버튼 띄우기
-            val deleteBtn = ContextCompat.getDrawable(requireContext(), R.drawable.ic_todo_delete_24)
-            todoList[i].setCompoundDrawablesWithIntrinsicBounds(null, null, deleteBtn, null) // delete 버튼 보이기
-            isShowDeleteBtn = true
-
-            /*todoList[i].setOnTouchListener(View.OnTouchListener { _, event ->
-                val DRAWABLE_RIGHT = 2
-
-                try {
-                    if (event.action == MotionEvent.ACTION_UP) {
-                        if (event.rawX >= (todoList[i].right -
-                                    todoList[i].compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
-
-                            // 첫번째 EditText가 아니라면
-                            if (todoList[i] != binding.edtTodo) {
-                                // 뷰 삭제
-                                binding.lLayoutTodo.removeViewAt(i)
-                            }
-                            // 첫번째 EditText라면
-                            else {
-                                binding.edtTodo.visibility = View.GONE
-                            }
-
-                            // EditText 삭제
-                            todoList.remove(todoList[i])
-
-                            // EditText가 한개라면
-                            //if (todoList.size == 1) {
-                            //    todoList[0].setCompoundDrawables(null, null, null, null) // delete 버튼 숨기기
-                            //    isShowDeleteBtn = false
-                            //}
-
-                            return@OnTouchListener true
-                        }
-                    }
-                    false
-                } catch (e: Exception) {
-                    Log.d("포커스 문제: ", e.toString())
-                    Log.d("포커스 사이즈: ", todoList.size.toString())
-                    Log.d("포커스 마지막 인덱스: ", todoList.lastIndex.toString())
-                    false
-                }
-            })*/
-            // 일정이 2개 이상이라면
-            //if (todoList.size > 1) {
-                // 원래는 이 안에 위의 코드 들어감
-            //}
-        }*/
     }
 
     // 알림 시간 선택 이벤트 처리 함수
