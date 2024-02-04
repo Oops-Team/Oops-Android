@@ -9,6 +9,7 @@ import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.ButtonUtils
 import com.example.oops_android.utils.CustomPasswordTransformationMethod
 import com.example.oops_android.utils.EditTextUtils
+import com.example.oops_android.utils.getNickname
 import com.example.oops_android.utils.onTextChanged
 
 // 회원가입 - 이메일, 비밀번호 입력하는 화면
@@ -25,6 +26,9 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     override fun initAfterBinding() {
+        // 닉네임 정보 뷰에 보여주기
+        binding.tvSignUp2Nickname.text = getNickname()
+
         // 화면 터치 시 키보드 숨기기
         binding.lLayoutSignUp2Top.setOnClickListener {
             getHideKeyboard(binding.root)
@@ -173,7 +177,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     // 이메일, 비밀번호, 비밀번호 재확인 유효성 검사
     private fun checkValid() {
         if (isEmailValid && isPwdValid && isPwdCheckValid) {
-            showToast("모두 만족!")
             // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
             val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
                 when (item) {
@@ -182,9 +185,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 }
             }
             termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
-        }
-        else {
-            showToast("1.$isEmailValid, 2.$isPwdValid, 3.$isPwdCheckValid 불만족!")
         }
     }
 

@@ -11,6 +11,7 @@ import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUpBinding
 import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.onTextChanged
+import com.example.oops_android.utils.saveNickname
 import java.util.regex.Pattern
 
 class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
@@ -88,6 +89,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             dialog.setOnClickedListener(object : NicknameDialog.ButtonClickListener {
                 override fun onClicked() {
                     // 사용 버튼을 클릭한 경우
+                    // 닉네임 저장
+                    saveNickname(binding.edtSignUpNickname.text.toString())
                     startActivityWithClear(SignUp2Activity::class.java)
                 }
             })
