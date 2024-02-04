@@ -11,6 +11,7 @@ import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUpBinding
 import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.onTextChanged
+import com.example.oops_android.utils.saveNickname
 import java.util.regex.Pattern
 
 class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
@@ -40,6 +41,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         binding.tvSignUpOverlapBtn.setOnClickListener {
             val alert = binding.tvSignUpAlert
             val edt = binding.edtSignUpNickname
+            val underLine = binding.viewSignUpNickname
             val alertImg = binding.ivSignUpAlert
 
             // 11자 이상 입력했다면
@@ -47,7 +49,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 alert.visibility = View.VISIBLE
                 alert.text = getString(R.string.signup_nickname_alert)
                 alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
-                edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                underLine.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 alertImg.visibility = View.VISIBLE
                 alertImg.setImageResource(R.drawable.ic_mark_25)
 
@@ -73,7 +75,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             // 10자 미만 입력됐다면
             if (binding.edtSignUpNickname.length() in 1..10) {
                 binding.tvSignUpOverlapBtn.visibility = View.VISIBLE // 중복 확인 버튼 나타내기
-                binding.edtSignUpNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Gray_300))
+                binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300))
                 binding.ivSignUpAlert.visibility = View.GONE // 알럿 제거
                 binding.tvSignUpAlert.visibility = View.GONE // alert 제거
             }
@@ -88,6 +90,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             dialog.setOnClickedListener(object : NicknameDialog.ButtonClickListener {
                 override fun onClicked() {
                     // 사용 버튼을 클릭한 경우
+                    // 닉네임 저장
+                    saveNickname(binding.edtSignUpNickname.text.toString())
                     startActivityWithClear(SignUp2Activity::class.java)
                 }
             })
@@ -108,7 +112,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         alert.visibility = View.VISIBLE
         alert.text = getString(R.string.signup_nickname_alert_confirm)
         alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-        edt.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Main_500))
+        binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
         alertImg.visibility = View.VISIBLE
         alertImg.setImageResource(R.drawable.ic_confirm_25)
         //val confirmBtn = ContextCompat.getDrawable(applicationContext, R.drawable.ic_confirm_25)

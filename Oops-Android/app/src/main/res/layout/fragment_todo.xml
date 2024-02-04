@@ -156,14 +156,15 @@
                     android:id="@+id/iv_todo_delete"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_delete_35"/>
+                    android:src="@drawable/ic_delete_24"/>
             </LinearLayout>
 
             <!-- 오늘 할 일 입력 박스 -->
             <EditText
                 android:id="@+id/edt_todo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/todo_today_info"
@@ -173,7 +174,9 @@
                 android:typeface="normal"
                 android:maxLines="1"
                 android:maxLength="20"
-                android:backgroundTint="@color/Gray_300"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:background="@drawable/edit_text_bg"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
                 android:inputType="text"
