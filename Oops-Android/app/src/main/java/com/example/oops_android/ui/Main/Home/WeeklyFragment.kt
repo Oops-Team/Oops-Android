@@ -2,6 +2,7 @@ package com.example.oops_android.ui.Main.Home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -284,6 +285,8 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             edt.apply {
                 setText(todoItem?.todoName) // 정보 넣기
                 setSelection(edt.length()) // 포커스 마지막에 주기
+                maxLines = 1
+                filters = arrayOf<InputFilter>(InputFilter.LengthFilter(20)) // 최대 20자까지 작성 가능하도록 설정
 
                 // 딜레이를 주어 키보드 띄우기
                 postDelayed({
