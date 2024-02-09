@@ -59,6 +59,10 @@
             android:text="@string/signup_info_4"
             android:fontFamily="@font/pretendard_bold"
             android:textSize="30sp"
+            android:maxLines="2"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="22sp"
+            android:autoSizeMaxTextSize="30sp"
             android:textColor="@color/Black"
             android:lineSpacingExtra="9sp"
             android:layout_marginTop="9dp"/>
