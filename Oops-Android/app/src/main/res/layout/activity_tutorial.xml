@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/lLayout_tutorial_top"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/Main_500"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.Tutorial.TutorialActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center|start"
+        android:layout_weight="2"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/tv_tutorial_oops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:bufferType="spannable"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="26sp"
+            android:autoSizeMaxTextSize="30sp"
+            android:text="@string/tutorial_info_1"
+            android:textColor="#B3FFFFFF"/>
+
+        <TextView
+            android:id="@+id/tv_tutorial_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:bufferType="spannable"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="26sp"
+            android:autoSizeMaxTextSize="30sp"
+            android:text="@string/tutorial_info_2"
+            android:textColor="#B3FFFFFF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:bufferType="spannable"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="26sp"
+            android:autoSizeMaxTextSize="30sp"
+            android:text="@string/tutorial_info_3"
+            android:textColor="#B3FFFFFF"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="3">
+
+        <ImageView
+            android:layout_width="267dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tutorial_box_img"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_question_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_question_mark_50"
+            android:translationY="0dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="35dp"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="2"
+        android:paddingBottom="12dp">
+        <Button
+            android:id="@+id/btn_tutorial_wonder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonDisableStyle"
+            android:text="@string/btn_wonder"
+            android:textColor="@color/Main_500"
+            android:backgroundTint="@color/White"/>
+
+        <Button
+            android:id="@+id/btn_tutorial_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonEnableStyle"
+            android:text="@string/btn_start"
+            android:backgroundTint="@color/Main_400"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</LinearLayout>

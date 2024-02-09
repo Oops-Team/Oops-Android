@@ -319,6 +319,21 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
         deleteBtn.setOnClickListener {
             popupWindow.dismiss()
+
+            // 선택한 아이템 정보 가져오기
+            val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
+
+            // 아이템 삭제
+            todoAdapter?.deleteTodoList(todoItem)
+
+            // 만약 아이템이 아예 없다면
+            if (todoAdapter?.itemCount == 0) {
+                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                binding.viewHome.visibility = View.VISIBLE
+                binding.iBtnHomeTodoAdd.visibility = View.GONE
+                binding.rvHomeStuff.visibility = View.GONE
+                binding.lLayoutHomeTodoTag.visibility = View.GONE
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivitySignUp2Binding
 import com.example.oops_android.ui.Base.BaseActivity
+import com.example.oops_android.ui.Tutorial.TutorialActivity
 import com.example.oops_android.utils.ButtonUtils
 import com.example.oops_android.utils.CustomPasswordTransformationMethod
 import com.example.oops_android.utils.EditTextUtils
@@ -224,8 +225,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                // TODO: 튜토리얼 화면으로 이동
-                showToast("agree 튜토리얼로 이동하기!")
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }
@@ -237,8 +237,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                // TODO: 튜토리얼 화면으로 이동
-                showToast("disagree 튜토리얼로 이동하기")
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }

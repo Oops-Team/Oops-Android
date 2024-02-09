@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Gray_100"
     tools:context=".ui.Main.MainActivity">
 
     <!-- 각 화면에서 보여질 뷰 -->

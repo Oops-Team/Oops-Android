@@ -1,7 +1,7 @@
 package com.example.oops_android.ui.Main.Home
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
@@ -56,5 +56,12 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
             todoList[itemPos].todoName = name
             notifyItemChanged(itemPos)
         }
+    }
+
+    // 일정 삭제하기
+    @SuppressLint("NotifyDataSetChanged")
+    fun deleteTodoList(todoItem: TodoItem?) {
+        todoList.remove(todoItem)
+        notifyDataSetChanged()
     }
 }

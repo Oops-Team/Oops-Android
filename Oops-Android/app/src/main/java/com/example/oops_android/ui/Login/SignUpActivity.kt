@@ -44,8 +44,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             val underLine = binding.viewSignUpNickname
             val alertImg = binding.ivSignUpAlert
 
-            // 11자 이상 입력했다면
-            if (edt.text.length >= 11) {
+            // 7자 이상 입력했다면
+            if (edt.text.length >= 7) {
                 alert.visibility = View.VISIBLE
                 alert.text = getString(R.string.signup_nickname_alert)
                 alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
@@ -59,7 +59,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             // 이모지, 특수 문자가 입력됐다면
             /*else if () {
             }*/
-            // 10자 미만 입력 및 조건에 맞다면
+            // 6자 이하 입력 및 조건에 맞다면
             else if (edt.text.isNotEmpty()){
                 checkNickName(alert, edt, alertImg)
             }
@@ -73,7 +73,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             binding.btnSignUp1Next.visibility = View.INVISIBLE
 
             // 10자 미만 입력됐다면
-            if (binding.edtSignUpNickname.length() in 1..10) {
+            if (binding.edtSignUpNickname.length() in 1..6) {
                 binding.tvSignUpOverlapBtn.visibility = View.VISIBLE // 중복 확인 버튼 나타내기
                 binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300))
                 binding.ivSignUpAlert.visibility = View.GONE // 알럿 제거

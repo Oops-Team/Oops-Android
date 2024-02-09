@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 튜토리얼 2 화면 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/Gray_50"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    tools:context=".ui.Tutorial.Tutorial2Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/tv_tutorial_2_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:maxLines="2"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="26dp"
+            android:autoSizeMaxTextSize="30dp"
+            android:text="@string/tutorial_info_4"
+            android:textColor="@color/Black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:maxLines="1"
+            android:text="@string/tutorial_info_5"
+            android:textColor="@color/Gray_400"
+            android:layout_marginTop="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="161dp"
+                android:minHeight="141dp"
+                android:layout_weight="1"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="16dp"
+                android:layout_marginEnd="40dp">
+
+                <FrameLayout
+                    android:id="@+id/fLayout_tutorial_2_travel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/White">
+
+                    <TextView
+                        android:id="@+id/tv_tutorial_2_travel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/H3"
+                        android:text="@string/tutorial_travel"
+                        android:textColor="@color/Black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="16dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_tutorial_circle_2"
+                        android:layout_gravity="bottom|end"/>
+
+                    <ImageView
+                        android:id="@+id/iv_tutorial_2_travel"
+                        android:layout_width="77dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/stuff_carrier_default"
+                        android:layout_gravity="bottom|end"/>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="161dp"
+                android:minHeight="141dp"
+                android:layout_weight="1"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="16dp">
+
+                <FrameLayout
+                    android:id="@+id/fLayout_tutorial_2_daily"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/White">
+
+                    <TextView
+                        android:id="@+id/tv_tutorial_2_daily"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/H3"
+                        android:text="@string/tutorial_daily"
+                        android:textColor="@color/Black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="16dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_tutorial_circle_1"
+                        android:layout_gravity="bottom|end"/>
+
+                    <ImageView
+                        android:id="@+id/iv_tutorial_2_daily"
+                        android:layout_width="102dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/stuff_daily_default"
+                        android:layout_gravity="bottom|end"/>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="27dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="161dp"
+                android:minHeight="141dp"
+                android:layout_weight="1"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="16dp"
+                android:layout_marginEnd="40dp">
+
+                <FrameLayout
+                    android:id="@+id/fLayout_tutorial_2_study"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/White">
+
+                    <TextView
+                        android:id="@+id/tv_tutorial_2_study"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/H3"
+                        android:text="@string/tutorial_study"
+                        android:textColor="@color/Black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="16dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_tutorial_circle_1"
+                        android:layout_gravity="bottom|end"/>
+
+                    <ImageView
+                        android:id="@+id/iv_tutorial_2_study"
+                        android:layout_width="74dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/stuff_study_default"
+                        android:layout_gravity="bottom|end"/>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="161dp"
+                android:minHeight="141dp"
+                android:layout_weight="1"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="16dp">
+
+                <FrameLayout
+                    android:id="@+id/fLayout_tutorial_2_exercise"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/White">
+
+                    <TextView
+                        android:id="@+id/tv_tutorial_2_exercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/H3"
+                        android:text="@string/tutorial_exercise"
+                        android:textColor="@color/Black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="16dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_tutorial_circle_2"
+                        android:layout_gravity="bottom|end"/>
+
+                    <ImageView
+                        android:id="@+id/iv_tutorial_2_exercise"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/stuff_exercise_default"
+                        android:layout_gravity="bottom|end"/>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_tutorial_2_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonDisableStyle"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/btn_next"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 튜토리얼에서 사용하는 애니메이션 -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ? 애니메이션 -->
+    <objectAnimator
+        android:propertyName="translationY"
+        android:duration="1000"
+        android:valueFrom="-50"
+        android:valueTo="0"
+        android:valueType="floatType"
+        android:repeatMode="reverse"
+        android:repeatCount="-1"/>
+</set>
