@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityTutorialBinding
 import com.example.oops_android.ui.Base.BaseActivity
+import com.example.oops_android.ui.Main.MainActivity
 import com.example.oops_android.utils.getNickname
 
 // 튜토리얼 화면 - 1
@@ -52,6 +53,16 @@ class TutorialActivity: BaseActivity<ActivityTutorialBinding>(ActivityTutorialBi
 
         intervalBgAnimation.start()
         intervalYAnimation.start()
+
+        // 튜토리얼 2 이동 버튼 클릭 이벤트
+        binding.btnTutorialWonder.setOnClickListener {
+            startNextActivity(Tutorial2Activity::class.java)
+        }
+
+        // 홈 화면 이동 버튼 클릭 이벤트
+        binding.btnTutorialStart.setOnClickListener {
+            startActivityWithClear(MainActivity::class.java)
+        }
     }
 
     override fun onDestroy() {

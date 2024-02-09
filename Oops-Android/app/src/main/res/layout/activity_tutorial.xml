@@ -91,28 +91,18 @@
             android:id="@+id/btn_tutorial_wonder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/WideButtonDisableStyle"
             android:text="@string/btn_wonder"
-            android:textSize="20sp"
             android:textColor="@color/Main_500"
-            android:fontFamily="@font/pretendard_bold"
-            android:gravity="center"
-            android:background="@drawable/wide_btn_bg"
-            android:backgroundTint="@color/White"
-            android:outlineProvider="none"
-            tools:ignore="NestedWeights"/>
+            android:backgroundTint="@color/White"/>
 
         <Button
             android:id="@+id/btn_tutorial_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/WideButtonEnableStyle"
             android:text="@string/btn_start"
-            android:textSize="20sp"
-            android:textColor="@color/White"
-            android:fontFamily="@font/pretendard_bold"
-            android:gravity="center"
-            android:background="@drawable/wide_btn_bg"
             android:backgroundTint="@color/Main_400"
-            android:outlineProvider="none"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
 </LinearLayout>
