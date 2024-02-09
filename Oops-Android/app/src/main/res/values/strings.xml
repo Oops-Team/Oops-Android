@@ -8,6 +8,8 @@
     <!-- 버튼 -->
     <string name="btn_next">다음</string>
     <string name="btn_overlap">중복 확인</string>
+    <string name="btn_wonder">궁금해요! 알려 주세요</string>
+    <string name="btn_start">바로 시작할게요</string>
     <!-- 로그인 -->
     <string name="login_email">ID(E-mail)</string>
     <string name="login_email_alert">입력된 이메일이 올바르지 않아요</string>
@@ -154,6 +156,10 @@
         \n▶ 가명처리 또는 암호화 등 안전성 확보에 필요한 조치를 하였는지 여부
         \n\n※ 추가적인 이용·제공 시 고려사항에 대한 판단기준은 사업자/단체 스스로 자율적으로 판단하여 작성·공개함
     </string>
+    <!-- 튜토리얼 -->
+    <string name="tutorial_info_1">Oops는 어떤 방법으로</string>
+    <string name="tutorial_info_2">님의 소지품을</string>
+    <string name="tutorial_info_3">챙길 수 있을까요?</string>
     <!-- 홈 화면의 edit popup menu -->
     <string name="home_todo_edit">edit</string>
     <string name="home_todo_delete">delete</string>
