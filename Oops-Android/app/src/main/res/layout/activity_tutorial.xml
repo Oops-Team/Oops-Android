@@ -10,6 +10,7 @@
     android:background="@color/Main_500"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    android:clipChildren="false"
     android:animateLayoutChanges="true"
     tools:context=".ui.Tutorial.TutorialActivity">
 
@@ -65,14 +66,22 @@
         android:layout_weight="3">
 
         <ImageView
-            android:layout_width="267dp"
+            android:layout_width="253dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tutorial_circle_img"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="233dp"
             android:layout_height="wrap_content"
             android:src="@drawable/tutorial_box_img"
-            android:layout_gravity="center"/>
+            android:scaleType="fitEnd"
+            android:layout_gravity="center|bottom"/>
 
         <ImageView
             android:id="@+id/iv_question_mark"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_question_mark_50"
             android:translationY="0dp"
