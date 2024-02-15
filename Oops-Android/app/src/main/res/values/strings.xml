@@ -10,6 +10,7 @@
     <string name="btn_overlap">중복 확인</string>
     <string name="btn_wonder">궁금해요! 알려 주세요</string>
     <string name="btn_start">바로 시작할게요</string>
+    <string name="btn_check_end">다 체크했어요</string>
     <!-- 로그인 -->
     <string name="login_email">ID(E-mail)</string>
     <string name="login_email_alert">입력된 이메일이 올바르지 않아요</string>
@@ -160,8 +161,10 @@
     <string name="tutorial_info_1">Oops는 어떤 방법으로</string>
     <string name="tutorial_info_2">님의 소지품을</string>
     <string name="tutorial_info_3">챙길 수 있을까요?</string>
-    <string name="tutorial_info_4">무엇을 위한 소품인지\n태그를 선택해 주세요</string>
+    <string name="tutorial_info_4">무엇을 위한 소지품인지\n태그를 선택해 주세요</string>
     <string name="tutorial_info_5">나중엔 내 마음대로 추가할 수 있어요</string>
+    <string name="tutorial_info_6">그다음! 본격적으로\n소지품을 챙겨 볼까요?</string>
+    <string name="tutorial_info_7">이중에 없는 건 추후에 추가될 예정이에요\n3개 이상 선택해 주세요</string>
     <string name="tutorial_travel">여행</string>
     <string name="tutorial_daily">일상</string>
     <string name="tutorial_study">수업</string>
@@ -247,4 +250,23 @@
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
+    <!-- 소지품 이름 -->
+    <string name="stuff_computer">노트북</string>
+    <string name="stuff_diary">다이어리</string>
+    <string name="stuff_hand_cream">핸드크림</string>
+    <string name="stuff_notebook">공책</string>
+    <string name="stuff_artificial_tears">인공눈물</string>
+    <string name="stuff_menstrual_products">월경용품</string>
+    <string name="stuff_earphones">이어폰</string>
+    <string name="stuff_mouse">마우스</string>
+    <string name="stuff_umbrella">우산</string>
+    <string name="stuff_usb">USB</string>
+    <string name="stuff_charger">충전기</string>
+    <string name="stuff_wallet">지갑</string>
+    <string name="stuff_passport">여권</string>
+    <string name="stuff_tissue">티슈</string>
+    <string name="stuff_dongle">동글이</string>
+    <string name="stuff_reading_desk">독서대</string>
+    <string name="stuff_alcohol_swap">알콜스왑</string>
+    <string name="stuff_sunglasses">선글라스</string>
 </resources>

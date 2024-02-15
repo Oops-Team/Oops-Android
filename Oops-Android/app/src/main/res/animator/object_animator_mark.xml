@@ -6,7 +6,7 @@
     <objectAnimator
         android:propertyName="translationY"
         android:duration="1000"
-        android:valueFrom="-50"
+        android:valueFrom="-70"
         android:valueTo="0"
         android:valueType="floatType"
         android:repeatMode="reverse"

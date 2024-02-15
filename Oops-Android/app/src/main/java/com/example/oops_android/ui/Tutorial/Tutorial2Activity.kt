@@ -75,8 +75,7 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
         // 다음 버튼 클릭 이벤트
         binding.btnTutorial2Next.setOnClickListener {
             if (isClickView) {
-                // TODO: 튜토리얼 3(소지품 선택) 화면으로 이동
-                showToast("다음 버튼 클릭!")
+                startNextActivity(Tutorial3Activity::class.java)
             }
         }
     }
