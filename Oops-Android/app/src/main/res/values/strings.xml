@@ -247,4 +247,23 @@
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
+    <!-- 소지품 이름 -->
+    <string name="stuff_computer">노트북</string>
+    <string name="stuff_diary">다이어리</string>
+    <string name="stuff_hand_cream">핸드크림</string>
+    <string name="stuff_notebook">공책</string>
+    <string name="stuff_artificial_tears">인공눈물</string>
+    <string name="stuff_menstrual_products">월경용품</string>
+    <string name="stuff_earphones">이어폰</string>
+    <string name="stuff_mouse">마우스</string>
+    <string name="stuff_umbrella">우산</string>
+    <string name="stuff_usb">USB</string>
+    <string name="stuff_charger">충전기</string>
+    <string name="stuff_wallet">지갑</string>
+    <string name="stuff_passport">여권</string>
+    <string name="stuff_tissue">티슈</string>
+    <string name="stuff_dongle">동글이</string>
+    <string name="stuff_reading_desk">독서대</string>
+    <string name="stuff_alcohol_swap">알콜스왑</string>
+    <string name="stuff_sunglasses">선글라스</string>
 </resources>
