@@ -12,6 +12,11 @@
         android:theme="@style/Theme.OopsAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ui.Tutorial.FinishTutorialActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".ui.Tutorial.Tutorial5Activity"
             android:exported="false"
             android:screenOrientation="portrait"

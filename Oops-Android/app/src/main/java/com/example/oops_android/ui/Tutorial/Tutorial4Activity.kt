@@ -32,9 +32,9 @@ class Tutorial4Activity: BaseActivity<ActivityTutorial4Binding>(ActivityTutorial
         }, 4700L)
 
         // 다음 버튼 클릭 이벤트
-        binding.cvTutorial4Next.setOnClickListener {
-            // TODO: 튜토리얼5 화면으로 이동
-            showToast("버튼 클릭!")
+        binding.btnTutorial4Next.setOnClickListener {
+            // 튜토리얼5 화면으로 이동
+            startNextActivity(Tutorial5Activity::class.java)
         }
     }
 }

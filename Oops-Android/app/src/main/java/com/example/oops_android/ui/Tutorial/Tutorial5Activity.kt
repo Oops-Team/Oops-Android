@@ -65,8 +65,8 @@ class Tutorial5Activity: BaseActivity<ActivityTutorial5Binding>(ActivityTutorial
 
         // 다음 버튼 클릭 이벤트
         binding.btnTutorial5Next.setOnClickListener {
-            // TODO: FinishTutorial 화면으로 이동
-            showToast("버튼 클릭!")
+            // FinishTutorial 화면으로 이동
+            startNextActivity(FinishTutorialActivity::class.java)
         }
     }
 }
