@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 개인정보 수집 및 이용 동의 약관 바텀 시트 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/top_radius_30"
     tools:context=".ui.Login.TermsBottomSheetFragment">
@@ -105,14 +105,20 @@
     </LinearLayout>
 
     <!-- 다음 버튼 -->
-    <Button
-        android:id="@+id/btn_terms_bottom_sheet_next"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/WideButtonDisableStyle"
-        android:text="@string/btn_next"
         android:layout_marginTop="37dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="46dp"/>
+        android:layout_marginBottom="46dp"
+        app:cardCornerRadius="146dp"
+        app:cardElevation="0dp">
+        <Button
+            android:id="@+id/btn_terms_bottom_sheet_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonDisableStyle"
+            android:text="@string/btn_next"/>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.example.oops_android.ui.Login
 
-import android.content.res.ColorStateList
 import android.text.InputFilter
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -20,7 +19,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     override fun initAfterBinding() {
-
         // 화면 터치 시 키보드 숨기기
         binding.cLayoutSignUpTop.setOnClickListener {
             getHideKeyboard(binding.root)
@@ -71,7 +69,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         /** 닉네임 edt 입력 이벤트 **/
         binding.edtSignUpNickname.onTextChanged {
             // 다음 버튼 숨기기
-            binding.btnSignUp1Next.visibility = View.INVISIBLE
+            binding.cvSignUp1Next.visibility = View.INVISIBLE
 
             // 10자 미만 입력됐다면
             if (binding.edtSignUpNickname.length() in 1..6) {
@@ -122,7 +120,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         // 다음 버튼 띄우기
         // 등장 애니메이션 적용
         val inAnim = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_up)
-        binding.btnSignUp1Next.visibility = View.VISIBLE
-        binding.btnSignUp1Next.startAnimation(inAnim)
+        binding.cvSignUp1Next.visibility = View.VISIBLE
+        binding.cvSignUp1Next.startAnimation(inAnim)
     }
 }

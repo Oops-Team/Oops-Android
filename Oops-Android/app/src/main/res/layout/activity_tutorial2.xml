@@ -234,11 +234,17 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_tutorial_2_next"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/WideButtonDisableStyle"
-            android:text="@string/btn_next"/>
+            app:cardCornerRadius="146dp"
+            app:cardElevation="0dp">
+            <Button
+                android:id="@+id/btn_tutorial_2_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/WideButtonDisableStyle"
+                android:text="@string/btn_next"/>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </LinearLayout>

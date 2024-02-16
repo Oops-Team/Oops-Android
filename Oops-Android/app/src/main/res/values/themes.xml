@@ -70,7 +70,7 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
-        <item name="android:background">@drawable/wide_btn_bg</item>
+        <item name="android:background">@color/Main_500</item>
         <item name="android:outlineProvider">none</item>
     </style>
     <!-- Disable Wide 버튼 스타일 -->
@@ -83,8 +83,7 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
-        <item name="android:background">@drawable/wide_btn_bg</item>
-        <item name="android:backgroundTint">@color/Gray_200</item>
+        <item name="android:background">@color/Gray_200</item>
         <item name="android:outlineProvider">none</item>
     </style>
     <!-- Enable 팝업 버튼 스타일 -->

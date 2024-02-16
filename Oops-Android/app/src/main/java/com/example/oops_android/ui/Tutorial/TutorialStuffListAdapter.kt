@@ -66,4 +66,7 @@ class TutorialStuffListAdapter(val context: Context): RecyclerView.Adapter<Tutor
         }
         return count
     }
+
+    // 소지품 한개 반환하기
+    fun getStuffItem(position: Int): TutorialStuffItem = stuffList[position]
 }

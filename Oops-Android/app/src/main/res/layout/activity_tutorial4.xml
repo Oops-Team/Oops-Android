@@ -47,14 +47,20 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_tutorial_4_next"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_tutorial_4_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            style="@style/WideButtonEnableStyle"
-            android:backgroundTint="@color/Sub_Bg"
-            android:text="@string/btn_next"
-            android:textColor="@color/Main_500"/>
+            android:visibility="gone"
+            app:cardCornerRadius="146dp"
+            app:cardElevation="0dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/WideButtonEnableStyle"
+                android:backgroundTint="@color/Sub_Bg"
+                android:text="@string/btn_next"
+                android:textColor="@color/Main_500"/>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </LinearLayout>

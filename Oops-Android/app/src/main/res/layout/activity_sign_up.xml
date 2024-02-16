@@ -121,15 +121,22 @@
     </LinearLayout>
 
     <!-- 다음 버튼 -->
-    <Button
-        android:id="@+id/btn_sign_up_1_next"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_sign_up_1_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/WideButtonEnableStyle"
-        android:text="@string/btn_next"
         android:layout_marginBottom="40dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardCornerRadius="146dp"
+        app:cardElevation="0dp">
+        <Button
+            android:id="@+id/btn_sign_up_1_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonEnableStyle"
+            android:text="@string/btn_next" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

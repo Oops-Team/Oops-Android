@@ -76,11 +76,17 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_tutorial_3_next"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/WideButtonDisableStyle"
-            android:text="@string/btn_check_end"/>
+            app:cardCornerRadius="146dp"
+            app:cardElevation="0dp">
+            <Button
+                android:id="@+id/btn_tutorial_3_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/WideButtonDisableStyle"
+                android:text="@string/btn_check_end"/>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </LinearLayout>

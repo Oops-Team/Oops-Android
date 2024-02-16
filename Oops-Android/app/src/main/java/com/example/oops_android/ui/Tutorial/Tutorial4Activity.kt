@@ -15,7 +15,6 @@ class Tutorial4Activity: BaseActivity<ActivityTutorial4Binding>(ActivityTutorial
     }
 
     override fun initAfterBinding() {
-
         // gif 적용
         Glide.with(this)
             .load(R.raw.tutorial_gif)
@@ -27,13 +26,13 @@ class Tutorial4Activity: BaseActivity<ActivityTutorial4Binding>(ActivityTutorial
 
             // 다음 버튼 띄우기
             val inAnim = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_up)
-            binding.btnTutorial4Next.visibility = View.VISIBLE
-            binding.btnTutorial4Next.startAnimation(inAnim)
+            binding.cvTutorial4Next.visibility = View.VISIBLE
+            binding.cvTutorial4Next.startAnimation(inAnim)
 
         }, 4700L)
 
         // 다음 버튼 클릭 이벤트
-        binding.btnTutorial4Next.setOnClickListener {
+        binding.cvTutorial4Next.setOnClickListener {
             // TODO: 튜토리얼5 화면으로 이동
             showToast("버튼 클릭!")
         }
