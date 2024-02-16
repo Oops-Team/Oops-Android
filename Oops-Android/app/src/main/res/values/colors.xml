@@ -6,6 +6,7 @@
     <!-- Main color -->
     <color name="Main_500">#5F77E1</color>
     <color name="Main_400">#7F92E7</color>
+    <color name="Main_300">#B2BDF1</color>
     <color name="Main_200">#BFC9F3</color>
     <color name="Main_100">#DFE4F9</color>
     <color name="Main_50">#F7F8FD</color>

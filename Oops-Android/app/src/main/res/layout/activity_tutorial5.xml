@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/lLayout_tutorial_5_top"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Tutorial.Tutorial5Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:maxLines="2"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="26dp"
+            android:autoSizeMaxTextSize="30dp"
+            android:text="@string/tutorial_info_9"
+            android:textColor="@color/Black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:maxLines="1"
+            android:text="@string/tutorial_info_10"
+            android:textColor="@color/Gray_400"
+            android:layout_marginTop="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingTop="40dp"
+        android:paddingBottom="16dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_weight="4">
+
+        <!-- 할 일 박스 -->
+        <EditText
+            android:id="@+id/edt_tutorial_5_todo_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tutorial_info_11"
+            android:textColorHint="@color/Gray_300"
+            android:textColor="@color/Gray_900"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:background="@drawable/all_radius_12_tutorial"
+            android:maxLines="1"
+            android:maxLength="20"
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
+
+        <!-- 동적 할 일 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/lLayout_tutorial_5_todo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+        <!-- 할일 추가 -->
+        <ImageButton
+            android:id="@+id/iBtn_tutorial_5_todo_add"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_add_todo_24"
+            app:tint="@color/Main_200"
+            android:background="@drawable/all_radius_12"
+            android:backgroundTint="@color/Main_100"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="146dp"
+            app:cardElevation="0dp">
+            <Button
+                android:id="@+id/btn_tutorial_5_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                style="@style/WideButtonEnableStyle"
+                android:text="@string/btn_next"/>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</LinearLayout>

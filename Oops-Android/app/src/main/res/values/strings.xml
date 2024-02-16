@@ -166,6 +166,9 @@
     <string name="tutorial_info_6">그다음! 본격적으로\n소지품을 챙겨 볼까요?</string>
     <string name="tutorial_info_7">이중에 없는 건 추후에 추가될 예정이에요\n3개 이상 선택해 주세요</string>
     <string name="tutorial_info_8">선택된 물품을 토대로\n인벤토리를 만들어 드려요</string>
+    <string name="tutorial_info_9">이제 본격적으로\n일정을 등록해 주세요</string>
+    <string name="tutorial_info_10">일정에 맞춰서 챙길 소지품을 추천해드릴게요!</string>
+    <string name="tutorial_info_11">ex: 인천 공항 가기</string>
     <string name="tutorial_travel">여행</string>
     <string name="tutorial_daily">일상</string>
     <string name="tutorial_study">수업</string>
