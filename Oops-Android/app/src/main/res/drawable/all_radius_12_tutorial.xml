@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 튜토리얼5 화면에서 사용되는 EditText BG -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/White"/>
+    <corners android:radius="12dp"/>
+    <padding
+        android:top="13dp"
+        android:left="23dp"
+        android:right="23dp"
+        android:bottom="13dp"/>
+</shape>

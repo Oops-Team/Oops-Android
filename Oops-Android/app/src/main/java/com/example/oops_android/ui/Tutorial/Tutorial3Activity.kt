@@ -1,14 +1,14 @@
 package com.example.oops_android.ui.Tutorial
 
-import android.content.res.ColorStateList
-import androidx.core.content.ContextCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityTutorial3Binding
 import com.example.oops_android.ui.Base.BaseActivity
+import com.example.oops_android.utils.ButtonUtils
 
 class Tutorial3Activity: BaseActivity<ActivityTutorial3Binding>(ActivityTutorial3Binding::inflate) {
 
     private var isEnable = false // 다음 버튼 클릭 가능 여부
+    private var previousCount = 0 // 이전에 선택했던 아이템 개수
 
     override fun beforeSetContentView() {
     }
@@ -22,26 +22,32 @@ class Tutorial3Activity: BaseActivity<ActivityTutorial3Binding>(ActivityTutorial
         adapter.onStuffItemClickListener = { position ->
             adapter.setClickStuffItem(position)
 
-            // 선택된 소지품 개수가 3개 이상이라면
-            isEnable =
-                if (adapter.getClickedStuffList() >= 3) {
-                    // 다음 버튼 활성화
-                    binding.btnTutorial3Next.setTextAppearance(R.style.WideButtonEnableStyle)
-                    binding.btnTutorial3Next.backgroundTintList = ColorStateList.valueOf(getColor(R.color.Main_500))
-                    true
-                } else {
-                    // 다음 버튼 비활성화
-                    binding.btnTutorial3Next.setTextAppearance(R.style.WideButtonDisableStyle)
-                    binding.btnTutorial3Next.backgroundTintList = ColorStateList.valueOf(getColor(R.color.Gray_200))
-                    false
-                }
+            // 선택된 소지품 개수가 2 -> 3개라면
+            if (previousCount == 2 && adapter.getClickedStuffList() == 3) {
+                // 다음 버튼 활성화
+                ButtonUtils().setColorAnimation(binding.btnTutorial3Next)
+                isEnable = true
+            }
+            // 선택된 소지품 개수가 3개 미만이라면
+            else if (adapter.getClickedStuffList() <= 2) {
+                // 다음 버튼 비활성화
+                binding.btnTutorial3Next.setTextAppearance(R.style.WideButtonDisableStyle)
+                binding.btnTutorial3Next.setBackgroundColor(getColor(R.color.Gray_200))
+                isEnable = false
+            }
+
+            // 아이템을 선택한 경우
+            if (adapter.getStuffItem(position).isSelected)
+                ++previousCount
+            else
+                --previousCount
         }
 
         // 다음 버튼 클릭 이벤트
         binding.btnTutorial3Next.setOnClickListener {
             if (isEnable) {
-                // TODO: 튜토리얼4 화면으로 이동
-                showToast("다음 버튼 클릭!")
+                // 튜토리얼4 화면으로 이동
+                startNextActivity(Tutorial4Activity::class.java)
             }
         }
     }

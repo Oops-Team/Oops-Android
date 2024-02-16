@@ -1,6 +1,9 @@
 package com.example.oops_android.utils
 
+import android.animation.AnimatorInflater
 import android.text.method.HideReturnsTransformationMethod
+import android.view.View
+import com.example.oops_android.ApplicationClass.Companion.applicationContext
 import android.widget.EditText
 import android.widget.ImageButton
 import com.example.oops_android.R
@@ -23,5 +26,19 @@ class ButtonUtils {
             pwdEdt.transformationMethod = HideReturnsTransformationMethod.getInstance() // 비밀번호 보여주기
         }
         pwdEdt.setSelection(pwdEdt.length()) // 커서를 끝으로 이동
+    }
+
+    // 튜토리얼 화면에서 사용하는 버튼 색상 전환 애니메이션 함수
+    fun setColorAnimation(view: View) {
+        val intervalBgAnimation = AnimatorInflater.loadAnimator(applicationContext(), R.animator.object_animator_tutorial_button)
+        intervalBgAnimation.setTarget(view)
+        intervalBgAnimation.start()
+    }
+
+    // 대부분의 화면에서 사용하는 버튼 색상 전환 애니메이션 함수
+    fun setAllColorAnimation(view: View) {
+        val intervalBgAnimation = AnimatorInflater.loadAnimator(applicationContext(), R.animator.object_animator_button)
+        intervalBgAnimation.setTarget(view)
+        intervalBgAnimation.start()
     }
 }

@@ -7,23 +7,20 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityTutorial2Binding
 import com.example.oops_android.ui.Base.BaseActivity
+import com.example.oops_android.utils.ButtonUtils
 
 class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial2Binding::inflate) {
 
     private var isClickView: Boolean = false
+    private var clickCount = 0
 
     override fun beforeSetContentView() {
     }
 
     override fun initAfterBinding() {
-        // 상단 상태바 설정
-        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.Gray_50)
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-
         // 여행 버튼 클릭
         binding.fLayoutTutorial2Travel.setOnClickListener {
             setClickTagBg(binding.fLayoutTutorial2Travel, binding.tvTutorial2Travel, binding.ivTutorial2Travel)
@@ -33,7 +30,10 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
                 binding.fLayoutTutorial2Exercise, binding.tvTutorial2Exercise, binding.ivTutorial2Exercise
             )
             isClickView = true
-            updateNextBtnBg()
+            ++clickCount
+            if (clickCount == 1) {
+                updateNextBtnBg()
+            }
         }
 
         // 일상 버튼 클릭
@@ -45,7 +45,10 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
                 binding.fLayoutTutorial2Exercise, binding.tvTutorial2Exercise, binding.ivTutorial2Exercise
             )
             isClickView = true
-            updateNextBtnBg()
+            ++clickCount
+            if (clickCount == 1) {
+                updateNextBtnBg()
+            }
         }
 
         // 수업 버튼 클릭
@@ -57,7 +60,10 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
                 binding.fLayoutTutorial2Exercise, binding.tvTutorial2Exercise, binding.ivTutorial2Exercise
             )
             isClickView = true
-            updateNextBtnBg()
+            ++clickCount
+            if (clickCount == 1) {
+                updateNextBtnBg()
+            }
         }
 
         // 운동 버튼 클릭
@@ -69,7 +75,10 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
                 binding.fLayoutTutorial2Study, binding.tvTutorial2Study, binding.ivTutorial2Study
             )
             isClickView = true
-            updateNextBtnBg()
+            ++clickCount
+            if (clickCount == 1) {
+                updateNextBtnBg()
+            }
         }
 
         // 다음 버튼 클릭 이벤트
@@ -82,10 +91,7 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
 
     // 다음 버튼 디자인 업데이트
     private fun updateNextBtnBg() {
-        binding.btnTutorial2Next.apply {
-            backgroundTintList = ColorStateList.valueOf(getColor(R.color.Main_500))
-            setTextColor(ColorStateList.valueOf(getColor(R.color.White)))
-        }
+        ButtonUtils().setColorAnimation(binding.btnTutorial2Next)
     }
 
     // 태그 클릭 이벤트 함수

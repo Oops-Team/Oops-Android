@@ -3,43 +3,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cLayout_home_stuff_top"
-    android:layout_width="88dp"
-    android:layout_height="112dp"
+    android:layout_width="86dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="11dp"
     android:paddingStart="6dp"
     android:paddingEnd="6dp"
     android:paddingBottom="7dp"
-    android:layout_marginStart="12dp"
+    android:layout_marginStart="13dp"
     android:background="@drawable/all_radius_08">
 
     <!-- 소지품 사진 -->
     <ImageView
         android:id="@+id/iv_home_stuff"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_ex_img"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
     <!-- 소지품 이름 -->
     <TextView
         android:id="@+id/tv_home_stuff_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="12sp"
+        style="@style/Button3_Active"
         android:textColor="@color/White"
-        android:fontFamily="@font/pretendard_regular"
         android:maxLines="1"
         android:ellipsize="end"
         android:background="@drawable/all_radius_50"
-        android:backgroundTint="@color/Main_500"
-        android:padding="4dp"
+        android:backgroundTint="@color/Main_400"
+        android:layout_marginTop="7dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/iv_home_stuff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

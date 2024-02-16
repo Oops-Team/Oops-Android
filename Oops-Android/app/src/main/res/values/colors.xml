@@ -5,7 +5,8 @@
     <color name="White">#FFFFFF</color>
     <!-- Main color -->
     <color name="Main_500">#5F77E1</color>
-    <color name="Main_400">#99A8EC</color>
+    <color name="Main_400">#7F92E7</color>
+    <color name="Main_300">#B2BDF1</color>
     <color name="Main_200">#BFC9F3</color>
     <color name="Main_100">#DFE4F9</color>
     <color name="Main_50">#F7F8FD</color>
@@ -16,6 +17,7 @@
     <color name="Red_Dark">#F05D0D</color>
     <color name="Red_Medium">#F58D55</color>
     <color name="Red_Light">#FCE2D4</color>
+    <color name="Sub_Bg">#FBF8F6</color>
     <!-- GrayScale -->
     <color name="Gray_900">#111827</color>
     <color name="Gray_500">#6B7280</color>

@@ -11,6 +11,7 @@
     <string name="btn_wonder">궁금해요! 알려 주세요</string>
     <string name="btn_start">바로 시작할게요</string>
     <string name="btn_check_end">다 체크했어요</string>
+    <string name="btn_welcome">Oops 시작하기</string>
     <!-- 로그인 -->
     <string name="login_email">ID(E-mail)</string>
     <string name="login_email_alert">입력된 이메일이 올바르지 않아요</string>
@@ -165,6 +166,14 @@
     <string name="tutorial_info_5">나중엔 내 마음대로 추가할 수 있어요</string>
     <string name="tutorial_info_6">그다음! 본격적으로\n소지품을 챙겨 볼까요?</string>
     <string name="tutorial_info_7">이중에 없는 건 추후에 추가될 예정이에요\n3개 이상 선택해 주세요</string>
+    <string name="tutorial_info_8">선택된 물품을 토대로\n인벤토리를 만들어 드려요</string>
+    <string name="tutorial_info_9">이제 본격적으로\n일정을 등록해 주세요</string>
+    <string name="tutorial_info_10">일정에 맞춰서 챙길 소지품을 추천해드릴게요!</string>
+    <string name="tutorial_info_11">ex: 인천 공항 가기</string>
+    <string name="tutorial_info_12">입력된 일정에 맞게\n소지품을 추천해드려요!</string>
+    <string name="tutorial_info_13">님은 터치만!</string>
+    <string name="tutorial_info_14">추천된 인벤토리예요</string>
+    <string name="tutorial_info_15">인벤토리에 있는 소지품은 언제든지 수정 가능해요</string>
     <string name="tutorial_travel">여행</string>
     <string name="tutorial_daily">일상</string>
     <string name="tutorial_study">수업</string>
@@ -197,7 +206,7 @@
     <string name="todo_remind_4">한시간전</string>
     <string name="todo_remind_5">하루전</string>
     <!-- 인벤토리 -->
-    <string name="inventory_info">위 버튼을 눌러 소지품을 담아 주세요</string>
+    <string name="inventory_info">위 버튼을 눌러\n소지품을 담아 주세요</string>
     <string name="inventory_all">ALL</string>
     <string name="inventory_create">Create</string>
     <!-- 콕콕 찌르기 -->

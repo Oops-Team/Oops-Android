@@ -20,20 +20,6 @@ class TutorialActivity: BaseActivity<ActivityTutorialBinding>(ActivityTutorialBi
 
     @SuppressLint("SetTextI18n")
     override fun initAfterBinding() {
-        /* 상태바 숨기기
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        }
-        else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }*/
-
-        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.Main_500) // 상단 상태바 색상
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-
         // 일부 텍스트 색상 지정
         val spannableBuilder1 = SpannableStringBuilder(binding.tvTutorialOops.text.toString())
         val colorWhite = ForegroundColorSpan(getColor(R.color.White))
