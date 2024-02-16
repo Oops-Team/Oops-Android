@@ -3,6 +3,7 @@ package com.example.oops_android.ui.Login
 import android.content.res.ColorStateList
 import android.text.InputFilter
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -118,6 +119,10 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         //val confirmBtn = ContextCompat.getDrawable(applicationContext, R.drawable.ic_confirm_25)
         //edt.setCompoundDrawablesWithIntrinsicBounds(null, null, confirmBtn, null)
 
-        binding.btnSignUp1Next.visibility = View.VISIBLE // 다음 버튼 활성화
+        // 다음 버튼 띄우기
+        // 등장 애니메이션 적용
+        val inAnim = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_up)
+        binding.btnSignUp1Next.visibility = View.VISIBLE
+        binding.btnSignUp1Next.startAnimation(inAnim)
     }
 }
