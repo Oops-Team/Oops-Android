@@ -1,5 +1,8 @@
 package com.example.oops_android.ui.Login
 
+import android.os.Build
+import android.view.WindowInsets
+import android.view.WindowManager
 import com.example.oops_android.databinding.ActivityLoginBinding
 import com.example.oops_android.ui.Base.BaseActivity
 import com.example.oops_android.utils.ButtonUtils
@@ -13,6 +16,16 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     }
 
     override fun initAfterBinding() {
+        // status bar 숨기기
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }
+        else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
 
         // 비밀번호 mask의 메소드(스타일) 지정
         binding.edtLoginPwd.transformationMethod = CustomPasswordTransformationMethod()
