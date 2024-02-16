@@ -206,7 +206,7 @@
     <string name="todo_remind_4">한시간전</string>
     <string name="todo_remind_5">하루전</string>
     <!-- 인벤토리 -->
-    <string name="inventory_info">위 버튼을 눌러 소지품을 담아 주세요</string>
+    <string name="inventory_info">위 버튼을 눌러\n소지품을 담아 주세요</string>
     <string name="inventory_all">ALL</string>
     <string name="inventory_create">Create</string>
     <!-- 콕콕 찌르기 -->
