@@ -81,10 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/WideButtonDisableStyle"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:text="@string/btn_check_end"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 아래 -> 위 등장 -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 속도, 시작 좌표, 종료 좌표, 애니메이션 종료 후 위치 유지 여부 -->
+    <translate
+        android:duration="1500"
+        android:fromYDelta="100%"
+        android:toYDelta="0%"
+        android:fillAfter="true"/>
+</set>

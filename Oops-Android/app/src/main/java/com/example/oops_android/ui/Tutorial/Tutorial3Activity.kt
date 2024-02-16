@@ -45,8 +45,8 @@ class Tutorial3Activity: BaseActivity<ActivityTutorial3Binding>(ActivityTutorial
         // 다음 버튼 클릭 이벤트
         binding.btnTutorial3Next.setOnClickListener {
             if (isEnable) {
-                // TODO: 튜토리얼4 화면으로 이동
-                showToast("다음 버튼 클릭!")
+                // 튜토리얼4 화면으로 이동
+                startNextActivity(Tutorial4Activity::class.java)
             }
         }
     }

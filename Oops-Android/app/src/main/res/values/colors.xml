@@ -16,6 +16,7 @@
     <color name="Red_Dark">#F05D0D</color>
     <color name="Red_Medium">#F58D55</color>
     <color name="Red_Light">#FCE2D4</color>
+    <color name="Sub_Bg">#FBF8F6</color>
     <!-- GrayScale -->
     <color name="Gray_900">#111827</color>
     <color name="Gray_500">#6B7280</color>

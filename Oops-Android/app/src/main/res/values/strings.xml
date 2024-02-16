@@ -165,6 +165,7 @@
     <string name="tutorial_info_5">나중엔 내 마음대로 추가할 수 있어요</string>
     <string name="tutorial_info_6">그다음! 본격적으로\n소지품을 챙겨 볼까요?</string>
     <string name="tutorial_info_7">이중에 없는 건 추후에 추가될 예정이에요\n3개 이상 선택해 주세요</string>
+    <string name="tutorial_info_8">선택된 물품을 토대로\n인벤토리를 만들어 드려요</string>
     <string name="tutorial_travel">여행</string>
     <string name="tutorial_daily">일상</string>
     <string name="tutorial_study">수업</string>

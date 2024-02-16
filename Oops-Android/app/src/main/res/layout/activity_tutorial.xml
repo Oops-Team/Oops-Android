@@ -103,7 +103,7 @@
             style="@style/WideButtonDisableStyle"
             android:text="@string/btn_wonder"
             android:textColor="@color/Main_500"
-            android:backgroundTint="@color/White"/>
+            android:backgroundTint="@color/Sub_Bg"/>
 
         <Button
             android:id="@+id/btn_tutorial_start"
