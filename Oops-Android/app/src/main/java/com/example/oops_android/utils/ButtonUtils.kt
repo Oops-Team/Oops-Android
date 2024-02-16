@@ -28,8 +28,15 @@ class ButtonUtils {
         pwdEdt.setSelection(pwdEdt.length()) // 커서를 끝으로 이동
     }
 
-    // 버튼 색상 전환 애니메이션 함수
+    // 튜토리얼 화면에서 사용하는 버튼 색상 전환 애니메이션 함수
     fun setColorAnimation(view: View) {
+        val intervalBgAnimation = AnimatorInflater.loadAnimator(applicationContext(), R.animator.object_animator_tutorial_button)
+        intervalBgAnimation.setTarget(view)
+        intervalBgAnimation.start()
+    }
+
+    // 대부분의 화면에서 사용하는 버튼 색상 전환 애니메이션 함수
+    fun setAllColorAnimation(view: View) {
         val intervalBgAnimation = AnimatorInflater.loadAnimator(applicationContext(), R.animator.object_animator_button)
         intervalBgAnimation.setTarget(view)
         intervalBgAnimation.start()

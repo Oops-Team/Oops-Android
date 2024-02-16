@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 튜토리얼 - 버튼 색상 변경 애니메이션-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:propertyName="backgroundColor"
+        android:duration="500"
+        android:valueFrom="@color/Gray_200"
+        android:valueTo="@color/Main_500"
+        android:valueType="colorType"/>
+    <objectAnimator
+        android:propertyName="textColor"
+        android:duration="500"
+        android:valueFrom="@color/Gray_400"
+        android:valueTo="@color/White"
+        android:valueType="colorType"/>
+</set>
