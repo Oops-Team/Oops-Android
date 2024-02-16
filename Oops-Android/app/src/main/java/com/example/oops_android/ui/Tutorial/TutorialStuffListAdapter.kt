@@ -13,7 +13,7 @@ class TutorialStuffListAdapter(val context: Context): RecyclerView.Adapter<Tutor
     private var stuffList: ArrayList<TutorialStuffItem> = arrayListOf(
         TutorialStuffItem(R.drawable.stuff_computer_img, context.getString(R.string.stuff_sunglasses), false),
         TutorialStuffItem(R.drawable.stuff_diary_img, context.getString(R.string.stuff_diary), false),
-        TutorialStuffItem(R.color.White, context.getString(R.string.stuff_hand_cream), false),
+        TutorialStuffItem(R.drawable.stuff_handcream_img, context.getString(R.string.stuff_hand_cream), false),
         TutorialStuffItem(R.drawable.stuff_notebook_img, context.getString(R.string.stuff_notebook), false),
         TutorialStuffItem(R.drawable.stuff_artificial_tears_img, context.getString(R.string.stuff_artificial_tears), false),
         TutorialStuffItem(R.drawable.stuff_menstrual_products_img, context.getString(R.string.stuff_menstrual_products), false),

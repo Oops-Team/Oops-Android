@@ -38,7 +38,7 @@ class TutorialStuffListViewHolder(val context: Context, val binding: ItemTutoria
             stuffImg.clearColorFilter()
 
             //stuffCv.setCardBackgroundColor(ColorStateList.valueOf(context.getColor(R.color.Main_500)))
-            stuffName.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.Main_500))
+            stuffName.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.Main_400))
             stuffName.setTextAppearance(R.style.Button3_Active)
             stuffName.setTextColor(ColorStateList.valueOf(context.getColor(R.color.White)))
         }

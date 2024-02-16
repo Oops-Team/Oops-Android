@@ -2,6 +2,7 @@ package com.example.oops_android.ui.Tutorial
 
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
 import com.example.oops_android.databinding.ActivityTutorial3Binding
 import com.example.oops_android.ui.Base.BaseActivity
@@ -14,6 +15,10 @@ class Tutorial3Activity: BaseActivity<ActivityTutorial3Binding>(ActivityTutorial
     }
 
     override fun initAfterBinding() {
+        // 상단 상태바 설정
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.Gray_50)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        
         // 소지품 리스트 연결
         val adapter = TutorialStuffListAdapter(this)
         binding.rvTutorial3Stuff.adapter = adapter
