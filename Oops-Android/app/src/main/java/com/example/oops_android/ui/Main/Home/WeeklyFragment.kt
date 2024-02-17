@@ -100,46 +100,43 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             weeklyAdapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
         }
 
-        // TODO: 챙겨야 할 것 텍스트를 클릭하면 다른 뷰들 보이게 만들기
-        binding.tvHomeStuffTemp.setOnClickListener {
-            // 수정 버튼 띄우기
-            binding.ivHomeEdit.visibility = View.VISIBLE
+        // 수정 버튼 띄우기
+        binding.ivHomeEdit.visibility = View.VISIBLE
 
-            // 챙겨야 할 것 목록
-            // TODO:: 챙겨야 할 것 목록(임시 데이터)
-            stuffAdapter = StuffListAdapter(requireContext())
-            binding.rvHomeStuff.adapter = stuffAdapter
-            binding.tvHomeStuffDefault.visibility = View.GONE
-            stuffAdapter?.addStuffList(StuffItem(1, R.drawable.ex_head, "헤드셋"))
-            stuffAdapter?.addStuffList(StuffItem(2, R.drawable.ex_wallet, "지갑"))
-            stuffAdapter?.addStuffList(StuffItem(3, R.drawable.ex_keyboard, "키보드"))
-            stuffAdapter?.addStuffList(StuffItem(4, R.drawable.ex_diary, "다이어리"))
+        // 챙겨야 할 것 목록
+        // TODO:: 챙겨야 할 것 목록(임시 데이터)
+        stuffAdapter = StuffListAdapter(requireContext())
+        binding.rvHomeStuff.adapter = stuffAdapter
+        binding.tvHomeStuffDefault.visibility = View.GONE
+        stuffAdapter?.addStuffList(StuffItem(1, R.drawable.ex_head, "헤드셋"))
+        stuffAdapter?.addStuffList(StuffItem(2, R.drawable.ex_wallet, "지갑"))
+        stuffAdapter?.addStuffList(StuffItem(3, R.drawable.ex_keyboard, "키보드"))
+        stuffAdapter?.addStuffList(StuffItem(4, R.drawable.ex_diary, "다이어리"))
 
-            // 일정 목록
-            todoAdapter = TodoListAdapter(requireContext())
-            binding.rvHomeTodo.adapter = todoAdapter
-            // TODO:: 일정 목록(임시 데이터)
-            binding.lLayoutHomeTodoDefault.visibility = View.GONE
-            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-            todoAdapter?.addTodoList(TodoItem(1, "일정 이름1", false))
-            todoAdapter?.addTodoList(TodoItem(2, "일정 이름2", false))
-            todoAdapter?.addTodoList(TodoItem(3, "일정 이름3", true))
-            todoAdapter?.addTodoList(TodoItem(4, "일정 이름4", true))
-            todoAdapter?.addTodoList(TodoItem(5, "일정 이름5", true))
-            todoAdapter?.addTodoList(TodoItem(6, "일정 이름6", true))
-            todoAdapter?.addTodoList(TodoItem(7, "일정 이름7", true))
-            todoAdapter?.addTodoList(TodoItem(8, "일정 이름8", true))
-            todoAdapter?.addTodoList(TodoItem(9, "일정 이름9", true))
-            todoAdapter?.addTodoList(TodoItem(10, "일정 이름10", true))
+        // 일정 목록
+        todoAdapter = TodoListAdapter(requireContext())
+        binding.rvHomeTodo.adapter = todoAdapter
+        // TODO:: 일정 목록(임시 데이터)
+        binding.lLayoutHomeTodoDefault.visibility = View.GONE
+        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+        todoAdapter?.addTodoList(TodoItem(1, "일정 이름1", false))
+        todoAdapter?.addTodoList(TodoItem(2, "일정 이름2", false))
+        todoAdapter?.addTodoList(TodoItem(3, "일정 이름3", true))
+        todoAdapter?.addTodoList(TodoItem(4, "일정 이름4", true))
+        todoAdapter?.addTodoList(TodoItem(5, "일정 이름5", true))
+        todoAdapter?.addTodoList(TodoItem(6, "일정 이름6", true))
+        todoAdapter?.addTodoList(TodoItem(7, "일정 이름7", true))
+        todoAdapter?.addTodoList(TodoItem(8, "일정 이름8", true))
+        todoAdapter?.addTodoList(TodoItem(9, "일정 이름9", true))
+        todoAdapter?.addTodoList(TodoItem(10, "일정 이름10", true))
 
-            // 오늘 할 일 태그 동적 생성
-            val tagList = arrayListOf<String>()
-            tagList.add("일상")
-            tagList.add("취미")
-            tagList.add("운동")
+        // 오늘 할 일 태그 동적 생성
+        val tagList = arrayListOf<String>()
+        tagList.add("일상")
+        tagList.add("취미")
+        tagList.add("운동")
 
-            setTodoTag(tagList)
-        }
+        setTodoTag(tagList)
 
         // 월간 캘린더
         binding.mcvHomeMonthlyCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
