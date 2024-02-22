@@ -390,12 +390,21 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
         deleteBtn.setOnClickListener {
             popupWindow.dismiss()
-
+            
             // 선택한 아이템 정보 가져오기
             val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
 
             // 아이템 삭제
             todoAdapter?.deleteTodoList(todoItem)
+
+//            val itemList = todoAdapter?.getAllTodoList()
+//            for (i in 0 until itemList!!.size) {
+//                if (itemList[i].todoName == tv.text.toString()) {
+//                    // 아이템 삭제
+//                    todoAdapter?.deleteTodoList(i)
+//                    break
+//                }
+//            }
 
             // 만약 아이템이 아예 없다면
             if (todoAdapter?.itemCount == 0) {
