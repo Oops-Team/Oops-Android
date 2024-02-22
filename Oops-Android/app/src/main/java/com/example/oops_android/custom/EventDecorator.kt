@@ -11,10 +11,10 @@ import com.prolificinteractive.materialcalendarview.spans.DotSpan
 class EventDecorator(
     val context: Context,
     private val eventColor: Int,
-    private val dates: MutableList<CalendarDay>
+    private val date: CalendarDay
 ): DayViewDecorator {
 
-    override fun shouldDecorate(day: CalendarDay?): Boolean = dates.contains(day)
+    override fun shouldDecorate(day: CalendarDay?): Boolean = day?.equals(date)!!
 
     override fun decorate(view: DayViewFacade?) {
         // 각 색상에 맞춰서 날짜 밑에 dot 찍기

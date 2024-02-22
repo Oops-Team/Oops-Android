@@ -3,6 +3,7 @@ package com.example.oops_android.ui.Main.Home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputFilter
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import com.example.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -59,11 +61,11 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         // 바텀 네비게이션 보이기
         mainActivity?.hideBnv(false)
 
-        // 주간 달력 어댑터
+        // 주간 캘린더 어댑터
         weeklyAdapter = CalendarWeeklyAdapter(requireContext())
         binding.rvHomeWeeklyCalendar.adapter = weeklyAdapter
 
-        // 달력 내의 아이템 중앙 정렬
+        // 주간 캘린더 내의 아이템 중앙 정렬
         FlexboxLayoutManager(requireContext()).apply {
             justifyContent = JustifyContent.SPACE_AROUND // 축 기준 정렬 방향
         }.let {
@@ -71,38 +73,18 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             binding.rvHomeWeeklyCalendar.adapter = weeklyAdapter
         }
 
-        // 요일 배열
-        val weekDayList: Array<String> = resources.getStringArray(R.array.calendar_week_array)
-
-        // 날짜 포맷
-        val fullDateFormate = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val dateFormate = DateTimeFormatter.ofPattern("dd")
-
-        // 오늘 날짜 가져오기
-        val today: String = CalendarUtils.getTodayDateList()[0].toString()
-
         // 일주일의 시작 날짜 가져오기
         val weekDate = CalendarUtils.getTodayDateList()[1] as LocalDateTime
 
-        for (i in 0..6) {
-            var isSelected = false
-            var isToday = false
-            val fullDate = weekDate.plusDays(i.toLong()).format(fullDateFormate)
-            val date = weekDate.plusDays(i.toLong()).format(dateFormate)
+        // 주간 캘린더 설정
+        setWeeklyCalendar(weekDate)
 
-            // 오늘 날짜라면 true
-            if (fullDate == today) {
-                isSelected = true
-                isToday = true
-            }
+        // 월간 캘린더
+        binding.mcvHomeMonthlyCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
+        setCalendarTodoState()
+    }
 
-            // 값 넣기
-            weeklyAdapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
-        }
-
-        // 수정 버튼 띄우기
-        binding.ivHomeEdit.visibility = View.VISIBLE
-
+    override fun initAfterBinding() {
         // 챙겨야 할 것 목록
         // TODO:: 챙겨야 할 것 목록(임시 데이터)
         stuffAdapter = StuffListAdapter(requireContext())
@@ -130,6 +112,12 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         todoAdapter?.addTodoList(TodoItem(9, "일정 이름9", true))
         todoAdapter?.addTodoList(TodoItem(10, "일정 이름10", true))
 
+        // 일정이 있다면
+        if (todoAdapter?.itemCount!! >= 1)
+        {
+            binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+        }
+
         // 오늘 할 일 태그 동적 생성
         val tagList = arrayListOf<String>()
         tagList.add("일상")
@@ -137,17 +125,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         tagList.add("운동")
 
         setTodoTag(tagList)
-
-        // 월간 캘린더
-        binding.mcvHomeMonthlyCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
-        setCalendarTodoState()
-    }
-
-    override fun initAfterBinding() {
-        // 주간 날짜 클릭 이벤트
-        weeklyAdapter?.onItemClickListener = { position ->
-            weeklyAdapter?.setDateSelected(position)
-        }
 
         // 월간 캘린더 - 오늘 날짜 표시
         val todayDecorator = TodayDecorator(requireContext())
@@ -162,22 +139,80 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
         // 월간 캘린더 - 달이 바뀔 때마다 dot 바꿔주기
         binding.mcvHomeMonthlyCalendarview.setOnMonthChangedListener { widget, date ->
+            // 기존에 설정되어 있던 decorators 초기화
+            //binding.mcvHomeMonthlyCalendarview.removeDecorators()
+            //binding.mcvHomeMonthlyCalendarview.invalidateDecorators()
 
+            // TODO: 현재 보이는 년도 & 월에 맞게 API 연동
+            Log.d("현재 보이는 날짜 정보", date.year.toString() + date.month.toString())
+
+            // api에서 리스트 가져오기
+            val list = ArrayList<MonthlyItem>()
+            list.add(MonthlyItem(LocalDate.of(2024, 3, 5), false))
+            list.add(MonthlyItem(LocalDate.of(2024, 3, 10), true))
+            list.add(MonthlyItem(LocalDate.of(2024, 3, 15), false))
+            list.add(MonthlyItem(LocalDate.of(2024, 3, 20), true))
+
+            // 새로운 decorators 추가
+            for (i in 0 until list.size) {
+                // LocalDate값 파싱하기
+                val day: CalendarDay = CalendarDay.from(list[i].date.year, list[i].date.monthValue, list[i].date.dayOfMonth)
+                // 완료된 일정이라면
+                if (list[i].isComplete) {
+                    val eventDecorator = EventDecorator(requireContext(), R.color.Main_500, day)
+                    binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+                }
+                else {
+                    val eventDecorator = EventDecorator(requireContext(), R.color.Main_400, day)
+                    binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+                }
+            }
+        }
+
+        // 주간 날짜 클릭 이벤트
+        weeklyAdapter?.onItemClickListener = { position ->
+            weeklyAdapter?.setDateSelected(position)
         }
 
         // 캘린더 버튼 클릭 이벤트
         binding.ivHomeSwitchCalendar.setOnClickListener {
+            // 주간 -> 월간
             if (isWeeklyCalendar) {
                 binding.rvHomeWeeklyCalendar.visibility = View.GONE
                 binding.mcvHomeMonthlyCalendarview.visibility = View.VISIBLE
                 binding.lLayoutWeeklyWeek.visibility = View.VISIBLE
                 isWeeklyCalendar = false
+
+                // 선택되어 있는 날짜 정보 가져오기
+                val fullDate = weeklyAdapter?.getSelectedDate()?.fullDate
+                val dateFormatList = fullDate.toString().split("-") // 정보 분리
+
+                // 선택되어 있는 날짜 정보를 월간 캘린더에 적용하기
+                binding.mcvHomeMonthlyCalendarview.selectedDate = CalendarDay.from(dateFormatList[0].toInt(), dateFormatList[1].toInt(), dateFormatList[2].toInt())
+                val decorator = SelectedDecorator(requireContext(), binding.mcvHomeMonthlyCalendarview.selectedDate)
+                binding.mcvHomeMonthlyCalendarview.addDecorator(decorator)
+
+                // 월간 캘린더의 월 여부 적용하기
+                binding.mcvHomeMonthlyCalendarview.setCurrentDate(binding.mcvHomeMonthlyCalendarview.selectedDate)
             }
+            // 월간 -> 주간
             else {
                 binding.rvHomeWeeklyCalendar.visibility = View.VISIBLE
                 binding.mcvHomeMonthlyCalendarview.visibility = View.GONE
                 binding.lLayoutWeeklyWeek.visibility = View.GONE
                 isWeeklyCalendar = true
+
+                // 선택되어 있는 날짜 정보 가져오기
+                val fullDate = binding.mcvHomeMonthlyCalendarview.selectedDate!!
+
+                // 선택된 날짜의 일주일 시작 날짜 정보 찾기
+                val weekDate = CalendarUtils.getStartDate(LocalDate.of(fullDate.year, fullDate.month, fullDate.day))
+
+                // 현재 선택되어 있는 날짜 정보를 주간 캘린더에 적용하기
+                weeklyAdapter?.resetWeeklyList() // 리스트 초기화
+                setWeeklyCalendar(weekDate) // 주간 캘린더 날짜 설정
+                val date = LocalDate.of(fullDate.year, fullDate.month, fullDate.day)
+                weeklyAdapter?.setDateSelected(weeklyAdapter!!.getItemIndex(date.toString())) // 선택된 날짜 설정
             }
         }
 
@@ -224,13 +259,45 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
     }
 
+    // 주간 캘린더 설정 함수
+    private fun setWeeklyCalendar(weekDate: LocalDateTime) {
+        // 날짜 포맷
+        val fullDateFormate = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateFormate = DateTimeFormatter.ofPattern("dd")
+
+        // 오늘 날짜 가져오기
+        val today: String = CalendarUtils.getTodayDateList()[0].toString()
+
+        // 요일 배열
+        val weekDayList: Array<String> = resources.getStringArray(R.array.calendar_week_array)
+
+        for (i in 0..6) {
+            var isSelected = false
+            var isToday = false
+            val fullDate = weekDate.plusDays(i.toLong()).format(fullDateFormate)
+            val date = weekDate.plusDays(i.toLong()).format(dateFormate)
+
+            Log.d("weeklyFragment 함수 for문 ", fullDate.toString())
+
+            // 오늘 날짜라면 true
+            if (fullDate == today) {
+                isSelected = true
+                isToday = true
+            }
+
+            // 값 넣기
+            weeklyAdapter?.addWeeklyList(CalendarIWeeklytem(weekDayList[i], date, fullDate, isSelected, isToday))
+        }
+    }
+
     // 월간 캘린더 - 일정 상태 표시
     private fun setCalendarTodoState() {
         val dates = mutableListOf<CalendarDay>()
         dates.add(CalendarDay.today())
-        dates.add(CalendarDay.from(2024, 1, 24))
-        val eventDecorator = EventDecorator(requireContext(), R.color.Main_100, dates)
-        binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+        for (i in dates) {
+            val eventDecorator = EventDecorator(requireContext(), R.color.Main_100, i)
+            binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+        }
     }
 
     // 오늘 할 일 태그 구현 함수

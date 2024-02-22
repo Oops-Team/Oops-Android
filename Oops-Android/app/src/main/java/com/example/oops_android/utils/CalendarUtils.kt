@@ -2,6 +2,7 @@ package com.example.oops_android.utils
 
 import java.time.DayOfWeek
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.temporal.TemporalAdjusters
@@ -38,6 +39,13 @@ class CalendarUtils {
 
             return arrayOf(todayList[0], weekDate)
 
+        }
+
+        // 입력한 날짜의 시작 날짜 구하기
+        fun getStartDate(date: LocalDate): LocalDateTime {
+            val localDateTime: LocalDateTime = date.atStartOfDay() // LocalDateTime으로 만들기
+
+            return localDateTime.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
         }
     }
 }
