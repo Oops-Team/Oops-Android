@@ -1,7 +1,7 @@
 package com.example.oops_android.ui.Main.Inventory
 
+import android.annotation.SuppressLint
 import android.view.View
-import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
@@ -21,6 +21,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         WindowInsetsControllerCompat(mainActivity!!.window, mainActivity!!.window.decorView).isAppearanceLightStatusBars = true
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initAfterBinding() {
         // 카테고리 적용
         val categoryAdapter = InventoryCategoryListAdapter(requireContext())
@@ -70,18 +71,17 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_charger_img, "충전기"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_umbrella_img, "우산"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_wallet_img, "지갑"))
+        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_handcream_img, "핸드크림"))
+        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_sunglasses_img, "선글라스"))
+        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_alcohol_swap_img, "알콜스왑"))
+        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_mouse_img, "마우스"))
         binding.rvInventoryStuff.adapter = stuffAdapter
-
-        binding.rvInventoryStuff.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener() {
-            val width = binding.rvInventoryStuff.width / 2
-        })
 
         // 소지품 아이템이 있다면
         if (stuffAdapter.itemCount >= 1) {
             binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
             binding.tvInventoryStuffNum.visibility = View.VISIBLE
+            binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/77"
         }
-
-
     }
 }

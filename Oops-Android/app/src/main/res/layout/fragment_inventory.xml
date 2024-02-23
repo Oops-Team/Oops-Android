@@ -131,7 +131,8 @@
                     tools:listitem="@layout/item_inventory_stuff_box_rv"
                     app:layout_constraintTop_toBottomOf="@id/tv_inventory_stuff_num"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <!-- 소지품이 없을 때의 default 레이아웃 -->
                 <LinearLayout
