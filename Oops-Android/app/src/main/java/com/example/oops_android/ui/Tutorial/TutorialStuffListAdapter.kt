@@ -11,7 +11,7 @@ import com.example.oops_android.databinding.ItemTutorialStuffBinding
 class TutorialStuffListAdapter(val context: Context): RecyclerView.Adapter<TutorialStuffListViewHolder>() {
     // 소지품 목록
     private var stuffList: ArrayList<TutorialStuffItem> = arrayListOf(
-        TutorialStuffItem(R.drawable.stuff_computer_img, context.getString(R.string.stuff_sunglasses), false),
+        TutorialStuffItem(R.drawable.stuff_computer_img, context.getString(R.string.stuff_computer), false),
         TutorialStuffItem(R.drawable.stuff_diary_img, context.getString(R.string.stuff_diary), false),
         TutorialStuffItem(R.drawable.stuff_handcream_img, context.getString(R.string.stuff_hand_cream), false),
         TutorialStuffItem(R.drawable.stuff_notebook_img, context.getString(R.string.stuff_notebook), false),

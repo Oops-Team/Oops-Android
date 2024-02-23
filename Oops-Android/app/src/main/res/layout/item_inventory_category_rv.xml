@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 인벤토리 화면의 카테고리 목록 -->
 <LinearLayout
+    android:id="@+id/fLayout_item_inventory_top"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:paddingTop="8dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="6dp"
+    android:paddingBottom="8dp"
+    android:orientation="horizontal"
+    android:background="@drawable/inventory_category_background">
+
+    <!-- 카테고리 아이콘 -->
+    <ImageView
+        android:id="@+id/iv_item_inventory_category_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_all_box_inventory_24"
+        android:textColor="#B3FFFFFF"
+        android:layout_gravity="start|center"/>
 
     <!-- 각 카테고리 버튼 -->
-    <Button
-        android:id="@+id/btn_inventory_category"
+    <TextView
+        android:id="@+id/tv_item_inventory_category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="6dp"
-        android:layout_marginTop="30dp"
-        android:text="카테고리 이름"
-        android:textSize="20sp"
+        android:layout_gravity="center"
+        style="@style/H3"
+        android:text="말랑강아지"
         android:textColor="#B3FFFFFF"
-        android:fontFamily="@font/pretendard_bold"
-        android:drawableStart="@drawable/ic_time_20"
-        android:background="@drawable/inventory_category_background"
-        android:backgroundTint="#80FFFFFF">
-    </Button>
+        android:textAlignment="center">
+    </TextView>
 </LinearLayout>

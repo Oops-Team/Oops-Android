@@ -2,9 +2,8 @@ package com.example.oops_android.ui.Main.Home
 
 import java.time.LocalDate
 
-// 홈 화면의 챙겨야 할 것 아이템
+/* 홈 화면 & 인벤토리 화면의 챙겨야 할 것 아이템 */
 data class StuffItem(
-    var stuffIdx: Long, // 소지품 idx
     var stuffImgUrl: Int, // 소지품 이미지
     var stuffName: String, // 소지품 이름
     var date: LocalDate? = null, // 날짜

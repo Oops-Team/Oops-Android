@@ -38,6 +38,9 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
         }
     }
 
+    // 일정 리스트 반환
+    fun getAllTodoList(): ArrayList<TodoItem> = todoList
+
     // 일정 추가
     fun addTodoList(todoItem: TodoItem) {
         todoList.add(todoItem)
@@ -61,7 +64,19 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
     // 일정 삭제하기
     @SuppressLint("NotifyDataSetChanged")
     fun deleteTodoList(todoItem: TodoItem?) {
-        todoList.remove(todoItem)
-        notifyDataSetChanged()
+        // FIXME: position 값에 맞춰 리스트 값 삭제
+        val index = todoList.indexOf(todoItem)
+        todoList.removeAt(index)
+        notifyItemRemoved(index)
+        notifyItemRangeRemoved(index, todoList.size - index)
+
+        //notifyItemRangeRemoved(itemPos, todoList.size - itemPos)
+//        for (i in 0 until todoList.size) {
+//            if (todoList[i] == todoItem) {
+//                todoList.removeAt(i)
+//                notifyItemRemoved(i)
+//                break
+//            }
+//        }
     }
 }

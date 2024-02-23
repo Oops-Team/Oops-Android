@@ -31,15 +31,36 @@ class CalendarWeeklyAdapter(val context: Context): RecyclerView.Adapter<Calendar
         }
     }
 
+    // 아이템 초기화
+    fun resetWeeklyList() {
+        weeklyList.clear()
+    }
+
     // 아이템 추가
     fun addWeeklyList(calendarIWeeklytem: CalendarIWeeklytem) {
         weeklyList.add(calendarIWeeklytem)
         notifyItemChanged(weeklyList.size)
     }
 
-    // 아이템 반환
-    fun getWeeklyList(position: Int): CalendarIWeeklytem {
+    // 선택되어 있는 날짜 아이템 반환
+    fun getSelectedDate(): CalendarIWeeklytem {
+        var position = 0
+        for (i in 0 until weeklyList.size) {
+            if (weeklyList[i].isSelected)
+                position = i
+        }
         return weeklyList[position]
+    }
+
+    // 아이템 인덱스 반환
+    fun getItemIndex(fullDate: String): Int {
+        var position = 0
+        for (i in 0 until weeklyList.size) {
+            if (weeklyList[i].fullDate == fullDate) {
+                position = i
+            }
+        }
+        return position
     }
 
     // 아이템 활성화&비활성화

@@ -2,5 +2,4 @@
 <!-- 인벤토리 화면의 카테고리 박스 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="68dp"/>
-    <solid android:color="#40FFFFFF"/>
 </shape>
