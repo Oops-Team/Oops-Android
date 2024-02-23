@@ -64,6 +64,7 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
     // 일정 삭제하기
     @SuppressLint("NotifyDataSetChanged")
     fun deleteTodoList(todoItem: TodoItem?) {
+        // FIXME: position 값에 맞춰 리스트 값 삭제
         val index = todoList.indexOf(todoItem)
         todoList.removeAt(index)
         notifyItemRemoved(index)
