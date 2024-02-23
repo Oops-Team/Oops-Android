@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oops_android.databinding.ItemInventoryCategoryRvBinding
 
@@ -12,6 +13,7 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
 
     private var categoryList = ArrayList<CategoryItemUI>() // 리스트
     var onCategoryItemClickListener: ((Int) -> Unit)? = null // 카테고리 클릭 이벤트
+    var onCategoryIconClickListener: ((Int, ImageView) -> Unit)? = null // 카테고리 아이콘 클릭 이벤트
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,8 +31,13 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
         holder.bind(categoryList[position])
 
         // 카테고리 클릭 이벤트
-        holder.binding.btnInventoryCategory.setOnClickListener {
+        holder.binding.fLayoutItemInventoryTop.setOnClickListener {
             onCategoryItemClickListener?.invoke(position)
+        }
+
+        // 아이콘 클릭 이벤트
+        holder.binding.ivItemInventoryCategoryIcon.setOnClickListener {
+            onCategoryIconClickListener?.invoke(position, holder.binding.ivItemInventoryCategoryIcon)
         }
     }
 
@@ -42,7 +49,7 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
 
     // 아이템 활성화 & 비활성화
     @SuppressLint("NotifyDataSetChanged")
-    fun setCategorySelected(position: Int): Long {
+    fun setCategorySelected(position: Int) {
         // 기존 아이템 비활성화
         for (i in 0 until categoryList.size) {
             categoryList[i].isSelected = false
@@ -50,7 +57,24 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
         // 새로운 아이템 활성화
         categoryList[position].isSelected = true
         notifyDataSetChanged()
+    }
 
-        return categoryList[position].inventoryIdx // 인벤토리 idx 반환
+    // 인벤토리 idx 반환
+    fun getCategoryIdx(position: Int): Long = categoryList[position].inventoryIdx
+
+    // 인벤토리 아이템 반환
+    fun getCategoryItem(position: Int): CategoryItemUI = categoryList[position]
+
+    // 인벤토리 아이콘 수정
+    fun modifyCategoryItem(position: Int, inventoryIconIdx: Long): Boolean {
+        var isChange = false // 아이콘 값 변경에 대한 여부
+
+        // 아이콘이 변경되었다면
+        if (categoryList[position].inventoryIconIdx != inventoryIconIdx) {
+            categoryList[position].inventoryIconIdx = inventoryIconIdx
+            notifyItemChanged(position)
+            isChange = true
+        }
+        return isChange
     }
 }

@@ -2,6 +2,10 @@ package com.example.oops_android.ui.Main.Inventory
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.oops_android.R
@@ -9,7 +13,11 @@ import com.example.oops_android.databinding.FragmentInventoryBinding
 import com.example.oops_android.ui.Base.BaseFragment
 import com.example.oops_android.ui.Main.Home.StuffItem
 
+/* 인벤토리 화면 */
 class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate) {
+
+    private lateinit var categoryAdapter: InventoryCategoryListAdapter // 인벤토리 카테고리 어댑터
+
     override fun initViewCreated() {
         mainActivity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.Main_500) // 상단 상태바 색상
         WindowInsetsControllerCompat(mainActivity!!.window, mainActivity!!.window.decorView).isAppearanceLightStatusBars = false
@@ -24,11 +32,11 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     @SuppressLint("SetTextI18n")
     override fun initAfterBinding() {
         // 카테고리 적용
-        val categoryAdapter = InventoryCategoryListAdapter(requireContext())
+        categoryAdapter = InventoryCategoryListAdapter(requireContext())
         categoryAdapter.addCategoryList(CategoryItemUI(-1L, 0L, "ALL", true)) // default값
         categoryAdapter.addCategoryList(CategoryItemUI(0L, 1L, "학교갑시다"))
-        categoryAdapter.addCategoryList(CategoryItemUI(1L, 2L, "지독한 현생"))
-        categoryAdapter.addCategoryList(CategoryItemUI(2L, 3L, "독서 중"))
+        categoryAdapter.addCategoryList(CategoryItemUI(1L, 2L, "지독한현생"))
+        categoryAdapter.addCategoryList(CategoryItemUI(2L, 3L, "독서 시간"))
         binding.rvInventoryCategory.adapter = categoryAdapter
 
         // TODO: 카테고리가 5개라면 create 버튼 숨기기
@@ -41,9 +49,10 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // 카테고리 버튼 클릭 이벤트
         categoryAdapter.onCategoryItemClickListener = { position ->
-            val inventoryIdx: Long = categoryAdapter.setCategorySelected(position)
+            categoryAdapter.setCategorySelected(position)
 
             // 인벤토리가 ALL이라면
+            val inventoryIdx: Long = categoryAdapter.getCategoryIdx(position)
             if (inventoryIdx == -1L) {
                 binding.tvInventoryStuffEdit.visibility = View.INVISIBLE // edit 아이콘 숨기기
             }
@@ -52,6 +61,17 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             }
 
             // TODO: API 연동 (inventoryIdx 전달)
+        }
+
+        // 인벤토리 아이콘 클릭 이벤트
+        categoryAdapter.onCategoryIconClickListener = { position, iconImg ->
+            val categoryItem = categoryAdapter.getCategoryItem(position)
+
+            // 현재 선택 중인 카테고리이며, all 카테고리가 아니라면
+            if (categoryItem.isSelected && categoryItem.inventoryIdx != -1L) {
+                // 아이콘 변경 팝업 띄우기
+                showEditIconPopup(position, iconImg)
+            }
         }
 
         // Create 버튼 클릭 이벤트
@@ -83,5 +103,85 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             binding.tvInventoryStuffNum.visibility = View.VISIBLE
             binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/77"
         }
+    }
+
+    // 인벤토리의 아이콘 변경 팝업 띄우기
+    private fun showEditIconPopup(position: Int, iconImg: ImageView) {
+        val popup = layoutInflater.inflate(R.layout.layout_inventory_bubble, null)
+
+        // popup window 생성
+        val popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        popupWindow.isOutsideTouchable = true // 팝업 바깥 영역 클릭 시 팝업 닫기
+        popupWindow.showAsDropDown(iconImg, -10, 40)
+
+        /* 아이콘 클릭 이벤트 */
+        // 시간 아이콘 클릭 이벤트
+        val timeIBtn: ImageButton = popup.findViewById(R.id.iBtn_inventory_bubble_time)
+        timeIBtn.setOnClickListener {
+
+            // 아이콘이 변경됐다면
+            if (changeInventoryIcon(position, 1L)) {
+                // TODO: API 연동해서 값 바꾸기
+                showToast("$position 시간 아이콘으로 변경")
+            }
+            popupWindow.dismiss() // 팝업 닫기
+        }
+
+        // 달리기 아이콘 클릭 이벤트
+        val runIBtn: ImageButton = popup.findViewById(R.id.iBtn_inventory_bubble_run)
+        runIBtn.setOnClickListener {
+
+            // 아이콘이 변경됐다면
+            if (changeInventoryIcon(position, 2L)) {
+                // TODO: API 연동해서 값 바꾸기
+                showToast("$position 달리기 아이콘으로 변경")
+            }
+            popupWindow.dismiss() // 팝업 닫기
+        }
+
+        // 지갑 아이콘 클릭 이벤트
+        val walletIBtn: ImageButton = popup.findViewById(R.id.iBtn_inventory_bubble_wallet)
+        walletIBtn.setOnClickListener {
+
+            // 아이콘이 변경됐다면
+            if (changeInventoryIcon(position, 3L)) {
+                // TODO: API 연동해서 값 바꾸기
+                showToast("$position 지갑 아이콘으로 변경")
+            }
+            popupWindow.dismiss() // 팝업 닫기
+        }
+
+        // 컴퓨터 아이콘 클릭 이벤트
+        val computerIBtn: ImageButton = popup.findViewById(R.id.iBtn_inventory_bubble_computer)
+        computerIBtn.setOnClickListener {
+
+            // 아이콘이 변경됐다면
+            if (changeInventoryIcon(position, 4L)) {
+                // TODO: API 연동해서 값 바꾸기
+                showToast("$position 컴퓨터 아이콘으로 변경")
+            }
+            popupWindow.dismiss() // 팝업 닫기
+        }
+
+        // 톱니바퀴 아이콘 클릭 이벤트
+        val wheelIBtn: ImageButton = popup.findViewById(R.id.iBtn_inventory_bubble_wheel)
+        wheelIBtn.setOnClickListener {
+
+            // 아이콘이 변경됐다면
+            if (changeInventoryIcon(position, 5L)) {
+                // TODO: API 연동해서 값 바꾸기
+                showToast("$position 톱니바퀴 아이콘으로 변경")
+            }
+            popupWindow.dismiss() // 팝업 닫기
+        }
+    }
+
+    // 인벤토리의 아이콘 변경 로직 함수
+    private fun changeInventoryIcon(position: Int, inventoryIconIdx: Long): Boolean {
+        // 선택한 아이템 정보 가져오기
+        val categoryItem: CategoryItemUI = categoryAdapter.getCategoryItem(position)
+
+        // 아이콘 변경
+        return categoryAdapter.modifyCategoryItem(position, inventoryIconIdx)
     }
 }
