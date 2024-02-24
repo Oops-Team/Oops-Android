@@ -47,6 +47,20 @@
         <action
             android:id="@+id/action_inventoryFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
+        <action
+            android:id="@+id/action_inventoryFrm_to_createInventoryFrm"
+            app:destination="@id/createInventoryFragment"/>
+    </fragment>
+
+    <!-- 인벤토리 생성 -->
+    <fragment
+        android:id="@+id/createInventoryFragment"
+        android:name="com.example.oops_android.ui.Main.Inventory.CreateInventoryFragment"
+        android:label="frm_create_inventory"
+        tools:layout="@layout/fragment_create_inventory">
+        <argument
+            android:name="inventoryDivision"
+            app:argType="string"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->

@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentInventoryBinding
 import com.example.oops_android.ui.Base.BaseFragment
@@ -21,6 +23,9 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     override fun initViewCreated() {
         mainActivity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.Main_500) // 상단 상태바 색상
         WindowInsetsControllerCompat(mainActivity!!.window, mainActivity!!.window.decorView).isAppearanceLightStatusBars = false
+
+        // 바텀 네비게이션 보이기
+        mainActivity?.hideBnv(false)
     }
 
     override fun onDestroyView() {
@@ -54,10 +59,10 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             // 인벤토리가 ALL이라면
             val inventoryIdx: Long = categoryAdapter.getCategoryIdx(position)
             if (inventoryIdx == -1L) {
-                binding.tvInventoryStuffEdit.visibility = View.INVISIBLE // edit 아이콘 숨기기
+                binding.ivInventoryStuffEdit.visibility = View.INVISIBLE // edit 아이콘 숨기기
             }
             else {
-                binding.tvInventoryStuffEdit.visibility = View.VISIBLE
+                binding.ivInventoryStuffEdit.visibility = View.VISIBLE
             }
 
             // TODO: API 연동 (inventoryIdx 전달)
@@ -76,7 +81,9 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // Create 버튼 클릭 이벤트
         binding.btnInventoryCreate.setOnClickListener {
-            // TODO: 인벤토리 생성 화면으로 이동
+            // 인벤토리 생성 화면으로 이동
+            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm("InventoryCreate")
+            findNavController().navigate(actionToCreateInventory)
         }
 
         // 소지품이 없을 경우, 소지품 추가 버튼 클릭 이벤트
@@ -102,6 +109,13 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
             binding.tvInventoryStuffNum.visibility = View.VISIBLE
             binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/77"
+        }
+
+        // 소지품 수정 버튼 클릭 이벤트
+        binding.ivInventoryStuffEdit.setOnClickListener {
+            // 인벤토리 수정 화면으로 이동
+            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm("InventoryEdit")
+            findNavController().navigate(actionToCreateInventory)
         }
     }
 
@@ -178,9 +192,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
     // 인벤토리의 아이콘 변경 로직 함수
     private fun changeInventoryIcon(position: Int, inventoryIconIdx: Long): Boolean {
-        // 선택한 아이템 정보 가져오기
-        val categoryItem: CategoryItemUI = categoryAdapter.getCategoryItem(position)
-
         // 아이콘 변경
         return categoryAdapter.modifyCategoryItem(position, inventoryIconIdx)
     }
