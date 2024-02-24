@@ -18,6 +18,7 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
 
     private var tagList = ArrayList<Long>() // 추가된 일정 리스트
     private var isEnable = false // 소지품 추가 버튼 클릭 가능 여부
+    private var isOverlap = true // 인벤토리 이름 중복 여부
 
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
@@ -63,6 +64,14 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         // 소지품 추가 버튼 동작 가능 여부 확인
         binding.edtCreateInventoryName.onTextChanged {
             updateButtonUI()
+
+            // 인벤토리 이름이 중복이라면
+            if (isOverlap) {
+                // 인벤토리 경고 문구 숨기기
+                binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_bg)
+                binding.tvCreateInventoryNameAlert.visibility = View.GONE
+                isOverlap = false
+            }
         }
 
         // 소지품 추가 버튼 클릭 이벤트
@@ -70,7 +79,11 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
             if (isEnable) {
                 // TODO: API 연동 필요
 
-                // 만약, 인벤토리 이름이 중복이라면
+                // TODO: 만약, 인벤토리 이름이 중복이라면
+                if (isOverlap) {
+                    binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_error_bg)
+                    binding.tvCreateInventoryNameAlert.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -90,6 +103,7 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
             // 소지품 추가 버튼 비활성화
             binding.btnCreateInventoryStuffAdd.setTextAppearance(R.style.WideButtonDisableStyle)
             binding.btnCreateInventoryStuffAdd.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+
             isEnable = false
         }
     }

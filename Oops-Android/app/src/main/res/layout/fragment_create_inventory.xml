@@ -46,8 +46,7 @@
             android:id="@+id/edt_create_inventory_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/all_radius_50"
-            android:backgroundTint="@color/Gray_F5"
+            android:background="@drawable/inventory_edit_text_bg"
             style="@style/Body1"
             android:hint="@string/create_inventory_name_info"
             android:textColorHint="@color/Gray_400"
@@ -62,6 +61,19 @@
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:paddingBottom="14dp"/>
+
+        <!-- 인벤토리 이름 중복 알럿 -->
+        <TextView
+            android:id="@+id/tv_create_inventory_name_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            style="@style/Button2"
+            android:text="@string/create_inventory_name_alert"
+            android:textColor="@color/Red_Medium"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
