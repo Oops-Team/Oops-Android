@@ -16,6 +16,7 @@
         layout="@layout/toolbar_sub"/>
 
     <LinearLayout
+        android:id="@+id/lLayout_create_inventory_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -272,7 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/WideButtonDisableStyle"
-                android:backgroundTint="@color/Gray_100"
+                android:background="@color/Gray_100"
                 android:text="@string/button_stuff_add"/>
         </androidx.cardview.widget.CardView>
 
