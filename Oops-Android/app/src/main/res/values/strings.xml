@@ -209,6 +209,13 @@
     <string name="inventory_info">위 버튼을 눌러\n소지품을 담아 주세요</string>
     <string name="inventory_all">ALL</string>
     <string name="inventory_create">Create</string>
+    <string name="create_inventory_name">이름</string>
+    <string name="create_inventory_name_info">최대 5자까지 설정 가능해요</string>
+    <string name="create_inventory_name_alert">이미 있는 이름이에요</string>
+    <string name="create_inventory_tag">관련 태그</string>
+    <string name="create_inventory_tag_info">(최대 3개)</string>
+    <string name="create_inventory_tag_info_1">태그는 왜 설정하나요?</string>
+    <string name="create_inventory_tag_info_2">태그를 설정하시면 오늘 할 일을 작성하셨을 때\n더욱 더 꼼꼼하게 소지품을 챙길 수 있도록 추천해 드릴 수 있어요</string>
     <!-- 콕콕 찌르기 -->
     <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>
     <string name="sting_friends">친구 목록</string>
@@ -256,6 +263,9 @@
     <string name="button_create">등록하기</string>
     <string name="button_delete">삭제하기</string>
     <string name="button_edit">수정하기</string>
+    <string name="button_stuff_add">소지품 추가하기</string>
+    <string name="button_edit_complete">수정 완료</string>
+    <string name="button_stuff_edit">소지품 수정</string>
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>

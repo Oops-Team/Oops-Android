@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 인벤토리 생성&수정 화면의 인벤토리 입력 박스(이름 중복 시) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="50dp"/>
+    <solid android:color="@color/Gray_F5"/>
+    <stroke android:color="@color/Red_Medium" android:width="2dp"/>
+</shape>
