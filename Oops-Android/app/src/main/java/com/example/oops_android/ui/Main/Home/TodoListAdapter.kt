@@ -29,12 +29,15 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
 
         // ... 클릭
         holder.binding.ivHomeTodoEdit.setOnClickListener {
-            onItemClickListener?.invoke(
-                position,
-                holder.binding.ivHomeTodoEdit,
-                holder.binding.tvHomeTodoName,
-                holder.binding.edtHomeTodoName
-            )
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                onItemClickListener?.invoke(
+                    pos,
+                    holder.binding.ivHomeTodoEdit,
+                    holder.binding.tvHomeTodoName,
+                    holder.binding.edtHomeTodoName
+                )
+            }
         }
     }
 
@@ -55,6 +58,7 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
     // 일정 이름 수정하기
     fun modifyTodoList(itemPos: Int, name: String) {
         // 일정 이름이 변경되었다면
+        // dataList.set(position,변경 data)
         if (todoList[itemPos].todoName != name) {
             todoList[itemPos].todoName = name
             notifyItemChanged(itemPos)
@@ -68,7 +72,7 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
         val index = todoList.indexOf(todoItem)
         todoList.removeAt(index)
         notifyItemRemoved(index)
-        notifyItemRangeRemoved(index, todoList.size - index)
+        //notifyItemRangeRemoved(index, todoList.size - index)
 
         //notifyItemRangeRemoved(itemPos, todoList.size - itemPos)
 //        for (i in 0 until todoList.size) {
