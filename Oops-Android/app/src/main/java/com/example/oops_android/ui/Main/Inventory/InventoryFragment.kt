@@ -38,10 +38,18 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     override fun initAfterBinding() {
         // 카테고리 적용
         categoryAdapter = InventoryCategoryListAdapter(requireContext())
-        categoryAdapter.addCategoryList(CategoryItemUI(-1L, 0L, "ALL", true)) // default값
-        categoryAdapter.addCategoryList(CategoryItemUI(0L, 1L, "학교갑시다"))
-        categoryAdapter.addCategoryList(CategoryItemUI(1L, 2L, "지독한현생"))
-        categoryAdapter.addCategoryList(CategoryItemUI(2L, 3L, "독서 시간"))
+        var tempList1 = CategoryItemUI(-1L, 0L, "ALL", true) // default값
+        var tempList2 = CategoryItemUI(0L, 1L, "학교갑시다", false, arrayListOf(1, 2, 3))
+        var tempList3 = CategoryItemUI(1L, 2L, "지독한현생", false, arrayListOf(4, 5))
+        var tempList4 = CategoryItemUI(2L, 3L, "독서 시간", false, arrayListOf(6))
+
+        val categoryList = CategoryList()
+        categoryList.add(tempList1)
+        categoryList.add(tempList2)
+        categoryList.add(tempList3)
+        categoryList.add(tempList4)
+
+        categoryAdapter.addCategoryList(categoryList)
         binding.rvInventoryCategory.adapter = categoryAdapter
 
         // TODO: 카테고리가 5개라면 create 버튼 숨기기
@@ -81,8 +89,15 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // Create 버튼 클릭 이벤트
         binding.btnInventoryCreate.setOnClickListener {
+            // 전체 카테고리 정보 가져오기
+            val tempCategoryList: CategoryList = categoryAdapter.getCategoryItemList()
+
             // 인벤토리 생성 화면으로 이동
-            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm("InventoryCreate")
+            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm(
+                "InventoryCreate",
+                tempCategoryList,
+                null
+            )
             findNavController().navigate(actionToCreateInventory)
         }
 
@@ -113,8 +128,18 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // 소지품 수정 버튼 클릭 이벤트
         binding.ivInventoryStuffEdit.setOnClickListener {
+            // 현재 선택 중인 인벤토리 정보 가져오기
+            val inventoryItem: CategoryItemUI? = categoryAdapter.getSelectedCategoryItem()
+
+            // 전체 카테고리 정보 가져오기
+            val tempCategoryList: CategoryList = categoryAdapter.getCategoryItemList()
+
             // 인벤토리 수정 화면으로 이동
-            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm("InventoryEdit")
+            val actionToCreateInventory: NavDirections = InventoryFragmentDirections.actionInventoryFrmToCreateInventoryFrm(
+                "InventoryEdit",
+                tempCategoryList,
+                inventoryItem
+            )
             findNavController().navigate(actionToCreateInventory)
         }
     }

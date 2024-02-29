@@ -42,8 +42,8 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
     }
 
     // 아이템 추가
-    fun addCategoryList(item: CategoryItemUI) {
-        categoryList.add(item)
+    fun addCategoryList(categoryList: CategoryList) {
+        this.categoryList = categoryList
         notifyItemChanged(categoryList.size)
     }
 
@@ -59,11 +59,28 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
         notifyDataSetChanged()
     }
 
+    // 인벤토리 반환
+    fun getCategoryItemList(): CategoryList = categoryList as CategoryList
+
     // 인벤토리 idx 반환
     fun getCategoryIdx(position: Int): Long = categoryList[position].inventoryIdx
 
     // 인벤토리 아이템 반환
     fun getCategoryItem(position: Int): CategoryItemUI = categoryList[position]
+
+    // 선택된 인벤토리 아이템 반환
+    fun getSelectedCategoryItem(): CategoryItemUI? {
+        var categoryItem: CategoryItemUI? = null
+
+        for (index in 0 until categoryList.size) {
+            if (categoryList[index].isSelected) {
+                categoryItem = categoryList[index]
+                break
+            }
+        }
+
+        return categoryItem
+    }
 
     // 인벤토리 아이콘 수정
     fun modifyCategoryItem(position: Int, inventoryIconIdx: Long): Boolean {
