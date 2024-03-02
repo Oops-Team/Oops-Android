@@ -38,10 +38,10 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     override fun initAfterBinding() {
         // 카테고리 적용
         categoryAdapter = InventoryCategoryListAdapter(requireContext())
-        var tempList1 = CategoryItemUI(-1L, 0L, "ALL", true) // default값
-        var tempList2 = CategoryItemUI(0L, 1L, "학교갑시다", false, arrayListOf(1, 2, 3))
-        var tempList3 = CategoryItemUI(1L, 2L, "지독한현생", false, arrayListOf(4, 5))
-        var tempList4 = CategoryItemUI(2L, 3L, "독서 시간", false, arrayListOf(6))
+        var tempList1 = CategoryItemUI(-1L, 0, "ALL", true) // default값
+        var tempList2 = CategoryItemUI(0L, 1, "학교갑시다", false, arrayListOf(1, 2, 3))
+        var tempList3 = CategoryItemUI(1L, 2, "지독한현생", false, arrayListOf(4, 5))
+        var tempList4 = CategoryItemUI(2L, 3, "독서 시간", false, arrayListOf(6))
 
         val categoryList = CategoryList()
         categoryList.add(tempList1)
@@ -159,7 +159,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         timeIBtn.setOnClickListener {
 
             // 아이콘이 변경됐다면
-            if (changeInventoryIcon(position, 1L)) {
+            if (changeInventoryIcon(position, 1)) {
                 // TODO: API 연동해서 값 바꾸기
                 showToast("$position 시간 아이콘으로 변경")
             }
@@ -171,7 +171,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         runIBtn.setOnClickListener {
 
             // 아이콘이 변경됐다면
-            if (changeInventoryIcon(position, 2L)) {
+            if (changeInventoryIcon(position, 2)) {
                 // TODO: API 연동해서 값 바꾸기
                 showToast("$position 달리기 아이콘으로 변경")
             }
@@ -183,7 +183,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         walletIBtn.setOnClickListener {
 
             // 아이콘이 변경됐다면
-            if (changeInventoryIcon(position, 3L)) {
+            if (changeInventoryIcon(position, 3)) {
                 // TODO: API 연동해서 값 바꾸기
                 showToast("$position 지갑 아이콘으로 변경")
             }
@@ -195,7 +195,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         computerIBtn.setOnClickListener {
 
             // 아이콘이 변경됐다면
-            if (changeInventoryIcon(position, 4L)) {
+            if (changeInventoryIcon(position, 4)) {
                 // TODO: API 연동해서 값 바꾸기
                 showToast("$position 컴퓨터 아이콘으로 변경")
             }
@@ -207,7 +207,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         wheelIBtn.setOnClickListener {
 
             // 아이콘이 변경됐다면
-            if (changeInventoryIcon(position, 5L)) {
+            if (changeInventoryIcon(position, 5)) {
                 // TODO: API 연동해서 값 바꾸기
                 showToast("$position 톱니바퀴 아이콘으로 변경")
             }
@@ -216,7 +216,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     }
 
     // 인벤토리의 아이콘 변경 로직 함수
-    private fun changeInventoryIcon(position: Int, inventoryIconIdx: Long): Boolean {
+    private fun changeInventoryIcon(position: Int, inventoryIconIdx: Int): Boolean {
         // 아이콘 변경
         return categoryAdapter.modifyCategoryItem(position, inventoryIconIdx)
     }

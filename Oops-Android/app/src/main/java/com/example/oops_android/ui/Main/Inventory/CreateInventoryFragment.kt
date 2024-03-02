@@ -17,12 +17,15 @@ import com.example.oops_android.ApplicationClass.Companion.applicationContext
 /* 인벤토리 생성 & 수정 화면 */
 class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(FragmentCreateInventoryBinding::inflate), CompoundButton.OnCheckedChangeListener {
 
-    private var tagList = ArrayList<Long>() // 추가된 일정 리스트
+    private var tagList = ArrayList<Int>() // 추가된 일정 리스트
     private var isEnable = false // 소지품 추가 버튼 클릭 가능 여부
-    private var isOverlap = true // 인벤토리 이름 중복 여부
+    private var isOverlapName = false // 인벤토리 이름 중복 여부
+    private var isChangeName = false // 인벤토리 이름 변경 여부(수정 화면)
+    private var isOverlapTag = false // 인벤토리 태그 중복 여부
 
     private var inventoryList = ArrayList<CategoryItemUI>() // 전체 인벤토리 리스트
     private lateinit var inventoryItem: CategoryItemUI // 수정할 인벤토리 아이템
+    private var isShowEdit = false // 현재 화면이 어떤 화면인지에 대한 여부
 
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
@@ -37,24 +40,22 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
             }
             "InventoryEdit" -> {
                 setToolbarTitle(binding.toolbarCreateInventory.tvSubToolbarTitle, "인벤토리 수정")
-                binding.cvCreateInventoryStuffAdd.visibility = View.GONE
                 binding.lLayoutCreateInventoryEdit.visibility = View.VISIBLE
                 binding.toolbarCreateInventory.ivSubToolbarRight.visibility = View.VISIBLE
 
                 // 전달받은 아이템 값 적용
                 inventoryItem = args.inventoryItem!!
-                Log.d("인벤토리 inventoryItem: ", inventoryItem.toString())
 
                 // 뷰 그리기
                 binding.edtCreateInventoryName.setText(inventoryItem.inventoryName)
                 setOnTag(inventoryItem.inventoryTag)
+
+                isShowEdit = true
             }
         }
 
         // 전달받은 리스트 값 적용
         inventoryList = args.inventoryList
-
-        Log.d("인벤토리 inventoryList: ", inventoryList.toString())
     }
 
     override fun initAfterBinding() {
@@ -78,67 +79,151 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         setOnCheckedChanged(binding.cbInventoryTagTravel)
         setOnCheckedChanged(binding.cbInventoryTagShopping)
 
-        // 소지품 추가 버튼 동작 가능 여부 확인
+        // 소지품 추가 & 인벤토리 수정 버튼 동작 가능 여부 확인
         binding.edtCreateInventoryName.onTextChanged {
             updateButtonUI()
-
-            // 인벤토리 이름이 중복이 아니라면
-            for (i in 0 until inventoryList.size) {
-                if (inventoryList[i].inventoryName != binding.edtCreateInventoryName.text.toString()) {
-                    // 인벤토리 경고 문구 숨기기
-                    binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_bg)
-                    binding.tvCreateInventoryNameAlert.visibility = View.GONE
-                    isOverlap = false
-                    isEnable = true
-                    break
-                }
-            }
-
-            // 기존의 인벤토리 이름과 중복이라면
-            for (i in 0 until inventoryList.size) {
-                if (inventoryList[i].inventoryName == binding.edtCreateInventoryName.text.toString()) {
-                    // 인벤토리 수정의 경우, 기존 이름 그대로 라면
-                    if (inventoryItem.inventoryName == binding.edtCreateInventoryName.text.toString()) {
-                        break // 반복문 나가기
-                    }
-
-                    // 인벤토리 경고 문구 띄우기
-                    binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_error_bg)
-                    binding.tvCreateInventoryNameAlert.visibility = View.VISIBLE
-                    isOverlap = true
-                    isEnable = false
-                    break
-                }
-            }
         }
 
         // 소지품 추가 버튼 클릭 이벤트
         binding.btnCreateInventoryStuffAdd.setOnClickListener {
             if (isEnable) {
                 // TODO: API 연동 필요
+                showToast("소지품 추가 화면으로 이동!")
+            }
+        }
 
+        // 수정 완료 버튼 클릭 이벤트
+        binding.btnCreateInventoryEdit.setOnClickListener {
+            if (isEnable) {
+                // TODO: API 연동 필요
+                showToast("인벤토리 화면으로 이동!")
+                view?.findNavController()?.popBackStack()
             }
         }
     }
 
-    // 소지품 추가 버튼 동작 가능 여부 확인 함수
+    // 소지품 추가 또는 인벤토리 수정 버튼 동작 가능 여부 확인 함수
     private fun updateButtonUI() {
-        // 값이 모두 입력되어 있다면
-        if (binding.edtCreateInventoryName.text.isNotEmpty() && tagList.isNotEmpty()) {
-            // 버튼이 활성화 상태가 아니라면
-            if (!isEnable && !isOverlap) {
-                ButtonUtils().setAllColorAnimation(binding.btnCreateInventoryStuffAdd)
-                isEnable = true
+        // 일정 추가 화면의 경우
+        if (!isShowEdit) {
+            // 기존 인벤토리 이름 리스트와 작성한 이름이 중복이라면
+            if (isValueInList(inventoryList, binding.edtCreateInventoryName.text.toString())) {
+                // 인벤토리 경고 문구 띄우기
+                binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_error_bg)
+                binding.tvCreateInventoryNameAlert.visibility = View.VISIBLE
+                isOverlapName = true
+                isEnable = false
+            }
+            else {
+                // 인벤토리 경고 문구 숨기기
+                binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_bg)
+                binding.tvCreateInventoryNameAlert.visibility = View.GONE
+                isOverlapName = false
+            }
+
+            // 모든 값이 입력되어 있다면
+            if (binding.edtCreateInventoryName.text.toString().isNotEmpty() && tagList.isNotEmpty()) {
+                // 이름 값 중복이 아니라면
+                if (!isOverlapName) {
+                    // 버튼 활성화 상태가 아니라면 값 바꾸기
+                    if (!isEnable) {
+                        ButtonUtils().setAllColorAnimation(binding.btnCreateInventoryStuffAdd)
+                        isEnable = true
+                    }
+                }
+                else {
+                    // 버튼 활성화 해제
+                    binding.btnCreateInventoryStuffAdd.setTextAppearance(R.style.WideButtonDisableStyle)
+                    binding.btnCreateInventoryStuffAdd.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+                    isEnable = false
+                }
+            }
+            else {
+                // 버튼 활성화 해제
+                binding.btnCreateInventoryStuffAdd.setTextAppearance(R.style.WideButtonDisableStyle)
+                binding.btnCreateInventoryStuffAdd.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+                isEnable = false
             }
         }
-        // 값이 하나라도 안 입력되어 있다면
+        // 일정 수정 화면의 경우
         else {
-            // 소지품 추가 버튼 비활성화
-            binding.btnCreateInventoryStuffAdd.setTextAppearance(R.style.WideButtonDisableStyle)
-            binding.btnCreateInventoryStuffAdd.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+            // item의 인벤토리 이름을 제외한 다른 인벤토리 이름과 작성한 인벤토리 이름이 중복이라면
+            if (isValueInList(inventoryList, binding.edtCreateInventoryName.text.toString())) {
+                if (inventoryItem.inventoryName != binding.edtCreateInventoryName.text.toString()) {
+                    // 인벤토리 경고 문구 띄우기
+                    binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_error_bg)
+                    binding.tvCreateInventoryNameAlert.visibility = View.VISIBLE
+                    isOverlapName = true
+                    isEnable = false
+                }
+                // item의 이름과 작성한 인벤토리 이름이 같다면
+                else {
+                    isChangeName = false
+                }
+            }
+            else {
+                // 인벤토리 경고 문구 숨기기
+                binding.edtCreateInventoryName.setBackgroundResource(R.drawable.inventory_edit_text_bg)
+                binding.tvCreateInventoryNameAlert.visibility = View.GONE
+                isOverlapName = false
+                isChangeName = true
+            }
 
-            isEnable = false
+            // item의 태그와 선택한 태그가 중복이라면(= 값이 안 바뀌었다면)
+            isOverlapTag = compareLists(inventoryItem.inventoryTag, tagList)
+
+            // 모든 값이 입력되어 있다면
+            if (binding.edtCreateInventoryName.text.toString().isNotEmpty() && tagList.isNotEmpty()) {
+                // 이름값&태그 또는 이름값만 중복이라면
+                if ((isOverlapName && isOverlapTag) || (!isChangeName && isOverlapTag) || isOverlapName) {
+                    // 버튼 활성화 해제
+                    binding.btnCreateInventoryEdit.setTextAppearance(R.style.WideButtonDisableStyle)
+                    binding.btnCreateInventoryEdit.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+                    isEnable = false
+                }
+                // 중복이 아니라면
+                else {
+                    // 버튼 활성화 상태가 아니라면 값 바꾸기
+                    if (!isEnable) {
+                        ButtonUtils().setAllColorAnimation(binding.btnCreateInventoryEdit)
+                        isEnable = true
+                    }
+                }
+            }
+            else {
+                // 버튼 활성화 해제
+                binding.btnCreateInventoryEdit.setTextAppearance(R.style.WideButtonDisableStyle)
+                binding.btnCreateInventoryEdit.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+                isEnable = false
+            }
         }
+    }
+
+    // 배열에 특정 값이 있는 지 확인하는 함수
+    private fun isValueInList(inventoryList: ArrayList<CategoryItemUI>, name: String): Boolean {
+        return inventoryList.any { item ->
+            item.inventoryName == name
+        }
+    }
+
+    // 두 개의 리스트의 값이 같은지 확인하는 함수
+    private fun compareLists(inventoryTag: ArrayList<Int>?, tagList: ArrayList<Int>): Boolean {
+        // 두 리스트의 크기가 다르다면
+        if (inventoryTag!!.size != tagList.size) {
+            return false
+        }
+
+        val result = inventoryTag.zip(tagList)
+
+        // 두 리스트의 값이 다르다면
+        for ((item1, item2) in result) {
+            if (item1 != item2) {
+                return false
+            }
+        }
+
+        // 위의 2가지 조건을 모두 통과했다면 값 같음
+        return true
     }
 
     // 태그 클릭 이벤트 연결 함수
@@ -244,7 +329,6 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
                 binding.cbInventoryTagShopping.isEnabled = true
             }
         }
-        updateButtonUI()
     }
 
     // 태그 클릭 이벤트

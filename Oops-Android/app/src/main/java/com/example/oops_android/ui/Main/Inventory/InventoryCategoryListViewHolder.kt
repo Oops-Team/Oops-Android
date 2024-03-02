@@ -17,12 +17,12 @@ class InventoryCategoryListViewHolder(val context: Context, val binding: ItemInv
 
         // 아이콘 값 적용
         when (item.inventoryIconIdx) {
-            1L -> iconImg.setImageResource(R.drawable.ic_time_inventory_20)
-            2L -> iconImg.setImageResource(R.drawable.ic_run_inventory_20)
-            3L -> iconImg.setImageResource(R.drawable.ic_wallet_inventory_25)
-            4L -> iconImg.setImageResource(R.drawable.ic_computer_inventory_25)
-            5L -> iconImg.setImageResource(R.drawable.ic_wheel_inventory_21)
-            -1L -> iconImg.setImageResource(R.drawable.ic_all_box_inventory_24)
+            1 -> iconImg.setImageResource(R.drawable.ic_time_inventory_20)
+            2 -> iconImg.setImageResource(R.drawable.ic_run_inventory_20)
+            3 -> iconImg.setImageResource(R.drawable.ic_wallet_inventory_25)
+            4 -> iconImg.setImageResource(R.drawable.ic_computer_inventory_25)
+            5 -> iconImg.setImageResource(R.drawable.ic_wheel_inventory_21)
+            -1 -> iconImg.setImageResource(R.drawable.ic_all_box_inventory_24)
         }
 
         // 이름 적용

@@ -83,7 +83,7 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
     }
 
     // 인벤토리 아이콘 수정
-    fun modifyCategoryItem(position: Int, inventoryIconIdx: Long): Boolean {
+    fun modifyCategoryItem(position: Int, inventoryIconIdx: Int): Boolean {
         var isChange = false // 아이콘 값 변경에 대한 여부
 
         // 아이콘이 변경되었다면
