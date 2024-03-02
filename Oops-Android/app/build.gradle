@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.oops_android'
+    namespace 'com.oops.oops_android'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.oops_android"
+        applicationId "com.oops.oops_android"
         minSdk 28
         targetSdk 34
         versionCode 1
