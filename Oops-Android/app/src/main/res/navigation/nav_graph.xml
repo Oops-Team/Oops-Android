@@ -50,6 +50,17 @@
         <action
             android:id="@+id/action_inventoryFrm_to_createInventoryFrm"
             app:destination="@id/createInventoryFragment"/>
+
+        <!-- 생성&수정&삭제 여부 변수 -->
+        <argument
+            android:name="inventoryDivision"
+            app:argType="string"/>
+
+        <!-- 생성&수정한 인벤토리 아이템 -->
+        <argument
+            android:name="newInventoryItem"
+            app:argType="com.example.oops_android.ui.Main.Inventory.CategoryItemUI"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 인벤토리 생성 -->
@@ -73,6 +84,10 @@
             android:name="inventoryItem"
             app:argType="com.example.oops_android.ui.Main.Inventory.CategoryItemUI"
             app:nullable="true"/>
+
+        <action
+            android:id="@+id/action_createInventoryFrm_to_inventoryFrm"
+            app:destination="@id/inventoryFragment"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->

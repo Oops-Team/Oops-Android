@@ -246,6 +246,7 @@
     <string name="popup_nickname_info">설정된 닉네임은 변경할 수 없어요.\n해당 닉네임을 사용하시겠어요?</string>
     <string name="popup_cancel">취소</string>
     <string name="popup_use">사용</string>
+    <string name="popup_delete">삭제</string>
     <string name="popup_push_alert">푸시 알림 미동의</string>
     <string name="popup_push_alert_info">푸시 알림 미전송 시\n꼼꼼하게 챙겨드리기 어려워요!\n알림을 받으시겠어요?</string>
     <string name="popup_disagree">동의 안함</string>
@@ -259,6 +260,10 @@
     <string name="popup_push_alert_disable">알림 비활성화</string>
     <string name="popup_push_alert_disable_info">앗! 잠깐! 알림을 끄면 꼼꼼하게 챙겨 드릴 수가 없어요\n그래도 알림을 그만 보낼까요?</string>
     <string name="popup_disable">비활성화</string>
+    <string name="popup_inventory_delete">인벤토리 삭제</string>
+    <string name="popup_inventory_delete_info">정말 삭제하시겠어요?\n삭제된 인벤토리는 복구되지 않아요</string>
+    <string name="popup_inventory_delete_agree">인벤토리 삭제 완료</string>
+    <string name="popup_inventory_delete_agree_info">삭제가 완료되었어요</string>
     <!-- 버튼 -->
     <string name="button_create">등록하기</string>
     <string name="button_delete">삭제하기</string>

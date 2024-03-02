@@ -1,6 +1,7 @@
 package com.example.oops_android.ui.Main.Inventory
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -10,10 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentInventoryBinding
 import com.example.oops_android.ui.Base.BaseFragment
 import com.example.oops_android.ui.Main.Home.StuffItem
+import java.lang.Exception
 
 /* 인벤토리 화면 */
 class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate) {
@@ -48,6 +51,27 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         categoryList.add(tempList2)
         categoryList.add(tempList3)
         categoryList.add(tempList4)
+
+        // 인벤토리 생성&수정 화면에서 넘어왔다면
+        try {
+            val args: InventoryFragmentArgs by navArgs()
+            val categoryItem = args.newInventoryItem
+
+            when (args.inventoryDivision) {
+                // 인벤토리 삭제의 경우
+                "InventoryDelete" -> {
+                    // 인벤토리 idx가 같은 아이템 찾기
+                    for (i in 0 until categoryList.size) {
+                        if (categoryList[i].inventoryIdx == categoryItem?.inventoryIdx) {
+                            // 값 삭제
+                            categoryList.removeAt(i)
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.i("Inventory Fragment Error", e.message.toString())
+        }
 
         categoryAdapter.addCategoryList(categoryList)
         binding.rvInventoryCategory.adapter = categoryAdapter

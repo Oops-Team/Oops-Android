@@ -1,11 +1,12 @@
 package com.example.oops_android.ui.Main.Inventory
 
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.oops_android.R
 import com.example.oops_android.databinding.FragmentCreateInventoryBinding
@@ -96,9 +97,43 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         binding.btnCreateInventoryEdit.setOnClickListener {
             if (isEnable) {
                 // TODO: API 연동 필요
-                showToast("인벤토리 화면으로 이동!")
-                view?.findNavController()?.popBackStack()
+                showToast("인벤토리 화면 유지!")
             }
+        }
+
+        // 인벤토리 삭제 버튼 클릭 이벤트
+        binding.toolbarCreateInventory.ivSubToolbarRight.setOnClickListener {
+            // 인벤토리 삭제 팝업 띄우기
+            val deleteInventoryDialog = InventoryDeleteDialog(requireContext())
+            deleteInventoryDialog.showInventoryDeleteDialog()
+
+            // 삭제 버튼을 누른 경우
+            deleteInventoryDialog.setOnClickedListener(object : InventoryDeleteDialog.InventoryDeleteBtnClickListener {
+                override fun onClicked() {
+                    // 삭제 완료 팝업 띄우기
+                    val deleteInventoryAgreeDialog = InventoryDeleteAgreeDialog(requireContext())
+                    deleteInventoryAgreeDialog.showInventoryDeleteAgreeDialog()
+                    // 확인 버튼을 누른 경우
+                    deleteInventoryAgreeDialog.setOnClickedListener(object : InventoryDeleteAgreeDialog.InventoryDeleteAgreeBtnClickListener {
+                        override fun onClicked() {
+                            // TODO: API 연동 필요
+
+                            // 인벤토리 화면으로 이동
+                            val actionToInventory: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToInventoryFrm(
+                                "InventoryDelete",
+                                CategoryItemUI(
+                                    inventoryItem.inventoryIdx,
+                                    inventoryItem.inventoryIconIdx,
+                                    binding.edtCreateInventoryName.text.toString(),
+                                    true,
+                                    tagList
+                                )
+                            )
+                            findNavController().navigate(actionToInventory)
+                        }
+                    })
+                }
+            })
         }
     }
 
