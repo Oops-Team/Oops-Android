@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Auth.AuthService
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
@@ -170,6 +171,9 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
 
     // 서버 닉네임 체크
     private fun nicknameOverlap(name: String) {
+        val authService = AuthService()
+        authService.setCommonView(this)
+        authService.nicknameOverlap(name)
     }
 
     // 닉네임 중복 검사 성공
