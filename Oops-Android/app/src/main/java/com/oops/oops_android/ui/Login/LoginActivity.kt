@@ -2,15 +2,26 @@ package com.oops.oops_android.ui.Login
 
 import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfileResponse
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.ActivityLoginBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
+import com.oops.oops_android.utils.getLoginId
+import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.saveEmail
+import com.oops.oops_android.utils.saveLoginId
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
@@ -64,6 +75,68 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             if (isAllInput) {
                 // 홈 화면으로 이동
                 startActivityWithClear(MainActivity::class.java)
+            }
+        }
+
+        // 최근 로그인한 플랫폼에 따른 말풍선 띄우기
+        if (getLoginId() == "naver") {
+            binding.lLayoutLoginRecentNaver.visibility = View.VISIBLE
+        }
+        else if (getLoginId() == "google") {
+            binding.lLayoutLoginRecentGoogle.visibility = View.VISIBLE
+        }
+
+        // 네이버 로그인 버튼 클릭 이벤트
+        binding.iBtnLoginNaver.setOnClickListener {
+            // 재로그인이라면
+            if (getNickname().isNotEmpty()) {
+                // 홈 화면으로 이동
+                startActivityWithClear(MainActivity::class.java)
+            }
+            // 신규 가입이라면
+            else {
+                val oAuthLoginCallback = object : OAuthLoginCallback {
+                    // 인증 성공
+                    override fun onSuccess() {
+                        // 네이버api에서 프로필 정보 가져오기
+                        NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                            // 호출 성공
+                            override fun onSuccess(result: NidProfileResponse) {
+                                // 사용자의 이메일 저장
+                                saveEmail(result.profile?.email.toString())
+
+                                // 최근에 로그인한 플랫폼 저장
+                                saveLoginId("naver")
+
+                                // 닉네임 설정 화면으로 이동
+                                startActivityWithClear(SignUpActivity::class.java)
+                            }
+
+                            // 호출 실패
+                            override fun onFailure(httpStatus: Int, message: String) {
+                            }
+
+                            // 호출 오류
+                            override fun onError(errorCode: Int, message: String) {
+                            }
+                        })
+                    }
+
+                    // 인증 실패
+                    override fun onFailure(httpStatus: Int, message: String) {
+                        val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                        val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                        Log.e("LoginActivity", "errorCode : $errorCode errorDescription: $errorDescription")
+                        showCustomSnackBar(R.string.toast_login_naver_failure)
+                    }
+
+                    // 인증 오류
+                    override fun onError(errorCode: Int, message: String) {
+                        onFailure(errorCode, message)
+                    }
+                }
+
+                NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
             }
         }
     }

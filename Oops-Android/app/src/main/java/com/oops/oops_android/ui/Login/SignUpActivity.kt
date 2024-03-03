@@ -8,13 +8,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
+import com.oops.oops_android.ui.Main.MainActivity
+import com.oops.oops_android.ui.Tutorial.TutorialActivity
+import com.oops.oops_android.utils.getLoginId
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
 import java.util.regex.Pattern
 
-class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
+class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate), CommonView {
     override fun beforeSetContentView() {
     }
 
@@ -46,7 +50,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             // 7자 이상 입력했다면
             if (edt.text.length >= 7) {
                 alert.visibility = View.VISIBLE
-                alert.text = getString(R.string.signup_nickname_alert)
+                alert.text = getString(R.string.signup_nickname_alert_1)
                 alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                 underLine.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 alertImg.visibility = View.VISIBLE
@@ -60,7 +64,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             }*/
             // 6자 이하 입력 및 조건에 맞다면
             else if (edt.text.isNotEmpty()){
-                checkNickName(alert, edt, alertImg)
+                // 닉네임 중복 검사하기
+                nicknameOverlap(binding.edtSignUpNickname.text.toString())
             }
 
             getHideKeyboard(binding.root) // 키보드 숨기기
@@ -86,41 +91,135 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             val dialog = NicknameDialog(this@SignUpActivity)
             dialog.nicknameDialogShow()
 
+            // 사용 버튼을 클릭한 경우
             dialog.setOnClickedListener(object : NicknameDialog.ButtonClickListener {
                 override fun onClicked() {
-                    // 사용 버튼을 클릭한 경우
                     // 닉네임 저장
                     saveNickname(binding.edtSignUpNickname.text.toString())
-                    startActivityWithClear(SignUp2Activity::class.java)
+
+                    // 네이버 로그인하기의 경우
+                    if (getLoginId() == "naver") {
+                        // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
+                        val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
+                            when (item) {
+                                0 -> startNextActivity(MoreTermsActivity::class.java) // 개인정보 이용약관 보기 버튼
+                                1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
+                            }
+                        }
+                        termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
+                    }
+                    else {
+                        // 이메일&비밀번호 입력 화면으로 이동
+                        startActivityWithClear(SignUp2Activity::class.java)
+                    }
                 }
             })
         }
     }
 
-    // 닉네임을 잘 입력했는지 체크
-    private fun checkNickName(alert: TextView, edt: EditText, alertImg: ImageView) {
+    // 다음 버튼 클릭 이벤트
+    private fun clickNextBtn(isChoiceCheck: Boolean) {
+        // 닉네임 저장
+        saveNickname(binding.edtSignUpNickname.text.toString())
 
-        // TODO: 서버api 연동 -> 중복 닉네임 체크
-        // ok일 경우 -> 버튼 나타내기
+        // 알림에 동의했다면
+        if (isChoiceCheck) {
+            clickAgreeBtn()
+        }
+        // 알림에 미동의했다면
+        else {
+            // 푸시 알림 미동의 팝업 띄우기
+            val dialog = PushAlertDialog(this@SignUpActivity)
+            dialog.showPushAlertDialog()
+            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
+                override fun onClicked(isAgree: Boolean) {
+                    // 동의 버튼을 누른 경우
+                    if (isAgree)
+                        clickAgreeBtn()
+                    // 동의 안함 버튼을 누른 경우
+                    else
+                        clickDisAgreeBtn()
+                }
+            })
+        }
+    }
 
+    // 푸시 알림 동의 버튼을 누른 경우
+    private fun clickAgreeBtn() {
+        val agreeDialog = PushAlertAgreeDialog(this@SignUpActivity)
+        agreeDialog.showAgreeDialog()
+        agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
+            override fun onClicked() {
+                // 확인 버튼을 누른 경우
+                startActivityWithClear(MainActivity::class.java)
+            }
+        })
+    }
 
-        // 조건에 만족한 경우
-        // 중복 확인 버튼 숨기기
-        binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
+    // 푸시 알림 동의 안함 버튼을 누른 경우
+    private fun clickDisAgreeBtn() {
+        val disagreeDialog = PushAlertDisagreeDialog(this@SignUpActivity)
+        disagreeDialog.showDisagreeDialog()
+        disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
+            override fun onClicked() {
+                // 확인 버튼을 누른 경우
+                startActivityWithClear(MainActivity::class.java)
+            }
+        })
+    }
 
-        alert.visibility = View.VISIBLE
-        alert.text = getString(R.string.signup_nickname_alert_confirm)
-        alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-        binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-        alertImg.visibility = View.VISIBLE
-        alertImg.setImageResource(R.drawable.ic_confirm_25)
-        //val confirmBtn = ContextCompat.getDrawable(applicationContext, R.drawable.ic_confirm_25)
-        //edt.setCompoundDrawablesWithIntrinsicBounds(null, null, confirmBtn, null)
+    // 서버 닉네임 체크
+    private fun nicknameOverlap(name: String) {
+    }
 
-        // 다음 버튼 띄우기
-        // 등장 애니메이션 적용
-        val inAnim = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_up)
-        binding.cvSignUp1Next.visibility = View.VISIBLE
-        binding.cvSignUp1Next.startAnimation(inAnim)
+    // 닉네임 중복 검사 성공
+    override fun onCommonSuccess(status: Int, message: String) {
+        when (status) {
+            200 -> {
+                // 중복 확인 버튼 숨기기
+                binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
+
+                val alert = binding.tvSignUpAlert
+                val alertImg = binding.ivSignUpAlert
+
+                alert.visibility = View.VISIBLE
+                alert.text = getString(R.string.signup_nickname_alert_confirm)
+                alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                alertImg.visibility = View.VISIBLE
+                alertImg.setImageResource(R.drawable.ic_confirm_25)
+
+                // 다음 버튼 띄우기
+                // 등장 애니메이션 적용
+                val inAnim = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_up)
+                binding.cvSignUp1Next.visibility = View.VISIBLE
+                binding.cvSignUp1Next.startAnimation(inAnim)
+            }
+        }
+    }
+
+    // 닉네임 중복 검사 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        when (status) {
+            // 닉네임 중복인 경우
+            409 -> {
+                // 중복 확인 버튼 숨기기
+                binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
+
+                val alert = binding.tvSignUpAlert
+                val underLine = binding.viewSignUpNickname
+                val alertImg = binding.ivSignUpAlert
+
+                alert.visibility = View.VISIBLE
+                alert.text = getString(R.string.signup_nickname_alert_2)
+                alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
+                underLine.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                alertImg.visibility = View.VISIBLE
+                alertImg.setImageResource(R.drawable.ic_mark_25)
+            }
+            else -> {
+
+            }
+        }
     }
 }
