@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 소지품 추가 화면 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Gray_50"
+    android:orientation="vertical"
+    tools:context=".ui.Tutorial.Tutorial3Activity">
+
+    <include
+        android:id="@+id/toolbar_stuff"
+        layout="@layout/toolbar_sub"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/all_radius_12"
+        android:backgroundTint="@color/Main_100"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <!-- 인벤토리 설명 -->
+        <TextView
+            android:id="@+id/tv_stuff_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Button2"
+            android:textColor="@color/Main_500"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- 인벤토리 변경 버튼 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp">
+            <ImageButton
+                android:id="@+id/iBtn_stuff_show_inventory"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_exchange_20"
+                android:scaleType="centerInside"
+                android:background="@color/Main_500"
+                android:padding="4dp"/>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="-10dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- 소지품 리스트 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_stuff_stuff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                tools:listitem="@layout/item_tutorial_stuff"
+                app:spanCount="3"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+
+            <!-- 하단 공백 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        app:cardCornerRadius="146dp"
+        app:cardElevation="0dp">
+        <Button
+            android:id="@+id/btn_stuff_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/WideButtonDisableStyle"
+            android:text="@string/button_stuff_add"/>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -275,6 +275,7 @@
             android:id="@+id/cv_create_inventory_stuff_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
@@ -314,7 +315,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/WideButtonDisableStyle"
-                    android:backgroundTint="@color/Gray_100"
+                    android:background="@color/Gray_100"
                     android:text="@string/button_edit_complete"/>
             </androidx.cardview.widget.CardView>
 

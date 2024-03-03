@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 튜토리얼 화면의 소지품 아이템 -->
+<!-- 튜토리얼 화면&소지품 화면의 소지품 아이템 -->
 <LinearLayout
     android:id="@+id/lLayout_item_tutorial_top"
     xmlns:android="http://schemas.android.com/apk/res/android"
