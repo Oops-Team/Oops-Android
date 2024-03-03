@@ -9,6 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.oops.oops_android.databinding.ActivitySplashBinding
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Base.BaseActivity
+import com.oops.oops_android.ui.Login.LoginActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
@@ -37,6 +38,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             slideUp.start()
         }
         // 화면 전환
-        startActivityWithClear(MainActivity::class.java) // 홈 화면 이동
+        startActivityWithClear(LoginActivity::class.java) // 홈 화면 이동
     }
 }
