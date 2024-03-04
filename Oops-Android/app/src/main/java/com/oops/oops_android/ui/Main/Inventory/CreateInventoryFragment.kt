@@ -14,6 +14,7 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.ApplicationClass.Companion.applicationContext
+import com.oops.oops_android.ui.Main.Inventory.Stuff.StuffAddFragmentArgs
 
 /* 인벤토리 생성 & 수정 화면 */
 class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(FragmentCreateInventoryBinding::inflate), CompoundButton.OnCheckedChangeListener {
@@ -89,15 +90,32 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         binding.btnCreateInventoryStuffAdd.setOnClickListener {
             if (isEnable) {
                 // TODO: API 연동 필요
-                showToast("소지품 추가 화면으로 이동!")
+
+                // 소지품 추가 화면으로 이동하기
+                val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
+                    "Inventory",
+                    null
+                )
+                findNavController().navigate(actionToStuffAdd)
             }
+        }
+
+        // 소지품 수정 버튼 클릭 이벤트
+        binding.btnCreateInventoryStuffEdit.setOnClickListener {
+            // 소지품 추가 화면으로 이동하기
+            val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
+                "Inventory",
+                null
+            )
+            findNavController().navigate(actionToStuffAdd)
         }
 
         // 수정 완료 버튼 클릭 이벤트
         binding.btnCreateInventoryEdit.setOnClickListener {
             if (isEnable) {
                 // TODO: API 연동 필요
-                showToast("인벤토리 화면 유지!")
+
+                // TODO: 팝업 띄우기
             }
         }
 

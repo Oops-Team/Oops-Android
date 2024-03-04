@@ -76,7 +76,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         categoryAdapter.addCategoryList(categoryList)
         binding.rvInventoryCategory.adapter = categoryAdapter
 
-        // TODO: 카테고리가 5개라면 create 버튼 숨기기
+        // 카테고리가 5개라면 create 버튼 숨기기
         if (categoryAdapter.itemCount == 5) {
             binding.btnInventoryCreate.visibility = View.INVISIBLE
         }
@@ -127,7 +127,12 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // 소지품이 없을 경우, 소지품 추가 버튼 클릭 이벤트
         binding.lLayoutInventoryStuffDefault.setOnClickListener {
-            // TODO: 소지품 추가 화면으로 이동
+            // 소지품 추가 화면으로 이동하기
+            val actionToStuffAdd: NavDirections = InventoryFragmentDirections.actionInventoryFrmToStuffAddFrm(
+                "Inventory",
+                null
+            )
+            findNavController().navigate(actionToStuffAdd)
         }
 
         // 인벤토리 All 아이템 출력

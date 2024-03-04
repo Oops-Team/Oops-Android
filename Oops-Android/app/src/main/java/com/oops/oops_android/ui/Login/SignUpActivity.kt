@@ -3,9 +3,6 @@ package com.oops.oops_android.ui.Login
 import android.text.InputFilter
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Auth.AuthService
@@ -13,7 +10,6 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
-import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.getLoginId
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
@@ -222,7 +218,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 alertImg.setImageResource(R.drawable.ic_mark_25)
             }
             else -> {
-
+                showToast(getString(R.string.toast_server_error))
             }
         }
     }

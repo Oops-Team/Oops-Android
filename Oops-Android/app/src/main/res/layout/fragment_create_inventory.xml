@@ -287,7 +287,7 @@
                 android:layout_height="wrap_content"
                 style="@style/WideButtonDisableStyle"
                 android:background="@color/Gray_100"
-                android:text="@string/button_stuff_add"/>
+                android:text="@string/btn_stuff_add"/>
         </androidx.cardview.widget.CardView>
 
         <!-- 인벤토리 수정 화면 시의 버튼 -->
@@ -316,7 +316,7 @@
                     android:layout_height="wrap_content"
                     style="@style/WideButtonDisableStyle"
                     android:background="@color/Gray_100"
-                    android:text="@string/button_edit_complete"/>
+                    android:text="@string/btn_edit_complete"/>
             </androidx.cardview.widget.CardView>
 
             <!-- 소지품 수정 버튼 -->
@@ -332,7 +332,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/WideButtonEnableStyle"
-                    android:text="@string/button_stuff_edit"/>
+                    android:text="@string/btn_stuff_edit"/>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
