@@ -172,15 +172,6 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_17"
-                android:textColor="@color/Gray_500"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"/>
 
             <!-- 제 5조 -->
             <TextView
@@ -238,6 +229,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_56"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_marginTop="12dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_57"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_58"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_59"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+
+            <!-- 제 7조 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/more_terms_info_24"
                 android:textColor="@color/Black"
                 android:textSize="14sp"
@@ -251,6 +276,15 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_60"
+                android:textColor="@color/Gray_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -339,20 +373,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_36"
-                android:textColor="@color/Black"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_37"
+                android:text="@string/more_terms_info_61"
                 android:textColor="@color/Gray_500"
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_36"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -364,36 +399,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_39"
+                android:text="@string/more_terms_info_62"
                 android:textColor="@color/Black"
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_40"
-                android:textColor="@color/Gray_500"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_41"
-                android:textColor="@color/Black"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_42"
-                android:textColor="@color/Black"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -412,7 +423,7 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
 
-            <!-- 제 9조 -->
+            <!-- 제 10조 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -446,8 +457,25 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_63"
+                android:textColor="@color/Gray_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_64"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
 
-            <!-- 제 10조 -->
+            <!-- 제 11조 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -468,12 +496,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/more_terms_info_51"
+                android:textColor="@color/Gray_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_65"
                 android:textColor="@color/Black"
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
 
-            <!-- 별첨 -->
+            <!-- 제 12조 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -490,14 +527,7 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/more_terms_info_54"
-                android:textColor="@color/Black"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_regular"
-                android:layout_marginTop="4dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -507,6 +537,76 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"/>
+
+            <!-- 제 13조 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_66"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_marginTop="12dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_67"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_68"
+                android:textColor="@color/Gray_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_69"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_70"
+                android:textColor="@color/Gray_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"/>
+
+            <!-- 제 14조 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_71"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_marginTop="12dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_72"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more_terms_info_73"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
