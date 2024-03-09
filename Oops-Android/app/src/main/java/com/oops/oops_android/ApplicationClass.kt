@@ -30,7 +30,9 @@ class ApplicationClass: Application() {
 
         const val X_AUTH_TOKEN: String = "xAuthToken" // token 키 값
         const val TAG: String = "AUTH" // SharedPreferences 키 값
-        const val BASE_URL: String = "http://10.0.2.2:8080" // 서버 주소
+        private const val DEV_URL: String = "http://10.0.2.2:8080" // 테스트 주소
+        private const val PROD_URL: String = "" // 실서버 주소
+        const val BASE_URL: String = DEV_URL // 서버를 번갈아 가며 테스트하기 위한 변수
 
         lateinit var retrofit: Retrofit
         lateinit var mSharedPreferences: SharedPreferences
