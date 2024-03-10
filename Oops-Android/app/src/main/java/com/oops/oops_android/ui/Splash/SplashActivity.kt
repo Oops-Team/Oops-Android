@@ -1,6 +1,8 @@
 package com.oops.oops_android.ui.Splash
 
 import android.animation.ObjectAnimator
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.animation.doOnEnd
@@ -10,7 +12,10 @@ import com.oops.oops_android.databinding.ActivitySplashBinding
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Login.LoginActivity
+import com.oops.oops_android.utils.clearToken
+import com.oops.oops_android.utils.getToken
 
+/* 스플래시 화면 */
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     private lateinit var splashScreen: SplashScreen
@@ -37,7 +42,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
             slideUp.start()
         }
-        // 화면 전환
-        startActivityWithClear(LoginActivity::class.java) // 홈 화면 이동
+
+        // 토큰 여부에 따른 화면 전환
+        if (getToken() == null) {
+            startActivityWithClear(LoginActivity::class.java) // 로그인 화면 이동
+        }
+        else {
+            startActivityWithClear(MainActivity::class.java) // 홈 화면 이동
+        }
     }
 }

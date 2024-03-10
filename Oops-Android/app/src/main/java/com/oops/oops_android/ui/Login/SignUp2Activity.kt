@@ -3,6 +3,12 @@ package com.oops.oops_android.ui.Login
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
+import com.oops.oops_android.data.db.Entity.User
+import com.oops.oops_android.data.remote.Auth.Api.AuthService
+import com.oops.oops_android.data.remote.Auth.Api.SignUpView
+import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUp2Binding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
@@ -11,9 +17,12 @@ import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.saveNickname
+import com.oops.oops_android.utils.saveToken
+import org.json.JSONObject
 
-// 회원가입 - 이메일, 비밀번호 입력하는 화면
-class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Binding::inflate) {
+/* 회원가입 - 이메일, 비밀번호 입력하는 화면 */
+class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Binding::inflate), CommonView, SignUpView {
 
     private var isPwdMask: Boolean = false // 비밀번호 mask on/off 변수
     private var isPwdCheckMask: Boolean = false // 비밀번호 재확인 mask on/off 변수
@@ -42,27 +51,18 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         binding.tvSignUp2OverlapBtn.setOnClickListener {
             // 이메일 형식이 맞다면
             if (EditTextUtils.emailRegex(binding.edtSignUp2Email.text.toString().trim())) {
-                // TODO: 중복 확인 검사하기
-
-                // 중복이 아니라면
+                // 중복 확인 검사 API 연결
+                val authService = AuthService()
+                authService.setCommonView(this)
+                authService.emailOverlap(binding.edtSignUp2Email.text.toString())
+            }
+            else {
+                // 이메일 입력 형식 오류 문구 띄우기
                 isEmailValid = true
-                binding.edtSignUp2Email.isEnabled = false // 이메일 입력 막기
-                binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert_confirm)
-                binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-                binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
-                binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
-                binding.tvSignUp2OverlapBtn.visibility = View.INVISIBLE
-                checkValid() // 모든 유효성 확인
-
-                /*
-                // 중복 이라면
-                isEmailValid = false
-                binding.tvSignUp2EmailAlert.text = R.string.signup_email_alert.toString()
+                binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
+                binding.tvSignUp2EmailAlert.text = getString(R.string.login_email_alert)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
-                binding.edtSignUp2Email.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
-                binding.tvSignUp2OverlapBtn.visibility = View.VISIBLE
-                binding.ivSignUp2EmailAlert.visibility = View.INVISIBLE
-                */
+                binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
             }
         }
 
@@ -93,7 +93,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         // 비밀번호 - 입력 조건 검사
         binding.edtSignUp2Pwd.onTextChanged {
             // 비밀번호 재확인 필드가 작성되어 있다면
-            if (binding.edtSignUp2PwdCheck.text.toString().isNotBlank()) {
+            if (binding.edtSignUp2PwdCheck.text.toString().isNotBlank() && isPwdValid) {
                 // 두 개의 필드가 다르다면
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
@@ -123,6 +123,14 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 binding.viewSignUp2Pwd.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
                 binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
             }
+            // 8자 이하라면
+            else if (binding.edtSignUp2Pwd.length() < 8) {
+                isPwdValid = false
+                // 알럿 텍스트 출력
+                binding.tvSignUp2PwdAlert.text = getString(R.string.signup_pwd_alert_4)
+                binding.viewSignUp2Pwd.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                binding.tvSignUp2PwdAlert.visibility = View.VISIBLE
+            }
             // 영문, 숫자, 특수 문자가 없다면
             else if (!EditTextUtils.passwordRegex(binding.edtSignUp2Pwd.text.toString())) {
                 isPwdValid = false
@@ -145,7 +153,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         // 비밀번호 재확인 - 입력 조건 검사
         binding.edtSignUp2PwdCheck.onTextChanged {
             // 입력이 되어있는 상태라면
-            if (binding.edtSignUp2PwdCheck.text.toString().isNotBlank()) {
+            if (binding.edtSignUp2PwdCheck.text.toString().isNotBlank() && isPwdValid) {
                 // 비밀번호와 비밀번호 재확인 필드가 일치하지 않는다면
                 if (binding.edtSignUp2Pwd.text.toString() != binding.edtSignUp2PwdCheck.text.toString()) {
                     isPwdCheckValid = false
@@ -195,6 +203,11 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
 
     // 다음 버튼 클릭 이벤트
     private fun clickNextBtn(isChoiceCheck: Boolean) {
+        // API 연동
+        val authService = AuthService()
+        authService.setSignUpView(this@SignUp2Activity)
+        authService.oopsSignUp(OopsUserModel(binding.edtSignUp2Email.text.toString(), binding.edtSignUp2Pwd.text.toString(), getNickname()))
+
         // 알림에 동의했다면
         if (isChoiceCheck) {
             clickAgreeBtn()
@@ -224,6 +237,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
+                // TODO: 알람 동의 room db 저장하기
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
@@ -236,8 +250,75 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
+                // TODO: 알람 비동의 room db 저장하기
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
+    }
+
+    // 이메일 중복 확인 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            // 중복이 아니라면
+            200 -> {
+                isEmailValid = true
+                binding.edtSignUp2Email.isEnabled = false // 이메일 입력 막기
+                binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
+                binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
+                binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert_confirm)
+                binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Main_500))
+                binding.tvSignUp2OverlapBtn.visibility = View.INVISIBLE
+                checkValid() // 모든 유효성 확인
+            }
+        }
+    }
+
+    // 이메일 중복 확인 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        when (status) {
+            // 이메일 중복
+            409 -> {
+                isEmailValid = true
+                binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
+                binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert)
+                binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
+                binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+            }
+            else -> showToast(getString(R.string.toast_server_error))
+        }
+    }
+
+    // Oops 회원가입 성공
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            200 -> {
+                val userDB = AppDatabase.getUserDB()!! // room db의 user db
+
+                // 기존 Room DB에 저장된 값 삭제
+                userDB.userDao().deleteAllUser()
+
+                // json 파싱
+                val jsonObject = JSONObject(data.toString())
+
+                // accessToken 저장
+                val accessToken: String = jsonObject.getString("accessToken").toString()
+                saveToken(accessToken)
+
+                // spf 업데이트
+                saveNickname(getNickname())
+
+                // Room DB에 값 저장
+                userDB.userDao().insertUser(User("oops", getNickname()))
+            }
+        }
+    }
+
+    // Oops 회원가입 실패
+    override fun onSignUpFailure(status: Int, message: String) {
+        when (status) {
+            -1 -> showToast(getString(R.string.toast_server_error))
+            else -> showToast(getString(R.string.toast_server_error))
+        }
     }
 }

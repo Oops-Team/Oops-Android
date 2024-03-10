@@ -50,6 +50,7 @@
     <string name="signup_pwd_alert_1">비밀번호가 일치하지 않습니다</string>
     <string name="signup_pwd_alert_2">비밀번호는 15자까지 입력 가능해요</string>
     <string name="signup_pwd_alert_3">영문, 숫자, 특수문자를 포함해야 해요</string>
+    <string name="signup_pwd_alert_4">비밀번호는 8자 이상 입력해야 해요</string>
     <string name="signup_pwd_alert_confirm">비밀번호가 일치합니다</string>
 
     <!-- 개인정보 수집 및 이용 약관 -->
