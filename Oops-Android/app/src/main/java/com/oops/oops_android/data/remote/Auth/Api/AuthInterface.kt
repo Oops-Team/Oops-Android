@@ -12,7 +12,7 @@ import retrofit2.http.Path
 /* 로그인 및 회원가입 */
 interface AuthInterface {
     // Oops 로그인
-    @POST("/login/{loginId}")
+    @POST("/user/login/{loginId}")
     fun oopsLogin(
         @Path("loginId") loginId: String,
         @Body user: OopsUserModel
@@ -25,19 +25,19 @@ interface AuthInterface {
     ): Call<CommonResponse>
 
     // 닉네임 중복 검사
-    @GET("/nickname/{name}")
+    @GET("/user/nickname/{name}")
     fun nicknameOverlap(
         @Path("name") name: String
     ): Call<CommonResponse>
 
     // 이메일 중복 검사
-    @GET("/email/{email}")
+    @GET("/user/email/{email}")
     fun emailOverlap(
         @Path("email") email: String
     ): Call<CommonResponse>
 
     // Oops 회원 가입
-    @POST("/sign-up")
+    @POST("/user/sign-up")
     fun oopsSignUp(
         @Body user: OopsUserModel
     ): Call<CommonResponse>
