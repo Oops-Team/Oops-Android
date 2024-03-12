@@ -108,7 +108,6 @@
             android:id="@+id/switch_account_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:thumb="@drawable/selector_switch_thumb"
             app:track="@drawable/selector_switch_track"
             app:switchMinWidth="55dp"/>
