@@ -21,6 +21,14 @@
     <string name="btn_edit_complete">수정 완료</string>
     <string name="btn_stuff_edit">소지품 수정</string>
     <string name="btn_complete">완료</string>
+    <string name="btn_withdrawal_next">탈퇴할게요</string>
+
+    <!-- 라디오 버튼 -->
+    <string name="radio_btn_withdrawal_1">앱 사용이 불편해요</string>
+    <string name="radio_btn_withdrawal_2">사용하는 소지품이 없어요</string>
+    <string name="radio_btn_withdrawal_3">새로운 계정을 사용하고 싶어요</string>
+    <string name="radio_btn_withdrawal_4">앱을 자주 사용하지 않아요</string>
+    <string name="radio_btn_withdrawal_5">기타</string>
 
     <!-- 로그인 -->
     <string name="login_email">ID(E-mail)</string>
@@ -320,6 +328,11 @@
     <string name="myPage_profile">프로필 공개</string>
     <string name="myPage_withdrawal">회원 탈퇴</string>
     <string name="myPage_account_info">SNS를 연동하고\n더욱 편하게 로그인하세요</string>
+
+    <!-- 회원 탈퇴 -->
+    <string name="withdrawal_info_1">Oops! 떠나시는 건가요?</string>
+    <string name="withdrawal_info_2">그동안 서비스를 이용해 주셔서 감사합니다\n소중한 의견을 담아 더 좋은 모습으로 발전할게요</string>
+    <string name="withdrawal_info_3">자유롭게 의견을 남겨 주세요</string>
 
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 회원 탈퇴 화면 1 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/White"
+    tools:context=".ui.MyPage.Withdrawal1Fragment">
+
+    <!-- 툴 바 -->
+    <include
+        android:id="@+id/toolbar_withdrawal_1"
+        layout="@layout/toolbar_sub"/>
+
+    <!-- 상단 문구 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="28dp"
+            android:fontFamily="@font/pretendard_bold"
+            android:text="@string/withdrawal_info_1"
+            android:textColor="@color/Black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Body1"
+            android:text="@string/withdrawal_info_2"
+            android:textColor="@color/Gray_400"
+            android:layout_marginTop="6dp"/>
+    </LinearLayout>
+
+    <!-- 라디오 버튼 - 탈퇴 사유 -->
+    <RadioGroup
+        android:id="@+id/rGroup_withdrawal_1_reason"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+        
+        <RadioButton
+            android:id="@+id/rBtn_withdrawal_1_reason_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_withdrawal_radio_btn"
+            android:paddingStart="8dp"
+            android:text="@string/radio_btn_withdrawal_1"
+            android:textColor="@color/Black"/>
+
+        <RadioButton
+            android:id="@+id/rBtn_withdrawal_1_reason_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_withdrawal_radio_btn"
+            android:paddingStart="8dp"
+            android:text="@string/radio_btn_withdrawal_2"
+            android:textColor="@color/Black"
+            android:layout_marginTop="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rBtn_withdrawal_1_reason_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_withdrawal_radio_btn"
+            android:paddingStart="8dp"
+            android:text="@string/radio_btn_withdrawal_3"
+            android:textColor="@color/Black"
+            android:layout_marginTop="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rBtn_withdrawal_1_reason_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_withdrawal_radio_btn"
+            android:paddingStart="8dp"
+            android:text="@string/radio_btn_withdrawal_4"
+            android:textColor="@color/Black"
+            android:layout_marginTop="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rBtn_withdrawal_1_reason_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_withdrawal_radio_btn"
+            android:paddingStart="8dp"
+            android:text="@string/radio_btn_withdrawal_5"
+            android:textColor="@color/Black"
+            android:layout_marginTop="16dp"/>
+
+        <!-- 기타 사항 입력 필드 -->
+        <EditText
+            android:id="@+id/edt_withdrawal_1_etc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            style="@style/Body2"
+            android:hint="@string/withdrawal_info_3"
+            android:textColorHint="@color/Gray_300"
+            android:textColor="@color/Black"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:background="@drawable/all_radius_50"
+            android:backgroundTint="@color/Gray_F5"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="21dp"
+            android:paddingTop="10dp"
+            android:paddingStart="19dp"
+            android:paddingEnd="19dp"
+            android:paddingBottom="10dp"/>
+    </RadioGroup>
+
+    <!-- 탈퇴 버튼 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="0dp">
+
+        <Button
+            android:id="@+id/btn_withdrawal_1_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_withdrawal_next"
+            style="@style/WideButtonDisableStyle"
+            android:background="@color/Gray_100"/>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

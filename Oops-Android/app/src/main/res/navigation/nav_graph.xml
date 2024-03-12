@@ -196,6 +196,17 @@
         <action
             android:id="@+id/action_accountFrm_to_myPageFrm"
             app:destination="@id/myPageFragment"/>
+        <action
+            android:id="@+id/action_accountFrm_to_frm_withdrawal_1Frm"
+            app:destination="@id/withdrawal1Fragment"/>
+    </fragment>
+
+    <!-- 회원 탈퇴 1 -->
+    <fragment
+        android:id="@+id/withdrawal1Fragment"
+        android:name="com.oops.oops_android.ui.MyPage.Withdrawal1Fragment"
+        android:label="frm_withdrawal_1"
+        tools:layout="@layout/fragment_withdrawal1">
     </fragment>
 
     <!-- 알림 설정 -->

@@ -2,63 +2,63 @@
 <resources>
     <!-- 폰트 스타일 정의 -->
     <style name="toastMessageStyle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/Gray_900</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
         <item name="android:textAlignment">center</item>
     </style>
     <style name="H0">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">32dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
-        <item name="android:lineSpacingExtra">9sp</item>
+        <item name="android:lineSpacingExtra">9dp</item>
     </style>
     <style name="H1">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">30dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
-        <item name="android:lineSpacingExtra">9sp</item>
+        <item name="android:lineSpacingExtra">9dp</item>
     </style>
     <style name="H2">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">24dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="H3">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="H4">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="SubTitle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
     <style name="Body1">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
     <style name="Body2">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
     </style>
     <style name="Button1">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="Button2">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="Button3">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
     <style name="Button3_Active">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
     <style name="Popup_content">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 </resources>
