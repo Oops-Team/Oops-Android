@@ -1,29 +1,46 @@
 package com.oops.oops_android.ui.Login
 
 import android.text.InputFilter
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
-import com.oops.oops_android.data.remote.Auth.AuthService
+import com.oops.oops_android.data.db.Database.AppDatabase
+import com.oops.oops_android.data.db.Entity.User
+import com.oops.oops_android.data.remote.Auth.Api.AuthService
+import com.oops.oops_android.data.remote.Auth.Api.SignUpView
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
-import com.oops.oops_android.utils.getLoginId
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
+import java.lang.Exception
 import java.util.regex.Pattern
 
-class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate), CommonView {
+/* 회원가입 - 닉네임 입력 화면 */
+class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate), CommonView, SignUpView {
+
+    // 어떤 버튼 클릭 이벤트로 화면을 넘어왔는지 파악하기 위한 변수
+    private var loginId: String? = null
+
+    // 네이버 & 구글의 이메일 값
+    private var serverEmail: String? = null
+
     override fun beforeSetContentView() {
     }
 
     override fun initAfterBinding() {
+        // 어떤 버튼 클릭 이벤트로 화면을 넘어 왔는지 파악한 후 값 적용하기
+        try {
+            loginId = intent.getStringExtra("LoginId")
+            serverEmail = intent.getStringExtra("Email")
+        } catch (e: Exception) {
+            Log.e("SignUpActivity - intent", e.stackTraceToString())
+        }
+
         // 화면 터치 시 키보드 숨기기
         binding.cLayoutSignUpTop.setOnClickListener {
             getHideKeyboard(binding.root)
@@ -98,8 +115,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                     // 닉네임 저장
                     saveNickname(binding.edtSignUpNickname.text.toString())
 
-                    // 네이버 로그인하기의 경우
-                    if (getLoginId() == "naver") {
+                    // 네이버 && 구글 로그인의 경우
+                    if (loginId == "naver" || loginId == "google") {
                         // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
                         val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
                             when (item) {
@@ -109,6 +126,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                         }
                         termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
                     }
+                    // Oops 회원가입의 경우
                     else {
                         // 이메일&비밀번호 입력 화면으로 이동
                         startActivityWithClear(SignUp2Activity::class.java)
@@ -118,10 +136,21 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
-    // 다음 버튼 클릭 이벤트
+    // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
     private fun clickNextBtn(isChoiceCheck: Boolean) {
-        // 닉네임 저장
-        saveNickname(binding.edtSignUpNickname.text.toString())
+        try {
+            // 네이버에서 넘어온 화면이라면
+            if (loginId == "naver") {
+                // 닉네임 저장
+                val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), "naver")
+
+                // TODO: API 연결
+
+            }
+        } catch (e: Exception) {
+            Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
+        }
 
         // 알림에 동의했다면
         if (isChoiceCheck) {
@@ -169,7 +198,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         })
     }
 
-    // 서버 닉네임 체크
+    // 닉네임 중복 검사 체크
     private fun nicknameOverlap(name: String) {
         val authService = AuthService()
         authService.setCommonView(this)
@@ -177,7 +206,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     // 닉네임 중복 검사 성공
-    override fun onCommonSuccess(status: Int, message: String) {
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (status) {
             200 -> {
                 // 중복 확인 버튼 숨기기
@@ -222,8 +251,36 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 alertImg.setImageResource(R.drawable.ic_mark_25)
             }
             else -> {
-
+                showToast(getString(R.string.toast_server_error))
             }
         }
+    }
+
+    // 네이버 & 구글 로그인 성공
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            200 -> {
+                val userDB = AppDatabase.getUserDB()!! // room db의 user db
+
+                // 기존 Room DB에 저장된 값 삭제
+                userDB.userDao().deleteAllUser()
+
+                // spf 기존 값 업데이트
+
+
+                // Room DB에 값 저장
+                userDB.userDao().insertUser(User(
+                    loginId!!,
+                    binding.edtSignUpNickname.text.toString()
+                ))
+
+                startActivityWithClear(TutorialActivity::class.java)
+            }
+        }
+    }
+
+    // 네이버 & 구글 로그인 실패
+    override fun onSignUpFailure(status: Int, message: String) {
+        TODO("Not yet implemented")
     }
 }

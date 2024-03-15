@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 챙겨야 할 것 화면 -->
+<!-- 챙겨야 할 것 추가 & 물품 추가 화면 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,49 +11,60 @@
     tools:context=".ui.Tutorial.Tutorial3Activity">
 
     <include
-        android:id="@+id/toolbar_stuff"
+        android:id="@+id/toolbar_stuff_add"
         layout="@layout/toolbar_sub"/>
 
-    <LinearLayout
+    <!-- 소지품 검색 박스 -->
+    <EditText
+        android:id="@+id/edt_stuff_add_search_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/all_radius_12"
-        android:backgroundTint="@color/Main_100"
+        style="@style/Body1"
+        android:hint="@string/stuff_add_search_info"
+        android:textColorHint="@color/Gray_400"
+        android:textColor="@color/Gray_900"
+        android:maxLines="1"
+        android:background="@drawable/all_radius_50"
+        android:backgroundTint="@color/Gray_100"
+        android:drawableStart="@drawable/ic_search_27"
+        android:paddingTop="14dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="14dp"
+        android:drawablePadding="13dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:layout_marginEnd="16dp"/>
 
-        <!-- 인벤토리 설명 -->
+    <!-- 검색 결과 없는 경우 -->
+    <LinearLayout
+        android:id="@+id/lLayout_stuff_add_default"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="40dp">
         <TextView
-            android:id="@+id/tv_stuff_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Button2"
-            android:textColor="@color/Main_500"
-            android:layout_marginEnd="12dp"/>
+            style="@style/H4"
+            android:text="@string/stuff_add_info_1"
+            android:textColor="@color/Gray_500"/>
 
-        <!-- 인벤토리 변경 버튼 -->
-        <androidx.cardview.widget.CardView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="0dp">
-            <ImageButton
-                android:id="@+id/iBtn_stuff_show_inventory"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_exchange_20"
-                android:scaleType="centerInside"
-                android:background="@color/Main_500"
-                android:padding="4dp"/>
-        </androidx.cardview.widget.CardView>
+            style="@style/Body2"
+            android:text="@string/stuff_add_info_2"
+            android:textColor="@color/Gray_400"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_stuff_add_stuff"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -70,10 +81,10 @@
 
             <!-- 소지품 리스트 -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_stuff_stuff"
+                android:id="@+id/rv_stuff_add_stuff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="21dp"
                 android:orientation="vertical"
                 tools:listitem="@layout/item_tutorial_stuff"
                 app:spanCount="3"
@@ -95,10 +106,10 @@
         app:cardCornerRadius="146dp"
         app:cardElevation="0dp">
         <Button
-            android:id="@+id/btn_stuff_add"
+            android:id="@+id/btn_stuff_add_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/WideButtonDisableStyle"
-            android:text="@string/btn_stuff_add"/>
+            android:text="@string/btn_complete"/>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

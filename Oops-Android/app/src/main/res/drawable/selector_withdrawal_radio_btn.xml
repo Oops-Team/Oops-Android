@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 회원 탈퇴 화면 1에서 사용하는 라디오 버튼 이미지 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/ic_withdrawal_radio_btn_selected"/>
+    <item android:state_checked="false" android:drawable="@drawable/ic_withdrawal_radio_btn_unselected"/>
+</selector>

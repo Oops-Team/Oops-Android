@@ -507,7 +507,7 @@
                     android:layout_height="wrap_content"
                     style="@style/WideButtonDisableStyle"
                     android:backgroundTint="@color/Gray_100"
-                    android:text="@string/button_create"/>
+                    android:text="@string/btn_create"/>
             </androidx.cardview.widget.CardView>
 
             <!-- 수정 화면에 나타 날 버튼 -->
@@ -532,7 +532,7 @@
                         android:layout_height="wrap_content"
                         style="@style/WideButtonDisableStyle"
                         android:backgroundTint="@color/Gray_100"
-                        android:text="@string/button_delete" />
+                        android:text="@string/btn_delete" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- 수정하기 버튼 -->
@@ -548,7 +548,7 @@
                         android:layout_height="wrap_content"
                         style="@style/WideButtonDisableStyle"
                         android:backgroundTint="@color/Gray_100"
-                        android:text="@string/button_edit"/>
+                        android:text="@string/btn_edit"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>

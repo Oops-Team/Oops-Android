@@ -1,6 +1,7 @@
 package com.oops.oops_android.ui.Main.Inventory
 
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
@@ -19,7 +20,7 @@ import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(FragmentCreateInventoryBinding::inflate), CompoundButton.OnCheckedChangeListener {
 
     private var tagList = ArrayList<Int>() // 추가된 일정 리스트
-    private var isEnable = false // 소지품 추가 버튼 클릭 가능 여부
+    private var isEnable = false // 소지품 추가 & 인벤토리 수정 완료 버튼 클릭 가능 여부
     private var isOverlapName = false // 인벤토리 이름 중복 여부
     private var isChangeName = false // 인벤토리 이름 변경 여부(수정 화면)
     private var isOverlapTag = false // 인벤토리 태그 중복 여부
@@ -88,16 +89,51 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         // 소지품 추가 버튼 클릭 이벤트
         binding.btnCreateInventoryStuffAdd.setOnClickListener {
             if (isEnable) {
-                // TODO: API 연동 필요
-                showToast("소지품 추가 화면으로 이동!")
+                // TODO: 인벤토리 생성 API 연동 필요
+
+                // 소지품 추가 화면으로 이동하기
+                val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
+                    "Inventory",
+                    null
+                )
+                findNavController().navigate(actionToStuffAdd)
             }
+        }
+
+        // 소지품 수정 버튼 클릭 이벤트
+        binding.btnCreateInventoryStuffEdit.setOnClickListener {
+            // 소지품 추가 화면으로 이동하기
+            val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
+                "Inventory",
+                null
+            )
+            findNavController().navigate(actionToStuffAdd)
         }
 
         // 수정 완료 버튼 클릭 이벤트
         binding.btnCreateInventoryEdit.setOnClickListener {
             if (isEnable) {
                 // TODO: API 연동 필요
-                showToast("인벤토리 화면 유지!")
+
+                // 인벤토리 수정 완료 팝업 띄우기
+                val modifyInventoryDialog = InventoryModifyDialog(requireContext())
+                modifyInventoryDialog.showInventoryModifyDialog()
+
+                // 인벤토리 리스트에 변경된 데이터 적용하기
+                for (i in 0 until inventoryList.size) {
+                    if (inventoryList[i].inventoryName == inventoryItem.inventoryName) {
+                        inventoryList[i].inventoryName = binding.edtCreateInventoryName.text.toString()
+                        break
+                    }
+                }
+
+                // item에 변경된 데이터 적용하기
+                inventoryItem.inventoryName = binding.edtCreateInventoryName.text.toString()
+                inventoryItem.inventoryTag?.clear()
+                inventoryItem.inventoryTag?.addAll(tagList)
+
+                // 버튼 활성화 해제
+                updateButtonUI()
             }
         }
 
