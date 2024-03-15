@@ -22,6 +22,8 @@
     <string name="btn_stuff_edit">소지품 수정</string>
     <string name="btn_complete">완료</string>
     <string name="btn_withdrawal_next">탈퇴할게요</string>
+    <string name="btn_scroll_down">아래로 스크롤하기</string>
+    <string name="btn_check_read">확인했습니다</string>
 
     <!-- 라디오 버튼 -->
     <string name="radio_btn_withdrawal_1">앱 사용이 불편해요</string>
@@ -68,7 +70,7 @@
     <string name="terms_info_3">선택</string>
     <string name="terms_choice">앱 푸시 알림 동의</string>
 
-    <string name="more_terms_info_1">개인정보 보관 약관</string>
+    <string name="more_terms_info_1">개인정보처리방침</string>
     <string name="more_terms_info_2">CharmIT는(은) 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한  바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다. 이에 「개인정보 보호법」  제30조에 따라 정보주체에게 개인정보 처리에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을  신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.</string>
     <string name="more_terms_info_3">○ 이 개인정보처리방침은 2024년 4월 1일부터 적용됩니다.</string>
 
@@ -330,9 +332,16 @@
     <string name="myPage_account_info">SNS를 연동하고\n더욱 편하게 로그인하세요</string>
 
     <!-- 회원 탈퇴 -->
+    <string name="withdrawal_title">회원 탈퇴</string>
     <string name="withdrawal_info_1">Oops! 떠나시는 건가요?</string>
     <string name="withdrawal_info_2">그동안 서비스를 이용해 주셔서 감사합니다\n소중한 의견을 담아 더 좋은 모습으로 발전할게요</string>
     <string name="withdrawal_info_3">자유롭게 의견을 남겨 주세요</string>
+    <string name="withdrawal_info_4">탈퇴 전 약관을 확인해 주세요</string>
+    <string name="withdrawal_info_5">끝까지 스크롤하면 자동으로 체크돼요</string>
+    <string name="withdrawal_info_6">동일한 ID로 30일간 재가입할 수 없어요</string>
+    <string name="withdrawal_info_7">입력했던 소지품 내역을 보관하지 않아요</string>
+    <string name="withdrawal_info_8">입력했던 일과 리스트 내역을 보관하지 않아요</string>
+    <string name="withdrawal_terms">개인정보 처리 방침</string>
 
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
@@ -365,7 +374,10 @@
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
     <string name="toast_login_naver_failure">로그인이 취소되었습니다</string>
     <string name="toast_server_error">요청을 처리할 수 없습니다</string>
-    
+
+    <!-- 스낵바 메시지 -->
+    <string name="snackbar_read_terms">개인정보 처리 방침을 클릭하여 읽어 주세요!</string>
+
     <!-- 소지품 이름 -->
     <string name="stuff_computer">노트북</string>
     <string name="stuff_diary">다이어리</string>

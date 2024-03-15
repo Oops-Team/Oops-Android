@@ -23,7 +23,7 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
         // 회원 탈퇴 버튼 클릭
         binding.tvAccountWithdrawal.setOnClickListener {
             // 회원 탈퇴 화면 1로 이동
-            val actionToWithdrawal1: NavDirections = AccountFragmentDirections.actionAccountFrmToFrmWithdrawal1Frm()
+            val actionToWithdrawal1: NavDirections = AccountFragmentDirections.actionAccountFrmToWithdrawal1Frm()
             view?.findNavController()?.navigate(actionToWithdrawal1)
         }
     }

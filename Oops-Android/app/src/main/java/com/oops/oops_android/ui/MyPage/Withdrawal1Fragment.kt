@@ -2,16 +2,16 @@ package com.oops.oops_android.ui.MyPage
 
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.oops.oops_android.R
-import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal1Binding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
 
 /* 회원 탈퇴 화면 1 */
 class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWithdrawal1Binding::inflate) {
-    private lateinit var item: UserWithdrawalModel // 서버에서 전해 줄 회원 탈퇴 데이터
+    private lateinit var item: WithdrawalItem // 서버에서 전해 줄 회원 탈퇴 데이터
     private var isSelectedReason5 = false // 5번 라디오 버튼 클릭 여부
     private var isEnable = false // 탈퇴할게요 버튼 활성화 여부
 
@@ -26,34 +26,56 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
             view?.findNavController()?.popBackStack()
         }
 
+        // Withdrawal2Fragment 화면에서 뒤로가기를 눌렀을 경우(isEnable = true)
+        if (binding.rBtnWithdrawal1Reason1.isChecked) {
+            binding.btnWithdrawal1Next.setTextAppearance(R.style.WideButtonEnableStyle) // 버튼 색상 전환
+            binding.btnWithdrawal1Next.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Main_500))
+        }
+        else if (binding.rBtnWithdrawal1Reason2.isChecked) {
+            binding.btnWithdrawal1Next.setTextAppearance(R.style.WideButtonEnableStyle) // 버튼 색상 전환
+            binding.btnWithdrawal1Next.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Main_500))
+        }
+        else if (binding.rBtnWithdrawal1Reason3.isChecked) {
+            binding.btnWithdrawal1Next.setTextAppearance(R.style.WideButtonEnableStyle) // 버튼 색상 전환
+            binding.btnWithdrawal1Next.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Main_500))
+        }
+        else if (binding.rBtnWithdrawal1Reason4.isChecked) {
+            binding.btnWithdrawal1Next.setTextAppearance(R.style.WideButtonEnableStyle) // 버튼 색상 전환
+            binding.btnWithdrawal1Next.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Main_500))
+        }
+        else if (binding.rBtnWithdrawal1Reason5.isChecked) {
+            binding.btnWithdrawal1Next.setTextAppearance(R.style.WideButtonEnableStyle) // 버튼 색상 전환
+            binding.btnWithdrawal1Next.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Main_500))
+        }
+
         // 라디오 그룹 내의 라디오 버튼 클릭 여부
         binding.rGroupWithdrawal1Reason.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.rBtnWithdrawal1Reason1.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason1.isChecked) {
-                        item = UserWithdrawalModel(reason1 = true)
+                        item = WithdrawalItem(reason1 = true)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason2.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason2.isChecked) {
-                        item = UserWithdrawalModel(reason2 = true)
+                        item = WithdrawalItem(reason2 = true)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason3.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason3.isChecked) {
-                        item = UserWithdrawalModel(reason3 = true)
+                        item = WithdrawalItem(reason3 = true)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason4.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason4.isChecked) {
-                        item = UserWithdrawalModel(reason4 = true)
+                        item = WithdrawalItem(reason4 = true)
                     }
                 }
 
@@ -61,7 +83,7 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                     if (binding.rBtnWithdrawal1Reason5.isChecked) {
                         isSelectedReason5 = true
                         binding.edtWithdrawal1Etc.visibility = View.VISIBLE
-                        item = UserWithdrawalModel(reason5 = true)
+                        item = WithdrawalItem(reason5 = true)
                     }
                 }
             }
@@ -86,7 +108,9 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                     item.subReason = binding.edtWithdrawal1Etc.text.toString()
                 }
 
-                // TODO: 회원 탈퇴 2 화면으로 이동
+                // 회원 탈퇴 2 화면으로 이동
+                val actionToWithdrawal2: NavDirections = Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(item, false)
+                view?.findNavController()?.navigate(actionToWithdrawal2)
             }
         }
     }

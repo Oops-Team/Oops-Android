@@ -197,7 +197,7 @@
             android:id="@+id/action_accountFrm_to_myPageFrm"
             app:destination="@id/myPageFragment"/>
         <action
-            android:id="@+id/action_accountFrm_to_frm_withdrawal_1Frm"
+            android:id="@+id/action_accountFrm_to_withdrawal_1Frm"
             app:destination="@id/withdrawal1Fragment"/>
     </fragment>
 
@@ -207,6 +207,51 @@
         android:name="com.oops.oops_android.ui.MyPage.Withdrawal1Fragment"
         android:label="frm_withdrawal_1"
         tools:layout="@layout/fragment_withdrawal1">
+        <action
+            android:id="@+id/action_withdrawal_1Frm_to_withdrawal_2Frm"
+            app:destination="@id/withdrawal2Fragment"
+            app:popUpTo="@id/withdrawal2Fragment"/>
+    </fragment>
+
+    <!-- 회원 탈퇴 2 -->
+    <fragment
+        android:id="@+id/withdrawal2Fragment"
+        android:name="com.oops.oops_android.ui.MyPage.Withdrawal2Fragment"
+        android:label="frm_withdrawal_2"
+        tools:layout="@layout/fragment_withdrawal2">
+        <!-- 회원 탈퇴 사유 아이템 -->
+        <argument
+            android:name="withdrawalItem"
+            app:argType="com.oops.oops_android.ui.MyPage.WithdrawalItem"
+            app:nullable="true"/>
+        <!-- 개인정보 처리 방침 확인 여부 -->
+        <argument
+            android:name="isReadTerms"
+            app:argType="boolean"/>
+        <action
+            android:id="@+id/action_withdrawal_2Frm_to_termsFrm"
+            app:destination="@id/termsFragment"/>
+        <action
+            android:id="@+id/action_withdrawal_2Frm_to_loginActivity"
+            app:destination="@id/loginActivity"/>
+    </fragment>
+
+    <!-- 개인정보 처리 방침 -->
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.oops.oops_android.ui.MyPage.TermsFragment"
+        android:label="frm_terms"
+        tools:layout="@layout/fragment_terms">
+        <!-- 회원 탈퇴 사유 아이템 -->
+        <argument
+            android:name="tempWithdrawalItem"
+            app:argType="com.oops.oops_android.ui.MyPage.WithdrawalItem"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_termsFrm_to_withdrawal_2Frm"
+            app:destination="@id/withdrawal2Fragment"
+            app:popUpTo="@id/withdrawal2Fragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <!-- 알림 설정 -->
