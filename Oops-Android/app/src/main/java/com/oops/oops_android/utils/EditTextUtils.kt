@@ -10,7 +10,10 @@ class EditTextUtils {
         private const val emailPattern: String = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
 
         // 비밀번호 패턴(영어, 숫자, 일부 특수문자 허용)
-        private const val passwordPattern: String ="^(?=.*[a-z])(?=.*[0-9])(?=.*[?!*~@#%^])[a-zA-Z0-9?!*~@#%^]{8,15}$"
+        private const val passwordPattern: String = "^(?=.*[a-z])(?=.*[0-9])(?=.*[?!*~@#%^])[a-zA-Z0-9?!*~@#%^]{8,15}$"
+
+        // 닉네임 패턴(한글, 영어 대소문자 허용)
+        private const val nicknamePattern: String = "^[A-Za-zㄱ-ㅎ가-힣]{1,5}\$"
 
         // 이메일 정규식 확인
         fun emailRegex(email: String): Boolean {
@@ -20,6 +23,11 @@ class EditTextUtils {
         // 비밀번호 패턴 일치 확인
         fun passwordRegex(password: String): Boolean {
             return password.matches(passwordPattern.toRegex())
+        }
+
+        // 닉네임 패턴 일치 확인
+        fun nicknameRegex(nickname: String): Boolean {
+            return nickname.matches(nicknamePattern.toRegex())
         }
     }
 }
