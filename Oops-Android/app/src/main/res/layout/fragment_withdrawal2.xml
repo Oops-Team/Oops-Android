@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/White"
-    tools:context=".ui.MyPage.Withdrawal2Fragment">
+    tools:context=".ui.Main.MyPage.Withdrawal2Fragment">
 
     <include
         android:id="@+id/toolbar_withdrawal_2"

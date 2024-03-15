@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import androidx.navigation.findNavController
 import com.oops.oops_android.R
@@ -39,7 +39,8 @@ class AlertFragment: BaseFragment<FragmentAlertBinding>(FragmentAlertBinding::in
                 val disableDialog = PushAlertDisableDialog(requireContext())
                 disableDialog.showPushAlertDisableDialog()
 
-                disableDialog.setOnClickedListener(object : PushAlertDisableDialog.PushAlertDisableButtonClickListener {
+                disableDialog.setOnClickedListener(object :
+                    PushAlertDisableDialog.PushAlertDisableButtonClickListener {
                     override fun onClicked(isAgree: Boolean) {
                         // 비활성화 버튼을 클릭한 경우
                         if (isAgree) {

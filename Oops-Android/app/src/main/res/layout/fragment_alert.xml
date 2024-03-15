@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White"
     android:orientation="vertical"
-    tools:context=".ui.MyPage.AlertFragment">
+    tools:context=".ui.Main.MyPage.AlertFragment">
 
     <include
         android:id="@+id/toolbar_alert"

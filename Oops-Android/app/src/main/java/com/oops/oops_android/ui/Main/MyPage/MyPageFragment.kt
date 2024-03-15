@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -19,18 +19,21 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
         // 공지형 팝업을 클릭한 경우
         binding.lLayoutMyPageCommentNotice.setOnClickListener {
             // 공지사항 화면으로 이동
-            val actionToNotice: NavDirections = MyPageFragmentDirections.actionMyPageFrmToNoticeFrm()
+            val actionToNotice: NavDirections =
+                com.oops.oops_android.ui.MyPage.MyPageFragmentDirections.actionMyPageFrmToNoticeFrm()
             view?.findNavController()?.navigate(actionToNotice)
         }
 
         // 계정 설정 탭을 클릭한 경우
         binding.lLayoutMyPageAccount.setOnClickListener {
-            val actionToAccount: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAccountFrm()
+            val actionToAccount: NavDirections =
+                com.oops.oops_android.ui.MyPage.MyPageFragmentDirections.actionMyPageFrmToAccountFrm()
             view?.findNavController()?.navigate(actionToAccount)
         }
         // 알림 설정 탭을 클릭한 경우
         binding.lLayoutMyPageAlarm.setOnClickListener {
-            val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm()
+            val actionToAlert: NavDirections =
+                com.oops.oops_android.ui.MyPage.MyPageFragmentDirections.actionMyPageFrmToAlertFrm()
             view?.findNavController()?.navigate(actionToAlert)
         }
 

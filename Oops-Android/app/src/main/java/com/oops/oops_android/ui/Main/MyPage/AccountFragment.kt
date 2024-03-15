@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.util.Log
 import androidx.navigation.NavDirections
@@ -42,7 +42,8 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
         // 회원 탈퇴 버튼 클릭
         binding.tvAccountWithdrawal.setOnClickListener {
             // 회원 탈퇴 화면 1로 이동
-            val actionToWithdrawal1: NavDirections = AccountFragmentDirections.actionAccountFrmToWithdrawal1Frm()
+            val actionToWithdrawal1: NavDirections =
+                com.oops.oops_android.ui.MyPage.AccountFragmentDirections.actionAccountFrmToWithdrawal1Frm()
             view?.findNavController()?.navigate(actionToWithdrawal1)
         }
     }

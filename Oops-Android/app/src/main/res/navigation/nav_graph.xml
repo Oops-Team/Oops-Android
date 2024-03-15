@@ -145,7 +145,7 @@
     <!-- 마이페이지 -->
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.oops.oops_android.ui.MyPage.MyPageFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.MyPageFragment"
         android:label="frm_myPage"
         tools:layout="@layout/fragment_my_page">
         <action
@@ -165,7 +165,7 @@
     <!-- 공지사항 -->
     <fragment
         android:id="@+id/noticeFragment"
-        android:name="com.oops.oops_android.ui.MyPage.NoticeFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.NoticeFragment"
         android:label="frm_notice"
         tools:layout="@layout/fragment_notice">
         <action
@@ -179,7 +179,7 @@
     <!-- 공지사항 상세 -->
     <fragment
         android:id="@+id/noticeDetailFragment"
-        android:name="com.oops.oops_android.ui.MyPage.NoticeDetailFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.NoticeDetailFragment"
         android:label="frm_notice_detail"
         tools:layout="@layout/fragment_notice_detail">
         <action
@@ -190,7 +190,7 @@
     <!-- 계정 관리 -->
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.oops.oops_android.ui.MyPage.AccountFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.AccountFragment"
         android:label="frm_account"
         tools:layout="@layout/fragment_account">
         <action
@@ -204,7 +204,7 @@
     <!-- 회원 탈퇴 1 -->
     <fragment
         android:id="@+id/withdrawal1Fragment"
-        android:name="com.oops.oops_android.ui.MyPage.Withdrawal1Fragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.Withdrawal1Fragment"
         android:label="frm_withdrawal_1"
         tools:layout="@layout/fragment_withdrawal1">
         <action
@@ -216,13 +216,13 @@
     <!-- 회원 탈퇴 2 -->
     <fragment
         android:id="@+id/withdrawal2Fragment"
-        android:name="com.oops.oops_android.ui.MyPage.Withdrawal2Fragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.Withdrawal2Fragment"
         android:label="frm_withdrawal_2"
         tools:layout="@layout/fragment_withdrawal2">
         <!-- 회원 탈퇴 사유 아이템 -->
         <argument
             android:name="withdrawalItem"
-            app:argType="com.oops.oops_android.ui.MyPage.WithdrawalItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.WithdrawalItem"
             app:nullable="true"/>
         <!-- 개인정보 처리 방침 확인 여부 -->
         <argument
@@ -239,13 +239,13 @@
     <!-- 개인정보 처리 방침 -->
     <fragment
         android:id="@+id/termsFragment"
-        android:name="com.oops.oops_android.ui.MyPage.TermsFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.TermsFragment"
         android:label="frm_terms"
         tools:layout="@layout/fragment_terms">
         <!-- 회원 탈퇴 사유 아이템 -->
         <argument
             android:name="tempWithdrawalItem"
-            app:argType="com.oops.oops_android.ui.MyPage.WithdrawalItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.WithdrawalItem"
             app:nullable="true"/>
         <action
             android:id="@+id/action_termsFrm_to_withdrawal_2Frm"
@@ -257,7 +257,7 @@
     <!-- 알림 설정 -->
     <fragment
         android:id="@+id/alertFragment"
-        android:name="com.oops.oops_android.ui.MyPage.AlertFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.AlertFragment"
         android:label="frm_alert"
         tools:layout="@layout/fragment_alert">
         <action

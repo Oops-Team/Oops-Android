@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.animation.ObjectAnimator
 import android.util.Log
@@ -21,7 +21,7 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
         binding.toolbarTerms.ivSubToolbarBack.visibility = View.GONE
 
         // 전달 받은 데이터 저장
-        val args: TermsFragmentArgs by navArgs()
+        val args: com.oops.oops_android.ui.MyPage.TermsFragmentArgs by navArgs()
         try {
             withdrawalItem = args.tempWithdrawalItem!!
 
@@ -47,7 +47,11 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
             // 버튼 이름이 확인했습니다 라면
             else {
                 // 이전 화면으로 이동
-                val actionToWithdrawal2 = TermsFragmentDirections.actionTermsFrmToWithdrawal2Frm(withdrawalItem, true)
+                val actionToWithdrawal2 =
+                    com.oops.oops_android.ui.MyPage.TermsFragmentDirections.actionTermsFrmToWithdrawal2Frm(
+                        withdrawalItem,
+                        true
+                    )
                 view?.findNavController()?.navigate(actionToWithdrawal2)
             }
         }

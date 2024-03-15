@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
@@ -23,7 +23,8 @@ class NoticeFragment: BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding:
         // 공지사항1 클릭
         binding.lLayoutNotice1.setOnClickListener {
             // 세부 화면으로 이동
-            val actionToNoticeDetail: NavDirections = NoticeFragmentDirections.actionNoticeFrmToNoticeDetailFrm()
+            val actionToNoticeDetail: NavDirections =
+                com.oops.oops_android.ui.MyPage.NoticeFragmentDirections.actionNoticeFrmToNoticeDetailFrm()
             view?.findNavController()?.navigate(actionToNoticeDetail)
         }
     }
