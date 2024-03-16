@@ -23,8 +23,7 @@ class NoticeFragment: BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding:
         // 공지사항1 클릭
         binding.lLayoutNotice1.setOnClickListener {
             // 세부 화면으로 이동
-            val actionToNoticeDetail: NavDirections =
-                com.oops.oops_android.ui.MyPage.NoticeFragmentDirections.actionNoticeFrmToNoticeDetailFrm()
+            val actionToNoticeDetail: NavDirections = NoticeFragmentDirections.actionNoticeFrmToNoticeDetailFrm()
             view?.findNavController()?.navigate(actionToNoticeDetail)
         }
     }

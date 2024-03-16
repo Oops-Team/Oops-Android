@@ -23,7 +23,7 @@ class AlertFragment: BaseFragment<FragmentAlertBinding>(FragmentAlertBinding::in
         }
 
         // 토글 버튼 클릭 이벤트
-        binding.switchAlert.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchAlert.setOnCheckedChangeListener { _, isChecked ->
             if (!isCancel && isChecked) {
                 // 알림 동의 팝업 띄우기
                 val agreeDialog = PushAlertAgreeDialog(requireContext())

@@ -8,7 +8,6 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.databinding.FragmentAccountBinding
 import com.oops.oops_android.ui.Base.BaseFragment
-import com.oops.oops_android.utils.getToken
 
 // 계정 관리 화면
 class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate), CommonView {
@@ -42,8 +41,7 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
         // 회원 탈퇴 버튼 클릭
         binding.tvAccountWithdrawal.setOnClickListener {
             // 회원 탈퇴 화면 1로 이동
-            val actionToWithdrawal1: NavDirections =
-                com.oops.oops_android.ui.MyPage.AccountFragmentDirections.actionAccountFrmToWithdrawal1Frm()
+            val actionToWithdrawal1: NavDirections = AccountFragmentDirections.actionAccountFrmToWithdrawal1Frm()
             view?.findNavController()?.navigate(actionToWithdrawal1)
         }
     }

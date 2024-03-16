@@ -24,7 +24,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         binding.toolbarWithdrawal2.tvSubToolbarTitle.text = getString(R.string.withdrawal_title)
 
         // 전달 받은 데이터 저장
-        val args: com.oops.oops_android.ui.MyPage.Withdrawal2FragmentArgs by navArgs()
+        val args: Withdrawal2FragmentArgs by navArgs()
         try {
             withdrawalItem = args.withdrawalItem!!
             isReadTerms = args.isReadTerms
@@ -48,8 +48,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
 
         // 개인 정보 처리 방침 버튼 클릭 이벤트
         binding.lLayoutWithdrawal2Terms.setOnClickListener {
-            val actionToTerms: NavDirections =
-                com.oops.oops_android.ui.MyPage.Withdrawal2FragmentDirections.actionWithdrawal2FrmToTermsFrm(
+            val actionToTerms: NavDirections = Withdrawal2FragmentDirections.actionWithdrawal2FrmToTermsFrm(
                     withdrawalItem
                 )
             view?.findNavController()?.navigate(actionToTerms) // 개인 정보 처리 방침 화면으로 이동
@@ -131,8 +130,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 // TODO: 회원 탈퇴 API 연동
 
                 // 로그인 화면으로 이동
-                val actionToLogin =
-                    com.oops.oops_android.ui.MyPage.Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
+                val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
                 view?.findNavController()?.navigate(actionToLogin)
             }
         }

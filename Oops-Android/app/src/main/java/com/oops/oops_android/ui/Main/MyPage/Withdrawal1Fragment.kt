@@ -109,8 +109,7 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                 }
 
                 // 회원 탈퇴 2 화면으로 이동
-                val actionToWithdrawal2: NavDirections =
-                    com.oops.oops_android.ui.MyPage.Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(
+                val actionToWithdrawal2: NavDirections = Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(
                         item,
                         false
                     )

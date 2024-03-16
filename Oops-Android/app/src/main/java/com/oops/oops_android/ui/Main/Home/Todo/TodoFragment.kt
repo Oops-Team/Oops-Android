@@ -116,7 +116,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         setOnCheckedChanged(binding.cbTagShopping)
 
         // 알림 시간 없음을 클릭한 경우
-        binding.cbRemindNo.setOnCheckedChangeListener { checkBox, isChecked ->
+        binding.cbRemindNo.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 remindList.clear() // 배열 항목 모두 삭제
                 remindList.add(1)
@@ -179,7 +179,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         })
 
         // 가장 첫번째에 있는 EditText에 Focus가 되어 있다면
-        binding.edtTodo.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        binding.edtTodo.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // 화면 바깥을 클릭한 경우
                 binding.lLayoutTodoTop.setOnClickListener {
@@ -238,7 +238,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         })
 
         // EditText에 Focus가 되어 있다면
-        edtView.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        edtView.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // 화면 바깥을 클릭한 경우
                 binding.lLayoutTodoTop.setOnClickListener {

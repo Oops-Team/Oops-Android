@@ -144,9 +144,7 @@ class AuthService {
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "")
                     Log.e("AUTH - Oops SignUp / ERROR", messageObject.toString())
-                    when (statusObject) {
-                        else -> signUpView.onSignUpFailure(statusObject, messageObject)
-                    }
+                    signUpView.onSignUpFailure(statusObject, messageObject)
                 }
             }
 
