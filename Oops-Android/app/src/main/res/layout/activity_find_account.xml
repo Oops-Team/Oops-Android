@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ID/PW 찾기 화면 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/White"
+    tools:context=".ui.Login.FindAccountActivity">
+
+    <!-- ID/PW 선택 탭 -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_find_account"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:tabGravity="fill"
+        app:tabIndicatorFullWidth="true"
+        app:tabMode="fixed"
+        app:tabBackground="@drawable/tab_underline"
+        app:tabRippleColor="@color/Gray_200"
+        app:tabIndicatorColor="@color/Main_400"
+        app:tabIndicatorHeight="3dp"
+        app:tabTextAppearance="@style/H4"
+        app:tabTextColor="@color/Black"/>
+
+    <!-- 콘텐츠 내용 뷰페이저 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_find_account"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -36,30 +36,35 @@
         <item name="android:navigationBarColor">@color/White</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
     <!-- 월간 캘린더 텍스트 스타일 -->
     <style name="CalendarViewCustom">
         <item name="android:textColor">@drawable/selector_monthly_calendar_event_text</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
+
     <!-- 요일(일주일) -->
     <style name="WeekTextStyle">
         <item name="android:textColor">@color/Black_70</item>
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
+
     <!-- 요일(월간) -->
     <style name="WeekTextStyle2">
         <item name="android:textColor">@color/Black_70</item>
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
+
     <!-- 날짜 -->
     <style name="DateTextStyle">
         <item name="android:textColor">#333333</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
+
     <!-- Enable Wide 버튼 스타일 -->
     <style name="WideButtonEnableStyle">
         <item name="android:textColor">@color/White</item>
@@ -73,6 +78,7 @@
         <item name="android:background">@color/Main_500</item>
         <item name="android:outlineProvider">none</item>
     </style>
+
     <!-- Disable Wide 버튼 스타일 -->
     <style name="WideButtonDisableStyle">
         <item name="android:textColor">@color/Gray_400</item>
@@ -86,6 +92,35 @@
         <item name="android:background">@color/Gray_200</item>
         <item name="android:outlineProvider">none</item>
     </style>
+
+    <!-- ID/PW 찾기 화면에서 쓰는 Enable 버튼 스타일 -->
+    <style name="SemiWideButtonEnableStyle">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:background">@color/Main_500</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
+
+    <!-- ID/PW 찾기 화면에서 쓰는 Disable 버튼 스타일 -->
+    <style name="SemiWideButtonDisableStyle">
+        <item name="android:textColor">@color/Gray_400</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:background">@color/Gray_100</item>
+        <item name="android:outlineProvider">none</item>
+    </style>
+
     <!-- Enable 팝업 버튼 스타일 -->
     <style name="PopUpButtonEnableStyle">
         <item name="android:textColor">@color/White</item>
@@ -95,6 +130,7 @@
         <item name="android:background">@drawable/popup_btn_bg</item>
         <item name="android:outlineProvider">none</item>
     </style>
+
     <!-- 취소 팝업 버튼 스타일 -->
     <style name="PopUpButtonCancelStyle">
         <item name="android:textColor">@color/Gray_500</item>
@@ -105,6 +141,7 @@
         <item name="android:backgroundTint">@color/Gray_50</item>
         <item name="android:outlineProvider">none</item>
     </style>
+
     <!-- Disable 팝업 버튼 스타일 -->
     <style name="PopUpButtonDisableStyle">
         <item name="android:textColor">@color/White</item>
@@ -115,6 +152,7 @@
         <item name="android:backgroundTint">@color/Red_Dark</item>
         <item name="android:outlineProvider">none</item>
     </style>
+
     <!-- 바텀 시트 스타일 -->
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/top_radius_30</item>
@@ -123,6 +161,7 @@
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
     <!-- Time Picker 스타일 -->
     <style name="TimePickerTheme" parent="android:Widget.Material.Light.TimePicker">
         <item name="android:timePickerMode">spinner</item>
