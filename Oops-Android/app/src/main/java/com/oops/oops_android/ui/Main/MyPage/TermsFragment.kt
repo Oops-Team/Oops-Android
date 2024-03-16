@@ -3,7 +3,6 @@ package com.oops.oops_android.ui.Main.MyPage
 import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.View
-import android.widget.ScrollView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.oops.oops_android.R
@@ -13,6 +12,8 @@ import com.oops.oops_android.ui.Base.BaseFragment
 /* 회원 탈퇴 과정 중 개인정보 처리 방침 화면 */
 class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
     private lateinit var withdrawalItem: WithdrawalItem // 전달받은 회원 탈퇴 사유 데이터
+    private var positionFlag: Boolean = true
+
     override fun initViewCreated() {
         // 툴바 타이틀 설정
         binding.toolbarTerms.tvSubToolbarTitle.text = getString(R.string.withdrawal_title)
@@ -52,6 +53,17 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
                         true
                     )
                 view?.findNavController()?.navigate(actionToWithdrawal2)
+            }
+        }
+
+        // 화면 하단까지 스크롤을 했다면
+        binding.svTerms.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (positionFlag) {
+                if ((!view.canScrollVertically(1))) {
+                    // 버튼 텍스트 바꾸기
+                    binding.btnTermsScrollToEnd.text = getString(R.string.btn_check_read)
+                    positionFlag = false
+                }
             }
         }
     }
