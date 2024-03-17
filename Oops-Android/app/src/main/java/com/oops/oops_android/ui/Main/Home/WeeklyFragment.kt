@@ -26,19 +26,37 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.gson.JsonObject
+import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Todo.Api.TodoService
+import com.oops.oops_android.data.remote.Todo.Api.TodoView
+import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 // 홈 화면(주간 캘린더: default)
-class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate) {
+class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate), TodoView, CommonView {
 
     private lateinit var callback: OnBackPressedCallback // 뒤로가기 콜백
     private var weeklyAdapter: CalendarWeeklyAdapter? = null // 주간 달력 어댑터
     private var stuffAdapter: StuffListAdapter? = null // 소지품 어댑터
     private var todoAdapter: TodoListAdapter? = null // 할 일 어댑터
     private var isWeeklyCalendar: Boolean = true // 주간&월간 캘린더 전환 변수
+    private lateinit var selectDate: LocalDate // 현재 사용자가 선택 중인 날짜
+
+    // API에 따른 값 변경 여부 확인
+    private var isModifyTodo: Boolean = false // 일정 1개 수정 성공
+    private var isDeleteTodo: Boolean = false // 일정 1개 삭제 성공
+
+    /* API에서 불러와 저장하는 데이터 */
+    private lateinit var todoListItem: TodoListItem // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
+    private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -85,46 +103,17 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     }
 
     override fun initAfterBinding() {
-        // 챙겨야 할 것 목록
-        // TODO:: 챙겨야 할 것 목록(임시 데이터)
-        stuffAdapter = StuffListAdapter(requireContext())
-        binding.rvHomeStuff.adapter = stuffAdapter
-        binding.tvHomeStuffDefault.visibility = View.GONE
-        stuffAdapter?.addStuffList(StuffItem(R.drawable.ex_head, "헤드셋"))
-        stuffAdapter?.addStuffList(StuffItem(R.drawable.ex_wallet, "지갑"))
-        stuffAdapter?.addStuffList(StuffItem(R.drawable.ex_keyboard, "키보드"))
-        stuffAdapter?.addStuffList(StuffItem(R.drawable.ex_diary, "다이어리"))
 
-        // 일정 목록
+        // 일정 어댑터 연결
         todoAdapter = TodoListAdapter(requireContext())
         binding.rvHomeTodo.adapter = todoAdapter
-        // TODO:: 일정 목록(임시 데이터)
-        binding.lLayoutHomeTodoDefault.visibility = View.GONE
-        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-        todoAdapter?.addTodoList(TodoItem(1, "일정 이름1", false))
-        todoAdapter?.addTodoList(TodoItem(2, "일정 이름2", false))
-        todoAdapter?.addTodoList(TodoItem(3, "일정 이름3", true))
-        todoAdapter?.addTodoList(TodoItem(4, "일정 이름4", true))
-        todoAdapter?.addTodoList(TodoItem(5, "일정 이름5", true))
-        todoAdapter?.addTodoList(TodoItem(6, "일정 이름6", true))
-        todoAdapter?.addTodoList(TodoItem(7, "일정 이름7", true))
-        todoAdapter?.addTodoList(TodoItem(8, "일정 이름8", true))
-        todoAdapter?.addTodoList(TodoItem(9, "일정 이름9", true))
-        todoAdapter?.addTodoList(TodoItem(10, "일정 이름10", true))
 
-        // 일정이 있다면
-        if (todoAdapter?.itemCount!! >= 1)
-        {
-            binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
-        }
+        // 챙겨야 할 것 리스트 어댑터 연결
+        stuffAdapter = StuffListAdapter(requireContext())
+        binding.rvHomeStuff.adapter = stuffAdapter
 
-        // 오늘 할 일 태그 동적 생성
-        val tagList = arrayListOf<String>()
-        tagList.add("일상")
-        tagList.add("취미")
-        tagList.add("운동")
-
-        setTodoTag(tagList)
+        // 일정 1개 조회 API 연결(전체 인벤토리 리스트, 일정 리스트, 챙겨야 할 것 리스트 불러오기)
+        getTodo(LocalDate.parse(getTodayDate().toString().split("T")[0]))
 
         // 월간 캘린더 - 오늘 날짜 표시
         val todayDecorator = TodayDecorator(requireContext())
@@ -135,6 +124,12 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             val selectedDate = binding.mcvHomeMonthlyCalendarview.selectedDate!!
             val eventDecorator = SelectedDecorator(requireContext(), selectedDate)
             binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+
+            // 날짜 선택 정보 업데이트
+            selectDate = LocalDate.of(selectedDate.year, selectedDate.month, selectedDate.day)
+
+            // 일정 1개 조회 API 연결
+            getTodo(LocalDate.of(selectedDate.year, selectedDate.month, selectedDate.day))
         }
 
         // 월간 캘린더 - 달이 바뀔 때마다 dot 바꿔주기
@@ -172,6 +167,13 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         // 주간 날짜 클릭 이벤트
         weeklyAdapter?.onItemClickListener = { position ->
             weeklyAdapter?.setDateSelected(position)
+
+            // 날짜 선택 정보 업데이트
+            val todoDate = LocalDate.parse(weeklyAdapter?.getSelectedDate()?.date)
+            selectDate = todoDate
+
+            // 일정 1개 조회 API 연결
+            getTodo(todoDate)
         }
 
         // 캘린더 버튼 클릭 이벤트
@@ -194,6 +196,8 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
                 // 월간 캘린더의 월 여부 적용하기
                 binding.mcvHomeMonthlyCalendarview.setCurrentDate(binding.mcvHomeMonthlyCalendarview.selectedDate)
+
+                // TODO: 월간 조회 api 연동
             }
             // 월간 -> 주간
             else {
@@ -213,6 +217,9 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                 setWeeklyCalendar(weekDate) // 주간 캘린더 날짜 설정
                 val date = LocalDate.of(fullDate.year, fullDate.month, fullDate.day)
                 weeklyAdapter?.setDateSelected(weeklyAdapter!!.getItemIndex(date.toString())) // 선택된 날짜 설정
+
+                // 일정 1개 조회 API 연결
+                getTodo(date)
             }
         }
 
@@ -277,8 +284,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             val fullDate = weekDate.plusDays(i.toLong()).format(fullDateFormate)
             val date = weekDate.plusDays(i.toLong()).format(dateFormate)
 
-            Log.d("weeklyFragment 함수 for문 ", fullDate.toString())
-
             // 오늘 날짜라면 true
             if (fullDate == today) {
                 isSelected = true
@@ -302,7 +307,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
     // 오늘 할 일 태그 구현 함수
     @SuppressLint("InflateParams")
-    private fun setTodoTag(tagList: List<String>) {
+    private fun setTodoTag(tagList: ArrayList<Int>) {
         // 객체 생성
         for (i in tagList.indices) {
             // 커스텀 뷰 가져오기
@@ -318,7 +323,18 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
             // 동적 textview 생성
             val tagView = layout.findViewById<TextView>(R.id.tv_home_todo_tag)
-            tagView.text = tagList[i]
+
+            // 텍스트 설정
+            when (tagList[i]) {
+                1 -> tagView.text = "일상"
+                2 -> tagView.text = "직장"
+                3 -> tagView.text = "취미"
+                4 -> tagView.text = "공부"
+                5 -> tagView.text = "운동"
+                6 -> tagView.text = "독서"
+                7 -> tagView.text = "여행"
+                else -> tagView.text = "쇼핑"
+            }
 
             // 뷰에 동적 layout 띄우기
             binding.lLayoutHomeTodoTag.addView(layout)
@@ -390,21 +406,17 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
         deleteBtn.setOnClickListener {
             popupWindow.dismiss()
-            
-            // 선택한 아이템 정보 가져오기
-            val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
 
-            // 아이템 삭제
-            todoAdapter?.deleteTodoList(todoItem)
+            // 일정 1개 삭제 API 연결
+            deleteTodo(itemPos.toLong())
 
-//            val itemList = todoAdapter?.getAllTodoList()
-//            for (i in 0 until itemList!!.size) {
-//                if (itemList[i].todoName == tv.text.toString()) {
-//                    // 아이템 삭제
-//                    todoAdapter?.deleteTodoList(i)
-//                    break
-//                }
-//            }
+            // 일정 1개 삭제 성공했다면
+            if (isDeleteTodo) {
+                // 아이템 삭제
+                val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
+                todoAdapter?.deleteTodoList(todoItem)
+                isDeleteTodo = false
+            }
 
             // 만약 아이템이 아예 없다면
             if (todoAdapter?.itemCount == 0) {
@@ -428,11 +440,169 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
         // 입력된 값이 있다면
         if (edt.text.isNotEmpty()) {
-            // 입력한 값 저장 및 아이템 값 수정
-            tv.text = edt.text.toString()
-            todoAdapter?.modifyTodoList(itemPos, edt.text.toString())
+            // 일정 1개 이름 수정 API 연결
+            modifyTodoName(itemPos.toLong(), edt.text.toString())
 
-            // TODO: API에 저장
+            // 일정 1개 수정 성공했다면
+            if (isModifyTodo) {
+                // 입력한 값 저장 및 아이템 값 수정
+                tv.text = edt.text.toString()
+                todoAdapter?.modifyTodoList(itemPos, edt.text.toString())
+                isModifyTodo = false
+            }
         }
+    }
+
+    /* API 연동 함수 */
+    // 일정 1개 조회
+    private fun getTodo(todoDate: LocalDate) {
+        val todoService = TodoService()
+        todoService.setTodoView(this)
+        todoService.getTodo(todoDate)
+    }
+
+    // 일정 1개 조회 성공
+    override fun onGetTodoSuccess(status: Int, message: String, data: JsonObject?) {
+        when (status) {
+            200 -> {
+                try {
+                    // json data 파싱하기
+                    val jsonObject = JSONObject(data.toString())
+
+                    // inventoryList data
+                    val tempInventoryList: String? = jsonObject.getString("inventoryList")
+                    val inventoryJsonArray = JSONArray(tempInventoryList)
+                    for (i in 0 until inventoryJsonArray.length()) {
+                        val subJsonObject = inventoryJsonArray.getJSONObject(i)
+                        val inventoryId = subJsonObject.getLong("inventoryId")
+                        val inventoryName = subJsonObject.getString("inventoryName")
+                        val inventoryIconIdx = subJsonObject.getInt("inventoryIconIdx")
+                        val isInventoryUsed = subJsonObject.getBoolean("isInventoryUsed")
+
+                        // 전체 인벤토리 리스트에 정보 저장
+                        inventoryList.add(HomeInventoryItem(inventoryId, inventoryName, inventoryIconIdx, isInventoryUsed))
+                    }
+
+                    // todoList data
+                    val tempTodoList: String? = jsonObject.getString("todoList")
+                    val todoJsonArray = JSONArray(tempTodoList)
+                    for (i in 0 until todoJsonArray.length()) {
+                        val subJsonObject = todoJsonArray.getJSONObject(i)
+                        val todoIdx = subJsonObject.getLong("todoIdx")
+                        val todoName = subJsonObject.getString("todoName")
+                        val isComplete = subJsonObject.getBoolean("isComplete")
+
+                        // 오늘 할 일 리스트에 정보 저장
+                        todoAdapter?.addTodoList(TodoItem(todoIdx, todoName, isComplete))
+                    }
+
+                    // todoTagList data
+                    val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
+                    val todoTagList = ArrayList<Int>() // 일정 태그 리스트
+                    for (i in 0 until (tempTodoTagList?.length() ?: 0)) {
+
+                        // 오늘 할 일 태그 리스트에 정보 저장
+                        todoTagList.add(tempTodoTagList?.get(i) as Int)
+                    }
+
+                    // 뷰에 태그 리스트 띄우기
+                    setTodoTag(todoTagList)
+
+                    // goOutTime data
+                    val tempGoOutTime: JSONObject? = jsonObject.getJSONObject("goOutTime")
+                    val goOutTime = LocalTime.parse(tempGoOutTime.toString())
+
+                    // remindTime data
+                    val tempRemindTime: JSONArray = jsonObject.getJSONArray("remindTime")
+                    val remindTime = ArrayList<Int>() // 알림 시간 리스트
+                    for (i in 0 until tempRemindTime.length()) {
+
+                        // 알림 시간 리스트에 정보 저장
+                        remindTime.add(tempRemindTime[i] as Int)
+                    }
+
+                    // stuffList data
+                    val tempStuffList: String? = jsonObject.getString("stuffList")
+                    val tempStuffJsonArray = JSONArray(tempStuffList)
+                    for (i in 0 until tempStuffJsonArray.length()) {
+                        val subJsonObject = tempStuffJsonArray.getJSONObject(i)
+                        val stuffImgUrl = subJsonObject.getString("stuffImgUrl")
+                        val stuffName = subJsonObject.getString("stuffName")
+
+                        // 소지품 어댑어테 소지품 데이터 저장
+                        stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName))
+                    }
+
+                    /* 데이터를 바탕으로 뷰 그리기 */
+                    // 소지품이 1개 이상 있다면
+                    if (stuffAdapter?.itemCount!! >= 1) {
+                        binding.tvHomeStuffDefault.visibility = View.GONE
+                    }
+
+                    // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
+                    if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0) {
+                        binding.tvHomeStuffDefault.text = "앗! 인벤토리에서 소지품을 채워 주세요!"
+                        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                    }
+                    // 오늘 할 일이 1개 이상 있다면
+                    else if (todoAdapter?.itemCount!! >= 1) {
+                        binding.lLayoutHomeTodoDefault.visibility = View.GONE // default 뷰 숨기기
+                        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                        binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                    }
+
+                    // 오늘 날짜의 일정 데이터 리스트 저장
+                    todoListItem = TodoListItem(
+                        todoItem = todoAdapter!!.getAllTodoList(),
+                        date = LocalDate.parse(getTodayDate().toString().split("T")[0]),
+                        todoTag = todoTagList,
+                        goOutTime = goOutTime,
+                        remindTime = remindTime
+                    )
+
+                } catch (e: JSONException) {
+                    Log.w("HomeFragment - Get Todo", e.stackTraceToString())
+                    showToast(resources.getString(R.string.toast_server_error)) // 실패
+                }
+            }
+        }
+    }
+
+    // 일정 1개 조회 실패
+    override fun onGetTodoFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
+    }
+
+    // 일정 1개 이름 수정
+    private fun modifyTodoName(todoIdx: Long, todoName: String) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.modifyTodoName(todoIdx, todoName)
+    }
+
+    // 일정 1개 삭제
+    private fun deleteTodo(todoIdx: Long) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.deleteTodo(todoIdx)
+    }
+
+    // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (message) {
+            "Todo Modify" -> {
+                // 일정 1개 수정 성공
+                isModifyTodo = true
+            }
+            "Todo Delete" -> {
+                // 일정 1개 삭제 성공
+                isDeleteTodo = true
+            }
+        }
+    }
+
+    // 일정 1개 이름 수정/삭제 & 소지품 삭제 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }
