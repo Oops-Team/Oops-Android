@@ -32,6 +32,13 @@ interface TodoInterface {
         @Path("todoIdx") todoIdx: Long
     ): Call<CommonResponse>
 
+    // 일정 완료/미완료 수정
+    @PATCH("/todo/home/{todoIdx}/check")
+    fun completeTodo(
+        @Path("todoIdx") todoIdx: Long,
+        @Body isTodoComplete: Boolean
+    ): Call<CommonResponse>
+
     // 소지품 1개 챙기기 완료
     @HTTP(method = "DELETE", path = "/todo/home/stuff", hasBody = true)
     fun deleteStuff(

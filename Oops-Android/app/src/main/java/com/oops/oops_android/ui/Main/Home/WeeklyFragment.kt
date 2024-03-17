@@ -30,6 +30,7 @@ import com.google.gson.JsonObject
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
+import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.json.JSONArray
@@ -53,6 +54,8 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     // API에 따른 값 변경 여부 확인
     private var isModifyTodo: Boolean = false // 일정 1개 수정 성공
     private var isDeleteTodo: Boolean = false // 일정 1개 삭제 성공
+    private var isCompleteTodo: Boolean = false // 일정 완료/미완료 수정 성공
+    private var isDeleteStuff: Boolean = false // 소지품 1개 삭제 성공
 
     /* API에서 불러와 저장하는 데이터 */
     private lateinit var todoListItem: TodoListItem // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
@@ -262,8 +265,36 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             showEditPopup(itemPos, iv, tv, edt)
         }
 
-        // TODO:: 소지품 클릭 이벤트
+        // 일정 완료/미완료 버튼 클릭 이벤트
+        todoAdapter?.onItemCompleteClickListener = { itemPos ->
+            // 아이템 정보 가져오기
+            val item = todoAdapter?.getTodoList(itemPos)
 
+            // 일정 완료/미완료 API 연결
+            completeTodo(item!!.todoIdx, item.isComplete)
+
+            // 일정 완료/미완료 수정
+            if (isCompleteTodo) {
+                todoAdapter?.modifyTodoComplete(itemPos, !item.isComplete)
+            }
+        }
+
+        // 소지품 클릭 이벤트
+        stuffAdapter?.onItemClickListener = { position ->
+            // 소지품 1개 삭제(챙김 완료) API 연결
+            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString())
+
+            // 소지품 삭제를 성공했다면
+            if (isDeleteStuff) {
+                stuffAdapter?.deleteStuffList(position) // 리스트에서 삭제
+                isDeleteStuff = false
+
+                // 소지품을 다 챙겼다면, 뷰 띄우기
+                if (stuffAdapter?.itemCount == 0) {
+                    binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     // 주간 캘린더 설정 함수
@@ -587,6 +618,20 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         todoService.deleteTodo(todoIdx)
     }
 
+    // 일정 완료/미완료 변경
+    private fun completeTodo(todoIdx: Long, isTodoComplete: Boolean) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.completeTodo(todoIdx, isTodoComplete)
+    }
+
+    // 소지품 1개 삭제(소지품 챙기기 완료)
+    private fun deleteStuff(date: LocalDate, stuffName: String) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.deleteStuff(StuffDeleteModel(date, stuffName))
+    }
+
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
@@ -597,6 +642,14 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             "Todo Delete" -> {
                 // 일정 1개 삭제 성공
                 isDeleteTodo = true
+            }
+            "Todo Complete" -> {
+                // 일정 완료/미완료 수정 성공
+                isCompleteTodo = true
+            }
+            "Stuff Delete" -> {
+                // 소지품 1개 삭제 성공
+                isDeleteStuff = true
             }
         }
     }

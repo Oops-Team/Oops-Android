@@ -115,6 +115,35 @@ class TodoService {
         })
     }
 
+    // 일정 완료/미완료 수정
+    fun completeTodo(todoIdx: Long, isTodoComplete: Boolean) {
+        val todoService = retrofit.create(TodoInterface::class.java)
+        todoService.completeTodo(todoIdx, isTodoComplete).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Todo Complete")
+                }
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "일정 완료/미완료 수정 실패")
+                    Log.e("TODO - Delete Todo Complete / ERROR", jsonObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("TODO - Delete Todo Complete / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
     // 소지품 1개 삭제(소지품 챙기기 완료)
     fun deleteStuff(stuffItem: StuffDeleteModel) {
         val todoService = retrofit.create(TodoInterface::class.java)
