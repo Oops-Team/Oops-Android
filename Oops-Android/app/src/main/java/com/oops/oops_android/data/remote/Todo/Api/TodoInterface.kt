@@ -31,4 +31,10 @@ interface TodoInterface {
     fun deleteTodo(
         @Path("todoIdx") todoIdx: Long
     ): Call<CommonResponse>
+
+    // 소지품 1개 챙기기 완료
+    @HTTP(method = "DELETE", path = "/todo/home/stuff", hasBody = true)
+    fun deleteStuff(
+        @Body stuffItem: StuffDeleteModel
+    ): Call<CommonResponse>
 }
