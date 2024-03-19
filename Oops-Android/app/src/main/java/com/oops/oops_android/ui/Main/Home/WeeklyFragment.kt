@@ -52,9 +52,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     private lateinit var selectDate: LocalDate // 현재 사용자가 선택 중인 날짜
 
     // API에 따른 값 변경 여부 확인
-    private var isModifyTodo: Boolean = false // 일정 1개 수정 성공
-    private var isDeleteTodo: Boolean = false // 일정 1개 삭제 성공
-    private var isCompleteTodo: Boolean = false // 일정 완료/미완료 수정 성공
     private var isDeleteStuff: Boolean = false // 소지품 1개 삭제 성공
 
     /* API에서 불러와 저장하는 데이터 */
@@ -271,29 +268,13 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             val item = todoAdapter?.getTodoList(itemPos)
 
             // 일정 완료/미완료 API 연결
-            completeTodo(item!!.todoIdx, item.isComplete)
-
-            // 일정 완료/미완료 수정
-            if (isCompleteTodo) {
-                todoAdapter?.modifyTodoComplete(itemPos, !item.isComplete)
-            }
+            completeTodo(item!!.todoIdx, !item.isComplete, itemPos)
         }
 
         // 소지품 클릭 이벤트
         stuffAdapter?.onItemClickListener = { position ->
             // 소지품 1개 삭제(챙김 완료) API 연결
-            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString())
-
-            // 소지품 삭제를 성공했다면
-            if (isDeleteStuff) {
-                stuffAdapter?.deleteStuffList(position) // 리스트에서 삭제
-                isDeleteStuff = false
-
-                // 소지품을 다 챙겼다면, 뷰 띄우기
-                if (stuffAdapter?.itemCount == 0) {
-                    binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
-                }
-            }
+            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), position)
         }
     }
 
@@ -439,15 +420,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             popupWindow.dismiss()
 
             // 일정 1개 삭제 API 연결
-            deleteTodo(itemPos.toLong())
-
-            // 일정 1개 삭제 성공했다면
-            if (isDeleteTodo) {
-                // 아이템 삭제
-                val todoItem: TodoItem? = todoAdapter?.getTodoList(itemPos)
-                todoAdapter?.deleteTodoList(todoItem)
-                isDeleteTodo = false
-            }
+            deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
 
             // 만약 아이템이 아예 없다면
             if (todoAdapter?.itemCount == 0) {
@@ -472,15 +445,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         // 입력된 값이 있다면
         if (edt.text.isNotEmpty()) {
             // 일정 1개 이름 수정 API 연결
-            modifyTodoName(itemPos.toLong(), edt.text.toString())
-
-            // 일정 1개 수정 성공했다면
-            if (isModifyTodo) {
-                // 입력한 값 저장 및 아이템 값 수정
-                tv.text = edt.text.toString()
-                todoAdapter?.modifyTodoList(itemPos, edt.text.toString())
-                isModifyTodo = false
-            }
+            modifyTodoName(todoAdapter?.getTodoList(itemPos)!!.todoIdx, edt.text.toString(), TodoModifyItem(itemPos, edt, tv))
         }
     }
 
@@ -540,7 +505,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                     setTodoTag(todoTagList)
 
                     // goOutTime data
-                    val tempGoOutTime: JSONObject? = jsonObject.getJSONObject("goOutTime")
+                    val tempGoOutTime: String? = jsonObject.getString("goOutTime")
                     val goOutTime = LocalTime.parse(tempGoOutTime.toString())
 
                     // remindTime data
@@ -605,31 +570,31 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     }
 
     // 일정 1개 이름 수정
-    private fun modifyTodoName(todoIdx: Long, todoName: String) {
+    private fun modifyTodoName(todoIdx: Long, todoName: String, todoModifyItem: TodoModifyItem) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.modifyTodoName(todoIdx, todoName)
+        todoService.modifyTodoName(todoIdx, todoName, todoModifyItem)
     }
 
     // 일정 1개 삭제
-    private fun deleteTodo(todoIdx: Long) {
+    private fun deleteTodo(todoIdx: Long, itemPos: Int) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.deleteTodo(todoIdx)
+        todoService.deleteTodo(todoIdx, itemPos)
     }
 
     // 일정 완료/미완료 변경
-    private fun completeTodo(todoIdx: Long, isTodoComplete: Boolean) {
+    private fun completeTodo(todoIdx: Long, isTodoComplete: Boolean, itemPos: Int) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.completeTodo(todoIdx, isTodoComplete)
+        todoService.completeTodo(todoIdx, isTodoComplete, itemPos)
     }
 
     // 소지품 1개 삭제(소지품 챙기기 완료)
-    private fun deleteStuff(date: LocalDate, stuffName: String) {
+    private fun deleteStuff(date: LocalDate, stuffName: String, position: Int) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.deleteStuff(StuffDeleteModel(date, stuffName))
+        todoService.deleteStuff(StuffDeleteModel(date, stuffName), position)
     }
 
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
@@ -637,19 +602,28 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         when (message) {
             "Todo Modify" -> {
                 // 일정 1개 수정 성공
-                isModifyTodo = true
+                val item = data as TodoModifyItem
+                item.tv.text = item.edt.text.toString()
+                todoAdapter?.modifyTodoList(item.itemPos, item.edt.text.toString()) // 입력한 값 저장 및 뷰의 아이템 값 수정
             }
             "Todo Delete" -> {
-                // 일정 1개 삭제 성공
-                isDeleteTodo = true
+                // 아이템 삭제
+                val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
+                todoAdapter?.deleteTodoList(todoItem)
             }
             "Todo Complete" -> {
                 // 일정 완료/미완료 수정 성공
-                isCompleteTodo = true
+                val item = data as TodoCreateItem
+                todoAdapter?.modifyTodoComplete(item.itemPos, !item.isTodoComplete) // 입력한 값 저장 및 뷰의 아이템 값 수정
             }
             "Stuff Delete" -> {
                 // 소지품 1개 삭제 성공
-                isDeleteStuff = true
+                stuffAdapter?.deleteStuffList(data as Int) // 리스트에서 삭제
+
+                // 소지품을 다 챙겼다면, 뷰 띄우기
+                if (stuffAdapter?.itemCount == 0) {
+                    binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                }
             }
         }
     }

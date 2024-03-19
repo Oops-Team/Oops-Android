@@ -13,6 +13,7 @@ import java.time.LocalDate
 
 /* 홈 화면 & 일정 화면 */
 interface TodoInterface {
+    /* 홈 화면 */
     // 일정 1개 조회
     @GET("/todo/detail/{date}")
     fun getTodo(
