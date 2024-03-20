@@ -2,6 +2,8 @@ package com.oops.oops_android.data.remote.Todo.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -24,7 +26,7 @@ interface TodoInterface {
     @PATCH("/todo/home/{todoIdx}")
     fun modifyTodoName(
         @Path("todoIdx") todoIdx: Long,
-        @Body todoName: String
+        @Body todoName: TodoModifyNameModel
     ): Call<CommonResponse>
 
     // 일정 1개 삭제
@@ -37,7 +39,7 @@ interface TodoInterface {
     @PATCH("/todo/home/{todoIdx}/check")
     fun completeTodo(
         @Path("todoIdx") todoIdx: Long,
-        @Body isTodoComplete: Boolean
+        @Body isTodoComplete: TodoCompleteModel
     ): Call<CommonResponse>
 
     // 소지품 1개 챙기기 완료

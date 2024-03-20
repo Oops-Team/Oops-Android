@@ -5,6 +5,8 @@ import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import com.oops.oops_android.ui.Main.Home.TodoCreateItem
 import com.oops.oops_android.ui.Main.Home.TodoModifyItem
 import org.json.JSONObject
@@ -61,7 +63,7 @@ class TodoService {
     // 일정 1개 이름 수정
     fun modifyTodoName(todoIdx: Long, todoName: String, todoModifyItem: TodoModifyItem) {
         val todoService = retrofit.create(TodoInterface::class.java)
-        todoService.modifyTodoName(todoIdx, todoName).enqueue(object : Callback<CommonResponse> {
+        todoService.modifyTodoName(todoIdx, TodoModifyNameModel(todoName)).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(
                 call: Call<CommonResponse>,
                 response: Response<CommonResponse>
@@ -121,7 +123,7 @@ class TodoService {
     // 일정 완료/미완료 수정
     fun completeTodo(todoIdx: Long, isTodoComplete: Boolean, itemPos: Int) {
         val todoService = retrofit.create(TodoInterface::class.java)
-        todoService.completeTodo(todoIdx, isTodoComplete).enqueue(object : Callback<CommonResponse> {
+        todoService.completeTodo(todoIdx, TodoCompleteModel(isTodoComplete)).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(
                 call: Call<CommonResponse>,
                 response: Response<CommonResponse>

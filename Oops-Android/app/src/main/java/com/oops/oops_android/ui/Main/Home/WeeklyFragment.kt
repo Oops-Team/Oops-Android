@@ -51,9 +51,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     private var isWeeklyCalendar: Boolean = true // 주간&월간 캘린더 전환 변수
     private lateinit var selectDate: LocalDate // 현재 사용자가 선택 중인 날짜
 
-    // API에 따른 값 변경 여부 확인
-    private var isDeleteStuff: Boolean = false // 소지품 1개 삭제 성공
-
     /* API에서 불러와 저장하는 데이터 */
     private lateinit var todoListItem: TodoListItem // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
@@ -614,7 +611,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             "Todo Complete" -> {
                 // 일정 완료/미완료 수정 성공
                 val item = data as TodoCreateItem
-                todoAdapter?.modifyTodoComplete(item.itemPos, !item.isTodoComplete) // 입력한 값 저장 및 뷰의 아이템 값 수정
+                todoAdapter?.modifyTodoComplete(item.itemPos, item.isTodoComplete) // 입력한 값 저장 및 뷰의 아이템 값 수정
             }
             "Stuff Delete" -> {
                 // 소지품 1개 삭제 성공
