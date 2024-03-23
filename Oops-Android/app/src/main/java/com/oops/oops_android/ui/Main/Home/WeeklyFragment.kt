@@ -26,9 +26,10 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.gson.JsonElement
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Todo.Api.TodoMonthlyView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
@@ -43,7 +44,11 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 // 홈 화면(주간 캘린더: default)
-class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate), TodoView, CommonView {
+class WeeklyFragment:
+    BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate),
+    TodoView,
+    CommonView,
+    TodoMonthlyView {
 
     private lateinit var callback: OnBackPressedCallback // 뒤로가기 콜백
     private var weeklyAdapter: CalendarWeeklyAdapter? = null // 주간 달력 어댑터
@@ -55,6 +60,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     /* API에서 불러와 저장하는 데이터 */
     private var todoListItem: TodoListItem? = null // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
+    private var monthlyItemList = ArrayList<MonthlyItem>() // 월간 캘린더 아이템 리스트
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -139,30 +145,8 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             //binding.mcvHomeMonthlyCalendarview.removeDecorators()
             //binding.mcvHomeMonthlyCalendarview.invalidateDecorators()
 
-            // TODO: 현재 보이는 년도 & 월에 맞게 API 연동
-            Log.d("현재 보이는 날짜 정보", date.year.toString() + date.month.toString())
-
-            // api에서 리스트 가져오기
-            val list = ArrayList<MonthlyItem>()
-            list.add(MonthlyItem(LocalDate.of(2024, 3, 5), false))
-            list.add(MonthlyItem(LocalDate.of(2024, 3, 10), true))
-            list.add(MonthlyItem(LocalDate.of(2024, 3, 15), false))
-            list.add(MonthlyItem(LocalDate.of(2024, 3, 20), true))
-
-            // 새로운 decorators 추가
-            for (i in 0 until list.size) {
-                // LocalDate값 파싱하기
-                val day: CalendarDay = CalendarDay.from(list[i].date.year, list[i].date.monthValue, list[i].date.dayOfMonth)
-                // 완료된 일정이라면
-                if (list[i].isComplete) {
-                    val eventDecorator = EventDecorator(requireContext(), R.color.Main_500, day)
-                    binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
-                }
-                else {
-                    val eventDecorator = EventDecorator(requireContext(), R.color.Main_400, day)
-                    binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
-                }
-            }
+            // 일정 전체(1달) 조회 API 연결
+            getMonthlyTodo(LocalDate.of(date.year, date.month, date.day))
         }
 
         // 주간 날짜 클릭 이벤트
@@ -196,9 +180,10 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                 binding.mcvHomeMonthlyCalendarview.addDecorator(decorator)
 
                 // 월간 캘린더의 월 여부 적용하기
-                binding.mcvHomeMonthlyCalendarview.setCurrentDate(binding.mcvHomeMonthlyCalendarview.selectedDate)
+                binding.mcvHomeMonthlyCalendarview.currentDate = binding.mcvHomeMonthlyCalendarview.selectedDate
 
-                // TODO: 월간 조회 api 연동
+                // 일정 전체(1달) 조회 API 연동
+                getMonthlyTodo(LocalDate.parse(fullDate))
             }
             // 월간 -> 주간
             else {
@@ -308,13 +293,31 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         }
     }
 
-    // 월간 캘린더 - 일정 상태 표시
+    // 월간 캘린더 - 일정 상태 표시(초기 진입시)
     private fun setCalendarTodoState() {
         val dates = mutableListOf<CalendarDay>()
         dates.add(CalendarDay.today())
         for (i in dates) {
             val eventDecorator = EventDecorator(requireContext(), R.color.Main_100, i)
             binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+        }
+    }
+
+    // 월간 캘린더 - 일정 상태 표시(API 연동시)
+    private fun setMonthlyCalendar() {
+        // 새로운 decorators 추가
+        for (i in 0 until monthlyItemList.size) {
+            // LocalDate값 파싱하기
+            val day: CalendarDay = CalendarDay.from(monthlyItemList[i].date.year, monthlyItemList[i].date.monthValue, monthlyItemList[i].date.dayOfMonth)
+            // 완료된 일정이라면
+            if (monthlyItemList[i].isComplete) {
+                val eventDecorator = EventDecorator(requireContext(), R.color.Main_500, day)
+                binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+            }
+            else {
+                val eventDecorator = EventDecorator(requireContext(), R.color.Main_400, day)
+                binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+            }
         }
     }
 
@@ -458,13 +461,23 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     private fun getTodo(todoDate: LocalDate) {
         val todoService = TodoService()
         todoService.setTodoView(this)
-        todoService.getTodo(todoDate)
+        todoService.getTodo(todoDate, todoDate)
     }
 
     // 일정 1개 조회 성공
-    override fun onGetTodoSuccess(status: Int, message: String, data: JsonObject?) {
+    override fun onGetTodoSuccess(
+        status: Int,
+        message: String,
+        data: JsonObject?,
+        todoDate: LocalDate?
+    ) {
         when (status) {
             200 -> {
+                // rv 초기화
+                todoAdapter?.resetTodoList()
+                stuffAdapter?.resetStuffList()
+                binding.lLayoutHomeTodoTag.removeAllViews()
+
                 // 일정이 있다면
                 if (data != null) {
                     try {
@@ -560,7 +573,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                         // 오늘 날짜의 일정 데이터 리스트 저장
                         todoListItem = TodoListItem(
                             todoItem = todoAdapter!!.getAllTodoList(),
-                            date = LocalDate.parse(getTodayDate().toString().split("T")[0]),
+                            date = todoDate,
                             todoTag = todoTagList,
                             goOutTime = goOutTime,
                             remindTime = remindTime
@@ -580,11 +593,6 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
-
-                    // rv 초기화
-                    todoAdapter?.resetTodoList()
-                    stuffAdapter?.resetStuffList()
-                    binding.lLayoutHomeTodoTag.removeAllViews()
                 }
             }
         }
@@ -592,6 +600,52 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
     // 일정 1개 조회 실패
     override fun onGetTodoFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
+    }
+
+    // 일정 전체(1달) 조회
+    private fun getMonthlyTodo(date: LocalDate) {
+        val todoService = TodoService()
+        todoService.setTodoMonthlyView(this)
+        todoService.getMonthlyTodo(date)
+    }
+
+    // 일정 전체(1달) 조회 성공
+    override fun onGetMonthlyTodoSuccess(
+        status: Int,
+        message: String,
+        data: JsonArray?
+    ) {
+        try {
+            // 한달 데이터 리스트 초기화
+            monthlyItemList.clear()
+
+            // json data 파싱하기
+            val jsonArray = JSONArray(data.toString())
+
+            // date, isComplete data
+            for (i in 0 until jsonArray.length()) {
+                val subObject = jsonArray.getJSONObject(i)
+                val dateObject = subObject.getString("date")
+                val isCompleteObject = subObject.getBoolean("isComplete")
+
+                // date -> LocalDate
+                val date = LocalDate.parse(dateObject)
+
+                // 한달 데이터 리스트 저장
+                monthlyItemList.add(MonthlyItem(date, isCompleteObject))
+
+                // 월간 캘린더 dot 추가
+                setMonthlyCalendar()
+            }
+        } catch (e: JSONException) {
+            Log.w("HomeFragment - Get Monthly Todo", e.stackTraceToString())
+            showToast(resources.getString(R.string.toast_server_error)) // 실패
+        }
+    }
+
+    // 일정 전체(1달) 조회 실패
+    override fun onGetMonthlyTodoFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 
@@ -641,6 +695,11 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                 // 일정 완료/미완료 수정 성공
                 val item = data as TodoCreateItem
                 todoAdapter?.modifyTodoComplete(item.itemPos, item.isTodoComplete) // 입력한 값 저장 및 뷰의 아이템 값 수정
+
+                // 월간 캘린더가 보인다면
+                if (binding.mcvHomeMonthlyCalendarview.visibility == View.VISIBLE) {
+                    // todo: 캘린더 점 색상 변경(날짜 정보, 완료 여부 필요)
+                }
             }
             "Stuff Delete" -> {
                 // 소지품 1개 삭제 성공

@@ -24,6 +24,12 @@ interface TodoInterface {
         @Path("date") date: LocalDate
     ): Call<TodoItemResponse>
 
+    // 일정 전체(1달) 조회
+    @GET("/todo/{date}")
+    fun getMonthlyTodo(
+        @Path("date") date: LocalDate
+    ): Call<TodoItemResponse>
+
     // 일정 1개 이름 수정
     @PATCH("/todo/home/{todoIdx}")
     fun modifyTodoName(

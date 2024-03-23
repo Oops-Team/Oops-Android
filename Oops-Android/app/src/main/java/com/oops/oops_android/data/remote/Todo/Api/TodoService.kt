@@ -20,10 +20,17 @@ import java.time.LocalDate
 class TodoService {
     // 서비스 변수
     private lateinit var todoView: TodoView
+    private lateinit var todoMonthlyView: TodoMonthlyView
     private lateinit var commonView: CommonView
 
+    // 일정 1개 조회
     fun setTodoView(todoView: TodoView) {
         this.todoView = todoView
+    }
+
+    // 일정 전체(1달) 조회
+    fun setTodoMonthlyView(todoMonthlyView: TodoMonthlyView) {
+        this.todoMonthlyView = todoMonthlyView
     }
 
     fun setCommonView(commonView: CommonView) {
@@ -32,7 +39,7 @@ class TodoService {
 
     /* 홈 화면 */
     // 일정 1개 조회
-    fun getTodo(date: LocalDate) {
+    fun getTodo(date: LocalDate, todoDate: LocalDate) {
         val todoService = retrofit.create(TodoInterface::class.java)
         todoService.getTodo(date).enqueue(object : Callback<TodoItemResponse> {
             override fun onResponse(
@@ -44,7 +51,7 @@ class TodoService {
                     val resp: TodoItemResponse = response.body()!!
                     // 일정이 있는 경우
                     if (!(resp.data.isJsonNull)) {
-                        todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject)
+                        todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject, todoDate)
                     }
                     // 일정이 없는 경우
                     else {
@@ -63,6 +70,36 @@ class TodoService {
 
             override fun onFailure(call: Call<TodoItemResponse>, t: Throwable) {
                 Log.e("TODO - Get Todo / FAILURE", t.message.toString())
+                todoView.onGetTodoFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 일정 전체(1달) 조회
+    fun getMonthlyTodo(date: LocalDate) {
+        val todoService = retrofit.create(TodoInterface::class.java)
+        todoService.getMonthlyTodo(date).enqueue(object : Callback<TodoItemResponse> {
+            override fun onResponse(
+                call: Call<TodoItemResponse>,
+                response: Response<TodoItemResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: TodoItemResponse = response.body()!!
+                    todoMonthlyView.onGetMonthlyTodoSuccess(resp.status, resp.message, resp.data.asJsonArray)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "일정 전체(1달) 조회 실패")
+                    Log.e("TODO - Get Monthly Todo / ERROR", jsonObject.toString())
+                    todoMonthlyView.onGetMonthlyTodoFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<TodoItemResponse>, t: Throwable) {
+                Log.e("TODO - Get Monthly Todo / FAILURE", t.message.toString())
                 todoView.onGetTodoFailure(-1, "") // 실패
             }
         })
