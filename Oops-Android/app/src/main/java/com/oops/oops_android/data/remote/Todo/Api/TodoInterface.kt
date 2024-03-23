@@ -3,6 +3,7 @@ package com.oops.oops_android.data.remote.Todo.Api
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import retrofit2.Call
 import retrofit2.http.Body
@@ -10,6 +11,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Path
 import java.time.LocalDate
 
@@ -46,5 +48,12 @@ interface TodoInterface {
     @HTTP(method = "DELETE", path = "/todo/home/stuff", hasBody = true)
     fun deleteStuff(
         @Body stuffItem: StuffDeleteModel
+    ): Call<CommonResponse>
+
+    /* 일정 화면 */
+    // 일정 추가
+    @POST("/todo/create")
+    fun createTodo(
+        @Body todoItem: TodoCreateModel
     ): Call<CommonResponse>
 }

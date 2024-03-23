@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -15,26 +16,67 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 import com.oops.oops_android.R
+import com.oops.oops_android.custom.SelectedDecorator
+import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Todo.Api.TodoService
+import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
 import com.oops.oops_android.databinding.FragmentTodoBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Main.Home.TodoListItem
+import com.oops.oops_android.utils.ButtonUtils
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import java.time.LocalDate
+import java.time.LocalTime
 
 // 일정 추가 & 수정 화면
 // TODO: 일정 추가 or 일정 수정에 맞게 화면 세팅 필요
-class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::inflate), CompoundButton.OnCheckedChangeListener {
-    private var remindList = ArrayList<Long>() // 선택된 알림 시간 리스트
+class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::inflate),
+    CompoundButton.OnCheckedChangeListener,
+    CommonView {
+    private var remindList = ArrayList<Int>() // 선택된 알림 시간 리스트
     private var todoList = ArrayList<EditText>() // 추가된 일정 리스트
+    private var tagList = ArrayList<Int>() // 선택된 태그 리스트
     private var isShowDeleteBtn = false // EditText의 삭제 버튼 보임 여부
+    private var isCreateBtnEnable = false // 등록하기 버튼 활성화 여부
+
+    private var todoListItem: TodoListItem? = null // 기존에 작성되어 있던 아이템
+    private lateinit var selectDate: LocalDate // 현재 사용자가 선택 중인 날짜
 
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
         mainActivity?.hideBnv(true)
 
-        // 툴 바 제목 설정
-        setToolbarTitle(binding.toolbarTodo.tvSubToolbarTitle, "일정 추가")
+        // 선택한 날짜에 저장되어 있는 데이터가 있다면 가져오기
+        try {
+            val args: TodoFragmentArgs by navArgs()
+            // 선택된 날짜 업데이트
+            selectDate = LocalDate.parse(args.todoDate)
+            Log.d("확인1", selectDate.toString())
 
-        // TODO: 날짜 정보 불러오기(일정 추가 or 일정 수정)
+            // 툴 바 제목 설정
+            if (args.todoListItem != null) {
+                todoListItem = args.todoListItem
+
+                // 일정 수정
+                setToolbarTitle(binding.toolbarTodo.tvSubToolbarTitle, "일정 수정")
+                binding.lLayoutTodoEdit.visibility = View.VISIBLE
+
+                // TODO: 데이터 세팅
+            }
+            else {
+                // 일정 추가
+                setToolbarTitle(binding.toolbarTodo.tvSubToolbarTitle, "일정 추가")
+                binding.btnTodoCreate.visibility = View.VISIBLE
+            }
+        } catch (e: Exception) {
+            Log.d("TodoFragment - Get Nav Data", e.stackTraceToString())
+        }
     }
 
     override fun initAfterBinding() {
@@ -43,6 +85,13 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
 
         // 월간 캘린더
         binding.mcvTodoCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
+
+        /* 캘린더에 선택 날짜 띄우기 */
+        val dateFormatList = selectDate.toString().split("-") // 정보 분리
+        binding.mcvTodoCalendarview.selectedDate = CalendarDay.from(dateFormatList[0].toInt(), dateFormatList[1].toInt(), dateFormatList[2].toInt())
+        val decorator = SelectedDecorator(requireContext(), binding.mcvTodoCalendarview.selectedDate)
+        binding.mcvTodoCalendarview.addDecorator(decorator) // 월간 캘린더에 선택 아이콘 적용
+        binding.mcvTodoCalendarview.setCurrentDate(binding.mcvTodoCalendarview.selectedDate) // 월간 캘린더에 선택 날짜 적용
 
         // 뒤로 가기 버튼 클릭
         binding.toolbarTodo.ivSubToolbarBack.setOnClickListener {
@@ -131,6 +180,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 binding.cbRemind30m.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
                 binding.cbRemind1h.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
                 binding.cbRemind1d.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
+
+                // 등록하기 버튼 활성화 여부 체크
+                updateCreateBtnUI()
             }
         }
 
@@ -153,6 +205,29 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         binding.cbRemind1d.setOnCheckedChangeListener { checkBox, isChecked ->
             setRemindCheckedChanged(checkBox, isChecked, 5)
         }
+
+        // 등록하기 버튼을 클릭한 경우
+        binding.btnTodoCreate.setOnClickListener {
+            // 버튼 활성화가 되어 있다면
+            if (isCreateBtnEnable) {
+                // 일정 목록 불러오기
+                val tempList = ArrayList<String>()
+                for (i in 0 until todoList.size) {
+                    tempList.add(todoList[i].text.toString())
+                }
+                // 일정 추가 API 연결
+                Log.d("확인1", binding.timepickerTodo.hour.toString() + binding.timepickerTodo.minute)
+                createTodo(
+                    TodoCreateModel(
+                        date = selectDate.toString(),
+                        todoName = tempList,
+                        todoTag = tagList,
+                        goOutTime = LocalTime.of(binding.timepickerTodo.hour, binding.timepickerTodo.minute).toString(),
+                        remindTime = remindList
+                    )
+                )
+            }
+        }
     }
 
     // 가장 첫번째에 있는 EditText에 대한 입력 처리
@@ -172,6 +247,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                         binding.edtTodo.visibility = View.GONE
                     }
                     getHideKeyboard(binding.root)
+
+                    // 등록하기 버튼 활성화 여부 체크
+                    updateCreateBtnUI()
+
                     return true
                 }
                 return false
@@ -189,6 +268,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                         binding.edtTodo.visibility = View.GONE
                     }
                     getHideKeyboard(binding.root)
+
+                    // 등록하기 버튼 활성화 여부 체크
+                    updateCreateBtnUI()
                 }
             }
         }
@@ -204,6 +286,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                                 binding.edtTodo.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
                         binding.edtTodo.visibility = View.GONE // 뷰 숨기기
                         todoList.remove(binding.edtTodo) // EditText 삭제
+
+                        // 등록하기 버튼 활성화 여부 체크
+                        updateCreateBtnUI()
+
                         return@OnTouchListener true
                     }
                 }
@@ -229,6 +315,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     if (edtView.text.toString().isBlank() && todoList.size > 1) {
                         todoList.remove(edtView)
                         binding.lLayoutTodo.removeView(edtView)
+
+                        // 등록하기 버튼 활성화 여부 체크
+                        updateCreateBtnUI()
                     }
                     getHideKeyboard(binding.root)
                     return true
@@ -246,6 +335,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     if (edtView.text.toString().isBlank() && todoList.size > 1) {
                         todoList.remove(edtView) // 리스트에서 요소 삭제
                         binding.lLayoutTodo.removeView(edtView)
+
+                        // 등록하기 버튼 활성화 여부 체크
+                        updateCreateBtnUI()
                     }
                     getHideKeyboard(binding.root)
                 }
@@ -263,6 +355,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                                 edtView.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
                         binding.lLayoutTodo.removeView(edtView) // 뷰 삭제
                         todoList.remove(edtView) // EditText 삭제
+
+                        // 등록하기 버튼 활성화 여부 체크
+                        updateCreateBtnUI()
+
                         return@OnTouchListener true
                     }
                 }
@@ -309,7 +405,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     }
 
     // 알림 시간 선택 이벤트 처리 함수
-    private fun setRemindCheckedChanged(checkBox: CompoundButton, isChecked: Boolean, itemCode: Long) {
+    private fun setRemindCheckedChanged(checkBox: CompoundButton, isChecked: Boolean, itemCode: Int) {
         if (isChecked) { // 선택했다면
             remindList.add(itemCode) // 값 추가
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
@@ -325,18 +421,24 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
             remindList.remove(itemCode) // 선택 해제한 값 삭제
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
         }
+
+        // 등록하기 버튼 활성화 여부 체크
+        updateCreateBtnUI()
     }
 
     // 태그 선택 이벤트 연결 함수
     private fun setOnCheckedChanged(checkBox: CompoundButton) {
         checkBox.setOnCheckedChangeListener { view, isChecked ->
             onCheckedChanged(view, isChecked)
+
+            // 등록하기 버튼 활성화 여부 체크
+            updateCreateBtnUI()
         }
     }
 
     // 태그 및 알림 시간 선택 이벤트
     override fun onCheckedChanged(checkBox: CompoundButton, isChecked: Boolean) {
-        var tagList = ArrayList<Long>() // 선택된 태그 리스트
+        tagList.clear()
         var tagCount = 0 // 선택된 태그 갯수
 
         // 체크 박스를 선택 했다면 리스트에 데이터 추가
@@ -438,5 +540,74 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 binding.cbTagShopping.isEnabled = true
             }
         }
+    }
+
+    // 등록하기 버튼 색상 변경
+    private fun updateCreateBtnUI() {
+        // 일정 목록 불러오기
+        val tempList = ArrayList<String>()
+        for (i in 0 until todoList.size) {
+            if (todoList[i].text.toString().isNotBlank()) {
+                tempList.add(todoList[i].text.toString())
+            }
+        }
+
+        // 필수값 입력이 안 되었다면
+        if (tempList.isEmpty()) {
+            // 버튼 활성화 해제
+            binding.btnTodoCreate.setTextAppearance(R.style.WideButtonDisableStyle)
+            binding.btnTodoCreate.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+            isCreateBtnEnable = false
+        }
+        // 태그 입력이 안 되어 있다면
+        else if (tagList.isEmpty()) {
+            // 버튼 활성화 해제
+            binding.btnTodoCreate.setTextAppearance(R.style.WideButtonDisableStyle)
+            binding.btnTodoCreate.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+            isCreateBtnEnable = false
+        }
+        // 알림 시간 입력이안 되어 있다면
+        else if (remindList.isEmpty()) {
+            // 버튼 활성화 해제
+            binding.btnTodoCreate.setTextAppearance(R.style.WideButtonDisableStyle)
+            binding.btnTodoCreate.setBackgroundColor(applicationContext().getColor(R.color.Gray_100))
+            isCreateBtnEnable = false
+        }
+        // 모두 입력되었다면
+        else {
+            // 버튼 활성화 상태가 아니라면
+            if (!isCreateBtnEnable) {
+                ButtonUtils().setAllColorAnimation(binding.btnTodoCreate)
+                isCreateBtnEnable = true
+            }
+        }
+    }
+
+    // 일정 추가
+    private fun createTodo(todoItem: TodoCreateModel) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.createTodo(todoItem)
+    }
+
+    // 일정 추가 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        // 일정 추가 성공 팝업 띄우기
+        val todoCreateDialog = TodoCreateDialog(requireContext())
+        todoCreateDialog.showTodoCreateDialog()
+
+        // 확인 버튼을 누른 경우
+        todoCreateDialog.setOnClickedListener(object : TodoCreateDialog.TodoCreateBtnClickListener {
+            override fun onClicked() {
+                // 홈 화면으로 이동하기
+                val actionToWeekly: NavDirections = TodoFragmentDirections.actionTodoFrmToWeeklyFrm()
+                findNavController().navigate(actionToWeekly)
+            }
+        })
+    }
+
+    // 일정 추가 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }

@@ -6,6 +6,7 @@ import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import com.oops.oops_android.ui.Main.Home.TodoCreateItem
 import com.oops.oops_android.ui.Main.Home.TodoModifyItem
@@ -41,7 +42,9 @@ class TodoService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: TodoItemResponse = response.body()!!
-                    todoView.onGetTodoSuccess(resp.status, resp.message, resp.data)
+                    if (!(resp.data.isJsonNull)) {
+                        todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject)
+                    }
                 }
                 // 실패
                 else {
@@ -174,6 +177,37 @@ class TodoService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("TODO - Delete Stuff / Failure", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    /* 일정 화면 */
+    // 일정 추가
+    fun createTodo(todoItem: TodoCreateModel) {
+        val todoService = retrofit.create(TodoInterface::class.java)
+        todoService.createTodo(todoItem).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "일정 추가 실패")
+                    Log.e("TODO - Create Todo / ERROR", jsonObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("TODO - Create Todo / Failure", t.message.toString())
                 commonView.onCommonFailure(-1, "")
             }
         })

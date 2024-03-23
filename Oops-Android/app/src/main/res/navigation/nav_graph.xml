@@ -36,6 +36,15 @@
         <action
             android:id="@+id/action_todoFrm_to_weeklyFrm"
             app:destination="@id/weeklyFragment"/>
+        <!-- 추가&수정할 일정 날짜 -->
+        <argument
+            android:name="todoDate"
+            app:argType="string"/>
+        <!-- 일정 수정 화면 진입시 전달해줄 기존 일정 아이템 -->
+        <argument
+            android:name="todoListItem"
+            app:argType="com.oops.oops_android.ui.Main.Home.TodoListItem"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 인벤토리 -->

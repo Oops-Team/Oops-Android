@@ -26,6 +26,7 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
@@ -52,7 +53,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     private lateinit var selectDate: LocalDate // 현재 사용자가 선택 중인 날짜
 
     /* API에서 불러와 저장하는 데이터 */
-    private lateinit var todoListItem: TodoListItem // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
+    private var todoListItem: TodoListItem? = null // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
 
     override fun onAttach(context: Context) {
@@ -109,8 +110,11 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
         stuffAdapter = StuffListAdapter(requireContext())
         binding.rvHomeStuff.adapter = stuffAdapter
 
+        // 선택되어 있는 날짜 설정
+        selectDate = LocalDate.parse(getTodayDate().toString().split("T")[0])
+
         // 일정 1개 조회 API 연결(전체 인벤토리 리스트, 일정 리스트, 챙겨야 할 것 리스트 불러오기)
-        getTodo(LocalDate.parse(getTodayDate().toString().split("T")[0]))
+        getTodo(selectDate)
 
         // 월간 캘린더 - 오늘 날짜 표시
         val todayDecorator = TodayDecorator(requireContext())
@@ -166,7 +170,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
             weeklyAdapter?.setDateSelected(position)
 
             // 날짜 선택 정보 업데이트
-            val todoDate = LocalDate.parse(weeklyAdapter?.getSelectedDate()?.date)
+            val todoDate = LocalDate.parse(weeklyAdapter?.getSelectedDate()?.fullDate)
             selectDate = todoDate
 
             // 일정 1개 조회 API 연결
@@ -235,7 +239,7 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
                     // 할일 수정을 눌렀다면
                     else {
                         // 일정 수정 화면으로 이동
-                        val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+                        val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
                         findNavController().navigate(actionToTodo)
                     }
                 }
@@ -244,13 +248,13 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
         // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
-            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
             findNavController().navigate(actionToTodo)
         }
 
         // 일정 추가 버튼(상단 버튼) 클릭 이벤트
         binding.ivHomeTodoAdd.setOnClickListener {
-            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm()
+            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
             findNavController().navigate(actionToTodo)
         }
 
