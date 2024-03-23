@@ -30,6 +30,12 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
         }
     }
 
+    // 소지품 초기화
+    fun resetStuffList() {
+        notifyItemRangeRemoved(0, stuffList.size)
+        stuffList.clear()
+    }
+
     // 소지품 추가
     fun addStuffList(stuffItem: StuffItem) {
         stuffList.add(stuffItem)

@@ -42,8 +42,13 @@ class TodoService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: TodoItemResponse = response.body()!!
+                    // 일정이 있는 경우
                     if (!(resp.data.isJsonNull)) {
                         todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject)
+                    }
+                    // 일정이 없는 경우
+                    else {
+                        todoView.onGetTodoSuccess(resp.status, resp.message)
                     }
                 }
                 // 실패

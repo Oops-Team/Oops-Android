@@ -462,104 +462,126 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
     override fun onGetTodoSuccess(status: Int, message: String, data: JsonObject?) {
         when (status) {
             200 -> {
-                try {
-                    // json data 파싱하기
-                    val jsonObject = JSONObject(data.toString())
+                // 일정이 있다면
+                if (data != null) {
+                    try {
+                        // json data 파싱하기
+                        val jsonObject = JSONObject(data.toString())
 
-                    // inventoryList data
-                    val tempInventoryList: String? = jsonObject.getString("inventoryList")
-                    val inventoryJsonArray = JSONArray(tempInventoryList)
-                    for (i in 0 until inventoryJsonArray.length()) {
-                        val subJsonObject = inventoryJsonArray.getJSONObject(i)
-                        val inventoryId = subJsonObject.getLong("inventoryId")
-                        val inventoryName = subJsonObject.getString("inventoryName")
-                        val inventoryIconIdx = subJsonObject.getInt("inventoryIconIdx")
-                        val isInventoryUsed = subJsonObject.getBoolean("isInventoryUsed")
+                        // inventoryList data
+                        val tempInventoryList: String? = jsonObject.getString("inventoryList")
+                        val inventoryJsonArray = JSONArray(tempInventoryList)
+                        for (i in 0 until inventoryJsonArray.length()) {
+                            val subJsonObject = inventoryJsonArray.getJSONObject(i)
+                            val inventoryId = subJsonObject.getLong("inventoryId")
+                            val inventoryName = subJsonObject.getString("inventoryName")
+                            val inventoryIconIdx = subJsonObject.getInt("inventoryIconIdx")
+                            val isInventoryUsed = subJsonObject.getBoolean("isInventoryUsed")
 
-                        // 전체 인벤토리 리스트에 정보 저장
-                        inventoryList.add(HomeInventoryItem(inventoryId, inventoryName, inventoryIconIdx, isInventoryUsed))
+                            // 전체 인벤토리 리스트에 정보 저장
+                            inventoryList.add(HomeInventoryItem(inventoryId, inventoryName, inventoryIconIdx, isInventoryUsed))
+                        }
+
+                        // todoList data
+                        val tempTodoList: String? = jsonObject.getString("todoList")
+                        val todoJsonArray = JSONArray(tempTodoList)
+                        for (i in 0 until todoJsonArray.length()) {
+                            val subJsonObject = todoJsonArray.getJSONObject(i)
+                            val todoIdx = subJsonObject.getLong("todoIdx")
+                            val todoName = subJsonObject.getString("todoName")
+                            val isComplete = subJsonObject.getBoolean("isComplete")
+
+                            // 오늘 할 일 리스트에 정보 저장
+                            todoAdapter?.addTodoList(TodoItem(todoIdx, todoName, isComplete))
+                        }
+
+                        // todoTagList data
+                        val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
+                        val todoTagList = ArrayList<Int>() // 일정 태그 리스트
+                        for (i in 0 until (tempTodoTagList?.length() ?: 0)) {
+
+                            // 오늘 할 일 태그 리스트에 정보 저장
+                            todoTagList.add(tempTodoTagList?.get(i) as Int)
+                        }
+
+                        // 뷰에 태그 리스트 띄우기
+                        setTodoTag(todoTagList)
+
+                        // goOutTime data
+                        val tempGoOutTime: String? = jsonObject.getString("goOutTime")
+                        val goOutTime = LocalTime.parse(tempGoOutTime.toString())
+
+                        // remindTime data
+                        val tempRemindTime: JSONArray = jsonObject.getJSONArray("remindTime")
+                        val remindTime = ArrayList<Int>() // 알림 시간 리스트
+                        for (i in 0 until tempRemindTime.length()) {
+
+                            // 알림 시간 리스트에 정보 저장
+                            remindTime.add(tempRemindTime[i] as Int)
+                        }
+
+                        // stuffList data
+                        val tempStuffList: String? = jsonObject.getString("stuffList")
+                        val tempStuffJsonArray = JSONArray(tempStuffList)
+                        for (i in 0 until tempStuffJsonArray.length()) {
+                            val subJsonObject = tempStuffJsonArray.getJSONObject(i)
+                            val stuffImgUrl = subJsonObject.getString("stuffImgUrl")
+                            val stuffName = subJsonObject.getString("stuffName")
+
+                            // 소지품 어댑어테 소지품 데이터 저장
+                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName))
+                        }
+
+                        /* 데이터를 바탕으로 뷰 그리기 */
+                        // 소지품이 1개 이상 있다면
+                        if (stuffAdapter?.itemCount!! >= 1) {
+                            binding.tvHomeStuffDefault.visibility = View.GONE
+                            binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                        }
+
+                        // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
+                        if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0) {
+                            binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                            binding.tvHomeStuffDefault.text = "인벤토리가 비어 있어요\n소지품을 추가해 주세요!"
+                            binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                        }
+                        // 오늘 할 일이 1개 이상 있다면
+                        else if (todoAdapter?.itemCount!! >= 1) {
+                            binding.lLayoutHomeTodoDefault.visibility = View.GONE // default 뷰 숨기기
+                            binding.tvHomeStuffDefault.visibility = View.GONE
+                            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                            binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                        }
+
+                        // 오늘 날짜의 일정 데이터 리스트 저장
+                        todoListItem = TodoListItem(
+                            todoItem = todoAdapter!!.getAllTodoList(),
+                            date = LocalDate.parse(getTodayDate().toString().split("T")[0]),
+                            todoTag = todoTagList,
+                            goOutTime = goOutTime,
+                            remindTime = remindTime
+                        )
+
+                    } catch (e: JSONException) {
+                        Log.w("HomeFragment - Get Todo", e.stackTraceToString())
+                        showToast(resources.getString(R.string.toast_server_error)) // 실패
                     }
+                }
+                // 일정이 없다면
+                else {
+                    // default 뷰 띄우기
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                    binding.tvHomeStuffDefault.visibility = View.VISIBLE
 
-                    // todoList data
-                    val tempTodoList: String? = jsonObject.getString("todoList")
-                    val todoJsonArray = JSONArray(tempTodoList)
-                    for (i in 0 until todoJsonArray.length()) {
-                        val subJsonObject = todoJsonArray.getJSONObject(i)
-                        val todoIdx = subJsonObject.getLong("todoIdx")
-                        val todoName = subJsonObject.getString("todoName")
-                        val isComplete = subJsonObject.getBoolean("isComplete")
+                    // edit버튼, +버튼 숨기기
+                    binding.ivHomeEdit.visibility = View.INVISIBLE
+                    binding.iBtnHomeTodoAdd.visibility = View.GONE
 
-                        // 오늘 할 일 리스트에 정보 저장
-                        todoAdapter?.addTodoList(TodoItem(todoIdx, todoName, isComplete))
-                    }
-
-                    // todoTagList data
-                    val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
-                    val todoTagList = ArrayList<Int>() // 일정 태그 리스트
-                    for (i in 0 until (tempTodoTagList?.length() ?: 0)) {
-
-                        // 오늘 할 일 태그 리스트에 정보 저장
-                        todoTagList.add(tempTodoTagList?.get(i) as Int)
-                    }
-
-                    // 뷰에 태그 리스트 띄우기
-                    setTodoTag(todoTagList)
-
-                    // goOutTime data
-                    val tempGoOutTime: String? = jsonObject.getString("goOutTime")
-                    val goOutTime = LocalTime.parse(tempGoOutTime.toString())
-
-                    // remindTime data
-                    val tempRemindTime: JSONArray = jsonObject.getJSONArray("remindTime")
-                    val remindTime = ArrayList<Int>() // 알림 시간 리스트
-                    for (i in 0 until tempRemindTime.length()) {
-
-                        // 알림 시간 리스트에 정보 저장
-                        remindTime.add(tempRemindTime[i] as Int)
-                    }
-
-                    // stuffList data
-                    val tempStuffList: String? = jsonObject.getString("stuffList")
-                    val tempStuffJsonArray = JSONArray(tempStuffList)
-                    for (i in 0 until tempStuffJsonArray.length()) {
-                        val subJsonObject = tempStuffJsonArray.getJSONObject(i)
-                        val stuffImgUrl = subJsonObject.getString("stuffImgUrl")
-                        val stuffName = subJsonObject.getString("stuffName")
-
-                        // 소지품 어댑어테 소지품 데이터 저장
-                        stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName))
-                    }
-
-                    /* 데이터를 바탕으로 뷰 그리기 */
-                    // 소지품이 1개 이상 있다면
-                    if (stuffAdapter?.itemCount!! >= 1) {
-                        binding.tvHomeStuffDefault.visibility = View.GONE
-                    }
-
-                    // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
-                    if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0) {
-                        binding.tvHomeStuffDefault.text = "앗! 인벤토리에서 소지품을 채워 주세요!"
-                        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-                    }
-                    // 오늘 할 일이 1개 이상 있다면
-                    else if (todoAdapter?.itemCount!! >= 1) {
-                        binding.lLayoutHomeTodoDefault.visibility = View.GONE // default 뷰 숨기기
-                        binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-                        binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
-                    }
-
-                    // 오늘 날짜의 일정 데이터 리스트 저장
-                    todoListItem = TodoListItem(
-                        todoItem = todoAdapter!!.getAllTodoList(),
-                        date = LocalDate.parse(getTodayDate().toString().split("T")[0]),
-                        todoTag = todoTagList,
-                        goOutTime = goOutTime,
-                        remindTime = remindTime
-                    )
-
-                } catch (e: JSONException) {
-                    Log.w("HomeFragment - Get Todo", e.stackTraceToString())
-                    showToast(resources.getString(R.string.toast_server_error)) // 실패
+                    // rv 초기화
+                    todoAdapter?.resetTodoList()
+                    stuffAdapter?.resetStuffList()
+                    binding.lLayoutHomeTodoTag.removeAllViews()
                 }
             }
         }

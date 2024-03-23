@@ -55,6 +55,12 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
     // 일정 리스트 반환
     fun getAllTodoList(): ArrayList<TodoItem> = todoList
 
+    // 일정 초기화
+    fun resetTodoList() {
+        notifyItemRangeRemoved(0, todoList.size)
+        todoList.clear()
+    }
+
     // 일정 추가
     fun addTodoList(todoItem: TodoItem) {
         todoList.add(todoItem)
