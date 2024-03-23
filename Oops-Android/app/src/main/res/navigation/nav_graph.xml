@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/weeklyFragment">
+    app:startDestination="@id/homeFragment">
 
     <!-- 로그인 화면 -->
     <activity
@@ -15,15 +15,15 @@
 
     <!-- 홈 화면 -->
     <fragment
-        android:id="@+id/weeklyFragment"
-        android:name="com.oops.oops_android.ui.Main.Home.WeeklyFragment"
-        android:label="frm_weekly"
-        tools:layout="@layout/fragment_weekly">
+        android:id="@+id/homeFragment"
+        android:name="com.oops.oops_android.ui.Main.Home.HomeFragment"
+        android:label="frm_home"
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeWeeklyFrm_to_loginActivity"
+            android:id="@+id/action_homeFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
         <action
-            android:id="@+id/action_homeWeeklyFrm_to_todoFrm"
+            android:id="@+id/action_homeFrm_to_todoFrm"
             app:destination="@id/todoFragment"/>
     </fragment>
 
@@ -34,8 +34,8 @@
         android:label="frm_todo"
         tools:layout="@layout/fragment_todo">
         <action
-            android:id="@+id/action_todoFrm_to_weeklyFrm"
-            app:destination="@id/weeklyFragment"/>
+            android:id="@+id/action_todoFrm_to_homeFrm"
+            app:destination="@id/homeFragment"/>
         <!-- 추가&수정할 일정 날짜 -->
         <argument
             android:name="todoDate"

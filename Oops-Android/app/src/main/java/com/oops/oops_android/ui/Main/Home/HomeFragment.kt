@@ -21,7 +21,6 @@ import com.oops.oops_android.R
 import com.oops.oops_android.custom.EventDecorator
 import com.oops.oops_android.custom.SelectedDecorator
 import com.oops.oops_android.custom.TodayDecorator
-import com.oops.oops_android.databinding.FragmentWeeklyBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.CalendarUtils
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -33,6 +32,7 @@ import com.oops.oops_android.data.remote.Todo.Api.TodoMonthlyView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
+import com.oops.oops_android.databinding.FragmentHomeBinding
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.json.JSONArray
@@ -44,8 +44,8 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 // 홈 화면(주간 캘린더: default)
-class WeeklyFragment:
-    BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding::inflate),
+class HomeFragment:
+    BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),
     TodoView,
     CommonView,
     TodoMonthlyView {
@@ -142,8 +142,8 @@ class WeeklyFragment:
         // 월간 캘린더 - 달이 바뀔 때마다 dot 바꿔주기
         binding.mcvHomeMonthlyCalendarview.setOnMonthChangedListener { widget, date ->
             // 기존에 설정되어 있던 decorators 초기화
-            //binding.mcvHomeMonthlyCalendarview.removeDecorators()
-            //binding.mcvHomeMonthlyCalendarview.invalidateDecorators()
+            /*binding.mcvHomeMonthlyCalendarview.removeDecorators()
+            binding.mcvHomeMonthlyCalendarview.invalidateDecorators()*/
 
             // 일정 전체(1달) 조회 API 연결
             getMonthlyTodo(LocalDate.of(date.year, date.month, date.day))
@@ -170,16 +170,16 @@ class WeeklyFragment:
                 binding.lLayoutWeeklyWeek.visibility = View.VISIBLE
                 isWeeklyCalendar = false
 
-                // 선택되어 있는 날짜 정보 가져오기
+                // 주간 캘린더 선택된 날짜 정보 가져오기
                 val fullDate = weeklyAdapter?.getSelectedDate()?.fullDate
                 val dateFormatList = fullDate.toString().split("-") // 정보 분리
 
-                // 선택되어 있는 날짜 정보를 월간 캘린더에 적용하기
+                // 주간 캘린더에서 선택된 날짜 정보를 월간 캘린더의 dot에 적용
                 binding.mcvHomeMonthlyCalendarview.selectedDate = CalendarDay.from(dateFormatList[0].toInt(), dateFormatList[1].toInt(), dateFormatList[2].toInt())
                 val decorator = SelectedDecorator(requireContext(), binding.mcvHomeMonthlyCalendarview.selectedDate)
                 binding.mcvHomeMonthlyCalendarview.addDecorator(decorator)
 
-                // 월간 캘린더의 월 여부 적용하기
+                // 월간 캘린더에 선택된 날짜 적용
                 binding.mcvHomeMonthlyCalendarview.currentDate = binding.mcvHomeMonthlyCalendarview.selectedDate
 
                 // 일정 전체(1달) 조회 API 연동
@@ -224,7 +224,7 @@ class WeeklyFragment:
                     // 할일 수정을 눌렀다면
                     else {
                         // 일정 수정 화면으로 이동
-                        val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
+                        val actionToTodo: NavDirections = HomeFragmentDirections.actionHomeFrmToTodoFrm(selectDate.toString(), todoListItem)
                         findNavController().navigate(actionToTodo)
                     }
                 }
@@ -233,13 +233,13 @@ class WeeklyFragment:
 
         // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
-            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
+            val actionToTodo: NavDirections = HomeFragmentDirections.actionHomeFrmToTodoFrm(selectDate.toString(), todoListItem)
             findNavController().navigate(actionToTodo)
         }
 
         // 일정 추가 버튼(상단 버튼) 클릭 이벤트
         binding.ivHomeTodoAdd.setOnClickListener {
-            val actionToTodo: NavDirections = WeeklyFragmentDirections.actionHomeWeeklyFrmToTodoFrm(selectDate.toString(), todoListItem)
+            val actionToTodo: NavDirections = HomeFragmentDirections.actionHomeFrmToTodoFrm(selectDate.toString(), todoListItem)
             findNavController().navigate(actionToTodo)
         }
 

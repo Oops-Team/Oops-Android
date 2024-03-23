@@ -600,7 +600,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         todoCreateDialog.setOnClickedListener(object : TodoCreateDialog.TodoCreateBtnClickListener {
             override fun onClicked() {
                 // 홈 화면으로 이동하기
-                val actionToWeekly: NavDirections = TodoFragmentDirections.actionTodoFrmToWeeklyFrm()
+                val actionToWeekly: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
                 findNavController().navigate(actionToWeekly)
             }
         })

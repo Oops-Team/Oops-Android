@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/Gray_100"
-    tools:context=".ui.Main.Home.WeeklyFragment"
+    tools:context=".ui.Main.Home.HomeFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- 캘린더 -->
