@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.oops.oops_android.databinding.SnackbarBgBinding
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.Inflate
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 
 abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): Fragment() {
     private var mBinding: VB? = null
@@ -37,8 +39,12 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.White)
-        WindowInsetsControllerCompat(mainActivity!!.window, mainActivity!!.window.decorView).isAppearanceLightStatusBars = true
+        try {
+            mainActivity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.White)
+            WindowInsetsControllerCompat(mainActivity?.window!!, mainActivity?.window?.decorView!!).isAppearanceLightStatusBars = true
+        } catch (e: Exception) {
+            Log.d("BaseFragment - onViewCreated", e.stackTraceToString())
+        }
         initViewCreated()
     }
 
@@ -58,7 +64,11 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mainActivity = context as MainActivity
+        try {
+            mainActivity = context as MainActivity
+        } catch (e: Exception) {
+            Log.d("BaseFragment - onAttach", e.stackTraceToString())
+        }
     }
 
     override fun onDetach() {

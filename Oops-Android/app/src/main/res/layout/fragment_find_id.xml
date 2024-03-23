@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ID 찾기 화면 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/White"
+    tools:context=".ui.Login.FindIdFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:text="@string/find_id_email"
+            android:textColor="@color/Black"
+            android:layout_marginTop="32dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp">
+
+            <!-- 이메일 입력 박스 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- 이메일 입력 edt -->
+                <EditText
+                    android:id="@+id/edt_find_id_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:hint="@string/signup_email"
+                    android:textColorHint="@color/Gray_300"
+                    style="@style/SubTitle"
+                    android:imeOptions="actionDone"
+                    android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
+                    android:includeFontPadding="true"
+                    android:paddingTop="20dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="75dp"
+                    android:paddingBottom="10dp"/>
+
+                <!-- 밑줄 -->
+                <View
+                    android:id="@+id/view_find_id_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Gray_300"
+                    android:layout_gravity="bottom"/>
+
+                <!-- 조회하기 -->
+                <TextView
+                    android:id="@+id/tv_find_id_email_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:background="@drawable/all_radius_08"
+                    android:backgroundTint="@color/Gray_200"
+                    style="@style/Button3_Active"
+                    android:text="@string/btn_find"
+                    android:textColor="@color/Gray_400"
+                    android:paddingStart="7dp"
+                    android:paddingTop="9dp"
+                    android:paddingEnd="7dp"
+                    android:paddingBottom="9dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="8dp"/>
+            </FrameLayout>
+
+            <!-- 안내 문구 -->
+            <TextView
+                android:id="@+id/tv_find_id_alert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                style="@style/Body1"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- 버튼 레이아웃 -->
+        <LinearLayout
+            android:id="@+id/lLayout_find_id_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_marginBottom="40dp">
+
+            <!-- 비밀번호 재설정 버튼 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_find_id_pw_reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="34.5dp"
+                app:cardElevation="0dp">
+                <Button
+                    android:id="@+id/btn_find_id_pw_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/SemiWideButtonEnableStyle"
+                    android:background="@drawable/find_account_text_bg"
+                    android:text="@string/btn_pw_reset"
+                    android:textColor="@color/Main_500"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 로그인하러 가기 버튼 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_find_id_go_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardCornerRadius="34.5dp"
+                app:cardElevation="0dp">
+                <Button
+                    android:id="@+id/btn_find_id_go_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/SemiWideButtonEnableStyle"
+                    android:text="@string/btn_go_login"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

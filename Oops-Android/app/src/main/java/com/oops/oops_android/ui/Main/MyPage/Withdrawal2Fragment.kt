@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -48,7 +48,9 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
 
         // 개인 정보 처리 방침 버튼 클릭 이벤트
         binding.lLayoutWithdrawal2Terms.setOnClickListener {
-            val actionToTerms: NavDirections = Withdrawal2FragmentDirections.actionWithdrawal2FrmToTermsFrm(withdrawalItem)
+            val actionToTerms: NavDirections = Withdrawal2FragmentDirections.actionWithdrawal2FrmToTermsFrm(
+                    withdrawalItem
+                )
             view?.findNavController()?.navigate(actionToTerms) // 개인 정보 처리 방침 화면으로 이동
         }
 

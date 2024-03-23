@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/Gray_50"
     android:orientation="vertical"
-    tools:context=".ui.MyPage.NoticeDetailFragment">
+    tools:context=".ui.Main.MyPage.NoticeDetailFragment">
 
     <include
         android:id="@+id/toolbar_notice_detail"

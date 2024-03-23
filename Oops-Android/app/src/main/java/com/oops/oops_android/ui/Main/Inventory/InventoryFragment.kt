@@ -137,7 +137,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // 인벤토리 All 아이템 출력
         val stuffAdapter = InventoryStuffListAdapter(requireContext())
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_dongle_img, "동글이"))
+        /*stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_dongle_img, "동글이"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_computer_img, "노트북"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_charger_img, "충전기"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_umbrella_img, "우산"))
@@ -145,7 +145,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_handcream_img, "핸드크림"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_sunglasses_img, "선글라스"))
         stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_alcohol_swap_img, "알콜스왑"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_mouse_img, "마우스"))
+        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_mouse_img, "마우스"))*/
         binding.rvInventoryStuff.adapter = stuffAdapter
 
         // 소지품 아이템이 있다면

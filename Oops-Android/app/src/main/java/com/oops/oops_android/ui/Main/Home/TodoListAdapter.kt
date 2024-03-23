@@ -14,6 +14,7 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
 
     private var todoList = ArrayList<TodoItem>() // 일정 목록
     var onItemClickListener: ((Int, ImageView, TextView, EditText) -> Unit)? = null // 일정의 ... 버튼 클릭
+    var onItemCompleteClickListener: ((Int) -> Unit)? = null // 일정 완료 버튼 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         val binding: ItemHomeTodoBinding = ItemHomeTodoBinding.inflate(
@@ -39,10 +40,26 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
                 )
             }
         }
+
+        // 일정 완료/미완료 버튼 클릭
+        holder.binding.iBtnHomeTodoComplete.setOnClickListener {
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                onItemCompleteClickListener?.invoke(
+                    pos
+                )
+            }
+        }
     }
 
     // 일정 리스트 반환
     fun getAllTodoList(): ArrayList<TodoItem> = todoList
+
+    // 일정 초기화
+    fun resetTodoList() {
+        notifyItemRangeRemoved(0, todoList.size)
+        todoList.clear()
+    }
 
     // 일정 추가
     fun addTodoList(todoItem: TodoItem) {
@@ -82,5 +99,11 @@ class TodoListAdapter(val context: Context): RecyclerView.Adapter<TodoListViewHo
 //                break
 //            }
 //        }
+    }
+
+    // 일정 완료/미완료 변경하기
+    fun modifyTodoComplete(itemPos: Int, isComplete: Boolean) {
+        todoList[itemPos].isComplete = isComplete
+        notifyItemChanged(itemPos)
     }
 }

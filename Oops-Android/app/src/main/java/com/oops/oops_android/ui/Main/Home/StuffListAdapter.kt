@@ -30,9 +30,26 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
         }
     }
 
+    // 소지품 초기화
+    fun resetStuffList() {
+        notifyItemRangeRemoved(0, stuffList.size)
+        stuffList.clear()
+    }
+
     // 소지품 추가
     fun addStuffList(stuffItem: StuffItem) {
         stuffList.add(stuffItem)
         notifyItemChanged(stuffList.size)
+    }
+
+    // 소지품 삭제
+    fun deleteStuffList(position: Int) {
+        stuffList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    // 소지품 이름 정보 가져오기
+    fun getStuffName(position: Int): String {
+        return stuffList[position].stuffName
     }
 }

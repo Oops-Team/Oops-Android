@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/White"
-    tools:context=".ui.MyPage.NoticeFragment">
+    tools:context=".ui.Main.MyPage.NoticeFragment">
 
     <!-- 툴 바 -->
     <include

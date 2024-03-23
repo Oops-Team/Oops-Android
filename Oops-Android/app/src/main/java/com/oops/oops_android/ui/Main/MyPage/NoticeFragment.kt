@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController

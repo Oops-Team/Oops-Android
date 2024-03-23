@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ID/PW 찾기 화면에서 쓰이는 tab indicator -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/Gray_200" />
+        </shape>
+    </item>
+    <item>
+        <inset android:insetBottom="3dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/White" />
+            </shape>
+        </inset>
+    </item>
+</layer-list>

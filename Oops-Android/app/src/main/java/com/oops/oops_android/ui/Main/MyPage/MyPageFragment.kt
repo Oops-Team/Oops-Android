@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP

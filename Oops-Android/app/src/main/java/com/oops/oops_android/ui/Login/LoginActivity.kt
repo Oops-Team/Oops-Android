@@ -111,9 +111,14 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             }
         }
 
+        // ID/PW 찾기 버튼 클릭 이벤트
+        binding.tvLoginIdPwFind.setOnClickListener {
+            startNextActivity(FindAccountActivity::class.java)
+        }
+
         // 회원가입 버튼 클릭 이벤트
         binding.tvLoginSignup.setOnClickListener {
-            startActivityWithClear(SignUpActivity::class.java)
+            startNextActivity(SignUpActivity::class.java)
         }
 
         // 네이버 로그인 버튼 클릭 이벤트

@@ -1,4 +1,4 @@
-package com.oops.oops_android.ui.MyPage
+package com.oops.oops_android.ui.Main.MyPage
 
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -109,7 +109,10 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                 }
 
                 // 회원 탈퇴 2 화면으로 이동
-                val actionToWithdrawal2: NavDirections = Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(item, false)
+                val actionToWithdrawal2: NavDirections = Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(
+                        item,
+                        false
+                    )
                 view?.findNavController()?.navigate(actionToWithdrawal2)
             }
         }

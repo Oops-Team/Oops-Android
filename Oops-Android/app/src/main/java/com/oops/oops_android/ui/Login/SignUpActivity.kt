@@ -1,6 +1,5 @@
 package com.oops.oops_android.ui.Login
 
-import android.text.InputFilter
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -15,10 +14,10 @@ import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
+import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
 import java.lang.Exception
-import java.util.regex.Pattern
 
 /* 회원가입 - 닉네임 입력 화면 */
 class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate), CommonView, SignUpView {
@@ -46,18 +45,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             getHideKeyboard(binding.root)
         }
 
-        // 한글, 영어 대소문자, 숫자만 입력 가능하도록 필터 적용
-        binding.edtSignUpNickname.filters = arrayOf(
-            InputFilter { source, start, end, dest, dstart, dend ->
-                val ps = Pattern.compile(".*[a-zA-Z0-9ㄱ-ㅎ가-힣- ]+.*")
-                if (!ps.matcher(source).matches()) {
-                    return@InputFilter ""
-                } else{
-                    return@InputFilter null
-                }
-            }
-        )
-
         // 중복 확인 버튼 클릭 이벤트
         binding.tvSignUpOverlapBtn.setOnClickListener {
             val alert = binding.tvSignUpAlert
@@ -77,9 +64,18 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // 중복 확인 버튼 숨기기
                 binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
             }
-            // 이모지, 특수 문자가 입력됐다면
-            /*else if () {
-            }*/
+            // 숫자, 이모지, 특수 문자가 입력됐다면
+            else if (!EditTextUtils.nicknameRegex(edt.text.toString())) {
+                alert.visibility = View.VISIBLE
+                alert.text = getString(R.string.signup_nickname_alert_3)
+                alert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
+                underLine.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+                alertImg.visibility = View.VISIBLE
+                alertImg.setImageResource(R.drawable.ic_mark_25)
+
+                // 중복 확인 버튼 숨기기
+                binding.tvSignUpOverlapBtn.visibility = View.INVISIBLE
+            }
             // 6자 이하 입력 및 조건에 맞다면
             else if (edt.text.isNotEmpty()){
                 // 닉네임 중복 검사하기
