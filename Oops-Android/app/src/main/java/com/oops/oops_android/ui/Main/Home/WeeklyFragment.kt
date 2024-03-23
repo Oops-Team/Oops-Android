@@ -445,8 +445,11 @@ class WeeklyFragment: BaseFragment<FragmentWeeklyBinding>(FragmentWeeklyBinding:
 
         // 입력된 값이 있다면
         if (edt.text.isNotEmpty()) {
-            // 일정 1개 이름 수정 API 연결
-            modifyTodoName(todoAdapter?.getTodoList(itemPos)!!.todoIdx, edt.text.toString(), TodoModifyItem(itemPos, edt, tv))
+            // 입력된 값이 기존 값과 다르다면
+            if (edt.text.toString() != tv.text.toString()) {
+                // 일정 1개 이름 수정 API 연결
+                modifyTodoName(todoAdapter?.getTodoList(itemPos)!!.todoIdx, edt.text.toString(), TodoModifyItem(itemPos, edt, tv))
+            }
         }
     }
 
