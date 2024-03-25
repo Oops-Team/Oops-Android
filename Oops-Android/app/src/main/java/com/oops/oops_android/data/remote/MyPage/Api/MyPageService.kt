@@ -13,9 +13,44 @@ import retrofit2.Response
 class MyPageService {
     // 서비스 변수
     private lateinit var commonView: CommonView
+    private lateinit var myPageView: MyPageView
 
     fun setCommonView(commonView: CommonView) {
         this.commonView = commonView
+    }
+
+    fun setMyPageView(myPageView: MyPageView) {
+        this.myPageView = myPageView
+    }
+
+    // 마이페이지 조회
+    fun getMyPage() {
+        val myPageService = retrofit.create(MyPageInterface::class.java)
+        myPageService.getMyPage().enqueue(object : Callback<MyPageResponse> {
+            override fun onResponse(
+                call: Call<MyPageResponse>,
+                response: Response<MyPageResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: MyPageResponse = response.body()!!
+                    myPageView.onGetMyPageSuccess(resp.status, resp.message, resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "마이페이지 조회 실패")
+                    myPageView.onGetMyPageFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Get MyPage / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<MyPageResponse>, t: Throwable) {
+                Log.e("MyPage - Get MyPage / FAILURE", t.message.toString())
+                myPageView.onGetMyPageFailure(-1, "") // 실패
+            }
+        })
     }
 
     // 프로필 공개

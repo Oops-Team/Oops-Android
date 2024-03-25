@@ -37,6 +37,7 @@
 
             <!-- 사용자 닉네임 -->
             <TextView
+                android:id="@+id/tv_myPage_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="웁스팀입니다"
@@ -109,6 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:gravity="center"
                 android:background="@drawable/all_radius_12"
                 android:backgroundTint="@color/Red_Light"

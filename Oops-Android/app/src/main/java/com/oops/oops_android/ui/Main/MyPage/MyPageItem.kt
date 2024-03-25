@@ -4,6 +4,16 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /* 마이 페이지 화면에서 사용되는 데이터 클래스 */
+// 사용자 정보
+@Parcelize
+data class MyPageItem(
+    val loginType: String, // 로그인 유형
+    val userEmail: String, // 이메일
+    val userName: String, // 사용자 이름
+    val isPublic: Boolean // 프로필 공개 여부
+): Parcelable
+
+// 회원 탈퇴
 @Parcelize
 data class WithdrawalItem(
     var reason1: Boolean = false, // 사유1
