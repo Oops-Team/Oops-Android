@@ -4,6 +4,7 @@ import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import retrofit2.Call
 import retrofit2.http.Body
@@ -61,5 +62,11 @@ interface TodoInterface {
     @POST("/todo/create")
     fun createTodo(
         @Body todoItem: TodoCreateModel
+    ): Call<CommonResponse>
+
+    // 일정 수정
+    @PATCH("/todo")
+    fun modifyTodo(
+        @Body todoModifyItem: TodoModifyModel
     ): Call<CommonResponse>
 }

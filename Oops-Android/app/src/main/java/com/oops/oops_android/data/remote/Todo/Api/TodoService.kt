@@ -7,6 +7,7 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import com.oops.oops_android.ui.Main.Home.TodoCreateItem
 import com.oops.oops_android.ui.Main.Home.TodoModifyItem
@@ -39,7 +40,7 @@ class TodoService {
 
     /* 홈 화면 */
     // 일정 1개 조회
-    fun getTodo(date: LocalDate, todoDate: LocalDate) {
+    fun getTodo(date: LocalDate) {
         val todoService = retrofit.create(TodoInterface::class.java)
         todoService.getTodo(date).enqueue(object : Callback<TodoItemResponse> {
             override fun onResponse(
@@ -51,11 +52,11 @@ class TodoService {
                     val resp: TodoItemResponse = response.body()!!
                     // 일정이 있는 경우
                     if (!(resp.data.isJsonNull)) {
-                        todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject, todoDate)
+                        todoView.onGetTodoSuccess(resp.status, resp.message, resp.data.asJsonObject, date)
                     }
                     // 일정이 없는 경우
                     else {
-                        todoView.onGetTodoSuccess(resp.status, resp.message)
+                        todoView.onGetTodoSuccess(resp.status, resp.message, null, date)
                     }
                 }
                 // 실패
@@ -236,7 +237,7 @@ class TodoService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, resp.message)
+                    commonView.onCommonSuccess(resp.status, "Create Todo")
                 }
                 // 실패
                 else {
@@ -250,6 +251,36 @@ class TodoService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("TODO - Create Todo / Failure", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 일정 수정
+    fun modifyTodo(todoModifyItem: TodoModifyModel) {
+        val todoService = retrofit.create(TodoInterface::class.java)
+        todoService.modifyTodo(todoModifyItem).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Modify Todo")
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "일정 수정 실패")
+                    Log.e("TODO - Modify Todo / ERROR", jsonObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("TODO - Modify Todo / Failure", t.message.toString())
                 commonView.onCommonFailure(-1, "")
             }
         })

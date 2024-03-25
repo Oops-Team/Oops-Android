@@ -1,6 +1,7 @@
 package com.oops.oops_android.data.remote.Todo.Model
 
 import com.google.gson.annotations.SerializedName
+import com.oops.oops_android.ui.Main.Home.TodoModifyItem
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -30,4 +31,21 @@ data class TodoCreateModel(
     @SerializedName("todoTag") var todoTag: ArrayList<Int>, // 관련 태그 리스트
     @SerializedName("goOutTime") var goOutTime: String, // 외출 시간
     @SerializedName("remindTime") var remindTime: ArrayList<Int> // 알림 시간
+)
+
+// 일정 수정 데이터 모델
+data class TodoModifyModel(
+    @SerializedName("date") var date: String, // 일정 날짜
+    @SerializedName("todoTag") var todoTag: ArrayList<Int>, // 관련 태그 리스트
+    @SerializedName("goOutTime") var goOutTime: String, // 외출 시간
+    @SerializedName("remindTime") var remindTime: ArrayList<Int>, // 알림 시간
+    @SerializedName("deleteTodoIdx") var deleteTodoIdx: ArrayList<Long>? = null, // 삭제한 일정들의 아이디값
+    @SerializedName("modifyTodo") var modifyTodo: ArrayList<TodoModifyItem2>? = null, // 수정한 일정의 리스트
+    @SerializedName("addTodoName") var addTodoName: ArrayList<String>? = null // 추가한 일정의 이름 목록
+)
+
+// 수정한 일정들의 데이터 모델
+data class TodoModifyItem2(
+    @SerializedName("todoIdx") var todoIdx: Long, // idx
+    @SerializedName("todoName") var todoName: String // 일정 이름
 )
