@@ -7,6 +7,7 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCompleteModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoDeleteAllModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
 import com.oops.oops_android.ui.Main.Home.TodoCreateItem
@@ -281,6 +282,36 @@ class TodoService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("TODO - Modify Todo / Failure", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 일정 전체 삭제
+    fun deleteAllTodo(date: TodoDeleteAllModel) {
+        val todoService = retrofit.create(TodoInterface::class.java)
+        todoService.deleteAllTodo(date).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Delete All Todo")
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "일정 전체 삭제 실패")
+                    Log.e("TODO - Delete All Todo / ERROR", jsonObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("TODO - Delete All Todo / Failure", t.message.toString())
                 commonView.onCommonFailure(-1, "")
             }
         })

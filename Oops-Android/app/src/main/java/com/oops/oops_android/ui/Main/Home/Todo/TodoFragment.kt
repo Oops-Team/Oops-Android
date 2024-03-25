@@ -26,6 +26,7 @@ import com.oops.oops_android.custom.SelectedDecorator
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoDeleteAllModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyItem2
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentTodoBinding
@@ -356,6 +357,22 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     )
                 )
             }
+        }
+
+        // 삭제하기 버튼을 클릭한 경우
+        binding.btnTodoDelete.setOnClickListener {
+            // 일정 삭제 팝업 띄우기
+            val todoDeleteDialog = TodoDeleteDialog(requireContext())
+            todoDeleteDialog.showTodoDeleteDialog()
+
+            // 예 버튼을 누른 경우
+            todoDeleteDialog.setOnClickedListener(object : TodoDeleteDialog.TodoDeleteBtnClickListener {
+                override fun onClicked() {
+                    // 일정 전체 삭제 API 연동
+                    Log.d("삭제할 날짜", selectDate.toString())
+                    deleteAllTodo(TodoDeleteAllModel(selectDate.toString()))
+                }
+            })
         }
     }
 
@@ -983,7 +1000,14 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         todoService.modifyTodo(todoModifyItem)
     }
 
-    // 일정 추가 성공 & 일정 수정 성공
+    // 일정 삭제
+    private fun deleteAllTodo(date: TodoDeleteAllModel) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.deleteAllTodo(date)
+    }
+
+    // 일정 추가 성공 & 일정 수정 & 일정 전체 삭제 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
             "Create Todo" -> {
@@ -995,8 +1019,8 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 todoCreateDialog.setOnClickedListener(object : TodoCreateDialog.TodoCreateBtnClickListener {
                     override fun onClicked() {
                         // 홈 화면으로 이동하기
-                        val actionToWeekly: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
-                        findNavController().navigate(actionToWeekly)
+                        val actionToHome: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
+                        findNavController().navigate(actionToHome)
                     }
                 })
             }
@@ -1009,8 +1033,21 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 todoModifyDialog.setOnClickedListener(object : TodoModifyDialog.TodoModifyBtnClickListener {
                     override fun onClicked() {
                         // 홈 화면으로 이동하기
-                        val actionToWeekly: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
-                        findNavController().navigate(actionToWeekly)
+                        val actionToHome: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
+                        findNavController().navigate(actionToHome)
+                    }
+                })
+            }
+            "Delete All Todo" -> {
+                // 삭제 성공 팝업 띄우기
+                val todoDeleteAgreeDialog = TodoDeleteAgreeDialog(requireContext())
+                todoDeleteAgreeDialog.showTodoDeleteAgreeDialog()
+                // 확인 버튼을 누른 경우
+                todoDeleteAgreeDialog.setOnClickedListener(object : TodoDeleteAgreeDialog.TodoDeleteAgreeBtnClickListener{
+                    override fun onClicked() {
+                        // 홈 화면으로 이동
+                        val actionToHome: NavDirections = TodoFragmentDirections.actionTodoFrmToHomeFrm()
+                        findNavController().navigate(actionToHome)
                     }
                 })
             }

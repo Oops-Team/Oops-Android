@@ -49,3 +49,8 @@ data class TodoModifyItem2(
     @SerializedName("todoIdx") var todoIdx: Long, // idx
     @SerializedName("todoName") var todoName: String // 일정 이름
 )
+
+// 일정 전체 삭제 데이터 모델
+data class TodoDeleteAllModel(
+    @SerializedName("date") var date: String, // 일정 날짜
+)
