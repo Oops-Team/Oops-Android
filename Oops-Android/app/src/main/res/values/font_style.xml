@@ -61,4 +61,15 @@
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
+    <!-- dialog의 기본 텍스트 스타일 설정 -->
+    <style name="dialog_title">
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/Black</item>
+    </style>
+    <style name="dialog_content">
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/Gray_400</item>
+    </style>
 </resources>
