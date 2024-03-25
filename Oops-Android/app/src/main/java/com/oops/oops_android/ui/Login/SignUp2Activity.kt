@@ -1,7 +1,12 @@
 package com.oops.oops_android.ui.Login
 
+import android.Manifest
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -201,43 +206,45 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         startNextActivity(MoreTermsActivity::class.java)
     }
 
-    // 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isChoiceCheck: Boolean) {
-        // API 연동
-        val authService = AuthService()
-        authService.setSignUpView(this@SignUp2Activity)
-        authService.oopsSignUp(OopsUserModel(binding.edtSignUp2Email.text.toString(), binding.edtSignUp2Pwd.text.toString(), getNickname()))
+    // 권한 동의 목록
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    //private val requiredPermission = Manifest.permission.POST_NOTIFICATIONS
+    /*private val requiredPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf( // SDK 33 이상 필요한 권한
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+    } else {
+        arrayOf( // SDK 33 미만 필요한 권한들
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    }*/
 
-        // 알림에 동의했다면
-        if (isChoiceCheck) {
-            clickAgreeBtn()
-        }
-        // 알림에 미동의했다면
-        else {
-            // 푸시 알림 미동의 팝업 띄우기
-            val dialog = PushAlertDialog(this@SignUp2Activity)
-            dialog.showPushAlertDialog()
-            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
-                override fun onClicked(isAgree: Boolean) {
-                    // 동의 버튼을 누른 경우
-                    if (isAgree)
-                        clickAgreeBtn()
-                    // 동의 안함 버튼을 누른 경우
-                    else
-                        clickDisAgreeBtn()
-                }
-            })
-        }
+    // 안드로이드 푸시 알림 동의 or 미동의 설정
+    /*private val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()) { result ->
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_PE)
+
+    }*/
 
     // 동의 버튼을 누른 경우
     private fun clickAgreeBtn() {
         val agreeDialog = PushAlertAgreeDialog(this@SignUp2Activity)
         agreeDialog.showAgreeDialog()
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
+            // 확인 버튼을 누른 경우
             override fun onClicked() {
-                // 확인 버튼을 누른 경우
-                // TODO: 알람 동의 room db 저장하기
+                // 튜토리얼 화면으로 이동
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
@@ -250,10 +257,41 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                // TODO: 알람 비동의 room db 저장하기
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
+    }
+
+    // 권한 체크 리스너
+    private var permissionListener: PermissionListener = object: PermissionListener {
+        // 권한을 허가할 경우
+        override fun onPermissionGranted() {
+            // 알림 수신 함
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                clickAgreeBtn()
+            }
+        }
+
+        // 권한을 거부할 경우
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+            clickDisAgreeBtn() // 알림 수신 안함
+        }
+    }
+
+    // 다음 버튼 클릭 이벤트
+    private fun clickNextBtn(isChoiceCheck: Boolean) {
+        // API 연동
+        val authService = AuthService()
+        authService.setSignUpView(this@SignUp2Activity)
+        authService.oopsSignUp(OopsUserModel(binding.edtSignUp2Email.text.toString(), binding.edtSignUp2Pwd.text.toString(), getNickname()))
+
+        // 안드로이드 13 이상의 경우 알림 수신 권한 설정 창 띄우기
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            TedPermission.create()
+                .setPermissionListener(permissionListener)
+                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
+                .check()
+        }
     }
 
     // 이메일 중복 확인 성공

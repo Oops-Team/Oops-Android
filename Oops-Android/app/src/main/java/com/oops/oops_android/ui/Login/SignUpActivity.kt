@@ -1,9 +1,13 @@
 package com.oops.oops_android.ui.Login
 
+import android.Manifest
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -132,6 +136,22 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
+    // 권한 체크 리스너
+    private var permissionListener: PermissionListener = object: PermissionListener {
+        // 권한을 허가할 경우
+        override fun onPermissionGranted() {
+            // 알림 수신 함
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                clickAgreeBtn()
+            }
+        }
+
+        // 권한을 거부할 경우
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+            clickDisAgreeBtn() // 알림 수신 안함
+        }
+    }
+
     // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
     private fun clickNextBtn(isChoiceCheck: Boolean) {
         try {
@@ -148,25 +168,12 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
         }
 
-        // 알림에 동의했다면
-        if (isChoiceCheck) {
-            clickAgreeBtn()
-        }
-        // 알림에 미동의했다면
-        else {
-            // 푸시 알림 미동의 팝업 띄우기
-            val dialog = PushAlertDialog(this@SignUpActivity)
-            dialog.showPushAlertDialog()
-            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
-                override fun onClicked(isAgree: Boolean) {
-                    // 동의 버튼을 누른 경우
-                    if (isAgree)
-                        clickAgreeBtn()
-                    // 동의 안함 버튼을 누른 경우
-                    else
-                        clickDisAgreeBtn()
-                }
-            })
+        // 안드로이드 13 이상의 경우 알림 수신 권한 설정 창 띄우기
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            TedPermission.create()
+                .setPermissionListener(permissionListener)
+                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
+                .check()
         }
     }
 
