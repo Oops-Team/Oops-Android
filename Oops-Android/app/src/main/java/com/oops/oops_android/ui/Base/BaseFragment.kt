@@ -83,13 +83,13 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
 
     // 커스텀 스낵바 띄우기
     @SuppressLint("ShowToast")
-    fun showCustomSnackBar(message: Int) {
+    fun showCustomSnackBar(message: String) {
         // 스낵바 텍스트 설정
         val snackBarBinding = SnackbarBgBinding.inflate(layoutInflater)
-        snackBarBinding.tvSnackbar.text = getString(message)
+        snackBarBinding.tvSnackbar.text = message
 
         // 스낵바 객체 생성
-        val snackBar = Snackbar.make(binding.root, getString(message), Snackbar.LENGTH_SHORT)
+        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
         snackBar.animationMode = Snackbar.ANIMATION_MODE_FADE
 
         // 커스텀한 배경 적용

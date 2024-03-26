@@ -71,7 +71,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             if (!isReadTerms) {
                 binding.cBoxWithdrawal2Check1.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
                 binding.cBoxWithdrawal2Check1.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택
@@ -87,7 +87,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             if (!isReadTerms) {
                 binding.cBoxWithdrawal2Check2.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
                 binding.cBoxWithdrawal2Check2.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택
@@ -103,7 +103,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             if (!isReadTerms) {
                 binding.cBoxWithdrawal2Check3.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
                 binding.cBoxWithdrawal2Check3.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택

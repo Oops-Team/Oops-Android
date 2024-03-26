@@ -226,7 +226,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         binding.iBtnTodo.setOnClickListener {
             // 30개 이상이라면
             if (todoList.size >= 30) {
-                showCustomSnackBar(R.string.toast_todo_not_add) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.toast_todo_not_add)) // 스낵바 띄우기
             }
             else {
                 // - 버튼이 보이는 상태라면
