@@ -208,6 +208,11 @@
         <action
             android:id="@+id/action_accountFrm_to_withdrawal_1Frm"
             app:destination="@id/withdrawal1Fragment"/>
+        <!-- 사용자 정보 아이템 -->
+        <argument
+            android:name="myPageItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.MyPageItem"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 회원 탈퇴 1 -->

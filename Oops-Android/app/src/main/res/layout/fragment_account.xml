@@ -162,7 +162,7 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:outlineProvider="background"
-                android:src="@drawable/ic_login_naver_18"/>
+                android:src="@drawable/ic_login_naver_unselected_18"/>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 

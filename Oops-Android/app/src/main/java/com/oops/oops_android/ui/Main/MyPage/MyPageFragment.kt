@@ -43,9 +43,10 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
         // 계정 설정 탭을 클릭한 경우
         binding.lLayoutMyPageAccount.setOnClickListener {
-            val actionToAccount: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAccountFrm()
+            val actionToAccount: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAccountFrm(myPageItem)
             view?.findNavController()?.navigate(actionToAccount)
         }
+
         // 알림 설정 탭을 클릭한 경우
         binding.lLayoutMyPageAlarm.setOnClickListener {
             val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm()

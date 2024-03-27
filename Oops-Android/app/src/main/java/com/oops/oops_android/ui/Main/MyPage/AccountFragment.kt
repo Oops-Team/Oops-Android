@@ -3,18 +3,47 @@ package com.oops.oops_android.ui.Main.MyPage
 import android.util.Log
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
+import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.databinding.FragmentAccountBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 
 // 계정 관리 화면
 class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate), CommonView {
+    // 사용자 정보
+    private lateinit var myPageItem: MyPageItem
+
     override fun initViewCreated() {
         mainActivity?.hideBnv(true) // bnv 숨기기
 
         binding.toolbarAccount.tvSubToolbarTitle.text = getString(R.string.myPage_account) // 툴바 설정
+
+        // nav data 읽어오기
+        try {
+            val args: AccountFragmentArgs by navArgs()
+            myPageItem = args.myPageItem!!
+
+            // data 적용
+            binding.tvAccountNickname.text = myPageItem.userName
+            binding.tvAccountEmail.text = myPageItem.userEmail
+            binding.switchAccountProfile.isChecked = myPageItem.isPublic
+
+            when (myPageItem.loginType) {
+                "google" -> {
+                    binding.iBtnAccountGoogle.setImageResource(R.drawable.ic_login_google_18)
+                    binding.iBtnAccountNaver.setImageResource(R.drawable.ic_login_naver_unselected_18)
+                }
+                "naver" -> {
+                    binding.iBtnAccountNaver.setImageResource(R.drawable.ic_login_naver_18)
+                    binding.iBtnAccountGoogle.setImageResource(R.drawable.ic_login_google_unselected_18)
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("AccountFragment - Get Nav Data", e.stackTraceToString())
+        }
     }
 
     override fun initAfterBinding() {
@@ -30,11 +59,11 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
 
             // 프로필 공개
             if (isChecked) {
-                myPageService.showProfile(true)
+                myPageService.showProfile(UserShowProfileChangeModel(true))
             }
             // 프로필 비공개
             else {
-                myPageService.showProfile(false)
+                myPageService.showProfile(UserShowProfileChangeModel(false))
             }
         }
 

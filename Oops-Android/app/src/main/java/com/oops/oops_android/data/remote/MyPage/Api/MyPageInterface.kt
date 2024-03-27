@@ -1,6 +1,7 @@
 package com.oops.oops_android.data.remote.MyPage.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import retrofit2.Call
 import retrofit2.http.Body
@@ -24,6 +25,6 @@ interface MyPageInterface {
     // 프로필 공개
     @PATCH("/user/mypage/profile")
     fun showProfile(
-        @Body isPublic: Boolean
+        @Body isPublic: UserShowProfileChangeModel
     ): Call<CommonResponse>
 }

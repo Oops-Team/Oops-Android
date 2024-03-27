@@ -4,6 +4,7 @@ import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,7 +55,7 @@ class MyPageService {
     }
 
     // 프로필 공개
-    fun showProfile(isPublic: Boolean) {
+    fun showProfile(isPublic: UserShowProfileChangeModel) {
         val myPageService = retrofit.create(MyPageInterface::class.java)
         myPageService.showProfile(isPublic).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(
