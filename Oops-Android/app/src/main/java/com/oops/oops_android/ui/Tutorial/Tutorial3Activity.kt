@@ -13,6 +13,9 @@ class Tutorial3Activity: BaseActivity<ActivityTutorial3Binding>(ActivityTutorial
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // 소지품 리스트 연결
         val adapter = TutorialStuffListAdapter(this)

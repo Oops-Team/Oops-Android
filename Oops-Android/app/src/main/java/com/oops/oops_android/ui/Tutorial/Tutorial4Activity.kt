@@ -14,6 +14,9 @@ class Tutorial4Activity: BaseActivity<ActivityTutorial4Binding>(ActivityTutorial
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // gif 적용
         Glide.with(this)

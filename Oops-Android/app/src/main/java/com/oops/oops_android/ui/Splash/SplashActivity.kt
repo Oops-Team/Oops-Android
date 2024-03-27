@@ -24,6 +24,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         splashScreen = installSplashScreen()
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // 스플래시 띄우기
         splashScreen.setOnExitAnimationListener{ splashScreenView ->

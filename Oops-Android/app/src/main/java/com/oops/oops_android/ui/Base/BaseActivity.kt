@@ -1,11 +1,15 @@
 package com.oops.oops_android.ui.Base
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,13 +17,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.SnackbarBgBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
+import com.oops.oops_android.data.remote.Auth.Api.AuthService
+import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
+import com.oops.oops_android.utils.getNickname
 
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T) : AppCompatActivity() {
     private var mBinding: T? = null
@@ -36,6 +47,9 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.White)
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
+        // FCM SDK 초기화
+        FirebaseApp.initializeApp(this)
+
         initAfterBinding()
     }
 
@@ -45,6 +59,51 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
             mBinding = null
         }
     }
+
+    // 권한 체크 리스너
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        // 알림 수신 동의 했다면
+        if (isGranted) {
+            // 토큰 발급 및 회원가입 API 연동
+            getFCMToken()
+        }
+        // 알림 수신 미동의 했다면
+        else {
+            connectOopsAPI(null)
+        }
+    }
+
+    // 알림 수신 동의 여부 선택 팝업창 띄우기
+    fun askNotificationPermission() {
+        // 안드로이드13 이상이라면
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+
+            // notification설정이 안 되어 있다면, 권한 체크 알림창 띄우기
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    // 현재 등록된 토큰 가져오기 및 API 연결
+    fun getFCMToken() {
+        // 현재 등록된 토큰 가져오기
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            // 토큰 가져오기를 실패했을 경우
+            if (!task.isSuccessful) {
+                Log.w("BaseActivity", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // FCM 토큰 가져오기
+            val token = task.result
+            connectOopsAPI(token)
+        })
+    }
+
+    // 각 API 연동
+    protected abstract fun connectOopsAPI(token: String?)
 
     protected abstract fun beforeSetContentView()
 
@@ -144,4 +203,6 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         else
             edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
     }
+
+
 }

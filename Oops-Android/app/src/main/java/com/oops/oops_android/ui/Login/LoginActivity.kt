@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -24,6 +26,7 @@ import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
+import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveToken
 import org.json.JSONException
@@ -98,16 +101,8 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         // 로그인 버튼 클릭 이벤트
         binding.btnLoginConfirm.setOnClickListener {
             if (isEmailValid && isPwdValid) {
-                // Oops 로그인 API 연결
-                val authService = AuthService()
-                authService.setCommonView(this)
-                authService.oopsLogin(
-                    "oops",
-                    OopsUserModel(
-                        binding.edtLoginEmail.text.toString(),
-                        binding.edtLoginPwd.text.toString()
-                    )
-                )
+                // FCM 토큰 가져오기 및 Oops 회원가입 API 연동
+                getFCMToken()
             }
         }
 
@@ -155,6 +150,20 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             binding.btnLoginConfirm.backgroundTintList = ColorStateList.valueOf(getColor(R.color.Gray_100))
             binding.btnLoginConfirm.setTextColor(getColor(R.color.Gray_400))
         }
+    }
+
+    // FCM 토큰 가져오기 및 Oops 로그인 API 연결
+    override fun connectOopsAPI(token: String?) {
+        val authService = AuthService()
+        authService.setCommonView(this)
+        authService.oopsLogin(
+            "oops",
+            OopsUserModel(
+                binding.edtLoginEmail.text.toString(),
+                binding.edtLoginPwd.text.toString(),
+                token
+            )
+        )
     }
 
     // Oops 로그인 API 연결 성공

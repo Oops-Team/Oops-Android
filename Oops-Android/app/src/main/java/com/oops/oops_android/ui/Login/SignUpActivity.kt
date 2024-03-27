@@ -1,11 +1,15 @@
 package com.oops.oops_android.ui.Login
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.oops.oops_android.R
@@ -13,12 +17,14 @@ import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Auth.Api.SignUpView
+import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
+import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
 import java.lang.Exception
@@ -136,20 +142,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
-    // 권한 체크 리스너
-    private var permissionListener: PermissionListener = object: PermissionListener {
-        // 권한을 허가할 경우
-        override fun onPermissionGranted() {
-            // 알림 수신 함
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                clickAgreeBtn()
-            }
-        }
-
-        // 권한을 거부할 경우
-        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            clickDisAgreeBtn() // 알림 수신 안함
-        }
+    override fun connectOopsAPI(token: String?) {
     }
 
     // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
@@ -161,19 +154,20 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
                 userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), "naver")
 
-                // TODO: API 연결
+                // 안드로이드13 이상이라면
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    // 알림 수신 권한 설정 창 띄우기
+                    askNotificationPermission()
+                }
+                // 안드로이드12 이하라면
+                else {
+                    // FCM 토큰 발급 및 로그인 API 연결
+                    getFCMToken()
+                }
 
             }
         } catch (e: Exception) {
             Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
-        }
-
-        // 안드로이드 13 이상의 경우 알림 수신 권한 설정 창 띄우기
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            TedPermission.create()
-                .setPermissionListener(permissionListener)
-                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
-                .check()
         }
     }
 
@@ -184,7 +178,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                startActivityWithClear(MainActivity::class.java)
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }
@@ -196,7 +190,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                startActivityWithClear(MainActivity::class.java)
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }
@@ -260,7 +254,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     // 네이버 & 구글 로그인 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -277,7 +271,16 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                     binding.edtSignUpNickname.text.toString()
                 ))
 
-                startActivityWithClear(TutorialActivity::class.java)
+                // 알림 수신 동의했다면(=토큰이 있다면)
+                if (isGetToken) {
+                    // 알림 동의 완료 팝업 띄우기
+                    clickAgreeBtn()
+                }
+                // 알림 수신 동의를 안 했다면
+                else {
+                    // 알림 미동의 완료 팝업 띄우기
+                    clickDisAgreeBtn()
+                }
             }
         }
     }

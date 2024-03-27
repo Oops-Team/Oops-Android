@@ -1,12 +1,14 @@
 package com.oops.oops_android.ui.Login
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -206,37 +208,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         startNextActivity(MoreTermsActivity::class.java)
     }
 
-    // 권한 동의 목록
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    //private val requiredPermission = Manifest.permission.POST_NOTIFICATIONS
-    /*private val requiredPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        arrayOf( // SDK 33 이상 필요한 권한
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.POST_NOTIFICATIONS
-        )
-    } else {
-        arrayOf( // SDK 33 미만 필요한 권한들
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-    }*/
-
-    // 안드로이드 푸시 알림 동의 or 미동의 설정
-    /*private val requestPermission = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()) { result ->
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == REQUEST_PE)
-
-    }*/
-
     // 동의 버튼을 누른 경우
     private fun clickAgreeBtn() {
         val agreeDialog = PushAlertAgreeDialog(this@SignUp2Activity)
@@ -262,35 +233,31 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         })
     }
 
-    // 권한 체크 리스너
-    private var permissionListener: PermissionListener = object: PermissionListener {
-        // 권한을 허가할 경우
-        override fun onPermissionGranted() {
-            // 알림 수신 함
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                clickAgreeBtn()
-            }
-        }
-
-        // 권한을 거부할 경우
-        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            clickDisAgreeBtn() // 알림 수신 안함
-        }
+    // Oops 회원가입 API 연동
+    override fun connectOopsAPI(token: String?) {
+        val authService = AuthService()
+        authService.setSignUpView(this@SignUp2Activity)
+        authService.oopsSignUp(
+            OopsUserModel(
+                binding.edtSignUp2Email.text.toString(),
+                binding.edtSignUp2Pwd.text.toString(),
+                getNickname(),
+                token
+            )
+        )
     }
 
     // 다음 버튼 클릭 이벤트
     private fun clickNextBtn(isChoiceCheck: Boolean) {
-        // API 연동
-        val authService = AuthService()
-        authService.setSignUpView(this@SignUp2Activity)
-        authService.oopsSignUp(OopsUserModel(binding.edtSignUp2Email.text.toString(), binding.edtSignUp2Pwd.text.toString(), getNickname()))
-
-        // 안드로이드 13 이상의 경우 알림 수신 권한 설정 창 띄우기
+        // 안드로이드13 이상이라면
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            TedPermission.create()
-                .setPermissionListener(permissionListener)
-                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
-                .check()
+            // 알림 수신 권한 설정 창 띄우기
+            askNotificationPermission()
+        }
+        // 안드로이드12 이하라면
+        else {
+            // FCM 토큰 발급 및 회원가입 API 연결
+            getFCMToken()
         }
     }
 
@@ -328,7 +295,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // Oops 회원가입 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -348,6 +315,17 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
 
                 // Room DB에 값 저장
                 userDB.userDao().insertUser(User("oops", getNickname()))
+
+                // 알림 수신 동의했다면(=토큰이 있다면)
+                if (isGetToken) {
+                    // 알림 동의 완료 팝업 띄우기
+                    clickAgreeBtn()
+                }
+                // 알림 수신 동의를 안 했다면
+                else {
+                    // 알림 미동의 완료 팝업 띄우기
+                    clickDisAgreeBtn()
+                }
             }
         }
     }

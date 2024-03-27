@@ -7,7 +7,11 @@ import com.oops.oops_android.ui.Base.BaseActivity
 
 /* ID/PW 찾기 화면 */
 class FindAccountActivity: BaseActivity<ActivityFindAccountBinding>(ActivityFindAccountBinding::inflate) {
+
     override fun beforeSetContentView() {
+    }
+
+    override fun connectOopsAPI(token: String?) {
     }
 
     override fun initAfterBinding() {
