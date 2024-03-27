@@ -196,7 +196,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
                 when (item) {
                     0 -> clickVitalText() // 개인정보 이용약관 보기 버튼
-                    1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
+                    1 -> clickNextBtn() // 다음 버튼
                 }
             }
             termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
@@ -237,6 +237,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     override fun connectOopsAPI(token: String?) {
         val authService = AuthService()
         authService.setSignUpView(this@SignUp2Activity)
+        Log.d("SignUp2Activity", "FCM 토큰 불러오기: " + token.toString())
         authService.oopsSignUp(
             OopsUserModel(
                 binding.edtSignUp2Email.text.toString(),
@@ -248,7 +249,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isChoiceCheck: Boolean) {
+    private fun clickNextBtn() {
         // 안드로이드13 이상이라면
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // 알림 수신 권한 설정 창 띄우기

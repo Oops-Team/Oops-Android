@@ -94,13 +94,13 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                     myPageItem = MyPageItem(loginType, userEmail, userName, isPublic)
 
                     // 프로필 사진
-                    val userImgUrl = jsonObject.getString("userImgUrl")
+                    /*val userImgUrl = jsonObject.getString("userImgUrl") ?: R.drawable.ic_friends_profile_default_50
                     Glide.with(requireContext())
                         .load(userImgUrl)
                         .skipMemoryCache(true)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .error(R.color.White)
-                        .into(binding.ivMyPageProfile)
+                        .into(binding.ivMyPageProfile)*/
 
                     // 공지
                     val comment = jsonObject.getString("comment")
