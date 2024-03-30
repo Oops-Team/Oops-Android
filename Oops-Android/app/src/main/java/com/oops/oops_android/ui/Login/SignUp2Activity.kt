@@ -193,7 +193,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     private fun checkValid() {
         if (isEmailValid && isPwdValid && isPwdCheckValid) {
             // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
-            val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
+            val termsBottomSheet = TermsBottomSheetFragment { item ->
                 when (item) {
                     0 -> clickVitalText() // 개인정보 이용약관 보기 버튼
                     1 -> clickNextBtn() // 다음 버튼

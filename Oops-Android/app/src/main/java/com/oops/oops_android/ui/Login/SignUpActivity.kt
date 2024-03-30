@@ -1,30 +1,20 @@
 package com.oops.oops_android.ui.Login
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Auth.Api.SignUpView
-import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
-import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
-import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
 import java.lang.Exception
@@ -124,10 +114,10 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                     // 네이버 && 구글 로그인의 경우
                     if (loginId == "naver" || loginId == "google") {
                         // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
-                        val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
+                        val termsBottomSheet = TermsBottomSheetFragment { item ->
                             when (item) {
                                 0 -> startNextActivity(MoreTermsActivity::class.java) // 개인정보 이용약관 보기 버튼
-                                1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
+                                1 -> clickNextBtn() // 다음 버튼
                             }
                         }
                         termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
@@ -146,7 +136,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isChoiceCheck: Boolean) {
+    private fun clickNextBtn() {
         try {
             // 네이버에서 넘어온 화면이라면
             if (loginId == "naver") {
