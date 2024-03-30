@@ -31,4 +31,10 @@ interface StingInterface {
     @GET("/friends")
     fun getFriends(
     ): Call<StingResponse>
+
+    // 친구 신청
+    @POST("/friends/request")
+    fun requestFriends(
+        @Body name: StingFriendModel
+    ): Call<CommonResponse>
 }

@@ -10,15 +10,17 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentSearchFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONException
 import org.json.JSONObject
 
 /* 사용자 목록 검색 화면 */
-class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(FragmentSearchFriendsBinding::inflate), UsersView {
+class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(FragmentSearchFriendsBinding::inflate), UsersView, CommonView {
 
     private var keyword: String? = null // 사용자가 입력한 검색 키워드
     private var keywordList = ArrayList<FriendsItem>() // 검색 결과 리스트
@@ -42,9 +44,10 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         // 친구 목록 어댑터 연결
         binding.rvFriendsSearchResult.adapter = searchFriendsAdapter
 
-        // 화면 바깥 클릭 시 키보드 내리기
-        binding.lLayoutSearchFriendsTop.setOnClickListener {
-            getHideKeyboard(binding.root)
+        // 친구 신청하기 버튼 클릭 이벤트
+        searchFriendsAdapter.onItemClickListener1 = { position ->
+            // 친구 신청 API 연결
+            requestFriends(StingFriendModel(keywordList[position].userName))
         }
     }
 
@@ -159,5 +162,36 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
     // 사용자 리스트 조회 API 연결 실패
     override fun onGetUsersFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
+    }
+
+    // 친구 신청하기 API 연결
+    private fun requestFriends(name: StingFriendModel) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.requestFriends(name)
+    }
+
+    // 친구 신청하기 API 연결 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            200 -> {
+                try {
+                    if (data != null) {
+                        showToast("$data 님에게 친구 신청을 보냈어요")
+                    }
+                } catch (e: JSONException) {
+                    Log.w("FriendsFragment - Request Friend", e.stackTraceToString())
+                    showToast(resources.getString(R.string.toast_server_error)) // 실패
+                }
+            }
+        }
+    }
+
+    // 친구 신청하기 API 연결 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        when (status) {
+            404, 409 -> showToast(message)
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }

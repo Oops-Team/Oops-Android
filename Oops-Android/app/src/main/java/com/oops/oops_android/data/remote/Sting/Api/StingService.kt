@@ -75,7 +75,7 @@ class StingService {
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "콕콕 찌르기 실패")
                     commonView.onCommonFailure(statusObject, messageObject) // 실패
-                    Log.e("MyPage - Get Sting Friends / ERROR", "$jsonObject $messageObject")
+                    Log.e("Sting - Get Sting Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
 
@@ -106,7 +106,7 @@ class StingService {
                         val statusObject = jsonObject.getInt("status")
                         val messageObject = jsonObject.optString("message", "사용자 리스트 조회 실패")
                         usersView.onGetUsersFailure(statusObject, messageObject) // 실패
-                        Log.e("MyPage - Get Users / ERROR", "$jsonObject $messageObject")
+                        Log.e("Sting - Get Users / ERROR", "$jsonObject $messageObject")
                     }
                 }
 
@@ -141,6 +141,36 @@ class StingService {
             override fun onFailure(call: Call<StingResponse>, t: Throwable) {
                 Log.e("Sting - Get Friends / FAILURE", t.message.toString())
                 stingView.onGetFriendsFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 친구 신청
+    fun requestFriends(name: StingFriendModel) {
+        val stingService = retrofit.create(StingInterface::class.java)
+        stingService.requestFriends(name).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message, name.toString())
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "Request Friends")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("Sting - Request Friends / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Sting - Request / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
             }
         })
     }
