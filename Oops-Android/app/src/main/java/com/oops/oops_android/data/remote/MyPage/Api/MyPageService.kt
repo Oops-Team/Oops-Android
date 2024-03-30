@@ -15,6 +15,7 @@ class MyPageService {
     // 서비스 변수
     private lateinit var commonView: CommonView
     private lateinit var myPageView: MyPageView
+    private lateinit var noticeView: NoticeView
 
     fun setCommonView(commonView: CommonView) {
         this.commonView = commonView
@@ -22,6 +23,10 @@ class MyPageService {
 
     fun setMyPageView(myPageView: MyPageView) {
         this.myPageView = myPageView
+    }
+
+    fun setNoticeView(noticeView: NoticeView) {
+        this.noticeView = noticeView
     }
 
     // 마이페이지 조회
@@ -80,6 +85,36 @@ class MyPageService {
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("MyPage - Show Profile / FAILURE", t.message.toString())
                 commonView.onCommonFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 공지사항 조회
+    fun getNotices() {
+        val myPageService = retrofit.create(MyPageInterface::class.java)
+        myPageService.getNotices().enqueue(object : Callback<NoticeResponse>{
+            override fun onResponse(
+                call: Call<NoticeResponse>,
+                response: Response<NoticeResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: NoticeResponse = response.body()!!
+                    noticeView.onGetNoticeSuccess(resp.status, resp.message, resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "공지사항 조회 실패")
+                    noticeView.onGetNoticeFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Get Notices / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<NoticeResponse>, t: Throwable) {
+                Log.e("MyPage - Get Notices / FAILURE", t.message.toString())
+                noticeView.onGetNoticeFailure(-1, "") // 실패
             }
         })
     }

@@ -194,6 +194,11 @@
         <action
             android:id="@+id/action_noticeDetailFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
+        <!-- 상세 공지사항 정보 -->
+        <argument
+            android:name="noticeItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.NoticeItem"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 계정 관리 -->

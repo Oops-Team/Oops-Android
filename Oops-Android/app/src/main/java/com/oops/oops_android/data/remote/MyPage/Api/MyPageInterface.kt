@@ -27,4 +27,9 @@ interface MyPageInterface {
     fun showProfile(
         @Body isPublic: UserShowProfileChangeModel
     ): Call<CommonResponse>
+
+    // 공지사항 조회
+    @GET("/user/notices")
+    fun getNotices(
+    ): Call<NoticeResponse>
 }

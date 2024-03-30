@@ -23,3 +23,11 @@ data class WithdrawalItem(
     var reason5: Boolean = false, // 사유5
     var subReason: String? = null // 기타
 ): Parcelable
+
+// 공지사항 정보
+@Parcelize
+data class NoticeItem(
+    var noticeTitle: String, // 공지사항 제목
+    var date: String, // 게시 날짜
+    var content: String // 공지사항 내용
+): Parcelable
