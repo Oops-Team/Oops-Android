@@ -8,7 +8,7 @@ data class StingFriendModel(
     @SerializedName("name") val name: String // 찌를 친구의 닉네임, 친구 신청 대상 닉네임
 )
 
-// 친구 신청 수락
+// 친구 신청 수락, 친구 끊기&거절
 data class StingFriendIdModel(
-    @SerializedName("friendId") val friendId: Long // 친구 수락 대상 아이디
+    @SerializedName("friendId") val friendId: Long // 친구 아이디
 )

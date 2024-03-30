@@ -200,7 +200,37 @@ class StingService {
             }
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
-                Log.e("Sting - Accept / FAILURE", t.message.toString())
+                Log.e("Sting - Accept Friends / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 친구 끊기&거절
+    fun refuseFriends(friendId: StingFriendIdModel, isRefuse: Boolean) {
+        val stingService = retrofit.create(StingInterface::class.java)
+        stingService.refuseFriends(friendId).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Refuse Friends", isRefuse)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "Refuse Friends")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("Sting - Refuse Friends / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Sting - Refuse Friends / FAILURE", t.message.toString())
                 commonView.onCommonFailure(-1, "") // 실패
             }
         })

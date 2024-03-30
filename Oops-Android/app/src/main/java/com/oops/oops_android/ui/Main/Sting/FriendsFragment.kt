@@ -54,6 +54,18 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
             // 친구 신청 수락 API 연결
             acceptFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx)
         }
+
+        // 친구 신청 거절 버튼을 클릭한 경우
+        newFriendsAdapter?.onFriendsItemClickListener2 = { position ->
+            // 친구 신청 거절 API 연결
+            refuseFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx, true)
+        }
+
+        // 친구 끊기 버튼을 클릭한 경우
+        oldFriendsAdapter?.onOldFriendsItemClickListener1 = { position ->
+            // 친구 끊기 API 연결
+            refuseFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx, false)
+        }
     }
 
     // 친구 리스트 조회 API 연결
@@ -109,14 +121,30 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         stingService.acceptFriends(StingFriendIdModel(friendId))
     }
 
+    // 친구 끊기 & 친구 거절
+    private fun refuseFriends(friendId: Long, isRefuse: Boolean) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse)
+    }
+
     // 친구 신청 수락 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
             // 친구 신청 수락 성공
             "Accept Friends" -> {
                 // 팝업 띄우기
-                val acceptDialog = FriendsAcceptDialog(requireContext())
+                val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_accept, R.id.btn_popup_friends_accept_confirm)
                 acceptDialog.showFriendsAcceptDialog()
+            }
+            // 친구 끊기 & 거절
+            "Refuse Friends" -> {
+                // 친구 거절인 경우
+                if (data as Boolean) {
+                    // 팝업 띄우기
+                    val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_refuse, R.id.btn_popup_friends_refuse_confirm)
+                    acceptDialog.showFriendsAcceptDialog()
+                }
             }
         }
     }

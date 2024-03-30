@@ -5,6 +5,7 @@ import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -43,6 +44,12 @@ interface StingInterface {
     // 친구 수락
     @PATCH("/friends/accept")
     fun acceptFriends(
+        @Body friendId: StingFriendIdModel
+    ): Call<CommonResponse>
+
+    // 친구 끊기 & 거절
+    @DELETE("/friends")
+    fun refuseFriends(
         @Body friendId: StingFriendIdModel
     ): Call<CommonResponse>
 }
