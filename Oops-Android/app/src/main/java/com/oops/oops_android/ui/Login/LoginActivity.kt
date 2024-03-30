@@ -126,7 +126,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             val userDB = AppDatabase.getUserDB()!! // room db의 user db
             val loginId = userDB.userDao().getLoginId()
 
-            Log.d("user", userDB.userDao().getAllUser().toString())
+            //Log.d("user", userDB.userDao().getAllUser().toString())
 
             if (loginId == "naver") {
                 binding.lLayoutLoginRecentNaver.visibility = View.VISIBLE

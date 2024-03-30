@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@drawable/selector_withdrawal_checkbox"
-            android:text="@string/withdrawal_info_6"
+            android:text="@string/withdrawal_info_7"
             android:textColor="@color/Black"
             android:textSize="16dp"
             android:fontFamily="@font/pretendard_medium"
@@ -89,18 +89,6 @@
 
         <CheckBox
             android:id="@+id/cBox_withdrawal_2_check_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@drawable/selector_withdrawal_checkbox"
-            android:text="@string/withdrawal_info_7"
-            android:textColor="@color/Black"
-            android:textSize="16dp"
-            android:fontFamily="@font/pretendard_medium"
-            android:paddingStart="8dp"
-            android:layout_marginTop="24dp"/>
-
-        <CheckBox
-            android:id="@+id/cBox_withdrawal_2_check_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@drawable/selector_withdrawal_checkbox"

@@ -5,6 +5,8 @@ import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
+import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
+import com.oops.oops_android.ui.Main.MyPage.WithdrawalItem
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -115,6 +117,36 @@ class MyPageService {
             override fun onFailure(call: Call<NoticeResponse>, t: Throwable) {
                 Log.e("MyPage - Get Notices / FAILURE", t.message.toString())
                 noticeView.onGetNoticeFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 회원 탈퇴
+    fun oopsWithdrawal(userWithdrawalModel: UserWithdrawalModel) {
+        val myPageService = retrofit.create(MyPageInterface::class.java)
+        myPageService.oopsWithdrawal(userWithdrawalModel).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "회원 탈퇴 실패")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Oops Withdrawal / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("MyPage - Oops Withdrawal / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
             }
         })
     }

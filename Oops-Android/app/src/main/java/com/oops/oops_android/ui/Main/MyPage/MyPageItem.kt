@@ -16,11 +16,7 @@ data class MyPageItem(
 // 회원 탈퇴
 @Parcelize
 data class WithdrawalItem(
-    var reason1: Boolean = false, // 사유1
-    var reason2: Boolean = false, // 사유2
-    var reason3: Boolean = false, // 사유3
-    var reason4: Boolean = false, // 사유4
-    var reason5: Boolean = false, // 사유5
+    var reasonType: Int, // 탈퇴 사유
     var subReason: String? = null // 기타
 ): Parcelable
 

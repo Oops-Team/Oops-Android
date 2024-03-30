@@ -360,7 +360,7 @@
     <string name="withdrawal_info_6">동일한 ID로 30일간 재가입할 수 없어요</string>
     <string name="withdrawal_info_7">입력했던 소지품 내역을 보관하지 않아요</string>
     <string name="withdrawal_info_8">입력했던 일과 리스트 내역을 보관하지 않아요</string>
-    <string name="withdrawal_terms">개인정보 처리 방침</string>
+    <string name="withdrawal_terms">개인정보처리방침</string>
 
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
@@ -403,6 +403,7 @@
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
     <string name="toast_login_naver_failure">로그인이 취소되었습니다</string>
     <string name="toast_server_error">요청을 처리할 수 없습니다</string>
+    <string name="toast_user_withdrawal">회원탈퇴 되었습니다</string>
 
     <!-- 스낵바 메시지 -->
     <string name="snackbar_read_terms">개인정보 처리 방침을 클릭하여 읽어 주세요!</string>

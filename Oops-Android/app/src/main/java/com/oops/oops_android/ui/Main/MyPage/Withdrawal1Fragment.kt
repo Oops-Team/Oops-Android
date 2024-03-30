@@ -54,28 +54,28 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                 binding.rBtnWithdrawal1Reason1.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason1.isChecked) {
-                        item = WithdrawalItem(reason1 = true)
+                        item = WithdrawalItem(1)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason2.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason2.isChecked) {
-                        item = WithdrawalItem(reason2 = true)
+                        item = WithdrawalItem(2)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason3.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason3.isChecked) {
-                        item = WithdrawalItem(reason3 = true)
+                        item = WithdrawalItem(3)
                     }
                 }
 
                 binding.rBtnWithdrawal1Reason4.id -> {
                     isSelectedReason5 = false
                     if (binding.rBtnWithdrawal1Reason4.isChecked) {
-                        item = WithdrawalItem(reason4 = true)
+                        item = WithdrawalItem(4)
                     }
                 }
 
@@ -83,7 +83,7 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                     if (binding.rBtnWithdrawal1Reason5.isChecked) {
                         isSelectedReason5 = true
                         binding.edtWithdrawal1Etc.visibility = View.VISIBLE
-                        item = WithdrawalItem(reason5 = true)
+                        item = WithdrawalItem(5)
                     }
                 }
             }
