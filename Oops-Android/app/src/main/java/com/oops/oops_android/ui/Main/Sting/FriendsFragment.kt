@@ -1,12 +1,21 @@
 package com.oops.oops_android.ui.Main.Sting
 
+import android.util.Log
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import com.google.gson.JsonArray
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Sting.Api.StingService
+import com.oops.oops_android.data.remote.Sting.Api.StingView
 import com.oops.oops_android.databinding.FragmentFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import org.json.JSONArray
+import org.json.JSONException
 
-class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate) {
+class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate), StingView {
+
+    private var newFriendsAdapter: NewFriendsListAdapter? = null
+    private var oldFriendsAdapter: OldFriendsListAdapter? = null
 
     override fun initViewCreated() {
         mainActivity?.hideBnv(true) // 바텀 네비게이션 숨기기
@@ -20,12 +29,15 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
             view?.findNavController()?.popBackStack()
         }
 
+        // 친구 리스트 조회 API 연결
+        getFriends()
+
         // 친구 신청 목록 어댑터 연결 및 데이터 등록
-        val newFriendsAdapter = NewFriendsListAdapter(requireContext()) // 친구 신청 목록 어댑터
+        newFriendsAdapter = NewFriendsListAdapter(requireContext()) // 친구 신청 목록 어댑터
         binding.rvFriendsNew.adapter = newFriendsAdapter
 
         // 친구 목록 어댑터 연결 및 데이터 등록
-        val oldFriendsAdapter = OldFriendsListAdapter(requireContext()) // 친구 목록 어댑터
+        oldFriendsAdapter = OldFriendsListAdapter(requireContext()) // 친구 목록 어댑터
         binding.rvFriendsOld.adapter = oldFriendsAdapter
 
         // 검색창 버튼을 클릭한 경우
@@ -34,5 +46,51 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
             val actionToSearchFriends: NavDirections = FriendsFragmentDirections.actionFriendsFrmToSearchFriendsFrm()
             view?.findNavController()?.navigate(actionToSearchFriends)
         }
+    }
+
+    // 친구 리스트 조회 API 연결
+    private fun getFriends() {
+        val stingService = StingService()
+        stingService.setStingView(this)
+        stingService.getFriends()
+    }
+
+    // 친구 리스트 조회 API 연결 성공
+    override fun onGetFriendsSuccess(status: Int, message: String, data: JsonArray?) {
+        when (status) {
+            200 -> {
+                try {
+                    val jsonArray = JSONArray(data.toString())
+
+                    for (i in 0 until jsonArray.length()) {
+                        val subJsonObject = jsonArray.getJSONObject(i)
+                        val userIdx = subJsonObject.getLong("userIdx")
+                        val userName = subJsonObject.getString("userName")
+                        val userImg = subJsonObject.getString("userImg")
+                        val userState = subJsonObject.getInt("userState")
+
+                        when (userState) {
+                            // 친구 요청이 들어 온 경우, 대기 중인 경우
+                            3, 2 -> {
+                                newFriendsAdapter?.addNewFriendsList(FriendsItem(userIdx, userName, userImg, userState))
+                            }
+                            // 친구인 경우
+                            1 -> {
+                                oldFriendsAdapter?.addOldFriendsList(FriendsItem(userIdx, userName, userImg, userState))
+                            }
+                        }
+                    }
+
+                } catch (e: JSONException) {
+                    Log.w("FriendsFragment - Get Friends", e.stackTraceToString())
+                    showToast(resources.getString(R.string.toast_server_error)) // 실패
+                }
+            }
+        }
+    }
+
+    // 친구 리스트 조회 API 연결 실패
+    override fun onGetFriendsFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }

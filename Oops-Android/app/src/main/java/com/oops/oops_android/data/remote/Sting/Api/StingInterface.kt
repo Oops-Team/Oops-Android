@@ -26,4 +26,9 @@ interface StingInterface {
     fun getUsers(
         @Path("name") name: String
     ): Call<StingObjectResponse>
+
+    // 친구 리스트 조회
+    @GET("/friends")
+    fun getFriends(
+    ): Call<StingResponse>
 }

@@ -37,21 +37,21 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: StingResponse = response.body()!!
-                    stingView.onGet30mFriendsSuccess(resp.status, resp.message, resp.data)
+                    stingView.onGetFriendsSuccess(resp.status, resp.message, resp.data)
                 }
                 // 실패
                 else {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "외출 30분 전 친구 리스트 조회 실패")
-                    stingView.onGet30mFriendsFailure(statusObject, messageObject) // 실패
-                    Log.e("MyPage - Get 30m Friends / ERROR", "$jsonObject $messageObject")
+                    stingView.onGetFriendsFailure(statusObject, messageObject) // 실패
+                    Log.e("Sting - Get 30m Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
 
             override fun onFailure(call: Call<StingResponse>, t: Throwable) {
                 Log.e("Sting - Get 30m Friends / FAILURE", t.message.toString())
-                stingView.onGet30mFriendsFailure(-1, "") // 실패
+                stingView.onGetFriendsFailure(-1, "") // 실패
             }
         })
     }
@@ -116,5 +116,32 @@ class StingService {
                 }
             })
         }
+    }
+
+    // 친구 리스트 조회
+    fun getFriends() {
+        val stingService = retrofit.create(StingInterface::class.java)
+        stingService.getFriends().enqueue(object : Callback<StingResponse>{
+            override fun onResponse(call: Call<StingResponse>, response: Response<StingResponse>) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: StingResponse = response.body()!!
+                    stingView.onGetFriendsSuccess(resp.status, resp.message, resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "친구 리스트 조회 실패")
+                    stingView.onGetFriendsFailure(statusObject, messageObject) // 실패
+                    Log.e("Sting - Get Friends / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<StingResponse>, t: Throwable) {
+                Log.e("Sting - Get Friends / FAILURE", t.message.toString())
+                stingView.onGetFriendsFailure(-1, "") // 실패
+            }
+        })
     }
 }

@@ -61,7 +61,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     }
 
     // 외출 30분 전 친구 리스트 조회 성공
-    override fun onGet30mFriendsSuccess(status: Int, message: String, data: JsonArray?) {
+    override fun onGetFriendsSuccess(status: Int, message: String, data: JsonArray?) {
         when (status) {
             200 -> {
                 try {
@@ -146,7 +146,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     }
 
     // 외출 30분 전 친구 리스트 조회 실패
-    override fun onGet30mFriendsFailure(status: Int, message: String) {
+    override fun onGetFriendsFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 
