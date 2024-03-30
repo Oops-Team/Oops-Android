@@ -2,6 +2,7 @@ package com.oops.oops_android.data.remote.Sting.Api
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /* 친구 화면에서 사용하는 API */
 interface StingInterface {
@@ -9,4 +10,9 @@ interface StingInterface {
     @GET("/friends/sting")
     fun get30mFriends(
     ): Call<StingResponse>
+    // 사용자 리스트 조회
+    @GET("/friends/search/{name}")
+    fun getUsers(
+        @Path("name") name: String
+    ): Call<StingObjectResponse>
 }

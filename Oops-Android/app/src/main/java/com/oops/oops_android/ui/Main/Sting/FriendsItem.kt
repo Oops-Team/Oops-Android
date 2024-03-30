@@ -6,5 +6,5 @@ data class FriendsItem (
     var userIdx: Long, // 친구 PK
     var userName: String, // 친구 닉네임
     var userImg: String, // 친구 사진
-    var userState: Long // 친구 상태(친구x: 0, 친구o: 1, 대기중: 2, 친구요청이 들어온 경우: 3)
+    var userState: Int // 친구 상태(친구x: 0, 친구o: 1, 대기중: 2, 친구요청이 들어온 경우: 3)
 )

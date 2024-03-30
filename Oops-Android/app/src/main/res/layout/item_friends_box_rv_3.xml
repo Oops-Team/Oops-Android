@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 친구 목록 화면의 친구 리스트 박스1(친구가 아닌 경우) -->
+<!-- 사용자 검색 화면의 친구 리스트 박스3(all) -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,7 +16,7 @@
 
     <!-- 프로필 사진 -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_friends_profile"
+        android:id="@+id/cv_friends_box_3_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="100dp"
@@ -24,27 +24,44 @@
         android:layout_gravity="center"
         app:cardElevation="@null">
         <ImageView
-            android:id="@+id/iv_friends_profile"
+            android:id="@+id/iv_friends_box_3_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_friends_profile_default_50"/>
     </androidx.cardview.widget.CardView>
 
-    <!-- 이름 -->
-    <TextView
-        android:id="@+id/tv_friends_name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:textColor="@color/Black"
-        android:textSize="18sp"
-        android:fontFamily="@font/pretendard_bold"
-        android:ems="6"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center">
+
+        <!-- 이름 -->
+        <TextView
+            android:id="@+id/tv_friends_box_3_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Black"
+            style="@style/H3"
+            android:ems="6"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- 친구 끊기 -->
+        <TextView
+            android:id="@+id/tv_friends_box_3_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/friend_delete"
+            android:textColor="@color/Gray_500"
+            style="@style/Button3"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -55,7 +72,7 @@
 
         <!-- 친구 신청 -->
         <TextView
-            android:id="@+id/tv_friends_add"
+            android:id="@+id/tv_friends_box_3_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/all_radius_50"
@@ -72,7 +89,7 @@
 
         <!-- 대기 중 -->
         <TextView
-            android:id="@+id/tv_friends_wait"
+            android:id="@+id/tv_friends_box_3_wait"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/all_radius_50"
@@ -87,8 +104,15 @@
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"/>
 
+        <!-- 콕콕 찌르기 버튼 -->
+        <ImageButton
+            android:id="@+id/iBtn_friends_box_3_sting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="@drawable/ic_sting_42"/>
         <LinearLayout
-            android:id="@+id/lLayout_friends_btn"
+            android:id="@+id/lLayout_friends_box_3_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -96,7 +120,7 @@
 
             <!-- 수락 -->
             <TextView
-                android:id="@+id/tv_friends_confirm"
+                android:id="@+id/tv_friends_box_3_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/all_radius_50"
@@ -113,7 +137,7 @@
 
             <!-- 거절 -->
             <TextView
-                android:id="@+id/tv_friends_refuse"
+                android:id="@+id/tv_friends_box_3_refuse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/all_radius_50"

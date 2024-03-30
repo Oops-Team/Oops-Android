@@ -1,5 +1,6 @@
 package com.oops.oops_android.ui.Main.Sting
 
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.FragmentFriendsBinding
@@ -22,23 +23,16 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         // 친구 신청 목록 어댑터 연결 및 데이터 등록
         val newFriendsAdapter = NewFriendsListAdapter(requireContext()) // 친구 신청 목록 어댑터
         binding.rvFriendsNew.adapter = newFriendsAdapter
-        newFriendsAdapter.addNewFriendsList(FriendsItem(0, "강", "이미지", 0))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(1, "웁스", "이미지", 2))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(2, "강아지", "이미지", 3))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(2, "짜장이랑", "이미지", 3))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(3, "지구지킴이", "이미지", 3))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(4, "이지밥입니다", "이미지", 3))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(5, "이지밥입니다", "이미지", 2))
-        newFriendsAdapter.addNewFriendsList(FriendsItem(6, "이지밥입니다", "이미지", 0))
 
         // 친구 목록 어댑터 연결 및 데이터 등록
         val oldFriendsAdapter = OldFriendsListAdapter(requireContext()) // 친구 목록 어댑터
         binding.rvFriendsOld.adapter = oldFriendsAdapter
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(0, "강", "이미지", 1))
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(1, "웁스", "이미지", 1))
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(2, "강아지", "이미지", 1))
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(3, "짜장이랑", "이미지", 1))
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(4, "지구지킴이", "이미지", 1))
-        oldFriendsAdapter.addOldFriendsList(FriendsItem(5, "이지밥입니다", "이미지", 1))
+
+        // 검색창 버튼을 클릭한 경우
+        binding.edtFriendsBox.setOnClickListener {
+            // 검색 화면으로 이동
+            val actionToSearchFriends: NavDirections = FriendsFragmentDirections.actionFriendsFrmToSearchFriendsFrm()
+            view?.findNavController()?.navigate(actionToSearchFriends)
+        }
     }
 }

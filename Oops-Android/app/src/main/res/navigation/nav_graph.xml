@@ -149,6 +149,20 @@
             app:destination="@id/stingFragment"
             app:popUpTo="@id/stingFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_friendsFrm_to_searchFriendsFrm"
+            app:destination="@id/searchFriendsFragment"/>
+    </fragment>
+
+    <!-- 사용자 검색 창 -->
+    <fragment
+        android:id="@+id/searchFriendsFragment"
+        android:name="com.oops.oops_android.ui.Main.Sting.SearchFriendsFragment"
+        android:label="fragment_search_friends"
+        tools:layout="@layout/fragment_search_friends">
+        <action
+            android:id="@+id/action_searchFriendsFrm_to_friendsFrm"
+            app:destination="@id/friendsFragment"/>
     </fragment>
 
     <!-- 마이페이지 -->

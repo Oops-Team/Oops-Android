@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/lLayout_search_friends_top"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +8,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/White"
-    tools:context=".ui.Main.Sting.FriendsFragment">
+    tools:context=".ui.Main.Sting.SearchFriendsFragment">
 
     <include
-        android:id="@+id/friends_toolbar_sub"
+        android:id="@+id/searchFriends_toolbar_sub"
         layout="@layout/toolbar_sub"/>
 
     <EditText
-        android:id="@+id/edt_friends_box"
+        android:id="@+id/edt_friends_search_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Body1"
@@ -22,10 +23,11 @@
         android:textColorHint="@color/Gray_400"
         android:textColor="@color/Gray_900"
         android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Gray_100"
         android:drawableStart="@drawable/ic_search_27"
-        android:focusableInTouchMode="false"
         android:paddingTop="14dp"
         android:paddingStart="22dp"
         android:paddingEnd="22dp"
@@ -35,9 +37,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
 
-    <!-- 친구 신청 현황, 친구 목록 -->
+    <!-- 검색 결과 -->
     <ScrollView
-        android:id="@+id/sv_friends_default"
+        android:id="@+id/sv_friends_search_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -56,33 +58,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/friends_new"
+                android:text="@string/friend_search_result"
                 style="@style/H4"
                 android:textColor="@color/Black"/>
 
-            <!-- 새로운 친구 목록 -->
+            <!-- 친구 목록 -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_friends_new"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                android:nestedScrollingEnabled="false"
-                android:scrollbars="none"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_friends_box_rv"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/friends_old"
-                style="@style/H4"
-                android:textColor="@color/Black"
-                android:layout_marginTop="24dp"/>
-
-            <!-- 기존 친구 목록 -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_friends_old"
+                android:id="@+id/rv_friends_search_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -91,6 +73,40 @@
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_friends_box_rv_2"/>
+
+            <!-- 검색 결과가 없을 때 -->
+            <LinearLayout
+                android:id="@+id/lLayout_friends_no_search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/Gray_100"
+                android:layout_marginTop="104dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friend_no_search_result"
+                    style="@style/H4"
+                    android:textColor="@color/Gray_500"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friend_no_search_result_info"
+                    style="@style/Body2"
+                    android:textColor="@color/Gray_400"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"/>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

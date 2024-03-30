@@ -26,9 +26,9 @@ class NewFriendsListViewHolder(val context: Context, val binding: ItemFriendsBox
 
         // code 유형에 따른 데이터 처리
         when (item.userState) {
-            0L -> binding.tvFriendsAdd.visibility = View.VISIBLE // 친구x
-            2L -> binding.tvFriendsWait.visibility = View.VISIBLE // 대기중
-            3L -> binding.lLayoutFriendsBtn.visibility = View.VISIBLE // 친구 요청이 들어 온 경우
+            0 -> binding.tvFriendsAdd.visibility = View.VISIBLE // 친구x
+            2 -> binding.tvFriendsWait.visibility = View.VISIBLE // 대기중
+            3 -> binding.lLayoutFriendsBtn.visibility = View.VISIBLE // 친구 요청이 들어 온 경우
         }
     }
 }

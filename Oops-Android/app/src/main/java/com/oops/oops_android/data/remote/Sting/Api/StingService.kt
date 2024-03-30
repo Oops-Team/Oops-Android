@@ -11,11 +11,15 @@ import retrofit2.Response
 class StingService {
     // 서비스 변수
     private lateinit var stingView: StingView
+    private lateinit var usersView: UsersView
 
     fun setStingView(stingView: StingView) {
         this.stingView = stingView
     }
 
+    fun setUsersView(usersView: UsersView) {
+        this.usersView = usersView
+    }
     // 외출 30분 전 친구 리스트 조회
     fun get30mFriends() {
         val stingService = retrofit.create(StingInterface::class.java)
@@ -41,5 +45,36 @@ class StingService {
                 stingView.onGet30mFriendsFailure(-1, "") // 실패
             }
         })
+    }
+    // 사용자 리스트 조회
+    fun getUsers(name: String) {
+        if (name.isNotBlank()) {
+            val stingService = retrofit.create(StingInterface::class.java)
+            stingService.getUsers(name).enqueue(object : Callback<StingObjectResponse>{
+                override fun onResponse(
+                    call: Call<StingObjectResponse>,
+                    response: Response<StingObjectResponse>
+                ) {
+                    // 성공
+                    if (response.isSuccessful) {
+                        val resp: StingObjectResponse = response.body()!!
+                        usersView.onGetUsersSuccess(resp.status, resp.message, resp.data)
+                    }
+                    // 실패
+                    else {
+                        val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                        val statusObject = jsonObject.getInt("status")
+                        val messageObject = jsonObject.optString("message", "사용자 리스트 조회 실패")
+                        usersView.onGetUsersFailure(statusObject, messageObject) // 실패
+                        Log.e("MyPage - Get Users / ERROR", "$jsonObject $messageObject")
+                    }
+                }
+
+                override fun onFailure(call: Call<StingObjectResponse>, t: Throwable) {
+                    Log.e("Sting - Get Users / FAILURE", t.message.toString())
+                    usersView.onGetUsersFailure(-1, "") // 실패
+                }
+            })
+        }
     }
 }
