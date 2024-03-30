@@ -2,6 +2,9 @@ package com.oops.oops_android.data.remote.Sting.Api
 
 import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
+import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,6 +15,7 @@ class StingService {
     // 서비스 변수
     private lateinit var stingView: StingView
     private lateinit var usersView: UsersView
+    private lateinit var commonView: CommonView
 
     fun setStingView(stingView: StingView) {
         this.stingView = stingView
@@ -20,6 +24,11 @@ class StingService {
     fun setUsersView(usersView: UsersView) {
         this.usersView = usersView
     }
+
+    fun setCommonView(commonView: CommonView) {
+        this.commonView = commonView
+    }
+
     // 외출 30분 전 친구 리스트 조회
     fun get30mFriends() {
         val stingService = retrofit.create(StingInterface::class.java)
@@ -46,6 +55,37 @@ class StingService {
             }
         })
     }
+
+    // 콕콕 찌르기
+    fun stingFriend(name: StingFriendModel) {
+        val stingService = retrofit.create(StingInterface::class.java)
+        stingService.stingFriend(name).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message, name.toString())
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "콕콕 찌르기 실패")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Get Sting Friends / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Sting - Get Sting Friend / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
+            }
+        })
+    }
+
     // 사용자 리스트 조회
     fun getUsers(name: String) {
         if (name.isNotBlank()) {

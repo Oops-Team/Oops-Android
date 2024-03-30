@@ -9,15 +9,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentStingBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONArray
 import org.json.JSONException
 
 /* 콕콕 찌르기 화면 */
-class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::inflate), StingView {
+class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::inflate), StingView, CommonView {
 
     // 외출 30분 전 친구 리스트
     private var friendList = ArrayList<FriendsItem>()
@@ -34,6 +36,20 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
         binding.btnStingFriends.setOnClickListener {
             val actionToFriends : NavDirections = StingFragmentDirections.actionStingFrmToFriendsFrm()
             view?.findNavController()?.navigate(actionToFriends)
+        }
+
+        // 친구 프로필을 클릭한 경우
+        when (friendList.size) {
+            1 -> {
+                binding.ivStingFriend11.setOnClickListener {
+                    stingFriend(friendList[0].userName)
+                }
+            }
+            2 -> {
+                binding.ivStingFriend21.setOnClickListener {
+                    stingFriend(friendList[0].userName)
+                }
+            }
         }
     }
 
@@ -68,6 +84,10 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             1 -> {
                                 binding.cLayoutStingFriends1.visibility = View.VISIBLE
                                 setProfileImg(binding.ivStingFriend11, friendList[0].userImg)
+
+                                binding.ivStingFriend11.setOnClickListener {
+                                    stingFriend(friendList[0].userName)
+                                }
                             }
 
                             // 외출 임박한 친구가 2명이라면
@@ -95,7 +115,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             // 외출 임박한 친구가 5명이라면
-                            else -> {
+                            5 -> {
                                 binding.cLayoutStingFriends5.visibility = View.VISIBLE
                                 setProfileImg(binding.ivStingFriend51, friendList[0].userImg)
                                 setProfileImg(binding.ivStingFriend52, friendList[1].userImg)
@@ -127,6 +147,27 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
     // 외출 30분 전 친구 리스트 조회 실패
     override fun onGet30mFriendsFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
+    }
+
+    // 콕콕 찌르기 API 연결
+    private fun stingFriend(name: String) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.stingFriend(StingFriendModel(name))
+    }
+
+    // 콕콕 찌르기 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            200 -> {
+                showCustomSnackBar(data.toString() + "님을 콕콕 찔렀어요!")
+            }
+        }
+    }
+
+    // 콕콕 찌르기 실패
+    override fun onCommonFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

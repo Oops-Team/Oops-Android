@@ -1,7 +1,11 @@
 package com.oops.oops_android.data.remote.Sting.Api
 
+import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 /* 친구 화면에서 사용하는 API */
@@ -10,6 +14,13 @@ interface StingInterface {
     @GET("/friends/sting")
     fun get30mFriends(
     ): Call<StingResponse>
+
+    // 콕콕 찌르기
+    @POST("/friends/sting")
+    fun stingFriend(
+        @Body name: StingFriendModel
+    ): Call<CommonResponse>
+
     // 사용자 리스트 조회
     @GET("/friends/search/{name}")
     fun getUsers(
