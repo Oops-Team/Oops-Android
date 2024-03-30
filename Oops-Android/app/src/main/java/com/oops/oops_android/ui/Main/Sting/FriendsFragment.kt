@@ -9,6 +9,7 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONArray
@@ -65,6 +66,12 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         oldFriendsAdapter?.onOldFriendsItemClickListener1 = { position ->
             // 친구 끊기 API 연결
             refuseFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx, false)
+        }
+
+        // 콕콕 찌르기 버튼을 클릭한 경우
+        oldFriendsAdapter?.onOldFriendsItemClickListener2 = { position ->
+            // 콕콕 찌르기 API 연결
+            stingFriend(newFriendsAdapter?.getNewFriend(position)!!.userName)
         }
     }
 
@@ -128,6 +135,13 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse)
     }
 
+    // 콕콕 찌르기 API 연결
+    private fun stingFriend(name: String) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.stingFriend(StingFriendModel(name))
+    }
+
     // 친구 신청 수락 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
@@ -145,6 +159,10 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
                     val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_refuse, R.id.btn_popup_friends_refuse_confirm)
                     acceptDialog.showFriendsAcceptDialog()
                 }
+            }
+            // 콕콕 찌르기
+            "Sting Friends" -> {
+                showCustomSnackBar(data.toString() + "님을 콕콕 찔렀어요!")
             }
         }
     }

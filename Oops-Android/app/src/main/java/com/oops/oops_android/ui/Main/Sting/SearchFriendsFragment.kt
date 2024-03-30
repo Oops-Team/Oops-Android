@@ -13,6 +13,7 @@ import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentSearchFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
@@ -48,6 +49,18 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         searchFriendsAdapter.onItemClickListener1 = { position ->
             // 친구 신청 API 연결
             requestFriends(StingFriendModel(keywordList[position].userName))
+        }
+
+        // 친구 끊기 버튼 클릭 이벤트
+        searchFriendsAdapter.onItemClickListener2 = { position ->
+            // 친구 끊기 API 연결
+            refuseFriends(keywordList[position].userIdx, false)
+        }
+
+        // 콕콕 찌르기 버튼 클릭 이벤트
+        searchFriendsAdapter.onItemClickListener3 = { position ->
+            // 콕콕 찌르기 API 연결
+            stingFriend(keywordList[position].userName)
         }
     }
 
@@ -171,16 +184,45 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         stingService.requestFriends(name)
     }
 
+    // 친구 끊기 API 연결
+    private fun refuseFriends(friendId: Long, isRefuse: Boolean) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse)
+    }
+
+    // 콕콕 찌르기 API 연결
+    private fun stingFriend(name: String) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.stingFriend(StingFriendModel(name))
+    }
+
     // 친구 신청하기 API 연결 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (status) {
             200 -> {
                 try {
                     if (data != null) {
-                        showToast("$data 님에게 친구 신청을 보냈어요")
+                        when (message) {
+                            // 친구 신청 성공
+                            "Request Friends" -> {
+                                showToast("$data 님에게 친구 신청을 보냈어요")
+                            }
+                            // 친구 끊기
+                            "Refuse Friends" -> {
+                                // 팝업 띄우기
+                                val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_refuse, R.id.btn_popup_friends_refuse_confirm)
+                                acceptDialog.showFriendsAcceptDialog()
+                            }
+                            // 콕콕 찌르기
+                            "Sting Friends" -> {
+                                showCustomSnackBar(data.toString() + "님을 콕콕 찔렀어요!")
+                            }
+                        }
                     }
                 } catch (e: JSONException) {
-                    Log.w("FriendsFragment - Request Friend", e.stackTraceToString())
+                    Log.w("FriendsFragment - Common Friend", e.stackTraceToString())
                     showToast(resources.getString(R.string.toast_server_error)) // 실패
                 }
             }
