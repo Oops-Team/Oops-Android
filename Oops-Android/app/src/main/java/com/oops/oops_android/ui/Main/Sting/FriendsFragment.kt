@@ -53,19 +53,33 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         // 친구 신청 수락 버튼을 클릭한 경우
         newFriendsAdapter?.onFriendsItemClickListener1 = {  position ->
             // 친구 신청 수락 API 연결
-            acceptFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx)
+            acceptFriends(
+                newFriendsAdapter?.getNewFriend(position)!!.userIdx,
+                position,
+                newFriendsAdapter?.getNewFriend(position)!!
+            )
         }
 
         // 친구 신청 거절 버튼을 클릭한 경우
         newFriendsAdapter?.onFriendsItemClickListener2 = { position ->
             // 친구 신청 거절 API 연결
-            refuseFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx, true)
+            refuseFriends(newFriendsAdapter?.getNewFriend(
+                position)!!.userIdx,
+                true,
+                position,
+                newFriendsAdapter?.getNewFriend(position)!!
+            )
         }
 
         // 친구 끊기 버튼을 클릭한 경우
         oldFriendsAdapter?.onOldFriendsItemClickListener1 = { position ->
             // 친구 끊기 API 연결
-            refuseFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx, false)
+            refuseFriends(
+                oldFriendsAdapter?.getOldFriend(position)!!.userIdx,
+                false,
+                position,
+                oldFriendsAdapter?.getOldFriend(position)!!
+            )
         }
 
         // 콕콕 찌르기 버튼을 클릭한 경우
@@ -122,17 +136,22 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
     }
 
     // 친구 신청 수락 API 연결
-    private fun acceptFriends(friendId: Long) {
+    private fun acceptFriends(friendId: Long, position: Int, newFriend: FriendsItem) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.acceptFriends(StingFriendIdModel(friendId))
+        stingService.acceptFriends(StingFriendIdModel(friendId), position, newFriend)
     }
 
     // 친구 끊기 & 친구 거절
-    private fun refuseFriends(friendId: Long, isRefuse: Boolean) {
+    private fun refuseFriends(
+        friendId: Long,
+        isRefuse: Boolean,
+        position: Int,
+        newFriend: FriendsItem
+    ) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse)
+        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse, position, newFriend)
     }
 
     // 콕콕 찌르기 API 연결
@@ -150,14 +169,28 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
                 // 팝업 띄우기
                 val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_accept, R.id.btn_popup_friends_accept_confirm)
                 acceptDialog.showFriendsAcceptDialog()
+
+                // 뷰 변경 (친구x -> 친구o)
+                val item = data as StingAcceptModel
+                newFriendsAdapter?.removeFriend(item.position)
+                oldFriendsAdapter?.addOldFriendsList(item.newFriend)
             }
             // 친구 끊기 & 거절
             "Refuse Friends" -> {
                 // 친구 거절인 경우
-                if (data as Boolean) {
+                val item = data as StingRefuseModel
+                if (item.isRefuse) {
                     // 팝업 띄우기
                     val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_refuse, R.id.btn_popup_friends_refuse_confirm)
                     acceptDialog.showFriendsAcceptDialog()
+
+                    // 뷰 변경(리스트내에서 삭제)
+                    newFriendsAdapter?.removeFriend(item.position)
+                }
+                // 친구 끊기인 경우
+                else {
+                    // 뷰 변경(리스트내에서 삭제)
+                    oldFriendsAdapter?.removeFriend(item.position)
                 }
             }
             // 콕콕 찌르기

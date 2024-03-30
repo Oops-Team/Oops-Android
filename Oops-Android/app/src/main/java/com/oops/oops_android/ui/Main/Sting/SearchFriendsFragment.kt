@@ -48,13 +48,13 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         // 친구 신청하기 버튼 클릭 이벤트
         searchFriendsAdapter.onItemClickListener1 = { position ->
             // 친구 신청 API 연결
-            requestFriends(StingFriendModel(keywordList[position].userName))
+            requestFriends(StingFriendModel(keywordList[position].userName), position)
         }
 
         // 친구 끊기 버튼 클릭 이벤트
         searchFriendsAdapter.onItemClickListener2 = { position ->
             // 친구 끊기 API 연결
-            refuseFriends(keywordList[position].userIdx, false)
+            refuseFriends(keywordList[position].userIdx, false, position, keywordList[position])
         }
 
         // 콕콕 찌르기 버튼 클릭 이벤트
@@ -178,17 +178,24 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
     }
 
     // 친구 신청하기 API 연결
-    private fun requestFriends(name: StingFriendModel) {
+    private fun requestFriends(name: StingFriendModel, position: Int) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.requestFriends(name)
+        stingService.requestFriends(name, position)
+        getHideKeyboard(binding.root) // 키보드 숨기기
     }
 
     // 친구 끊기 API 연결
-    private fun refuseFriends(friendId: Long, isRefuse: Boolean) {
+    private fun refuseFriends(
+        friendId: Long,
+        isRefuse: Boolean,
+        position: Int,
+        friendsItem: FriendsItem
+    ) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse)
+        stingService.refuseFriends(StingFriendIdModel(friendId), isRefuse, position, friendsItem)
+        getHideKeyboard(binding.root) // 키보드 숨기기
     }
 
     // 콕콕 찌르기 API 연결
@@ -196,6 +203,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         val stingService = StingService()
         stingService.setCommonView(this)
         stingService.stingFriend(StingFriendModel(name))
+        getHideKeyboard(binding.root) // 키보드 숨기기
     }
 
     // 친구 신청하기 API 연결 성공
@@ -207,13 +215,28 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                         when (message) {
                             // 친구 신청 성공
                             "Request Friends" -> {
-                                showToast("$data 님에게 친구 신청을 보냈어요")
+                                val tempData = data as StingRequestModel
+                                showToast("${tempData.name} 님에게 친구 신청을 보냈어요")
+
+                                // 대기중 상태로 바꾸기
+                                keywordList[tempData.position].userState = 2
+
+                                // 어댑터 갱신
+                                searchFriendsAdapter.notifyItemChanged(tempData.position)
                             }
                             // 친구 끊기
                             "Refuse Friends" -> {
                                 // 팝업 띄우기
                                 val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_refuse, R.id.btn_popup_friends_refuse_confirm)
                                 acceptDialog.showFriendsAcceptDialog()
+
+                                val tempData = data as StingRefuseModel
+
+                                // 리스트에서 삭제
+                                keywordList.removeAt(tempData.position)
+
+                                // 어댑터 갱신
+                                searchFriendsAdapter.notifyItemChanged(tempData.position)
                             }
                             // 콕콕 찌르기
                             "Sting Friends" -> {

@@ -42,4 +42,10 @@ class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFrien
 
     // 친구 리스트 반환
     fun getNewFriend(position: Int): FriendsItem = newFriendsList[position]
+
+    // 친구 신청 목록 삭제
+    fun removeFriend(position: Int) {
+        newFriendsList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 }

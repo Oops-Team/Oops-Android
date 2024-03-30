@@ -6,6 +6,10 @@ import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
+import com.oops.oops_android.ui.Main.Sting.FriendsItem
+import com.oops.oops_android.ui.Main.Sting.StingAcceptModel
+import com.oops.oops_android.ui.Main.Sting.StingRefuseModel
+import com.oops.oops_android.ui.Main.Sting.StingRequestModel
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -147,7 +151,7 @@ class StingService {
     }
 
     // 친구 신청
-    fun requestFriends(name: StingFriendModel) {
+    fun requestFriends(name: StingFriendModel, position: Int) {
         val stingService = retrofit.create(StingInterface::class.java)
         stingService.requestFriends(name).enqueue(object : Callback<CommonResponse>{
             override fun onResponse(
@@ -157,7 +161,7 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Request Friends", name.toString())
+                    commonView.onCommonSuccess(resp.status, "Request Friends", StingRequestModel(name.name, position))
                 }
                 // 실패
                 else {
@@ -177,7 +181,7 @@ class StingService {
     }
 
     // 친구 수락
-    fun acceptFriends(friendId: StingFriendIdModel) {
+    fun acceptFriends(friendId: StingFriendIdModel, position: Int, newFriend: FriendsItem) {
         val stingService = retrofit.create(StingInterface::class.java)
         stingService.acceptFriends(friendId).enqueue(object : Callback<CommonResponse>{
             override fun onResponse(
@@ -187,7 +191,7 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Accept Friends")
+                    commonView.onCommonSuccess(resp.status, "Accept Friends", StingAcceptModel(position, newFriend))
                 }
                 // 실패
                 else {
@@ -207,7 +211,12 @@ class StingService {
     }
 
     // 친구 끊기&거절
-    fun refuseFriends(friendId: StingFriendIdModel, isRefuse: Boolean) {
+    fun refuseFriends(
+        friendId: StingFriendIdModel,
+        isRefuse: Boolean,
+        position: Int,
+        newFriend: FriendsItem
+    ) {
         val stingService = retrofit.create(StingInterface::class.java)
         stingService.refuseFriends(friendId).enqueue(object : Callback<CommonResponse>{
             override fun onResponse(
@@ -217,7 +226,7 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Refuse Friends", isRefuse)
+                    commonView.onCommonSuccess(resp.status, "Refuse Friends", StingRefuseModel(isRefuse, position, newFriend))
                 }
                 // 실패
                 else {

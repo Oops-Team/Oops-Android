@@ -38,4 +38,13 @@ class OldFriendsListAdapter(val context: Context): RecyclerView.Adapter<OldFrien
         oldFriendsList.add(friendsItem)
         notifyItemChanged(oldFriendsList.size)
     }
+
+    // 친구 리스트 반환
+    fun getOldFriend(position: Int): FriendsItem = oldFriendsList[position]
+
+    // 친구 목록 삭제
+    fun removeFriend(position: Int) {
+        oldFriendsList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 }
