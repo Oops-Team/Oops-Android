@@ -5,14 +5,16 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.databinding.FragmentFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONArray
 import org.json.JSONException
 
-class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate), StingView {
+class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate), StingView, CommonView {
 
     private var newFriendsAdapter: NewFriendsListAdapter? = null
     private var oldFriendsAdapter: OldFriendsListAdapter? = null
@@ -45,6 +47,12 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
             // 검색 화면으로 이동
             val actionToSearchFriends: NavDirections = FriendsFragmentDirections.actionFriendsFrmToSearchFriendsFrm()
             view?.findNavController()?.navigate(actionToSearchFriends)
+        }
+
+        // 친구 신청 수락 버튼을 클릭한 경우
+        newFriendsAdapter?.onFriendsItemClickListener1 = {  position ->
+            // 친구 신청 수락 API 연결
+            acceptFriends(newFriendsAdapter?.getNewFriend(position)!!.userIdx)
         }
     }
 
@@ -92,5 +100,32 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
     // 친구 리스트 조회 API 연결 실패
     override fun onGetFriendsFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
+    }
+
+    // 친구 신청 수락 API 연결
+    private fun acceptFriends(friendId: Long) {
+        val stingService = StingService()
+        stingService.setCommonView(this)
+        stingService.acceptFriends(StingFriendIdModel(friendId))
+    }
+
+    // 친구 신청 수락 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (message) {
+            // 친구 신청 수락 성공
+            "Accept Friends" -> {
+                // 팝업 띄우기
+                val acceptDialog = FriendsAcceptDialog(requireContext())
+                acceptDialog.showFriendsAcceptDialog()
+            }
+        }
+    }
+
+    // 친구 신청 수락 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        when (status) {
+            404 -> showToast(message)
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }

@@ -9,8 +9,8 @@ import com.oops.oops_android.databinding.ItemFriendsBoxRvBinding
 // 친구 신청 현황 목록 리스트 어댑터
 class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFriendsListViewHolder>() {
     private var newFriendsList = ArrayList<FriendsItem>() // 친구 신청 현황 목록
-    var onFriendsItemClickListener1: ((Int) -> Unit)? = null // 친구 신청 버튼 클릭
-    var onFriendsItemClickListener2: ((Int) -> Unit)? = null // 수락&거절 버튼 클릭
+    var onFriendsItemClickListener1: ((Int) -> Unit)? = null // 수락 버튼 클릭
+    var onFriendsItemClickListener2: ((Int) -> Unit)? = null // 거절 버튼 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewFriendsListViewHolder {
         val binding: ItemFriendsBoxRvBinding = ItemFriendsBoxRvBinding.inflate(
@@ -24,12 +24,12 @@ class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFrien
     override fun onBindViewHolder(holder: NewFriendsListViewHolder, position: Int) {
         holder.bind(newFriendsList[position])
 
-        // 친구 신청 버튼 클릭 이벤트
-        holder.binding.tvFriendsAdd.setOnClickListener {
+        // 친구 신청 수락 클릭 이벤트
+        holder.binding.tvFriendsConfirm.setOnClickListener {
             onFriendsItemClickListener1?.invoke(position)
         }
-        // 수락&거절 클릭 이벤트
-        holder.binding.lLayoutFriendsBtn.setOnClickListener {
+        // 친구 신청 거절 클릭 이벤트
+        holder.binding.tvFriendsRefuse.setOnClickListener {
             onFriendsItemClickListener2?.invoke(position)
         }
     }
@@ -39,4 +39,7 @@ class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFrien
         newFriendsList.add(friendsItem)
         notifyItemChanged(newFriendsList.size)
     }
+
+    // 친구 리스트 반환
+    fun getNewFriend(position: Int): FriendsItem = newFriendsList[position]
 }

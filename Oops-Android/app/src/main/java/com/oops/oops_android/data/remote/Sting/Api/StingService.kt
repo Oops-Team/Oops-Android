@@ -4,6 +4,7 @@ import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import org.json.JSONObject
 import retrofit2.Call
@@ -170,6 +171,36 @@ class StingService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("Sting - Request / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 친구 수락
+    fun acceptFriends(friendId: StingFriendIdModel) {
+        val stingService = retrofit.create(StingInterface::class.java)
+        stingService.acceptFriends(friendId).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Accept Friends")
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "Accept Friends")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("Sting - Accept Friends / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Sting - Accept / FAILURE", t.message.toString())
                 commonView.onCommonFailure(-1, "") // 실패
             }
         })

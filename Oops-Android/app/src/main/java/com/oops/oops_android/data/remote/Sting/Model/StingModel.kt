@@ -7,3 +7,8 @@ import com.google.gson.annotations.SerializedName
 data class StingFriendModel(
     @SerializedName("name") val name: String // 찌를 친구의 닉네임, 친구 신청 대상 닉네임
 )
+
+// 친구 신청 수락
+data class StingFriendIdModel(
+    @SerializedName("friendId") val friendId: Long // 친구 수락 대상 아이디
+)

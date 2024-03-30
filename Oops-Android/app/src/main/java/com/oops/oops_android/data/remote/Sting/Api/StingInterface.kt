@@ -1,10 +1,12 @@
 package com.oops.oops_android.data.remote.Sting.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -36,5 +38,11 @@ interface StingInterface {
     @POST("/friends/request")
     fun requestFriends(
         @Body name: StingFriendModel
+    ): Call<CommonResponse>
+
+    // 친구 수락
+    @PATCH("/friends/accept")
+    fun acceptFriends(
+        @Body friendId: StingFriendIdModel
     ): Call<CommonResponse>
 }
