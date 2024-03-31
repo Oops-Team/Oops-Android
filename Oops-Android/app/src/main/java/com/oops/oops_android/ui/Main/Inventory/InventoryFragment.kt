@@ -85,6 +85,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             // All 인벤토리라면
             if (inventoryIdx == -1L) {
                 binding.ivInventoryStuffEdit.visibility = View.INVISIBLE // edit 아이콘 숨기기
+                binding.lLayoutInventoryStuffDefault.visibility = View.GONE
                 getAllInventory() // 전체 인벤토리 조회 API 연결
             }
             // 상세 인벤토리라면
@@ -304,6 +305,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
                 val stuffImgURIList = jsonObject.getJSONArray("stuffImgURIList")
                 val stuffNameList = jsonObject.getJSONArray("stuffNameList")
+                binding.rvInventoryStuff.removeAllViews()
                 stuffList.clear()
                 for (i in 0 until stuffImgURIList.length()) {
                     val tempURI = stuffImgURIList.getString(i)
@@ -312,15 +314,16 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
                     stuffList.add(StuffItem(tempURI, tempName, null, null))
                 }
                 val stuffNum = jsonObject.getInt("stuffNum")
+                binding.tvInventoryStuffNum.text = "$stuffNum/80"
 
                 // 소지품 아이템이 있다면
                 if (stuffNum >= 1) {
+                    Log.d("소지품 개수 in", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
-                    binding.tvInventoryStuffNum.visibility = View.VISIBLE
-                    binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/80"
                 }
                 // 소지품이 없다면
                 else {
+                    Log.d("소지품 개수 out", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.VISIBLE // default 뷰 띄우기
                 }
             }

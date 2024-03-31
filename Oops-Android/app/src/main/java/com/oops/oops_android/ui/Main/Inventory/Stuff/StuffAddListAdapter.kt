@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.oops.oops_android.databinding.ItemTutorialStuffBinding
 
 // 소지품 추가 화면의 소지품 목록 어댑터
-class StuffAddListAdapter(val stuffList: ArrayList<StuffAddItem>): RecyclerView.Adapter<StuffAddListViewHolder>() {
+class StuffAddListAdapter(private val stuffList: ArrayList<StuffAddItem>): RecyclerView.Adapter<StuffAddListViewHolder>() {
     var onItemClickListener: ((Int) -> Unit)? = null // 소지품 클릭
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffAddListViewHolder {

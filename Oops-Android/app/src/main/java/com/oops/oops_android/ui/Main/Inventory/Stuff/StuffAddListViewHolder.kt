@@ -3,6 +3,7 @@ package com.oops.oops_android.ui.Main.Inventory.Stuff
 import android.content.res.ColorStateList
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,6 +28,14 @@ class StuffAddListViewHolder(val binding: ItemTutorialStuffBinding): RecyclerVie
 
         stuffName.text = item.stuffName
 
+        // 각 뷰 사이즈를 해상도에 맞게 설정
+        var deviceWidth = applicationContext().resources.displayMetrics.widthPixels // 가로
+        deviceWidth = (deviceWidth - 32) / 3
+        stuffImg.layoutParams.width = deviceWidth
+        Log.d("deviceWidth", stuffImg.layoutParams.width.toString())
+        stuffImg.layoutParams.height = (deviceWidth / 1.5).toInt()
+        stuffImg.requestLayout()
+
         // 선택한 소지품이라면
         if (item.isSelected) {
             stuffImg.clearColorFilter()
@@ -44,6 +53,7 @@ class StuffAddListViewHolder(val binding: ItemTutorialStuffBinding): RecyclerVie
             val colorFilter = ColorMatrixColorFilter(matrix)
             stuffImg.colorFilter = colorFilter
 
+            stuffLayout.backgroundTintList = ColorStateList.valueOf(applicationContext().getColor(R.color.White))
             stuffName.backgroundTintList = ColorStateList.valueOf(applicationContext().getColor(R.color.Gray_50))
             stuffName.setTextAppearance(R.style.Button3)
             stuffName.setTextColor(ColorStateList.valueOf(applicationContext().getColor(R.color.Gray_400)))

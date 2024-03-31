@@ -121,6 +121,12 @@
         <argument
             android:name="inventoryId"
             app:argType="long"/>
+
+        <!-- 소지품 추가 -> 인벤토리 -->
+        <action
+            android:id="@+id/action_stuffAddFrm_to_inventoryFrm"
+            app:destination="@id/inventoryFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->
