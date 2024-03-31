@@ -291,7 +291,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             "Detail Inventory" -> {
                 val jsonObject = JSONObject(data.toString())
 
-                val inventoryName = jsonObject.getJSONObject("inventoryName").toString()
+                val inventoryName = jsonObject.getString("inventoryName")
                 val inventoryTag = jsonObject.getJSONArray("inventoryTag")
                 val tempTagList = ArrayList<Int>()
                 for (i in 0 until inventoryTag.length()) {

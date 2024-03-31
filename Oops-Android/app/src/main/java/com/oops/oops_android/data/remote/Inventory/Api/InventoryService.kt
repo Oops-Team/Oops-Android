@@ -5,6 +5,7 @@ import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
+import com.oops.oops_android.data.remote.Inventory.Model.CreateInventory
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -109,6 +110,36 @@ class InventoryService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("Inventory - Change Icon / ERROR", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 인벤토리 생성
+    fun createInventory(createInventory: CreateInventory) {
+        val inventoryService = retrofit.create(InventoryInterface::class.java)
+        inventoryService.createInventory(createInventory).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Create Inventory", resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "인벤토리 생성 실패")
+                    commonView.onCommonFailure(statusObject, messageObject)
+                    Log.e("Inventory - Create Inventory / FAILURE", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Inventory - Create Inventory / ERROR", t.message.toString())
                 commonView.onCommonFailure(-1, "")
             }
         })

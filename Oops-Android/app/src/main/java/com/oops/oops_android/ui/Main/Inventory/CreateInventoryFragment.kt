@@ -1,7 +1,6 @@
 package com.oops.oops_android.ui.Main.Inventory
 
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
@@ -15,11 +14,17 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.ApplicationClass.Companion.applicationContext
+import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.Inventory.Api.InventoryService
+import com.oops.oops_android.data.remote.Inventory.Model.CreateInventory
 
 /* 인벤토리 생성 & 수정 화면 */
-class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(FragmentCreateInventoryBinding::inflate), CompoundButton.OnCheckedChangeListener {
+class CreateInventoryFragment:
+    BaseFragment<FragmentCreateInventoryBinding>(FragmentCreateInventoryBinding::inflate),
+    CompoundButton.OnCheckedChangeListener,
+    CommonView {
 
-    private var tagList = ArrayList<Int>() // 추가된 일정 리스트
+    private var tagList = ArrayList<Int>() // 추가된 태그 리스트
     private var isEnable = false // 소지품 추가 & 인벤토리 수정 완료 버튼 클릭 가능 여부
     private var isOverlapName = false // 인벤토리 이름 중복 여부
     private var isChangeName = false // 인벤토리 이름 변경 여부(수정 화면)
@@ -89,14 +94,8 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
         // 소지품 추가 버튼 클릭 이벤트
         binding.btnCreateInventoryStuffAdd.setOnClickListener {
             if (isEnable) {
-                // TODO: 인벤토리 생성 API 연동 필요
-
-                // 소지품 추가 화면으로 이동하기
-                val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
-                    "Inventory",
-                    null
-                )
-                findNavController().navigate(actionToStuffAdd)
+                // 인벤토리 생성 API 연결
+                createInventory(binding.edtCreateInventoryName.text.toString(), tagList)
             }
         }
 
@@ -503,5 +502,35 @@ class CreateInventoryFragment: BaseFragment<FragmentCreateInventoryBinding>(Frag
             }
         }
         updateButtonUI()
+    }
+
+    // 인벤토리 생성 API 연결
+    private fun createInventory(inventoryName: String, tagList: ArrayList<Int>) {
+        val inventoryService = InventoryService()
+        inventoryService.setCommonView(this)
+        inventoryService.createInventory(CreateInventory(inventoryName, tagList))
+    }
+
+    // 인벤토리 생성 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (message) {
+            // 인벤토리 생성 성공
+            "Create Inventory" -> {
+                // 소지품 추가 화면으로 이동하기
+                val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
+                    "Inventory",
+                    null
+                )
+                findNavController().navigate(actionToStuffAdd)
+            }
+        }
+    }
+
+    // 인벤토리 생성 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        when (status) {
+            400, 409 -> showToast(message)
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }
