@@ -35,12 +35,42 @@ class InventoryService {
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "전체 인벤토리 조회 실패")
                     inventoryView.onGetInventoryFailure(statusObject, messageObject)
-                    Log.e("Inventory - Get All Inventory", "$jsonObject $messageObject")
+                    Log.e("Inventory - Get All Inventory / FAILURE", "$jsonObject $messageObject")
                 }
             }
 
             override fun onFailure(call: Call<InventoryObjectResponse>, t: Throwable) {
-                Log.e("Inventory - Get All Inventory", t.message.toString())
+                Log.e("Inventory - Get All Inventory / ERROR", t.message.toString())
+                inventoryView.onGetInventoryFailure(-1, "")
+            }
+        })
+    }
+
+    // 상세 인벤토리 조회
+    fun getDetailInventory(inventoryIdx: Long) {
+        val inventoryService = retrofit.create(InventoryInterface::class.java)
+        inventoryService.getDetailInventory(inventoryIdx).enqueue(object : Callback<InventoryObjectResponse>{
+            override fun onResponse(
+                call: Call<InventoryObjectResponse>,
+                response: Response<InventoryObjectResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: InventoryObjectResponse = response.body()!!
+                    inventoryView.onGetInventorySuccess(resp.status, "Detail Inventory", resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "상세 인벤토리 조회 실패")
+                    inventoryView.onGetInventoryFailure(statusObject, messageObject)
+                    Log.e("Inventory - Get Detail Inventory / FAILURE", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<InventoryObjectResponse>, t: Throwable) {
+                Log.e("Inventory - Get Detail Inventory / ERROR", t.message.toString())
                 inventoryView.onGetInventoryFailure(-1, "")
             }
         })

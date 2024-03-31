@@ -75,28 +75,21 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             Log.i("Inventory Fragment Error", e.message.toString())
         }*/
 
-        // 카테고리가 5개라면 create 버튼 숨기기
-        if (categoryAdapter.itemCount == 5) {
-            binding.btnInventoryCreate.visibility = View.INVISIBLE
-        }
-        else {
-            binding.btnInventoryCreate.visibility = View.VISIBLE
-        }
-
         // 카테고리 버튼 클릭 이벤트
         categoryAdapter.onCategoryItemClickListener = { position ->
             categoryAdapter.setCategorySelected(position)
-
-            // 인벤토리가 ALL이라면
             val inventoryIdx: Long = categoryAdapter.getCategoryIdx(position)
+
+            // All 인벤토리라면
             if (inventoryIdx == -1L) {
                 binding.ivInventoryStuffEdit.visibility = View.INVISIBLE // edit 아이콘 숨기기
+                getAllInventory() // 전체 인벤토리 조회 API 연결
             }
+            // 상세 인벤토리라면
             else {
                 binding.ivInventoryStuffEdit.visibility = View.VISIBLE
+                getDetailInventory(inventoryIdx) // 상세 인벤토리 조회 API 연결
             }
-
-            // TODO: API 연동 (inventoryIdx 전달)
         }
 
         // 인벤토리 아이콘 클릭 이벤트
@@ -138,7 +131,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         if (stuffAdapter.itemCount >= 1) {
             binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
             binding.tvInventoryStuffNum.visibility = View.VISIBLE
-            binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/77"
+            binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/80"
         }
 
         // 소지품 수정 버튼 클릭 이벤트
@@ -243,10 +236,18 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         inventoryService.getAllInventory()
     }
 
+    // 상세 인벤토리 조회 API 연결
+    private fun getDetailInventory(inventoryIdx: Long) {
+        val inventoryService = InventoryService()
+        inventoryService.setInventoryView(this)
+        inventoryService.getDetailInventory(inventoryIdx)
+    }
+
     // 인벤토리 전체 리스트 조회 성공
+    @SuppressLint("SetTextI18n")
     override fun onGetInventorySuccess(status: Int, message: String, data: JsonObject?) {
         when (message) {
-            // 인벤토리 전체 리스트 조회
+            // 전체 인벤토리 조회
             "All Inventory" -> {
                 val jsonObject = JSONObject(data.toString())
 
@@ -274,6 +275,14 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
                 categoryAdapter.addCategoryList(categoryList)
                 binding.rvInventoryCategory.adapter = categoryAdapter
 
+                // 카테고리가 5개라면 create 버튼 숨기기
+                if (categoryAdapter.itemCount == 5) {
+                    binding.btnInventoryCreate.visibility = View.INVISIBLE
+                }
+                else {
+                    binding.btnInventoryCreate.visibility = View.VISIBLE
+                }
+
                 val tempStuffList = jsonObject.getJSONArray("stuffList")
                 stuffList.clear()
                 for (i in 0 until tempStuffList.length()) {
@@ -282,6 +291,31 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
                     val stuffName = subObject.getString("stuffName")
 
                     stuffList.add(StuffItem(stuffImgUrl, stuffName)) // 소지품 추가
+                }
+            }
+            // 상세 인벤토리 조회
+            "Detail Inventory" -> {
+                val jsonObject = JSONObject(data.toString())
+
+                val inventoryName = jsonObject.getJSONObject("inventoryName").toString()
+                val inventoryTag = jsonObject.getJSONArray("inventoryTag")
+                val tempTagList = ArrayList<Int>()
+                for (i in 0 until inventoryTag.length()) {
+                    val tempTag = inventoryTag.getInt(i)
+                    tempTagList.add(tempTag)
+                }
+
+                // 선택된 상세 인벤토리에 inventoryTag 리스트 넣기
+                categoryAdapter.setCategoryTag(categoryAdapter.getCategoryIdx(inventoryName).toInt(), tempTagList)
+
+                val stuffImgURIList = jsonObject.getJSONArray("stuffImgURIList")
+                val stuffNameList = jsonObject.getJSONArray("stuffNameList")
+                stuffList.clear()
+                for (i in 0 until stuffImgURIList.length()) {
+                    val tempURI = stuffImgURIList.getString(i)
+                    val tempName = stuffNameList.getString(i)
+
+                    stuffList.add(StuffItem(tempURI, tempName, null, null))
                 }
             }
         }

@@ -61,6 +61,11 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
         notifyDataSetChanged()
     }
 
+    // 활성화된 아이템에 inventoryTag 넣기
+    fun setCategoryTag(position: Int, inventoryTag: ArrayList<Int>) {
+        categoryList[position].inventoryTag = inventoryTag
+    }
+
     // 인벤토리 반환
     fun getCategoryItemList(): CategoryList = categoryList as CategoryList
 
@@ -69,6 +74,18 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
 
     // 인벤토리 아이템 반환
     fun getCategoryItem(position: Int): CategoryItemUI = categoryList[position]
+
+    // 인벤토리 idx 반환2
+    fun getCategoryIdx(inventoryName: String): Long {
+        var categoryItem: Long = 0
+        for (i in 0 until categoryList.size) {
+            if (categoryList[i].inventoryName == inventoryName) {
+                categoryItem = categoryList[i].inventoryIdx
+                break
+            }
+        }
+        return categoryItem
+    }
 
     // 선택된 인벤토리 아이템 반환
     fun getSelectedCategoryItem(): CategoryItemUI? {
