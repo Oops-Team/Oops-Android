@@ -1,8 +1,11 @@
 package com.oops.oops_android.data.remote.Inventory.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 /* 인벤토리 화면에서 사용하는 API */
@@ -17,4 +20,11 @@ interface InventoryInterface {
     fun getDetailInventory(
         @Path("inventoryIdx") inventoryIdx: Long
     ): Call<InventoryObjectResponse>
+
+    // 인벤토리 아이콘 변경
+    @PATCH("/inventories/{inventoryIdx}/icon")
+    fun changeInventoryIcon(
+        @Path("inventoryIdx") inventoryIdx: Long,
+        @Body inventoryIconIdx: ChangeIconIdx
+    ): Call<CommonResponse>
 }

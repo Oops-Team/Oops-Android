@@ -13,15 +13,17 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Inventory.Api.InventoryService
 import com.oops.oops_android.data.remote.Inventory.Api.InventoryView
+import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
 import com.oops.oops_android.databinding.FragmentInventoryBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Main.Home.StuffItem
 import org.json.JSONObject
 
 /* 인벤토리 화면 */
-class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate), InventoryView {
+class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate), InventoryView, CommonView {
 
     private var categoryList = CategoryList() // 인벤토리 생성&수정 화면에 넘겨줄 인벤토리 리스트
     private lateinit var categoryAdapter: InventoryCategoryListAdapter // 인벤토리 카테고리 어댑터
@@ -127,13 +129,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             findNavController().navigate(actionToStuffAdd)
         }
 
-        // 소지품 아이템이 있다면
-        if (stuffAdapter.itemCount >= 1) {
-            binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
-            binding.tvInventoryStuffNum.visibility = View.VISIBLE
-            binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/80"
-        }
-
         // 소지품 수정 버튼 클릭 이벤트
         binding.ivInventoryStuffEdit.setOnClickListener {
             // 현재 선택 중인 인벤토리 정보 가져오기
@@ -168,8 +163,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
             // 아이콘이 변경됐다면
             if (changeInventoryIcon(position, 1)) {
-                // TODO: API 연동해서 값 바꾸기
-                showToast("$position 시간 아이콘으로 변경")
+                // 아이콘 변경 API 연결
+                changeInventoryIconAPI(categoryAdapter.getCategoryIdx(position), 1)
             }
             popupWindow.dismiss() // 팝업 닫기
         }
@@ -180,8 +175,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
             // 아이콘이 변경됐다면
             if (changeInventoryIcon(position, 2)) {
-                // TODO: API 연동해서 값 바꾸기
-                showToast("$position 달리기 아이콘으로 변경")
+                // 아이콘 변경 API 연결
+                changeInventoryIconAPI(categoryAdapter.getCategoryIdx(position), 2)
             }
             popupWindow.dismiss() // 팝업 닫기
         }
@@ -192,8 +187,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
             // 아이콘이 변경됐다면
             if (changeInventoryIcon(position, 3)) {
-                // TODO: API 연동해서 값 바꾸기
-                showToast("$position 지갑 아이콘으로 변경")
+                // 아이콘 변경 API 연결
+                changeInventoryIconAPI(categoryAdapter.getCategoryIdx(position), 3)
             }
             popupWindow.dismiss() // 팝업 닫기
         }
@@ -204,8 +199,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
             // 아이콘이 변경됐다면
             if (changeInventoryIcon(position, 4)) {
-                // TODO: API 연동해서 값 바꾸기
-                showToast("$position 컴퓨터 아이콘으로 변경")
+                // 아이콘 변경 API 연결
+                changeInventoryIconAPI(categoryAdapter.getCategoryIdx(position), 4)
             }
             popupWindow.dismiss() // 팝업 닫기
         }
@@ -216,8 +211,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
             // 아이콘이 변경됐다면
             if (changeInventoryIcon(position, 5)) {
-                // TODO: API 연동해서 값 바꾸기
-                showToast("$position 톱니바퀴 아이콘으로 변경")
+                // 아이콘 변경 API 연결
+                changeInventoryIconAPI(categoryAdapter.getCategoryIdx(position), 5)
             }
             popupWindow.dismiss() // 팝업 닫기
         }
@@ -271,7 +266,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
                         null)
                     )
                 }
-                Log.d("categoryList", categoryList.toString() + allList.toString())
                 categoryAdapter.addCategoryList(categoryList)
                 binding.rvInventoryCategory.adapter = categoryAdapter
 
@@ -317,6 +311,18 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
                     stuffList.add(StuffItem(tempURI, tempName, null, null))
                 }
+                val stuffNum = jsonObject.getInt("stuffNum")
+
+                // 소지품 아이템이 있다면
+                if (stuffNum >= 1) {
+                    binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
+                    binding.tvInventoryStuffNum.visibility = View.VISIBLE
+                    binding.tvInventoryStuffNum.text = stuffAdapter.itemCount.toString() + "/80"
+                }
+                // 소지품이 없다면
+                else {
+                    binding.lLayoutInventoryStuffDefault.visibility = View.VISIBLE // default 뷰 띄우기
+                }
             }
         }
     }
@@ -327,5 +333,22 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             404 -> showToast(message)
             else -> showToast(resources.getString(R.string.toast_server_error))
         }
+    }
+
+    // 인벤토리 아이콘 변경 API 연결
+    private fun changeInventoryIconAPI(inventoryIdx: Long, inventoryIconIdx: Int) {
+        val inventoryService = InventoryService()
+        inventoryService.setCommonView(this)
+        inventoryService.changeInventoryIcon(inventoryIdx, ChangeIconIdx(inventoryIconIdx))
+    }
+
+    // 인벤토리 아이콘 변경 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        Log.d("InventoryFragment", "아이콘 변경 성공")
+    }
+
+    // 인벤토리 아이콘 변경 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }
