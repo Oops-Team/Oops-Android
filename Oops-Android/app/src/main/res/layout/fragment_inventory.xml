@@ -93,7 +93,6 @@
                     android:id="@+id/tv_inventory_stuff_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
                     android:text="0/0"
                     android:textColor="#ABABAB"
                     android:textSize="14sp"

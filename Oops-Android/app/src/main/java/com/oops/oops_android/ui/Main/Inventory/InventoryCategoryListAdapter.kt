@@ -42,9 +42,11 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
     }
 
     // 아이템 추가
-    fun addCategoryList(categoryList: CategoryList) {
-        this.categoryList = categoryList
-        notifyItemChanged(categoryList.size)
+    fun addCategoryList(categoryList: CategoryList?) {
+        if (categoryList != null) {
+            this.categoryList = categoryList
+            notifyItemChanged(categoryList.size)
+        }
     }
 
     // 아이템 활성화 & 비활성화

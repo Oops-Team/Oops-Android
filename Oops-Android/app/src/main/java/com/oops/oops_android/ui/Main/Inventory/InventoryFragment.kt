@@ -11,17 +11,23 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.remote.Inventory.Api.InventoryService
+import com.oops.oops_android.data.remote.Inventory.Api.InventoryView
 import com.oops.oops_android.databinding.FragmentInventoryBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Main.Home.StuffItem
-import java.lang.Exception
+import org.json.JSONObject
 
 /* 인벤토리 화면 */
-class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate) {
+class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventoryBinding::inflate), InventoryView {
 
+    private var categoryList = CategoryList() // 인벤토리 생성&수정 화면에 넘겨줄 인벤토리 리스트
     private lateinit var categoryAdapter: InventoryCategoryListAdapter // 인벤토리 카테고리 어댑터
+
+    private var stuffList = ArrayList<StuffItem>() // 각 인벤토리 내의 소지품 리스트
+    private var stuffAdapter = InventoryStuffListAdapter(stuffList) // 각 인벤토래 내의 소지품 리스트 어댑터
 
     override fun initViewCreated() {
         mainActivity!!.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.Main_500) // 상단 상태바 색상
@@ -41,19 +47,15 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     override fun initAfterBinding() {
         // 카테고리 적용
         categoryAdapter = InventoryCategoryListAdapter(requireContext())
-        var tempList1 = CategoryItemUI(-1L, 0, "ALL", true) // default값
-        var tempList2 = CategoryItemUI(0L, 1, "학교갑시다", false, arrayListOf(1, 2, 3))
-        var tempList3 = CategoryItemUI(1L, 2, "지독한현생", false, arrayListOf(4, 5))
-        var tempList4 = CategoryItemUI(2L, 3, "독서 시간", false, arrayListOf(6))
 
-        val categoryList = CategoryList()
-        categoryList.add(tempList1)
-        categoryList.add(tempList2)
-        categoryList.add(tempList3)
-        categoryList.add(tempList4)
+        // 인벤토리 전체 리스트 조회 API 연결
+        getAllInventory()
+
+        // 인벤토리 All 소지품 어댑터 연결
+        binding.rvInventoryStuff.adapter = stuffAdapter
 
         // 인벤토리 생성&수정 화면에서 넘어왔다면
-        try {
+        /*try {
             val args: InventoryFragmentArgs by navArgs()
             val categoryItem = args.newInventoryItem
 
@@ -71,10 +73,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             }
         } catch (e: Exception) {
             Log.i("Inventory Fragment Error", e.message.toString())
-        }
-
-        categoryAdapter.addCategoryList(categoryList)
-        binding.rvInventoryCategory.adapter = categoryAdapter
+        }*/
 
         // 카테고리가 5개라면 create 버튼 숨기기
         if (categoryAdapter.itemCount == 5) {
@@ -134,19 +133,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
             )
             findNavController().navigate(actionToStuffAdd)
         }
-
-        // 인벤토리 All 아이템 출력
-        val stuffAdapter = InventoryStuffListAdapter(requireContext())
-        /*stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_dongle_img, "동글이"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_computer_img, "노트북"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_charger_img, "충전기"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_umbrella_img, "우산"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_wallet_img, "지갑"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_handcream_img, "핸드크림"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_sunglasses_img, "선글라스"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_alcohol_swap_img, "알콜스왑"))
-        stuffAdapter.addStuffList(StuffItem(R.drawable.stuff_mouse_img, "마우스"))*/
-        binding.rvInventoryStuff.adapter = stuffAdapter
 
         // 소지품 아이템이 있다면
         if (stuffAdapter.itemCount >= 1) {
@@ -248,5 +234,64 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     private fun changeInventoryIcon(position: Int, inventoryIconIdx: Int): Boolean {
         // 아이콘 변경
         return categoryAdapter.modifyCategoryItem(position, inventoryIconIdx)
+    }
+
+    // 인벤토리 전체 리스트 조회 API 연결
+    private fun getAllInventory() {
+        val inventoryService = InventoryService()
+        inventoryService.setInventoryView(this)
+        inventoryService.getAllInventory()
+    }
+
+    // 인벤토리 전체 리스트 조회 성공
+    override fun onGetInventorySuccess(status: Int, message: String, data: JsonObject?) {
+        when (message) {
+            // 인벤토리 전체 리스트 조회
+            "All Inventory" -> {
+                val jsonObject = JSONObject(data.toString())
+
+                val inventoryIdx = jsonObject.getJSONArray("inventoryIdx")
+                val inventoryIconIdx = jsonObject.getJSONArray("inventoryIconIdx")
+                val inventoryName = jsonObject.getJSONArray("inventoryName")
+
+                val stuffNum = jsonObject.getInt("stuffNum")
+                binding.tvInventoryStuffNum.text = "$stuffNum/80"
+
+                val allList = CategoryItemUI(-1L, 0, "ALL", true) // default값
+                categoryList.clear()
+                categoryList.add(allList)
+
+                for (i in 0 until inventoryIconIdx.length()) {
+                    categoryList.add(CategoryItemUI(
+                        inventoryIdx.getLong(i),
+                        inventoryIconIdx.getInt(i),
+                        inventoryName.getString(i),
+                        false,
+                        null)
+                    )
+                }
+                Log.d("categoryList", categoryList.toString() + allList.toString())
+                categoryAdapter.addCategoryList(categoryList)
+                binding.rvInventoryCategory.adapter = categoryAdapter
+
+                val tempStuffList = jsonObject.getJSONArray("stuffList")
+                stuffList.clear()
+                for (i in 0 until tempStuffList.length()) {
+                    val subObject = tempStuffList.getJSONObject(i)
+                    val stuffImgUrl = subObject.getString("stuffImgUrl")
+                    val stuffName = subObject.getString("stuffName")
+
+                    stuffList.add(StuffItem(stuffImgUrl, stuffName)) // 소지품 추가
+                }
+            }
+        }
+    }
+
+    // 인벤토리 전체 리스트 조회 실패
+    override fun onGetInventoryFailure(status: Int, message: String) {
+        when (status) {
+            404 -> showToast(message)
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }
