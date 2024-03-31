@@ -62,8 +62,8 @@ class InventoryCategoryListAdapter(val context: Context): RecyclerView.Adapter<I
     }
 
     // 활성화된 아이템에 inventoryTag 넣기
-    fun setCategoryTag(position: Int, inventoryTag: ArrayList<Int>) {
-        categoryList[position].inventoryTag = inventoryTag
+    fun setCategoryTag(item: CategoryItemUI?, inventoryTag: ArrayList<Int>) {
+        item?.inventoryTag = inventoryTag
     }
 
     // 인벤토리 반환

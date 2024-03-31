@@ -300,7 +300,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
                 }
 
                 // 선택된 상세 인벤토리에 inventoryTag 리스트 넣기
-                categoryAdapter.setCategoryTag(categoryAdapter.getCategoryIdx(inventoryName).toInt(), tempTagList)
+                categoryAdapter.setCategoryTag(categoryAdapter.getSelectedCategoryItem(), tempTagList)
 
                 val stuffImgURIList = jsonObject.getJSONArray("stuffImgURIList")
                 val stuffNameList = jsonObject.getJSONArray("stuffNameList")

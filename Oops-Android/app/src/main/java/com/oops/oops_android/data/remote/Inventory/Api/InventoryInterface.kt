@@ -5,6 +5,7 @@ import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
 import com.oops.oops_android.data.remote.Inventory.Model.CreateInventory
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -41,5 +42,11 @@ interface InventoryInterface {
     fun modifyInventory(
         @Path("inventoryIdx") inventoryIdx: Long,
         @Body modifyInventory: CreateInventory
+    ): Call<CommonResponse>
+
+    // 인벤토리 삭제
+    @DELETE("/inventories/{inventoryIdx}")
+    fun deleteInventory(
+        @Path("inventoryIdx") inventoryIdx: Long
     ): Call<CommonResponse>
 }

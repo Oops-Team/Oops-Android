@@ -126,28 +126,12 @@ class CreateInventoryFragment:
             // 삭제 버튼을 누른 경우
             deleteInventoryDialog.setOnClickedListener(object : InventoryDeleteDialog.InventoryDeleteBtnClickListener {
                 override fun onClicked() {
+                    // 인벤토리 삭제 API 연동
+                    deleteInventory(inventoryItem.inventoryIdx)
+
                     // 삭제 완료 팝업 띄우기
                     val deleteInventoryAgreeDialog = InventoryDeleteAgreeDialog(requireContext())
                     deleteInventoryAgreeDialog.showInventoryDeleteAgreeDialog()
-                    // 확인 버튼을 누른 경우
-                    deleteInventoryAgreeDialog.setOnClickedListener(object : InventoryDeleteAgreeDialog.InventoryDeleteAgreeBtnClickListener {
-                        override fun onClicked() {
-                            // TODO: API 연동 필요
-
-                            // 인벤토리 화면으로 이동
-                            val actionToInventory: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToInventoryFrm(
-                                "InventoryDelete",
-                                CategoryItemUI(
-                                    inventoryItem.inventoryIdx,
-                                    inventoryItem.inventoryIconIdx,
-                                    binding.edtCreateInventoryName.text.toString(),
-                                    true,
-                                    tagList
-                                )
-                            )
-                            findNavController().navigate(actionToInventory)
-                        }
-                    })
                 }
             })
         }
@@ -499,7 +483,14 @@ class CreateInventoryFragment:
         inventoryService.modifyInventory(inventoryIdx, modifyInventory)
     }
 
-    // 인벤토리 생성 성공
+    // 인벤토리 삭제 API 연결
+    private fun deleteInventory(inventoryIdx: Long) {
+        val inventoryService = InventoryService()
+        inventoryService.setCommonView(this)
+        inventoryService.deleteInventory(inventoryIdx)
+    }
+
+    // 인벤토리 생성, 수정, 삭제 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
             // 인벤토리 생성 성공
@@ -533,13 +524,28 @@ class CreateInventoryFragment:
                 // 버튼 활성화 해제
                 updateButtonUI()
             }
+            // 인벤토리 삭제 성공
+            "Delete Inventory" -> {
+                // 인벤토리 화면으로 이동
+                val actionToInventory: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToInventoryFrm(
+                    "InventoryDelete",
+                    CategoryItemUI(
+                        inventoryItem.inventoryIdx,
+                        inventoryItem.inventoryIconIdx,
+                        binding.edtCreateInventoryName.text.toString(),
+                        true,
+                        tagList
+                    )
+                )
+                findNavController().navigate(actionToInventory)
+            }
         }
     }
 
-    // 인벤토리 생성 실패
+    // 인벤토리 생성, 수정, 삭제 실패
     override fun onCommonFailure(status: Int, message: String) {
         when (status) {
-            400, 409 -> showToast(message)
+            400, 409, 404 -> showToast(message)
             else -> showToast(resources.getString(R.string.toast_server_error))
         }
     }
