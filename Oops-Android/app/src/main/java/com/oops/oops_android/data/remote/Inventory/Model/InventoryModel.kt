@@ -8,7 +8,7 @@ data class ChangeIconIdx(
     @SerializedName("inventoryIconIdx") val inventoryIconIdx: Int // new icon idx
 )
 
-// 인벤토리 생성
+// 인벤토리 생성, 수정
 data class CreateInventory(
     @SerializedName("inventoryName") val inventoryName: String, // 인벤토리 이름
     @SerializedName("inventoryTag") val inventoryTag: ArrayList<Int> // 관련 태그

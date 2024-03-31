@@ -144,4 +144,34 @@ class InventoryService {
             }
         })
     }
+
+    // 인벤토리 수정
+    fun modifyInventory(inventoryIdx: Long, modifyInventory: CreateInventory) {
+        val inventoryService = retrofit.create(InventoryInterface::class.java)
+        inventoryService.modifyInventory(inventoryIdx, modifyInventory).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Modify Inventory", resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "인벤토리 수정 실패")
+                    commonView.onCommonFailure(statusObject, messageObject)
+                    Log.e("Inventory - Modify Inventory / FAILURE", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Inventory - Modify Inventory / ERROR", t.message.toString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
 }

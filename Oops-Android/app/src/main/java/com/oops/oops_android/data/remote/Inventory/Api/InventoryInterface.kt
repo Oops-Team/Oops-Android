@@ -35,4 +35,11 @@ interface InventoryInterface {
     fun createInventory(
         @Body createInventory: CreateInventory
     ): Call<CommonResponse>
+
+    // 인벤토리 수정
+    @PATCH("/inventories/{inventoryIdx}")
+    fun modifyInventory(
+        @Path("inventoryIdx") inventoryIdx: Long,
+        @Body modifyInventory: CreateInventory
+    ): Call<CommonResponse>
 }

@@ -112,27 +112,8 @@ class CreateInventoryFragment:
         // 수정 완료 버튼 클릭 이벤트
         binding.btnCreateInventoryEdit.setOnClickListener {
             if (isEnable) {
-                // TODO: API 연동 필요
-
-                // 인벤토리 수정 완료 팝업 띄우기
-                val modifyInventoryDialog = InventoryModifyDialog(requireContext())
-                modifyInventoryDialog.showInventoryModifyDialog()
-
-                // 인벤토리 리스트에 변경된 데이터 적용하기
-                for (i in 0 until inventoryList.size) {
-                    if (inventoryList[i].inventoryName == inventoryItem.inventoryName) {
-                        inventoryList[i].inventoryName = binding.edtCreateInventoryName.text.toString()
-                        break
-                    }
-                }
-
-                // item에 변경된 데이터 적용하기
-                inventoryItem.inventoryName = binding.edtCreateInventoryName.text.toString()
-                inventoryItem.inventoryTag?.clear()
-                inventoryItem.inventoryTag?.addAll(tagList)
-
-                // 버튼 활성화 해제
-                updateButtonUI()
+                // 인벤토리 수정 API 연결
+                modifyInventory(inventoryItem.inventoryIdx, CreateInventory(binding.edtCreateInventoryName.text.toString(), tagList))
             }
         }
 
@@ -511,6 +492,13 @@ class CreateInventoryFragment:
         inventoryService.createInventory(CreateInventory(inventoryName, tagList))
     }
 
+    // 인벤토리 수정 API 연결
+    private fun modifyInventory(inventoryIdx: Long, modifyInventory: CreateInventory) {
+        val inventoryService = InventoryService()
+        inventoryService.setCommonView(this)
+        inventoryService.modifyInventory(inventoryIdx, modifyInventory)
+    }
+
     // 인벤토리 생성 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
@@ -522,6 +510,28 @@ class CreateInventoryFragment:
                     null
                 )
                 findNavController().navigate(actionToStuffAdd)
+            }
+            // 인벤토리 수정 성공
+            "Modify Inventory" -> {
+                // 인벤토리 수정 완료 팝업 띄우기
+                val modifyInventoryDialog = InventoryModifyDialog(requireContext())
+                modifyInventoryDialog.showInventoryModifyDialog()
+
+                // 인벤토리 리스트에 변경된 데이터 적용하기
+                for (i in 0 until inventoryList.size) {
+                    if (inventoryList[i].inventoryName == inventoryItem.inventoryName) {
+                        inventoryList[i].inventoryName = binding.edtCreateInventoryName.text.toString()
+                        break
+                    }
+                }
+
+                // item에 변경된 데이터 적용하기
+                inventoryItem.inventoryName = binding.edtCreateInventoryName.text.toString()
+                inventoryItem.inventoryTag?.clear()
+                inventoryItem.inventoryTag?.addAll(tagList)
+
+                // 버튼 활성화 해제
+                updateButtonUI()
             }
         }
     }
