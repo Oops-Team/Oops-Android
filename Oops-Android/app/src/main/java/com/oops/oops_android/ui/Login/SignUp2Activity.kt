@@ -1,7 +1,14 @@
 package com.oops.oops_android.ui.Login
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -186,10 +193,10 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     private fun checkValid() {
         if (isEmailValid && isPwdValid && isPwdCheckValid) {
             // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
-            val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
+            val termsBottomSheet = TermsBottomSheetFragment { item ->
                 when (item) {
                     0 -> clickVitalText() // 개인정보 이용약관 보기 버튼
-                    1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
+                    1 -> clickNextBtn() // 다음 버튼
                 }
             }
             termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
@@ -201,43 +208,14 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         startNextActivity(MoreTermsActivity::class.java)
     }
 
-    // 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isChoiceCheck: Boolean) {
-        // API 연동
-        val authService = AuthService()
-        authService.setSignUpView(this@SignUp2Activity)
-        authService.oopsSignUp(OopsUserModel(binding.edtSignUp2Email.text.toString(), binding.edtSignUp2Pwd.text.toString(), getNickname()))
-
-        // 알림에 동의했다면
-        if (isChoiceCheck) {
-            clickAgreeBtn()
-        }
-        // 알림에 미동의했다면
-        else {
-            // 푸시 알림 미동의 팝업 띄우기
-            val dialog = PushAlertDialog(this@SignUp2Activity)
-            dialog.showPushAlertDialog()
-            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
-                override fun onClicked(isAgree: Boolean) {
-                    // 동의 버튼을 누른 경우
-                    if (isAgree)
-                        clickAgreeBtn()
-                    // 동의 안함 버튼을 누른 경우
-                    else
-                        clickDisAgreeBtn()
-                }
-            })
-        }
-    }
-
     // 동의 버튼을 누른 경우
     private fun clickAgreeBtn() {
         val agreeDialog = PushAlertAgreeDialog(this@SignUp2Activity)
         agreeDialog.showAgreeDialog()
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
+            // 확인 버튼을 누른 경우
             override fun onClicked() {
-                // 확인 버튼을 누른 경우
-                // TODO: 알람 동의 room db 저장하기
+                // 튜토리얼 화면으로 이동
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
@@ -250,10 +228,38 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                // TODO: 알람 비동의 room db 저장하기
                 startActivityWithClear(TutorialActivity::class.java)
             }
         })
+    }
+
+    // Oops 회원가입 API 연동
+    override fun connectOopsAPI(token: String?) {
+        val authService = AuthService()
+        authService.setSignUpView(this@SignUp2Activity)
+        Log.d("SignUp2Activity", "FCM 토큰 불러오기: " + token.toString())
+        authService.oopsSignUp(
+            OopsUserModel(
+                binding.edtSignUp2Email.text.toString(),
+                binding.edtSignUp2Pwd.text.toString(),
+                getNickname(),
+                token
+            )
+        )
+    }
+
+    // 다음 버튼 클릭 이벤트
+    private fun clickNextBtn() {
+        // 안드로이드13 이상이라면
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // 알림 수신 권한 설정 창 띄우기
+            askNotificationPermission()
+        }
+        // 안드로이드12 이하라면
+        else {
+            // FCM 토큰 발급 및 회원가입 API 연결
+            getFCMToken()
+        }
     }
 
     // 이메일 중복 확인 성공
@@ -290,7 +296,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // Oops 회원가입 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -310,6 +316,17 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
 
                 // Room DB에 값 저장
                 userDB.userDao().insertUser(User("oops", getNickname()))
+
+                // 알림 수신 동의했다면(=토큰이 있다면)
+                if (isGetToken) {
+                    // 알림 동의 완료 팝업 띄우기
+                    clickAgreeBtn()
+                }
+                // 알림 수신 동의를 안 했다면
+                else {
+                    // 알림 미동의 완료 팝업 띄우기
+                    clickDisAgreeBtn()
+                }
             }
         }
     }

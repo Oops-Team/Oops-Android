@@ -21,6 +21,9 @@ class Tutorial5Activity: BaseActivity<ActivityTutorial5Binding>(ActivityTutorial
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // 화면 터치 시 키보드 숨기기
         binding.lLayoutTutorial5Top.setOnClickListener {

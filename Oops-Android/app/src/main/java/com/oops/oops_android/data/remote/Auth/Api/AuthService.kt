@@ -136,7 +136,9 @@ class AuthService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data)
+                    // FCM 토큰이 여부 확인
+                    var isGetToken = user.fcmToken != null
+                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data, isGetToken)
                 }
                 // 실패
                 else {

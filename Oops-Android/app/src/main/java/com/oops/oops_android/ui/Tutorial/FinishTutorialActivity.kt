@@ -12,6 +12,9 @@ class FinishTutorialActivity: BaseActivity<ActivityFinishTutorialBinding>(Activi
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     @SuppressLint("SetTextI18n")
     override fun initAfterBinding() {
         // 닉네임 설정

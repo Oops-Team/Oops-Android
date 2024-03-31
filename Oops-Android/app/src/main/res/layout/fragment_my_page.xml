@@ -37,6 +37,7 @@
 
             <!-- 사용자 닉네임 -->
             <TextView
+                android:id="@+id/tv_myPage_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="웁스팀입니다"
@@ -59,19 +60,29 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:paddingTop="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="12dp">
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment_default_16"
-                    android:layout_marginEnd="8dp"/>
-                <TextView
-                    android:id="@+id/tv_myPage_comment_default"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="웁스팀입니다님 오늘 하루도 좋은 하루 보내세요!"
-                    style="@style/Button2"
-                    android:textColor="@color/Main_500"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_comment_default_16"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:id="@+id/tv_myPage_comment_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="웁스팀입니다 오늘 하루도 좋은 하루 보내세요!"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        style="@style/Button2"
+                        android:textColor="@color/Main_500"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- Tip성 코멘트 -->
@@ -88,19 +99,29 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:paddingTop="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="12dp">
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment_tip_12"
-                    android:layout_marginEnd="8dp"/>
-                <TextView
-                    android:id="@+id/tv_myPage_comment_tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="자기 전 5분 명상 후 내일 물건을 챙겨봐요!"
-                    style="@style/Button2"
-                    android:textColor="@color/Yellow_Dark"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_comment_tip_12"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:id="@+id/tv_myPage_comment_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자기 전 5분 명상 후 내일 물건을 챙겨봐요!"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        style="@style/Button2"
+                        android:textColor="@color/Yellow_Dark"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 공지성 코멘트 -->
@@ -109,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:gravity="center"
                 android:background="@drawable/all_radius_12"
                 android:backgroundTint="@color/Red_Light"
@@ -116,19 +138,29 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:paddingTop="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="12dp">
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment_notice_16"
-                    android:layout_marginEnd="8dp"/>
-                <TextView
-                    android:id="@+id/tv_myPage_comment_notice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="[공지사항] 2024.04.08 구글 플레이 스토어 출시"
-                    style="@style/Button2"
-                    android:textColor="@color/Red_Medium"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_comment_notice_16"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:id="@+id/tv_myPage_comment_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="[공지사항] 2024.04.15 구글 플레이 스토어 출시"
+                        style="@style/Button2"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/Red_Medium"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 일반 박스  -->

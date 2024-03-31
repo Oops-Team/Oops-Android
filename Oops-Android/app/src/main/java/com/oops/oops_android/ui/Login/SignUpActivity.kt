@@ -1,5 +1,6 @@
 package com.oops.oops_android.ui.Login
 
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -12,7 +13,6 @@ import com.oops.oops_android.data.remote.Auth.Api.SignUpView
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
-import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
@@ -114,10 +114,10 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                     // 네이버 && 구글 로그인의 경우
                     if (loginId == "naver" || loginId == "google") {
                         // 개인정보 수집 및 이용 동의 바텀 시트 띄우기
-                        val termsBottomSheet = TermsBottomSheetFragment { item, isChoiceCheck ->
+                        val termsBottomSheet = TermsBottomSheetFragment { item ->
                             when (item) {
                                 0 -> startNextActivity(MoreTermsActivity::class.java) // 개인정보 이용약관 보기 버튼
-                                1 -> clickNextBtn(isChoiceCheck) // 다음 버튼
+                                1 -> clickNextBtn() // 다음 버튼
                             }
                         }
                         termsBottomSheet.show(supportFragmentManager, termsBottomSheet.tag)
@@ -132,8 +132,11 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
-    private fun clickNextBtn(isChoiceCheck: Boolean) {
+    private fun clickNextBtn() {
         try {
             // 네이버에서 넘어온 화면이라면
             if (loginId == "naver") {
@@ -141,32 +144,20 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
                 userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), "naver")
 
-                // TODO: API 연결
+                // 안드로이드13 이상이라면
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    // 알림 수신 권한 설정 창 띄우기
+                    askNotificationPermission()
+                }
+                // 안드로이드12 이하라면
+                else {
+                    // FCM 토큰 발급 및 로그인 API 연결
+                    getFCMToken()
+                }
 
             }
         } catch (e: Exception) {
             Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
-        }
-
-        // 알림에 동의했다면
-        if (isChoiceCheck) {
-            clickAgreeBtn()
-        }
-        // 알림에 미동의했다면
-        else {
-            // 푸시 알림 미동의 팝업 띄우기
-            val dialog = PushAlertDialog(this@SignUpActivity)
-            dialog.showPushAlertDialog()
-            dialog.setOnClickedListener(object : PushAlertDialog.PushAlertButtonClickListener {
-                override fun onClicked(isAgree: Boolean) {
-                    // 동의 버튼을 누른 경우
-                    if (isAgree)
-                        clickAgreeBtn()
-                    // 동의 안함 버튼을 누른 경우
-                    else
-                        clickDisAgreeBtn()
-                }
-            })
         }
     }
 
@@ -177,7 +168,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         agreeDialog.setOnClickedListener(object : PushAlertAgreeDialog.AgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                startActivityWithClear(MainActivity::class.java)
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }
@@ -189,7 +180,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         disagreeDialog.setOnClickedListener(object : PushAlertDisagreeDialog.DisAgreeButtonClickListener {
             override fun onClicked() {
                 // 확인 버튼을 누른 경우
-                startActivityWithClear(MainActivity::class.java)
+                startActivityWithClear(TutorialActivity::class.java)
             }
         })
     }
@@ -253,7 +244,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     // 네이버 & 구글 로그인 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?) {
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -270,7 +261,16 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                     binding.edtSignUpNickname.text.toString()
                 ))
 
-                startActivityWithClear(TutorialActivity::class.java)
+                // 알림 수신 동의했다면(=토큰이 있다면)
+                if (isGetToken) {
+                    // 알림 동의 완료 팝업 띄우기
+                    clickAgreeBtn()
+                }
+                // 알림 수신 동의를 안 했다면
+                else {
+                    // 알림 미동의 완료 팝업 띄우기
+                    clickDisAgreeBtn()
+                }
             }
         }
     }

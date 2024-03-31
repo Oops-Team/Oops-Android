@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 친구 목록 화면의 친구 리스트 박스2 -->
+<!-- 친구 목록 화면의 친구 리스트 박스2(친구인 경우의 아이템 박스) -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

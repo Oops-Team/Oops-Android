@@ -25,6 +25,13 @@ data class TodoListItem(
     var remindTime: ArrayList<Int>? = null // 알림 시간 리스트
 ): Parcelable
 
+// 일정 수정 화면에서 사용할 아이템
+data class TodoCheckModifyItem(
+    val id: Long? = null, // 일정 id
+    val edt: EditText, // 일정 edittext
+    val todoName: String? = null // 최초로 일정 등록 시 설정해둔 일정 이름
+)
+
 // 일정 수정 아이템
 data class TodoModifyItem(
     val itemPos: Int, // list내의 아이템 position

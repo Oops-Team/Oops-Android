@@ -136,7 +136,7 @@ class HomeFragment:
             selectDate = LocalDate.of(selectedDate.year, selectedDate.month, selectedDate.day)
 
             // 일정 1개 조회 API 연결
-            getTodo(LocalDate.of(selectedDate.year, selectedDate.month, selectedDate.day))
+            getTodo(selectDate)
         }
 
         // 월간 캘린더 - 달이 바뀔 때마다 dot 바꿔주기
@@ -461,7 +461,7 @@ class HomeFragment:
     private fun getTodo(todoDate: LocalDate) {
         val todoService = TodoService()
         todoService.setTodoView(this)
-        todoService.getTodo(todoDate, todoDate)
+        todoService.getTodo(todoDate)
     }
 
     // 일정 1개 조회 성공
@@ -571,6 +571,7 @@ class HomeFragment:
                         }
 
                         // 오늘 날짜의 일정 데이터 리스트 저장
+                        Log.d("날짜 데이터", todoDate.toString() + " - " + todoAdapter!!.getAllTodoList().toString())
                         todoListItem = TodoListItem(
                             todoItem = todoAdapter!!.getAllTodoList(),
                             date = todoDate,
@@ -593,6 +594,9 @@ class HomeFragment:
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
+
+                    // 오늘 날짜의 일정 데이터 리스트 저장
+                    Log.d("날짜 데이터", todoDate.toString() + " - " + todoAdapter!!.getAllTodoList().toString())
                 }
             }
         }

@@ -532,7 +532,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/WideButtonDisableStyle"
-                        android:backgroundTint="@color/Gray_100"
+                        android:background="@color/Gray_100"
                         android:text="@string/btn_delete" />
                 </androidx.cardview.widget.CardView>
 
@@ -548,7 +548,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/WideButtonDisableStyle"
-                        android:backgroundTint="@color/Gray_100"
+                        android:background="@color/Gray_100"
                         android:text="@string/btn_edit"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

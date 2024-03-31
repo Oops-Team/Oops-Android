@@ -149,6 +149,20 @@
             app:destination="@id/stingFragment"
             app:popUpTo="@id/stingFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_friendsFrm_to_searchFriendsFrm"
+            app:destination="@id/searchFriendsFragment"/>
+    </fragment>
+
+    <!-- 사용자 검색 창 -->
+    <fragment
+        android:id="@+id/searchFriendsFragment"
+        android:name="com.oops.oops_android.ui.Main.Sting.SearchFriendsFragment"
+        android:label="fragment_search_friends"
+        tools:layout="@layout/fragment_search_friends">
+        <action
+            android:id="@+id/action_searchFriendsFrm_to_friendsFrm"
+            app:destination="@id/friendsFragment"/>
     </fragment>
 
     <!-- 마이페이지 -->
@@ -194,6 +208,11 @@
         <action
             android:id="@+id/action_noticeDetailFrm_to_noticeFrm"
             app:destination="@id/noticeFragment"/>
+        <!-- 상세 공지사항 정보 -->
+        <argument
+            android:name="noticeItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.NoticeItem"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 계정 관리 -->
@@ -208,6 +227,11 @@
         <action
             android:id="@+id/action_accountFrm_to_withdrawal_1Frm"
             app:destination="@id/withdrawal1Fragment"/>
+        <!-- 사용자 정보 아이템 -->
+        <argument
+            android:name="myPageItem"
+            app:argType="com.oops.oops_android.ui.Main.MyPage.MyPageItem"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 회원 탈퇴 1 -->

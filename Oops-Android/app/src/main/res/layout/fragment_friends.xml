@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +14,7 @@
         layout="@layout/toolbar_sub"/>
 
     <EditText
-        android:id="@+id/edt_friends_search_box"
+        android:id="@+id/edt_friends_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Body1"
@@ -24,6 +25,7 @@
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Gray_100"
         android:drawableStart="@drawable/ic_search_27"
+        android:focusableInTouchMode="false"
         android:paddingTop="14dp"
         android:paddingStart="22dp"
         android:paddingEnd="22dp"
@@ -33,13 +35,16 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
 
+    <!-- 친구 신청 현황, 친구 목록 -->
     <ScrollView
+        android:id="@+id/sv_friends_default"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never"
         android:background="@color/Gray_100"
         android:layout_marginTop="24dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,12 +52,12 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/friends_new"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="18sp"
+                style="@style/H4"
                 android:textColor="@color/Black"/>
 
             <!-- 새로운 친구 목록 -->
@@ -71,8 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/friends_old"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="20sp"
+                style="@style/H4"
                 android:textColor="@color/Black"
                 android:layout_marginTop="24dp"/>
 

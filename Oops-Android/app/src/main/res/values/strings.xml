@@ -330,11 +330,14 @@
     <string name="friends_nickname">친구의 닉네임을 입력해 주세요</string>
     <string name="friends_new">친구 신청 현황</string>
     <string name="friends_old">친구 목록</string>
+    <string name="friend_search_result">검색 결과</string>
     <string name="friends_add">친구 신청</string>
     <string name="friends_wait">대기중</string>
     <string name="friends_confirm">수락</string>
     <string name="friends_refuse">거절</string>
     <string name="friend_delete">친구 끊기</string>
+    <string name="friend_no_search_result">검색 결과가 없어요</string>
+    <string name="friend_no_search_result_info">다른 멋진 이름으로 새로운 친구를\n찾아보는 게 어떨까요?</string>
 
     <!-- 마이페이지 -->
     <string name="myPage_default">일반</string>
@@ -360,7 +363,7 @@
     <string name="withdrawal_info_6">동일한 ID로 30일간 재가입할 수 없어요</string>
     <string name="withdrawal_info_7">입력했던 소지품 내역을 보관하지 않아요</string>
     <string name="withdrawal_info_8">입력했던 일과 리스트 내역을 보관하지 않아요</string>
-    <string name="withdrawal_terms">개인정보 처리 방침</string>
+    <string name="withdrawal_terms">개인정보처리방침</string>
 
     <!-- 팝업 -->
     <string name="popup_nickname">닉네임 변경 불가</string>
@@ -372,6 +375,8 @@
     <string name="popup_push_alert_info">푸시 알림 미전송 시\n꼼꼼하게 챙겨드리기 어려워요!\n알림을 받으시겠어요?</string>
     <string name="popup_disagree">동의 안함</string>
     <string name="popup_agree">동의</string>
+    <string name="popup_yes">예</string>
+    <string name="popup_no">아니오</string>
     <string name="popup_push_alert_disagree">앱 푸시 알림 미동의</string>
     <string name="popup_push_alert_disagree_info">푸시 알림에 미동의하셨습니다</string>
     <string name="popup_confirm">확인</string>
@@ -383,18 +388,29 @@
     <string name="popup_disable">비활성화</string>
     <string name="popup_todo_create">일정 추가 완료</string>
     <string name="popup_todo_create_info">말씀하신 일정을 잘 기록했어요!\n잘 기억해 놓을게요</string>
+    <string name="popup_todo_modify">일정 수정 완료</string>
+    <string name="popup_todo_modify_info">수정이 성공적으로 완료되었어요!\n홈 화면을 통해 확인해 주세요</string>
+    <string name="popup_todo_delete">일정을 삭제할까요?</string>
+    <string name="popup_todo_delete_info">일정을 삭제하시면 추천된 소지품도\n함께 삭제돼요</string>
+    <string name="popup_todo_delete_agree">일정 삭제 완료</string>
+    <string name="popup_todo_delete_agree_info">일정 삭제가 성공적으로 완료되었어요!\n언제든 할 일을 추가해 주세요</string>
     <string name="popup_inventory_delete">인벤토리 삭제</string>
     <string name="popup_inventory_delete_info">정말 삭제하시겠어요?\n삭제된 인벤토리는 복구되지 않아요</string>
     <string name="popup_inventory_delete_agree">인벤토리 삭제 완료</string>
     <string name="popup_inventory_delete_agree_info">삭제가 완료되었어요</string>
     <string name="popup_inventory_modify">인벤토리 수정 완료</string>
     <string name="popup_inventory_modify_info">수정이 완료되었어요\n수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
+    <string name="popup_friends_accept">친구 신청 수락</string>
+    <string name="popup_friends_accept_info">친구가 되었어요\n오늘부터 우리는 짱친!</string>
+    <string name="popup_friends_refuse">친구 신청 거절</string>
+    <string name="popup_friends_refuse_info">친구 신청을 거절했어요</string>
 
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
     <string name="toast_login_naver_failure">로그인이 취소되었습니다</string>
     <string name="toast_server_error">요청을 처리할 수 없습니다</string>
+    <string name="toast_user_withdrawal">회원탈퇴 되었습니다</string>
 
     <!-- 스낵바 메시지 -->
     <string name="snackbar_read_terms">개인정보 처리 방침을 클릭하여 읽어 주세요!</string>

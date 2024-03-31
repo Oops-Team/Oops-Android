@@ -14,7 +14,7 @@ import com.oops.oops_android.databinding.FragmentTermsBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 // 개인정보 수집 및 이용 동의 약관 바텀 시트
-class TermsBottomSheetFragment(val itemClick: (Int, Boolean) -> Unit): BottomSheetDialogFragment() {
+class TermsBottomSheetFragment(val itemClick: (Int) -> Unit): BottomSheetDialogFragment() {
 
     // 뷰바인딩
     private var mBinding: FragmentTermsBottomSheetBinding? = null
@@ -22,7 +22,6 @@ class TermsBottomSheetFragment(val itemClick: (Int, Boolean) -> Unit): BottomShe
 
     // 버튼 값 변경 여부
     private var isVitalCheck: Boolean = false
-    private var isChoiceCheck: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,23 +65,13 @@ class TermsBottomSheetFragment(val itemClick: (Int, Boolean) -> Unit): BottomShe
 
         // 개인정보 수집 및 이용 동의 텍스트를 클릭한 경우
         binding.tvTermsBottomSheetVital.setOnClickListener {
-            itemClick(0, false)
-        }
-
-        // 앱 푸시 알림 동의 버튼을 클릭한 경우
-        binding.ivTermsBottomSheetChoice.setOnClickListener {
-            if (isChoiceCheck)
-                binding.ivTermsBottomSheetChoice.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_300))
-            else
-                binding.ivTermsBottomSheetChoice.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Main_500))
-
-            isChoiceCheck = !isChoiceCheck
+            itemClick(0)
         }
 
         // 다음 버튼을 클릭한 경우
         binding.btnTermsBottomSheetNext.setOnClickListener {
             if (isVitalCheck)
-                itemClick(1, isChoiceCheck)
+                itemClick(1)
         }
     }
 

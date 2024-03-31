@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 친구 목록 화면의 친구 리스트 박스1 -->
+<!-- 친구 목록 화면의 친구 리스트 박스1(친구가 아닌 경우) -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

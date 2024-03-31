@@ -42,6 +42,7 @@
             android:textSize="12sp"
             android:textColor="@color/Gray_400"
             android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="11dp"
             android:layout_marginStart="16dp"/>
         <View
             android:layout_width="match_parent"

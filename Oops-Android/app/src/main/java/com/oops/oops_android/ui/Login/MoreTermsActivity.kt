@@ -9,6 +9,9 @@ class MoreTermsActivity: BaseActivity<ActivityMoreTermsBinding>(ActivityMoreTerm
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // 뒤로 가기 버튼 클릭
         binding.ivMoreTermsBack.setOnClickListener {

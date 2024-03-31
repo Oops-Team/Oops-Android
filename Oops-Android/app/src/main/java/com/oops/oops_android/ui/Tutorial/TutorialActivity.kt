@@ -18,6 +18,9 @@ class TutorialActivity: BaseActivity<ActivityTutorialBinding>(ActivityTutorialBi
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     @SuppressLint("SetTextI18n")
     override fun initAfterBinding() {
         // 일부 텍스트 색상 지정

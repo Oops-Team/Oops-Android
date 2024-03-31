@@ -20,6 +20,9 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
     override fun beforeSetContentView() {
     }
 
+    override fun connectOopsAPI(token: String?) {
+    }
+
     override fun initAfterBinding() {
         // 여행 버튼 클릭
         binding.fLayoutTutorial2Travel.setOnClickListener {

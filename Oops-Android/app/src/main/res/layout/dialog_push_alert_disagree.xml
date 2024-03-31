@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/popup_push_alert_disagree"
-        android:textSize="20sp"
-        android:textColor="@color/Black"
-        android:fontFamily="@font/pretendard_bold"
+        style="@style/dialog_title"
         android:gravity="center"/>
 
     <TextView
@@ -21,9 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="{yyyy}년 {mm}월 {dd}일 {hh}시 {mm}분"
-        android:textSize="14sp"
-        android:textColor="@color/Gray_400"
-        android:fontFamily="@font/pretendard_medium"
+        style="@style/dialog_content"
         android:gravity="center"
         android:layout_marginTop="8dp"/>
 
@@ -31,9 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/popup_push_alert_disagree_info"
-        android:textSize="14sp"
-        android:textColor="@color/Gray_400"
-        android:fontFamily="@font/pretendard_medium"
+        style="@style/dialog_content"
         android:gravity="center"/>
 
     <Button

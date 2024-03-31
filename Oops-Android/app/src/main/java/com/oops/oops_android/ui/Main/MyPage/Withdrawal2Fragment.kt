@@ -8,12 +8,15 @@ import androidx.navigation.fragment.navArgs
 import com.oops.oops_android.ApplicationClass
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
+import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
+import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal2Binding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.clearToken
 
-class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate) {
+class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate), CommonView {
     private lateinit var withdrawalItem: WithdrawalItem // 탈퇴 사유 데이터
     private var isReadTerms: Boolean = false // 개인정보 처리 방침 읽음 여부
 
@@ -59,7 +62,6 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             // 처리 방침 상태 변경
             binding.cBoxWithdrawal2Check1.isChecked = true
             binding.cBoxWithdrawal2Check2.isChecked = true
-            binding.cBoxWithdrawal2Check3.isChecked = true
 
             // 버튼 활성화
             updateButtonUI()
@@ -71,7 +73,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             if (!isReadTerms) {
                 binding.cBoxWithdrawal2Check1.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
                 binding.cBoxWithdrawal2Check1.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택
@@ -87,7 +89,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             if (!isReadTerms) {
                 binding.cBoxWithdrawal2Check2.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
                 binding.cBoxWithdrawal2Check2.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택
@@ -98,16 +100,16 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             checkButtonCondition()
         }
 
-        binding.cBoxWithdrawal2Check3.setOnCheckedChangeListener { _, isChecked ->
+        binding.cBoxWithdrawal2Check2.setOnCheckedChangeListener { _, isChecked ->
             // 개인정보 처리 방침을 안 확인했다면
             if (!isReadTerms) {
-                binding.cBoxWithdrawal2Check3.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
-                binding.cBoxWithdrawal2Check3.isChecked = false
-                showCustomSnackBar(R.string.snackbar_read_terms) // 스낵바 띄우기
+                binding.cBoxWithdrawal2Check2.setButtonDrawable(R.drawable.ic_withdrawal_checkbox_unselected)
+                binding.cBoxWithdrawal2Check2.isChecked = false
+                showCustomSnackBar(getString(R.string.snackbar_read_terms)) // 스낵바 띄우기
             }
             else {
                 // 체크 해제 <-> 선택
-                binding.cBoxWithdrawal2Check3.isChecked = isChecked
+                binding.cBoxWithdrawal2Check2.isChecked = isChecked
             }
 
             // 탈퇴할게요 버튼 색상 전환
@@ -120,18 +122,8 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 // 전달 받은 데이터 출력
                 Log.d("Withdrawal2Fragment - api 전달할 데이터", withdrawalItem.toString())
 
-                // 토큰 삭제
-                clearToken()
-
-                // 유저 데이터 삭제
-                val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                userDB.userDao().deleteAllUser()
-
-                // TODO: 회원 탈퇴 API 연동
-
-                // 로그인 화면으로 이동
-                val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
-                view?.findNavController()?.navigate(actionToLogin)
+                // 회원 탈퇴 API 연동
+                oopsWithdrawal(UserWithdrawalModel(withdrawalItem.reasonType, withdrawalItem.subReason))
             }
         }
     }
@@ -146,8 +138,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
     // 탈퇴할게요 버튼 활성화 로직 체크 함수
     private fun checkButtonCondition() {
         // 모든 버튼이 체크가 되어 있고, 개인정보 처리 방침을 확인했다면
-        if (binding.cBoxWithdrawal2Check1.isChecked && binding.cBoxWithdrawal2Check2.isChecked &&
-            binding.cBoxWithdrawal2Check3.isChecked && isReadTerms) {
+        if (binding.cBoxWithdrawal2Check1.isChecked && binding.cBoxWithdrawal2Check2.isChecked && isReadTerms) {
             if (!isEnable) {
                 updateButtonUI() // 색상 전환
             }
@@ -159,5 +150,37 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
             binding.btnWithdrawal2End.setTextAppearance(R.style.WideButtonDisableStyle)
             binding.btnWithdrawal2End.setBackgroundColor(ApplicationClass.applicationContext().getColor(R.color.Gray_100))
         }
+    }
+
+    // 탈퇴하기 API 연결
+    private fun oopsWithdrawal(userWithdrawalModel: UserWithdrawalModel) {
+        val myPageService = MyPageService()
+        myPageService.setCommonView(this)
+        myPageService.oopsWithdrawal(userWithdrawalModel)
+    }
+
+    // 탈퇴하기 성공
+    override fun onCommonSuccess(status: Int, message: String, data: Any?) {
+        when (status) {
+            200 -> {
+                // 토큰 삭제
+                clearToken()
+
+                // 유저 데이터 삭제
+                val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                userDB.userDao().deleteAllUser()
+
+                showToast(resources.getString(R.string.toast_user_withdrawal))
+
+                // 로그인 화면으로 이동
+                val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
+                view?.findNavController()?.navigate(actionToLogin)
+            }
+        }
+    }
+
+    // 탈퇴하기 실패
+    override fun onCommonFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }
