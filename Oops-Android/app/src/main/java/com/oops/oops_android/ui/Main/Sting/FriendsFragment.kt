@@ -85,7 +85,7 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         // 콕콕 찌르기 버튼을 클릭한 경우
         oldFriendsAdapter?.onOldFriendsItemClickListener2 = { position ->
             // 콕콕 찌르기 API 연결
-            stingFriend(newFriendsAdapter?.getNewFriend(position)!!.userName)
+            stingFriend(oldFriendsAdapter?.getOldFriend(position)!!.userName)
         }
     }
 
