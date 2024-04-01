@@ -10,6 +10,7 @@ import com.oops.oops_android.data.remote.Todo.Model.TodoCreateModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoDeleteAllModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyNameModel
+import com.oops.oops_android.ui.Main.Home.StuffItem
 import com.oops.oops_android.ui.Main.Home.TodoCreateItem
 import com.oops.oops_android.ui.Main.Home.TodoModifyItem
 import org.json.JSONObject
@@ -197,7 +198,7 @@ class TodoService {
     }
 
     // 소지품 1개 삭제(소지품 챙기기 완료)
-    fun deleteStuff(stuffItem: StuffDeleteModel, position: Int) {
+    fun deleteStuff(stuffItem: StuffDeleteModel, stuff: StuffItem?) {
         val todoService = retrofit.create(TodoInterface::class.java)
         todoService.deleteStuff(stuffItem).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(
@@ -207,7 +208,7 @@ class TodoService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Stuff Delete", position)
+                    commonView.onCommonSuccess(resp.status, "Stuff Delete", stuff)
                 }
                 // 실패
                 else {

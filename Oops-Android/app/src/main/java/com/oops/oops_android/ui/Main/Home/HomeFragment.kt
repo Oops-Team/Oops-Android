@@ -260,7 +260,7 @@ class HomeFragment:
         // 소지품 클릭 이벤트
         stuffAdapter?.onItemClickListener = { position ->
             // 소지품 1개 삭제(챙김 완료) API 연결
-            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), position)
+            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), stuffAdapter?.getStuff(position))
         }
     }
 
@@ -675,10 +675,10 @@ class HomeFragment:
     }
 
     // 소지품 1개 삭제(소지품 챙기기 완료)
-    private fun deleteStuff(date: LocalDate, stuffName: String, position: Int) {
+    private fun deleteStuff(date: LocalDate, stuffName: String, stuff: StuffItem?) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.deleteStuff(StuffDeleteModel(date, stuffName), position)
+        todoService.deleteStuff(StuffDeleteModel(date.toString(), stuffName), stuff)
     }
 
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
@@ -707,7 +707,8 @@ class HomeFragment:
             }
             "Stuff Delete" -> {
                 // 소지품 1개 삭제 성공
-                stuffAdapter?.deleteStuffList(data as Int) // 리스트에서 삭제
+                val stuffItem = data as StuffItem
+                stuffAdapter?.deleteStuff(stuffItem)
 
                 // 소지품을 다 챙겼다면, 뷰 띄우기
                 if (stuffAdapter?.itemCount == 0) {
