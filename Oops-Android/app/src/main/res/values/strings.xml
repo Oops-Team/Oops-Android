@@ -288,6 +288,7 @@
 
     <!-- 소지품 수정 -->
     <string name="stuff_title">챙겨야 할 것</string>
+    <string name="stuff_edit_title">변경하실 인벤토리를\n선택해 주세요</string>
 
     <!-- 일정 추가 -->
     <string name="todo_date">날짜</string>

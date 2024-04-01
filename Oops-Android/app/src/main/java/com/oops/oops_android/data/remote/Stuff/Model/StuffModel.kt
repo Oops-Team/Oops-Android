@@ -20,3 +20,9 @@ data class StuffDeleteHomeModel(
     @SerializedName("date") val date: String, // 일정 날짜
     @SerializedName("stuffName") val stuffName: String // 소지품 이름
 )
+
+// 홈 화면의 챙겨야 할 것 수정(다른 인벤토리로 선택 및 변경)
+data class InventoryChangeTodoModel(
+    @SerializedName("date") val date: String? = null, // 일정 날짜
+    @SerializedName("inventoryName") val inventoryName: String // 인벤토리 이름
+)

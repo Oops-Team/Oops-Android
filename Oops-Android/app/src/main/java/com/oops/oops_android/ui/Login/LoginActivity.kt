@@ -156,11 +156,13 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     override fun connectOopsAPI(token: String?) {
         val authService = AuthService()
         authService.setCommonView(this)
+        val userDB = AppDatabase.getUserDB()!! // room db의 user db
         authService.oopsLogin(
             "oops",
             OopsUserModel(
                 binding.edtLoginEmail.text.toString(),
                 binding.edtLoginPwd.text.toString(),
+                userDB.userDao().getUser().name,
                 token
             )
         )

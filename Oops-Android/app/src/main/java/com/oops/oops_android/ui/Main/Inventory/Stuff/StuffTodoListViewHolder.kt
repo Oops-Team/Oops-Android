@@ -19,7 +19,7 @@ class StuffTodoListViewHolder(val binding: ItemTutorialStuffBinding): RecyclerVi
         val stuffName = binding.tvItemTutorialStuff
 
         Glide.with(applicationContext())
-            .load(stuffImg) // fixme: 서버 이미지 연결 되면 수정하기
+            .load(item.stuffImgUrl)
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .error(R.color.White)

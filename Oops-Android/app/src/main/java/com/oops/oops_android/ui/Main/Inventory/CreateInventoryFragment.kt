@@ -494,7 +494,7 @@ class CreateInventoryFragment:
                 // 소지품 추가 화면으로 이동하기
                 val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
                     "Inventory Add",
-                    inventoryItem.inventoryIdx // fixme: 서버에서 전달해준 id값으로 변경하기(아직 현재 api에서는 반환 안 해줌)
+                    data as Long
                 )
                 findNavController().navigate(actionToStuffAdd)
             }
