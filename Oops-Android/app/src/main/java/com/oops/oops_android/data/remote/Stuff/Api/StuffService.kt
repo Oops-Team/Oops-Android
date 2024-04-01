@@ -54,7 +54,7 @@ class StuffService {
     // 인벤토리 내 소지품 추가
     fun addStuffList(inventoryIdx: Long, stuffAddInventoryModel: StuffAddInventoryModel) {
         val stuffService = retrofit.create(StuffInterface::class.java)
-        stuffService.addStuffList(inventoryIdx, stuffAddInventoryModel).enqueue(object : Callback<CommonResponse>{
+        stuffService.addStuffList(inventoryIdx, stuffAddInventoryModel).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(
                 call: Call<CommonResponse>,
                 response: Response<CommonResponse>
@@ -75,7 +75,36 @@ class StuffService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("Stuff - Add Stuff List / FAILURE", t.stackTraceToString())
-               commonView.onCommonFailure(-1, "")
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 인벤토리 내 소지품 수정
+    fun modifyStuffList(inventoryIdx: Long, stuffAddInventoryModel: StuffAddInventoryModel) {
+        val stuffService = retrofit.create(StuffInterface::class.java)
+        stuffService.modifyStuffList(inventoryIdx, stuffAddInventoryModel).enqueue(object : Callback<CommonResponse>{
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Modify Stuff", resp.data)
+                }
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "인벤토리내 소지품 수정 실패")
+                    commonView.onCommonSuccess(statusObject, messageObject) // 실패
+                    Log.e("Stuff - Modify Stuff List / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Stuff - Modify Stuff List / FAILURE", t.stackTraceToString())
+                commonView.onCommonFailure(-1, "")
             }
         })
     }

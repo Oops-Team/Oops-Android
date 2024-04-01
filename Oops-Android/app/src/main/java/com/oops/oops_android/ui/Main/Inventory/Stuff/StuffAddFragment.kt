@@ -142,8 +142,21 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
                         tempStuffNameList.add(stuffList[i].stuffName)
                     }
                 }
-                // 인벤토리 추가
-                addStuffList(inventoryId, StuffAddInventoryModel(tempStuffNameList))
+
+                when (screenDivision) {
+                    // 인벤토리 내 소지품 추가인 경우
+                    0 -> {
+                        addStuffList(inventoryId, StuffAddInventoryModel(tempStuffNameList))
+                    }
+                    // 인벤토리 내 소지품 수정인 경우
+                    1 -> {
+                        modifyStuffList(inventoryId, StuffAddInventoryModel(tempStuffNameList))
+                    }
+                    // 홈 화면에서 소지품 추가&수정한 경우
+                    2 -> {
+
+                    }
+                }
             }
         }
     }
@@ -243,7 +256,14 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         stuffService.addStuffList(inventoryIdx, stuffName)
     }
 
-    // 인벤토리 내 소지품 추가 성공
+    // 인벤토리 내 소지품 수정
+    private fun modifyStuffList(inventoryIdx: Long, stuffName: StuffAddInventoryModel) {
+        val stuffService = StuffService()
+        stuffService.setCommonView(this)
+        stuffService.modifyStuffList(inventoryIdx, stuffName)
+    }
+
+    // 인벤토리 내 소지품 추가, 수정 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (status) {
             200 -> {
@@ -264,7 +284,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         }
     }
 
-    // 인벤토리 내 소지품 추가 실패
+    // 인벤토리 내 소지품 추가, 수정 실패
     override fun onCommonFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }

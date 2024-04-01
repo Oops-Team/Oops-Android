@@ -18,8 +18,15 @@ interface StuffInterface {
     ): Call<StuffResponse>
 
     // 인벤토리 내 소지품 추가
-    @PATCH("/inventories/{inventoryIdx}/stuff")
+    @POST("/inventories/{inventoryIdx}/stuff")
     fun addStuffList(
+        @Path("inventoryIdx") inventoryIdx: Long,
+        @Body stuffName: StuffAddInventoryModel
+    ): Call<CommonResponse>
+
+    // 인벤토리 내 소지품 수정
+    @PATCH("/inventories/{inventoryIdx}/stuff")
+    fun modifyStuffList(
         @Path("inventoryIdx") inventoryIdx: Long,
         @Body stuffName: StuffAddInventoryModel
     ): Call<CommonResponse>
