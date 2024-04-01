@@ -19,8 +19,8 @@ class InventoryModifyDialog(private val context: Context) {
 
         // 확인 버튼을 누른 경우
         dialog.findViewById<Button>(R.id.btn_popup_inventory_modify_confirm).setOnClickListener {
-            onClickListener.onClicked()
             dialog.dismiss()
+            onClickListener.onClicked()
         }
     }
 

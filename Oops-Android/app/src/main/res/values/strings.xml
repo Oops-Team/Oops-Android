@@ -321,6 +321,8 @@
     <string name="stuff_add_search_info">찾으시는 소지품 이름을 알려 주세요</string>
     <string name="stuff_add_info_1">아직 소지품이 없어요</string>
     <string name="stuff_add_info_2">말씀해 주신 소지품은 Oops에서\n추후에 추가할 수 있도록 할게요</string>
+    <string name="stuff_no_search_result">아직 소지품이 없어요</string>
+    <string name="stuff_no_search_result_info">말씀해 주신 소지품은 Oops에서\n추후에 추가할 수 있도록 할게요</string>
 
     <!-- 콕콕 찌르기 -->
     <string name="sting_sub">친구야! 소지품 잘 챙겼어?</string>

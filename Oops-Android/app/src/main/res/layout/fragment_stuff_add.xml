@@ -86,9 +86,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
                 android:orientation="vertical"
+                android:visibility="visible"
                 tools:listitem="@layout/item_tutorial_stuff"
                 app:spanCount="3"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+
+            <!-- 검색 결과가 없을 때 -->
+            <LinearLayout
+                android:id="@+id/lLayout_stuff_add_no_search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:layout_marginTop="104dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stuff_no_search_result"
+                    style="@style/H4"
+                    android:textColor="@color/Gray_500"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stuff_no_search_result_info"
+                    style="@style/Body2"
+                    android:textColor="@color/Gray_400"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"/>
+            </LinearLayout>
 
             <!-- 하단 공백 -->
             <View

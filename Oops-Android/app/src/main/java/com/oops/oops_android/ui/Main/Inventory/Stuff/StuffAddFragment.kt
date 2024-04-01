@@ -1,5 +1,8 @@
 package com.oops.oops_android.ui.Main.Inventory.Stuff
 
+import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,6 +24,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
 
     private var inventoryId: Long = 0L // 인벤토리 id
     private var stuffList = ArrayList<StuffAddItem>() // 각 인벤토리 내의 소지품 리스트
+    //private var allStuffList = ArrayList<StuffAddItem>() // 수정된 소지품 리스트
     private var stuffAddListAdapter = StuffAddListAdapter(stuffList) // 소지품 리스트 어댑터
     private var previousStuffList = ArrayList<StuffAddItem>() // 수정 이전 소지품 리스트
 
@@ -58,6 +62,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun initAfterBinding() {
         // 뒤로 가기 버튼 클릭 이벤트
         binding.toolbarStuffAdd.ivSubToolbarBack.setOnClickListener {
@@ -67,10 +72,17 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         // 소지품 목록 조회 API 연결
         getStuffList(inventoryId)
 
+        // 소지품 실시간 조회
+        showStuffList()
+
         // 소지품 클릭 이벤트
-        stuffAddListAdapter.onItemClickListener = { position ->
-            stuffList[position].isSelected = !stuffList[position].isSelected
-            stuffAddListAdapter.notifyItemChanged(position)
+        stuffAddListAdapter.onItemClickListener = { pos, tvName ->
+            for (i in 0 until stuffList.size) {
+                if (stuffList[i].stuffName == tvName) {
+                    stuffList[i].isSelected = !stuffList[i].isSelected
+                }
+            }
+            stuffAddListAdapter.notifyDataSetChanged()
 
             when (screenDivision) {
                 // 인벤토리 추가 화면인 경우
@@ -136,6 +148,40 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         }
     }
 
+    // 입력한 소지품 키워드에 따른 검색 함수
+    private fun showStuffList() {
+        binding.edtStuffAddSearchBox.addTextChangedListener(object : TextWatcher {
+            // 검색 전
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            // 검색 중
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                stuffAddListAdapter.filter.filter(charSequence)
+            }
+
+            // 검색 후
+            @SuppressLint("NotifyDataSetChanged")
+            override fun afterTextChanged(s: Editable?) {
+                /*keyword = binding.edtStuffAddSearchBox.text.toString()
+
+                if (keyword == "") {
+                }
+                else {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        try {
+                            getStuffs(keyword!!) // 검색 목록 찾기
+                        } catch (e: Exception) {
+                            Log.w("StuffAddFragment - Find Stuff", e.stackTraceToString())
+                        }
+                    }, 200L)
+                }
+
+                // TODO: 취소 버튼 클릭 이벤트*/
+            }
+        })
+    }
+
     // 두 개의 리스트의 값이 같은지 확인하는 함수
     private fun compareLists(previousList: ArrayList<Boolean>?, newList: ArrayList<Boolean>): Boolean {
         // 두 리스트의 크기가 다르다면
@@ -176,7 +222,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
                     val stuffName = subJsonObject.getString("stuffName")
                     val isSelected = subJsonObject.getBoolean("isSelected")
 
-                    stuffList.add(StuffAddItem(stuffImgUrl, stuffName, isSelected))
+                    stuffList.add(StuffAddItem(stuffImgUrl, stuffName, isSelected)) // 사용자가 선택한 리스트
                     previousStuffList.add(StuffAddItem(stuffImgUrl, stuffName, isSelected))
                 }
 

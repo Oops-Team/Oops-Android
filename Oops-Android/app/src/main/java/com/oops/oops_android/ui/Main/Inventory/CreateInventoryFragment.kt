@@ -503,6 +503,11 @@ class CreateInventoryFragment:
                 // 인벤토리 수정 완료 팝업 띄우기
                 val modifyInventoryDialog = InventoryModifyDialog(requireContext())
                 modifyInventoryDialog.showInventoryModifyDialog()
+                modifyInventoryDialog.setOnClickedListener(object : InventoryModifyDialog.InventoryModifyBtnClickListener {
+                    override fun onClicked() {
+                        // 확인 버튼 클릭
+                    }
+                })
 
                 // 인벤토리 리스트에 변경된 데이터 적용하기
                 for (i in 0 until inventoryList.size) {
