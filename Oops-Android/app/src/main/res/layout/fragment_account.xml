@@ -43,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="Oops"
                 android:textSize="15sp"
                 android:textColor="@color/Gray_400"
                 android:fontFamily="@font/pretendard_semibold"/>
@@ -68,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:gravity="end"
-                android:text="Oops@naver.com"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textSize="15sp"
