@@ -2,7 +2,6 @@ package com.oops.oops_android.ui.Main.Inventory
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import com.oops.oops_android.ui.Main.Home.StuffItem
 
 /* 인벤토리 화면의 카테고리 아이템 */
 // UI에서 쓰일 데이터

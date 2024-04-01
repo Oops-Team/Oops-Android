@@ -50,6 +50,9 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
     // 소지품 내보내기
     fun getStuff(position: Int): StuffItem = stuffList[position]
 
+    // 전체 소지품 목록 내보내기
+    fun getStuffList(): ArrayList<StuffItem> = stuffList
+
     // 소지품 삭제
     fun deleteStuff(item: StuffItem) {
         val index = stuffList.indexOf(item)

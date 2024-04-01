@@ -5,6 +5,7 @@ import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Stuff.Model.StuffAddInventoryModel
+import com.oops.oops_android.data.remote.Stuff.Model.StuffDeleteHomeModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffModel
 import org.json.JSONObject
 import retrofit2.Call
@@ -104,6 +105,35 @@ class StuffService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("Stuff - Modify Stuff List / FAILURE", t.stackTraceToString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 홈 화면의 챙겨야 할 것 수정(소지품 삭제)
+    fun deleteHomeStuff(deleteHomeModel: StuffDeleteHomeModel, position: Int) {
+        val stuffService = retrofit.create(StuffInterface::class.java)
+        stuffService.deleteHomeStuff(deleteHomeModel).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Delete Home Stuff", position)
+                }
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "홈 화면의 챙겨야 할 것 수정(소지품 삭제) 실패")
+                    commonView.onCommonSuccess(statusObject, messageObject) // 실패
+                    Log.e("Stuff - Delete Home Stuff / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Stuff - Delete Home Stuff / FAILURE", t.stackTraceToString())
                 commonView.onCommonFailure(-1, "")
             }
         })

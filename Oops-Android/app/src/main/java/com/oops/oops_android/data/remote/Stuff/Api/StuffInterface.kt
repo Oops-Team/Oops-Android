@@ -2,9 +2,11 @@ package com.oops.oops_android.data.remote.Stuff.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Stuff.Model.StuffAddInventoryModel
+import com.oops.oops_android.data.remote.Stuff.Model.StuffDeleteHomeModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffModel
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -29,5 +31,11 @@ interface StuffInterface {
     fun modifyStuffList(
         @Path("inventoryIdx") inventoryIdx: Long,
         @Body stuffName: StuffAddInventoryModel
+    ): Call<CommonResponse>
+
+    // 홈 화면의 챙겨야 할 것 수정(소지품 삭제)
+    @HTTP(method = "DELETE", path = "/todo/stuff", hasBody = true)
+    fun deleteHomeStuff(
+        @Body deleteHomeModel: StuffDeleteHomeModel
     ): Call<CommonResponse>
 }

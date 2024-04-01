@@ -98,7 +98,8 @@
             android:id="@+id/btn_stuff_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/WideButtonDisableStyle"
+            style="@style/WideButtonEnableStyle"
+            android:background="@color/Main_500"
             android:text="@string/btn_stuff_add"/>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

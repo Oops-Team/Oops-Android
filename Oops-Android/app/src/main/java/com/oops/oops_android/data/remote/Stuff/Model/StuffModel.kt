@@ -14,3 +14,9 @@ data class StuffModel(
 data class StuffAddInventoryModel(
     @SerializedName("stuffName") val stuffName: ArrayList<String> // 소지품 이름 리스트
 )
+
+// 챙겨야 할 것 수정(소지품 삭제)
+data class StuffDeleteHomeModel(
+    @SerializedName("date") val date: String, // 일정 날짜
+    @SerializedName("stuffName") val stuffName: String // 소지품 이름
+)

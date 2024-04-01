@@ -286,6 +286,9 @@
     <string name="home_edit_stuff">소지품</string>
     <string name="home_edit_todo">오늘 할 일</string>
 
+    <!-- 소지품 수정 -->
+    <string name="stuff_title">챙겨야 할 것</string>
+
     <!-- 일정 추가 -->
     <string name="todo_date">날짜</string>
     <string name="todo_today">오늘 할 일</string>

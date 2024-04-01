@@ -216,10 +216,15 @@ class HomeFragment:
 
             dialog.setOnClickedListener(object : EditDialog.ButtonClickListener {
                 override fun onClicked(isStuffEdit: Boolean) {
-                    // TODO 소지품 수정 or 할일 수정
                     // 소지품 수정 버튼을 눌렀다면
                     if (isStuffEdit) {
                         // 소지품 수정 화면으로 이동
+                        val actionToStuff: NavDirections = HomeFragmentDirections.actionHomeFrmToStuffFrm(
+                            selectDate.toString(),
+                            inventoryList.toTypedArray(),
+                            stuffAdapter?.getStuffList()!!.toTypedArray()
+                        )
+                        findNavController().navigate(actionToStuff)
                     }
                     // 할일 수정을 눌렀다면
                     else {
@@ -544,8 +549,8 @@ class HomeFragment:
                             val stuffImgUrl = subJsonObject.getString("stuffImgUrl")
                             val stuffName = subJsonObject.getString("stuffName")
 
-                            // 소지품 어댑어테 소지품 데이터 저장
-                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName))
+                            // 소지품 어댑터에 소지품 데이터 저장
+                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName, todoDate.toString()))
                         }
 
                         /* 데이터를 바탕으로 뷰 그리기 */
@@ -571,7 +576,6 @@ class HomeFragment:
                         }
 
                         // 오늘 날짜의 일정 데이터 리스트 저장
-                        Log.d("날짜 데이터", todoDate.toString() + " - " + todoAdapter!!.getAllTodoList().toString())
                         todoListItem = TodoListItem(
                             todoItem = todoAdapter!!.getAllTodoList(),
                             date = todoDate,
