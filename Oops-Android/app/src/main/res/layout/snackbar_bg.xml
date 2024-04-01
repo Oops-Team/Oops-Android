@@ -24,7 +24,6 @@
             android:id="@+id/tv_snackbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/toast_todo_not_add"
             style="@style/toastMessageStyle"
             android:paddingTop="19.5dp"
             android:paddingStart="32dp"

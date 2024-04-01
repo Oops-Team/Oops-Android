@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textColor="@color/Black"
-            android:text="화면 타이틀"
             android:layout_gravity="center"
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintTop_toTopOf="parent"
