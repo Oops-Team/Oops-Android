@@ -65,64 +65,62 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
         when (status) {
             200 -> {
                 try {
-                    if (!data!!.isJsonNull) {
-                        val jsonArray = JSONArray(data.toString())
+                    val jsonArray = JSONArray(data.toString())
 
-                        // 친구 데이터
-                        for (i in 0 until jsonArray.length()) {
-                            val subObject = jsonArray.getJSONObject(i)
-                            val userIdx = subObject.getLong("userIdx")
-                            val userName = subObject.getString("userName")
-                            val userImg = subObject.getString("userImg")
+                    // 친구 데이터
+                    for (i in 0 until jsonArray.length()) {
+                        val subObject = jsonArray.getJSONObject(i)
+                        val userIdx = subObject.getLong("userIdx")
+                        val userName = subObject.getString("userName")
+                        val userImg = subObject.getString("userImg")
 
-                            friendList.add(FriendsItem(userIdx, userName, userImg, 1))
+                        friendList.add(FriendsItem(userIdx, userName, userImg, 1))
+                    }
+
+                    /* 뷰에 데이터 적용 */
+                    // 외출 임박한 친구가 1명이라면
+                    when (friendList.size) {
+                        1 -> {
+                            binding.cLayoutStingFriends1.visibility = View.VISIBLE
+                            setProfileImg(binding.ivStingFriend11, friendList[0].userImg)
+
+                            binding.ivStingFriend11.setOnClickListener {
+                                stingFriend(friendList[0].userName)
+                            }
                         }
 
-                        /* 뷰에 데이터 적용 */
-                        // 외출 임박한 친구가 1명이라면
-                        when (friendList.size) {
-                            1 -> {
-                                binding.cLayoutStingFriends1.visibility = View.VISIBLE
-                                setProfileImg(binding.ivStingFriend11, friendList[0].userImg)
+                        // 외출 임박한 친구가 2명이라면
+                        2 -> {
+                            binding.cLayoutStingFriends2.visibility = View.VISIBLE
+                            setProfileImg(binding.ivStingFriend21, friendList[0].userImg)
+                            setProfileImg(binding.ivStingFriend22, friendList[1].userImg)
+                        }
 
-                                binding.ivStingFriend11.setOnClickListener {
-                                    stingFriend(friendList[0].userName)
-                                }
-                            }
+                        // 외출 임박한 친구가 3명이라면
+                        3 -> {
+                            binding.cLayoutStingFriends3.visibility = View.VISIBLE
+                            setProfileImg(binding.ivStingFriend31, friendList[0].userImg)
+                            setProfileImg(binding.ivStingFriend32, friendList[1].userImg)
+                            setProfileImg(binding.ivStingFriend33, friendList[2].userImg)
+                        }
 
-                            // 외출 임박한 친구가 2명이라면
-                            2 -> {
-                                binding.cLayoutStingFriends2.visibility = View.VISIBLE
-                                setProfileImg(binding.ivStingFriend21, friendList[0].userImg)
-                                setProfileImg(binding.ivStingFriend22, friendList[1].userImg)
-                            }
+                        // 외출 임박한 친구가 4명이라면
+                        4 -> {
+                            binding.cLayoutStingFriends4.visibility = View.VISIBLE
+                            setProfileImg(binding.ivStingFriend41, friendList[0].userImg)
+                            setProfileImg(binding.ivStingFriend42, friendList[1].userImg)
+                            setProfileImg(binding.ivStingFriend43, friendList[2].userImg)
+                            setProfileImg(binding.ivStingFriend44, friendList[3].userImg)
+                        }
 
-                            // 외출 임박한 친구가 3명이라면
-                            3 -> {
-                                binding.cLayoutStingFriends3.visibility = View.VISIBLE
-                                setProfileImg(binding.ivStingFriend31, friendList[0].userImg)
-                                setProfileImg(binding.ivStingFriend32, friendList[1].userImg)
-                                setProfileImg(binding.ivStingFriend33, friendList[2].userImg)
-                            }
-
-                            // 외출 임박한 친구가 4명이라면
-                            4 -> {
-                                binding.cLayoutStingFriends4.visibility = View.VISIBLE
-                                setProfileImg(binding.ivStingFriend41, friendList[0].userImg)
-                                setProfileImg(binding.ivStingFriend42, friendList[1].userImg)
-                                setProfileImg(binding.ivStingFriend43, friendList[2].userImg)
-                                setProfileImg(binding.ivStingFriend44, friendList[3].userImg)
-                            }
-
-                            // 외출 임박한 친구가 5명이라면
-                            5 -> {
-                                binding.cLayoutStingFriends5.visibility = View.VISIBLE
-                                setProfileImg(binding.ivStingFriend51, friendList[0].userImg)
-                                setProfileImg(binding.ivStingFriend52, friendList[1].userImg)
-                                setProfileImg(binding.ivStingFriend53, friendList[2].userImg)
-                                setProfileImg(binding.ivStingFriend54, friendList[3].userImg)
-                                setProfileImg(binding.ivStingFriend55, friendList[4].userImg)
-                            }
+                        // 외출 임박한 친구가 5명이라면
+                        5 -> {
+                            binding.cLayoutStingFriends5.visibility = View.VISIBLE
+                            setProfileImg(binding.ivStingFriend51, friendList[0].userImg)
+                            setProfileImg(binding.ivStingFriend52, friendList[1].userImg)
+                            setProfileImg(binding.ivStingFriend53, friendList[2].userImg)
+                            setProfileImg(binding.ivStingFriend54, friendList[3].userImg)
+                            setProfileImg(binding.ivStingFriend55, friendList[4].userImg)
                         }
                     }
 
@@ -147,7 +145,14 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
     // 외출 30분 전 친구 리스트 조회 실패
     override fun onGetFriendsFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            404 -> {
+
+            }
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+        }
     }
 
     // 콕콕 찌르기 API 연결
