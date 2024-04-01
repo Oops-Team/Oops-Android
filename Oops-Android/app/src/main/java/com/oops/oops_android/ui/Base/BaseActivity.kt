@@ -99,6 +99,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
             // 토큰 가져오기를 실패했을 경우
             if (!task.isSuccessful) {
                 Log.w("BaseActivity", "Fetching FCM registration token failed", task.exception)
+                connectOopsAPI(null)
                 return@OnCompleteListener
             }
 

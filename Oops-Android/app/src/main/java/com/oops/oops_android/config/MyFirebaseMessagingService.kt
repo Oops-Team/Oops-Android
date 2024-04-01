@@ -77,7 +77,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val channelName = "Oops"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_splash)
             .setContentTitle(title)
             .setContentText(body)
             .setContentTitle(URLDecoder.decode(title, "UTF-8"))

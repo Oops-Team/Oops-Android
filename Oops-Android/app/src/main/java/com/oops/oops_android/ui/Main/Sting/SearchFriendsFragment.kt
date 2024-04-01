@@ -30,7 +30,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
 
     override fun initViewCreated() {
         // 툴 바 제목 설정
-        binding.searchFriendsToolbarSub.tvSubToolbarTitle.text = getString(R.string.sting_friends)
+        binding.searchFriendsToolbarSub.tvSubToolbarTitle.text = "친구 목록 검색"
     }
 
     override fun initAfterBinding() {
