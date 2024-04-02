@@ -72,7 +72,7 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Sting Friends", name.toString())
+                    commonView.onCommonSuccess(resp.status, "Sting Friends", name.name)
                 }
                 // 실패
                 else {
