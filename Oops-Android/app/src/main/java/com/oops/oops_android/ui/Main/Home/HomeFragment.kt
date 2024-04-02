@@ -490,6 +490,7 @@ class HomeFragment:
                         val jsonObject = JSONObject(data.toString())
 
                         // inventoryList data
+                        inventoryList.clear()
                         val tempInventoryList: String? = jsonObject.getString("inventoryList")
                         val inventoryJsonArray = JSONArray(tempInventoryList)
                         for (i in 0 until inventoryJsonArray.length()) {

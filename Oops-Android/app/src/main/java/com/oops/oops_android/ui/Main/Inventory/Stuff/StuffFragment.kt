@@ -102,6 +102,7 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
                     for (i in 0 until inventoryList.size) {
                         if (inventoryList[i].inventoryId == homeInventoryItem.inventoryId) {
                             inventoryList[i].isInventoryUsed = true
+                            break
                         }
                     }
 

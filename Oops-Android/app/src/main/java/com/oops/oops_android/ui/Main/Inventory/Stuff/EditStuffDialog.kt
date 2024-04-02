@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.DialogEditStuffBinding
@@ -35,14 +36,51 @@ class EditStuffDialog(
 
         // 현재 선택 중인 인벤토리 정보
         try {
-            binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
-            setInventoryItem(binding.ivDialogEditStuffInventory1)
 
-            binding.tvDialogEditStuffInventory2.text = inventoryList[1].inventoryName
-            setInventoryItem(binding.ivDialogEditStuffInventory2)
+            when (inventoryList.size) {
+                1 -> {
+                    binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory1,
+                        inventoryList[0].inventoryIconIdx
+                    )
+                }
+                2 -> {
+                    binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory1,
+                        inventoryList[0].inventoryIconIdx
+                    )
 
-            binding.tvDialogEditStuffInventory3.text = inventoryList[2].inventoryName
-            setInventoryItem(binding.ivDialogEditStuffInventory3)
+                    binding.tvDialogEditStuffInventory2.text = inventoryList[1].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory2,
+                        inventoryList[1].inventoryIconIdx
+                    )
+                    binding.lLayoutDialogEditStuffInventory2.visibility = View.VISIBLE
+                }
+                3 -> {
+                    binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory1,
+                        inventoryList[0].inventoryIconIdx
+                    )
+
+                    binding.tvDialogEditStuffInventory2.text = inventoryList[1].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory2,
+                        inventoryList[1].inventoryIconIdx
+                    )
+                    binding.lLayoutDialogEditStuffInventory2.visibility = View.VISIBLE
+
+                    binding.tvDialogEditStuffInventory3.text = inventoryList[2].inventoryName
+                    setInventoryItem(
+                        binding.ivDialogEditStuffInventory3,
+                        inventoryList[2].inventoryIconIdx
+                    )
+                    binding.lLayoutDialogEditStuffInventory3.visibility = View.VISIBLE
+                }
+            }
 
         } catch (e: Exception) {
             Log.d("EditStuffDialog", "인벤토리 파싱 오류! 오류나도 괜찮음")
@@ -68,16 +106,13 @@ class EditStuffDialog(
     }
 
     // 인벤토리 아이템 넣는 로직
-    private fun setInventoryItem(imageView: ImageView) {
-        for (i in 0 until inventoryList.size) {
-            when (inventoryList[i].inventoryIconIdx) {
-                1 -> imageView.setImageResource(R.drawable.ic_time_inventory_20)
-                2 -> imageView.setImageResource(R.drawable.ic_run_inventory_20)
-                3 -> imageView.setImageResource(R.drawable.ic_wallet_inventory_25)
-                4 -> imageView.setImageResource(R.drawable.ic_computer_inventory_25)
-                5 -> imageView.setImageResource(R.drawable.ic_wheel_inventory_21)
-            }
-            break
+    private fun setInventoryItem(imageView: ImageView, inventoryIconIdx: Int) {
+        when (inventoryIconIdx) {
+            1 -> imageView.setImageResource(R.drawable.ic_time_inventory_20)
+            2 -> imageView.setImageResource(R.drawable.ic_run_inventory_20)
+            3 -> imageView.setImageResource(R.drawable.ic_wallet_inventory_25)
+            4 -> imageView.setImageResource(R.drawable.ic_computer_inventory_25)
+            5 -> imageView.setImageResource(R.drawable.ic_wheel_inventory_21)
         }
     }
 
