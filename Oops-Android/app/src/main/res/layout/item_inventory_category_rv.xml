@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         style="@style/H3"
-        android:text="말랑강아지"
         android:textColor="#B3FFFFFF"
         android:textAlignment="center">
     </TextView>

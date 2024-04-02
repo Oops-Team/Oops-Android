@@ -9,7 +9,9 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
+import com.navercorp.nid.NaverIdLoginSDK
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
@@ -56,12 +58,18 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
         // 로그아웃을 클릭한 경우
         binding.tvMyPageLogout.setOnClickListener {
             clearToken()
+            val userDB = AppDatabase.getUserDB()!! // room db의 user db
+            val loginId = userDB.userDao().getLoginId()
+            if (loginId == "naver") {
+                NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
+            }
 
             // 로그인 화면으로 이동
             showToast("로그아웃했습니다")
             requireActivity().let {
                 val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = FLAG_ACTIVITY_CLEAR_TOP
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
@@ -95,13 +103,13 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                     myPageItem = MyPageItem(loginType, userEmail, userName, isPublic)
 
                     // 프로필 사진
-                    /*val userImgUrl = jsonObject.getString("userImgUrl") ?: R.drawable.ic_friends_profile_default_50
+                    val userImgUrl = jsonObject.getString("userImgURI")
                     Glide.with(requireContext())
                         .load(userImgUrl)
                         .skipMemoryCache(true)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .error(R.color.White)
-                        .into(binding.ivMyPageProfile)*/
+                        .error(R.drawable.ic_friends_profile_default_50)
+                        .into(binding.ivMyPageProfile)
 
                     // 공지
                     val comment = jsonObject.getString("comment")
@@ -109,16 +117,22 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                         // 공지성 멘트라면
                         1 -> {
                             binding.lLayoutMyPageCommentNotice.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentTip.visibility = View.GONE
+                            binding.lLayoutMyPageCommentDefault.visibility = View.GONE
                             binding.tvMyPageCommentNotice.text = comment
                         }
                         // tip성 멘트라면
                         2 -> {
                             binding.lLayoutMyPageCommentTip.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentDefault.visibility = View.GONE
+                            binding.lLayoutMyPageCommentNotice.visibility = View.GONE
                             binding.tvMyPageCommentTip.text = comment
                         }
                         // 일반 멘트라면
                         3 -> {
                             binding.lLayoutMyPageCommentDefault.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentNotice.visibility = View.GONE
+                            binding.lLayoutMyPageCommentTip.visibility = View.GONE
                             binding.tvMyPageCommentDefault.text = comment
                         }
                     }
@@ -135,5 +149,4 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
     override fun onGetMyPageFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }
-
 }

@@ -103,8 +103,9 @@ class CreateInventoryFragment:
         binding.btnCreateInventoryStuffEdit.setOnClickListener {
             // 소지품 추가 화면으로 이동하기
             val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
-                "Inventory",
-                null
+                "Inventory Edit",
+                null,
+                inventoryItem.inventoryIdx
             )
             findNavController().navigate(actionToStuffAdd)
         }
@@ -128,10 +129,6 @@ class CreateInventoryFragment:
                 override fun onClicked() {
                     // 인벤토리 삭제 API 연동
                     deleteInventory(inventoryItem.inventoryIdx)
-
-                    // 삭제 완료 팝업 띄우기
-                    val deleteInventoryAgreeDialog = InventoryDeleteAgreeDialog(requireContext())
-                    deleteInventoryAgreeDialog.showInventoryDeleteAgreeDialog()
                 }
             })
         }
@@ -497,8 +494,9 @@ class CreateInventoryFragment:
             "Create Inventory" -> {
                 // 소지품 추가 화면으로 이동하기
                 val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
-                    "Inventory",
-                    null
+                    "Inventory Add",
+                    null,
+                    data.toString().toDouble().toLong()
                 )
                 findNavController().navigate(actionToStuffAdd)
             }
@@ -507,6 +505,11 @@ class CreateInventoryFragment:
                 // 인벤토리 수정 완료 팝업 띄우기
                 val modifyInventoryDialog = InventoryModifyDialog(requireContext())
                 modifyInventoryDialog.showInventoryModifyDialog()
+                modifyInventoryDialog.setOnClickedListener(object : InventoryModifyDialog.InventoryModifyBtnClickListener {
+                    override fun onClicked() {
+                        // 확인 버튼 클릭
+                    }
+                })
 
                 // 인벤토리 리스트에 변경된 데이터 적용하기
                 for (i in 0 until inventoryList.size) {
@@ -526,18 +529,25 @@ class CreateInventoryFragment:
             }
             // 인벤토리 삭제 성공
             "Delete Inventory" -> {
-                // 인벤토리 화면으로 이동
-                val actionToInventory: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToInventoryFrm(
-                    "InventoryDelete",
-                    CategoryItemUI(
-                        inventoryItem.inventoryIdx,
-                        inventoryItem.inventoryIconIdx,
-                        binding.edtCreateInventoryName.text.toString(),
-                        true,
-                        tagList
-                    )
-                )
-                findNavController().navigate(actionToInventory)
+                // 삭제 완료 팝업 띄우기
+                val deleteInventoryAgreeDialog = InventoryDeleteAgreeDialog(requireContext())
+                deleteInventoryAgreeDialog.showInventoryDeleteAgreeDialog()
+                deleteInventoryAgreeDialog.setOnClickedListener(object : InventoryDeleteAgreeDialog.InventoryDeleteAgreeBtnClickListener {
+                    override fun onClicked() {
+                        // 인벤토리 화면으로 이동
+                        val actionToInventory: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToInventoryFrm(
+                            "InventoryDelete",
+                            CategoryItemUI(
+                                inventoryItem.inventoryIdx,
+                                inventoryItem.inventoryIconIdx,
+                                binding.edtCreateInventoryName.text.toString(),
+                                true,
+                                tagList
+                            )
+                        )
+                        findNavController().navigate(actionToInventory)
+                    }
+                })
             }
         }
     }

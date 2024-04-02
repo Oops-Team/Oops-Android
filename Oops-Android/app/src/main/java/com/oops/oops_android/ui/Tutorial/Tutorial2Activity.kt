@@ -20,7 +20,7 @@ class Tutorial2Activity: BaseActivity<ActivityTutorial2Binding>(ActivityTutorial
     override fun beforeSetContentView() {
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     override fun initAfterBinding() {

@@ -19,6 +19,7 @@ interface AuthInterface {
     ): Call<CommonResponse>
 
     // 카카오톡 & 구글 로그인
+    @POST("/user/login/{loginId}")
     fun serverLogin(
         @Path("loginId") loginId: String,
         @Body user: ServerUserModel

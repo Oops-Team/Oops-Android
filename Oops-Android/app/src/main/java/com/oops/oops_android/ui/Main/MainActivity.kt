@@ -15,7 +15,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::infla
     override fun beforeSetContentView() {
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     override fun initAfterBinding() {

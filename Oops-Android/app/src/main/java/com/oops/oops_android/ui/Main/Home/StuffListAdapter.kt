@@ -42,14 +42,22 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
         notifyItemChanged(stuffList.size)
     }
 
-    // 소지품 삭제
-    fun deleteStuffList(position: Int) {
-        stuffList.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
     // 소지품 이름 정보 가져오기
     fun getStuffName(position: Int): String {
         return stuffList[position].stuffName
+    }
+
+    // 소지품 내보내기
+    fun getStuff(position: Int): StuffItem = stuffList[position]
+
+    // 전체 소지품 목록 내보내기
+    fun getStuffList(): ArrayList<StuffItem> = stuffList
+
+    // 소지품 삭제
+    fun deleteStuff(item: StuffItem) {
+        val index = stuffList.indexOf(item)
+        stuffList.removeAt(index)
+        notifyItemRemoved(index)
+        notifyItemRangeRemoved(index, stuffList.size - index)
     }
 }

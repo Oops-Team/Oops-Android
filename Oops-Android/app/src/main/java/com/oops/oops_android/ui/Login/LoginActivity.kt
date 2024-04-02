@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -18,7 +16,9 @@ import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
+import com.oops.oops_android.data.remote.Auth.Api.SignUpView
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
+import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivityLoginBinding
 import com.oops.oops_android.ui.Base.BaseActivity
@@ -34,7 +34,7 @@ import org.json.JSONObject
 import java.lang.Exception
 
 /* 로그인 화면(최초 진입 화면) */
-class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), CommonView {
+class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), CommonView, SignUpView {
 
     private var isPwdMask: Boolean = false // 비밀번호 mask on/off 변수
     private var isEmailValid: Boolean = false // 이메일 유효성 검사
@@ -102,7 +102,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.btnLoginConfirm.setOnClickListener {
             if (isEmailValid && isPwdValid) {
                 // FCM 토큰 가져오기 및 Oops 회원가입 API 연동
-                getFCMToken()
+                getFCMToken("oops")
             }
         }
 
@@ -153,17 +153,75 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     }
 
     // FCM 토큰 가져오기 및 Oops 로그인 API 연결
-    override fun connectOopsAPI(token: String?) {
-        val authService = AuthService()
-        authService.setCommonView(this)
-        authService.oopsLogin(
-            "oops",
-            OopsUserModel(
-                binding.edtLoginEmail.text.toString(),
-                binding.edtLoginPwd.text.toString(),
-                token
-            )
-        )
+    override fun connectOopsAPI(token: String?, loginId: String?) {
+        try {
+            when (loginId) {
+                // oops 로그인 이라면
+                "oops" -> {
+                    val authService = AuthService()
+                    authService.setCommonView(this)
+                    authService.oopsLogin(
+                        loginId,
+                        OopsUserModel(
+                            binding.edtLoginEmail.text.toString(),
+                            binding.edtLoginPwd.text.toString(),
+                            null,
+                            token
+                        )
+                    )
+                }
+                // 네이버 로그인 이라면
+                "naver" -> {
+                    // 네이버 이메일 가져오기
+                    val oAuthLoginCallback = object : OAuthLoginCallback {
+                        // 인증 성공
+                        override fun onSuccess() {
+                            // 네이버api에서 프로필 정보 가져오기
+                            NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                                // 호출 성공
+                                override fun onSuccess(result: NidProfileResponse) {
+                                    val authService = AuthService()
+                                    authService.setSignUpView(this@LoginActivity)
+                                    authService.serverLogin(
+                                        loginId,
+                                        ServerUserModel(
+                                            result.profile?.email.toString(), // 이메일
+                                            null,
+                                            token
+                                        )
+                                    )
+                                }
+
+                                // 호출 실패
+                                override fun onFailure(httpStatus: Int, message: String) {
+                                }
+
+                                // 호출 오류
+                                override fun onError(errorCode: Int, message: String) {
+                                }
+                            })
+                        }
+
+                        // 인증 실패
+                        override fun onFailure(httpStatus: Int, message: String) {
+                            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                            Log.e("LoginActivity", "errorCode : $errorCode errorDescription: $errorDescription")
+                            showToast(getString(R.string.toast_login_naver_failure))
+                        }
+
+                        // 인증 오류
+                        override fun onError(errorCode: Int, message: String) {
+                            onFailure(errorCode, message)
+                        }
+                    }
+
+                    NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("LoginActivity", "로그인 오류")
+        }
     }
 
     // Oops 로그인 API 연결 성공
@@ -179,6 +237,16 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     val accessToken: String = jsonObject.getString("accessToken").toString()
                     saveToken(accessToken)
 
+                    // 사용자 정보 저장
+                    val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                    userDB.userDao().deleteAllUser()
+                    userDB.userDao().insertUser(
+                        User(
+                            "oops",
+                            getNickname()
+                        )
+                    )
+
                     // 홈 화면으로 이동
                     startActivityWithClear(MainActivity::class.java)
 
@@ -189,7 +257,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             }
         }
     }
-
 
     override fun onCommonFailure(status: Int, message: String) {
         when (status) {
@@ -216,20 +283,19 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         val userDB = AppDatabase.getUserDB()!! // room db의 user db
         val loginId = userDB.userDao().getLoginId()
 
-        // 재로그인이라면
-        if (loginId == "naver") {
-            // 홈 화면으로 이동
-            startActivityWithClear(MainActivity::class.java)
-        }
-        // 신규 가입이라면
-        else {
-            val oAuthLoginCallback = object : OAuthLoginCallback {
-                // 인증 성공
-                override fun onSuccess() {
-                    // 네이버api에서 프로필 정보 가져오기
-                    NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                        // 호출 성공
-                        override fun onSuccess(result: NidProfileResponse) {
+        val oAuthLoginCallback = object : OAuthLoginCallback {
+            // 인증 성공
+            override fun onSuccess() {
+                // 네이버api에서 프로필 정보 가져오기
+                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                    // 호출 성공
+                    override fun onSuccess(result: NidProfileResponse) {
+                        // 재로그인 이라면
+                        if (loginId == "naver") {
+                            getFCMToken("naver")
+                        }
+                        // 회원가입이라면
+                        else {
                             // 사용자 정보 저장
                             userDB.userDao().deleteAllUser()
                             userDB.userDao().insertUser(
@@ -247,32 +313,61 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             startActivity(intent)
                         }
+                    }
 
-                        // 호출 실패
-                        override fun onFailure(httpStatus: Int, message: String) {
-                        }
+                    // 호출 실패
+                    override fun onFailure(httpStatus: Int, message: String) {
+                    }
 
-                        // 호출 오류
-                        override fun onError(errorCode: Int, message: String) {
-                        }
-                    })
-                }
-
-                // 인증 실패
-                override fun onFailure(httpStatus: Int, message: String) {
-                    val errorCode = NaverIdLoginSDK.getLastErrorCode().code
-                    val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-                    Log.e("LoginActivity", "errorCode : $errorCode errorDescription: $errorDescription")
-                    showToast(getString(R.string.toast_login_naver_failure))
-                }
-
-                // 인증 오류
-                override fun onError(errorCode: Int, message: String) {
-                    onFailure(errorCode, message)
-                }
+                    // 호출 오류
+                    override fun onError(errorCode: Int, message: String) {
+                    }
+                })
             }
 
-            NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+            // 인증 실패
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Log.e("LoginActivity", "errorCode : $errorCode errorDescription: $errorDescription")
+                showToast(getString(R.string.toast_login_naver_failure))
+            }
+
+            // 인증 오류
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
         }
+
+        NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+    }
+
+    // 네이버, 구글 로그인 성공
+    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
+        when (status) {
+            // 성공
+            200 -> {
+                try {
+                    // json 파싱
+                    val jsonObject = JSONObject(data.toString())
+
+                    // accessToken 저장
+                    val accessToken: String = jsonObject.getString("accessToken").toString()
+                    saveToken(accessToken)
+
+                    // 홈 화면으로 이동
+                    startActivityWithClear(MainActivity::class.java)
+
+                } catch (e: JSONException) {
+                    Log.e("LoginActivity - Server Login", e.stackTraceToString())
+                    showToast(getString(R.string.toast_server_error))
+                }
+            }
+        }
+    }
+
+    // 네이버, 구글 로그인 실패
+    override fun onSignUpFailure(status: Int, message: String) {
+        showToast(resources.getString(R.string.toast_server_error))
     }
 }

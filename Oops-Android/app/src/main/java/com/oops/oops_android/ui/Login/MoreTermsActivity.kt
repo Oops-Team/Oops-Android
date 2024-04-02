@@ -9,7 +9,7 @@ class MoreTermsActivity: BaseActivity<ActivityMoreTermsBinding>(ActivityMoreTerm
     override fun beforeSetContentView() {
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     override fun initAfterBinding() {

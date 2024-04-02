@@ -11,7 +11,7 @@ class FindAccountActivity: BaseActivity<ActivityFindAccountBinding>(ActivityFind
     override fun beforeSetContentView() {
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     override fun initAfterBinding() {

@@ -47,5 +47,6 @@ class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFrien
     fun removeFriend(position: Int) {
         newFriendsList.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeRemoved(position, newFriendsList.size - position)
     }
 }

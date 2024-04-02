@@ -10,6 +10,7 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
@@ -19,6 +20,7 @@ import com.oops.oops_android.databinding.FragmentSearchFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.Random
 
 /* 사용자 목록 검색 화면 */
 class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(FragmentSearchFriendsBinding::inflate), UsersView, CommonView {
@@ -30,7 +32,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
 
     override fun initViewCreated() {
         // 툴 바 제목 설정
-        binding.searchFriendsToolbarSub.tvSubToolbarTitle.text = getString(R.string.sting_friends)
+        binding.searchFriendsToolbarSub.tvSubToolbarTitle.text = "친구 목록 검색"
     }
 
     override fun initAfterBinding() {
@@ -202,7 +204,12 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
     private fun stingFriend(name: String) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.stingFriend(StingFriendModel(name))
+        val userDB = AppDatabase.getUserDB()!!
+        val userName = userDB.userDao().getUser().name
+
+        val randomSting = listOf("$userName 님이 콕콕 찔렀어요!", "$userName 님이 외출 준비 할 시간이래요", "콕콕! 누군가가 $name 님을 찔렀어요")
+        val randomStingIndex = Random().nextInt(randomSting.size)
+        stingService.stingFriend(StingFriendModel(name, randomSting[randomStingIndex]))
         getHideKeyboard(binding.root) // 키보드 숨기기
     }
 

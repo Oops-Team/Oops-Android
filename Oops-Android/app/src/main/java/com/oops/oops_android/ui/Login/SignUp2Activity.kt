@@ -1,14 +1,9 @@
 package com.oops.oops_android.ui.Login
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -234,7 +229,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // Oops 회원가입 API 연동
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
         val authService = AuthService()
         authService.setSignUpView(this@SignUp2Activity)
         Log.d("SignUp2Activity", "FCM 토큰 불러오기: " + token.toString())
@@ -258,7 +253,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         // 안드로이드12 이하라면
         else {
             // FCM 토큰 발급 및 회원가입 API 연결
-            getFCMToken()
+            getFCMToken("oops")
         }
     }
 

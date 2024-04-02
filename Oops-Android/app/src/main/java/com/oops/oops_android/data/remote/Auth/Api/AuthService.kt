@@ -3,6 +3,7 @@ package com.oops.oops_android.data.remote.Auth.Api
 import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
+import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import org.json.JSONObject
@@ -137,7 +138,8 @@ class AuthService {
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
                     // FCM 토큰이 여부 확인
-                    var isGetToken = user.fcmToken != null
+                    val isGetToken = user.fcmToken != null
+
                     signUpView.onSignUpSuccess(resp.status, resp.message, resp.data, isGetToken)
                 }
                 // 실패
@@ -152,6 +154,39 @@ class AuthService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("AUTH - Oops SignUp / FAILURE", t.message.toString())
+                signUpView.onSignUpFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 카카오톡, 구글 회원가입
+    fun serverLogin(loginId: String, user: ServerUserModel) {
+        val authService = retrofit.create(AuthInterface::class.java)
+        authService.serverLogin(loginId, user).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    // FCM 토큰이 여부 확인
+                    val isGetToken = user.fcmToken != null
+
+                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data, isGetToken)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "")
+                    Log.e("AUTH - Server SignUp / ERROR", messageObject.toString())
+                    signUpView.onSignUpFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("AUTH - Server SignUp / FAILURE", t.message.toString())
                 signUpView.onSignUpFailure(-1, "") // 실패
             }
         })

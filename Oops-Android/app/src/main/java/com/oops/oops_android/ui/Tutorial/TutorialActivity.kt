@@ -18,7 +18,7 @@ class TutorialActivity: BaseActivity<ActivityTutorialBinding>(ActivityTutorialBi
     override fun beforeSetContentView() {
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     @SuppressLint("SetTextI18n")

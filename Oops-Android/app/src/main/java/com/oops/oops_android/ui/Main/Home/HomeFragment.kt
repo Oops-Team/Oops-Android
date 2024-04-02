@@ -216,10 +216,15 @@ class HomeFragment:
 
             dialog.setOnClickedListener(object : EditDialog.ButtonClickListener {
                 override fun onClicked(isStuffEdit: Boolean) {
-                    // TODO 소지품 수정 or 할일 수정
                     // 소지품 수정 버튼을 눌렀다면
                     if (isStuffEdit) {
                         // 소지품 수정 화면으로 이동
+                        val actionToStuff: NavDirections = HomeFragmentDirections.actionHomeFrmToStuffFrm(
+                            selectDate.toString(),
+                            inventoryList.toTypedArray(),
+                            stuffAdapter?.getStuffList()!!.toTypedArray()
+                        )
+                        findNavController().navigate(actionToStuff)
                     }
                     // 할일 수정을 눌렀다면
                     else {
@@ -260,7 +265,7 @@ class HomeFragment:
         // 소지품 클릭 이벤트
         stuffAdapter?.onItemClickListener = { position ->
             // 소지품 1개 삭제(챙김 완료) API 연결
-            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), position)
+            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), stuffAdapter?.getStuff(position))
         }
     }
 
@@ -485,6 +490,7 @@ class HomeFragment:
                         val jsonObject = JSONObject(data.toString())
 
                         // inventoryList data
+                        inventoryList.clear()
                         val tempInventoryList: String? = jsonObject.getString("inventoryList")
                         val inventoryJsonArray = JSONArray(tempInventoryList)
                         for (i in 0 until inventoryJsonArray.length()) {
@@ -544,8 +550,8 @@ class HomeFragment:
                             val stuffImgUrl = subJsonObject.getString("stuffImgUrl")
                             val stuffName = subJsonObject.getString("stuffName")
 
-                            // 소지품 어댑어테 소지품 데이터 저장
-                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName))
+                            // 소지품 어댑터에 소지품 데이터 저장
+                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName, todoDate.toString()))
                         }
 
                         /* 데이터를 바탕으로 뷰 그리기 */
@@ -571,7 +577,6 @@ class HomeFragment:
                         }
 
                         // 오늘 날짜의 일정 데이터 리스트 저장
-                        Log.d("날짜 데이터", todoDate.toString() + " - " + todoAdapter!!.getAllTodoList().toString())
                         todoListItem = TodoListItem(
                             todoItem = todoAdapter!!.getAllTodoList(),
                             date = todoDate,
@@ -675,10 +680,10 @@ class HomeFragment:
     }
 
     // 소지품 1개 삭제(소지품 챙기기 완료)
-    private fun deleteStuff(date: LocalDate, stuffName: String, position: Int) {
+    private fun deleteStuff(date: LocalDate, stuffName: String, stuff: StuffItem?) {
         val todoService = TodoService()
         todoService.setCommonView(this)
-        todoService.deleteStuff(StuffDeleteModel(date, stuffName), position)
+        todoService.deleteStuff(StuffDeleteModel(date.toString(), stuffName), stuff)
     }
 
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
@@ -707,7 +712,8 @@ class HomeFragment:
             }
             "Stuff Delete" -> {
                 // 소지품 1개 삭제 성공
-                stuffAdapter?.deleteStuffList(data as Int) // 리스트에서 삭제
+                val stuffItem = data as StuffItem
+                stuffAdapter?.deleteStuff(stuffItem)
 
                 // 소지품을 다 챙겼다면, 뷰 띄우기
                 if (stuffAdapter?.itemCount == 0) {

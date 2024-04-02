@@ -5,6 +5,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
@@ -14,6 +15,7 @@ import com.oops.oops_android.databinding.FragmentFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONArray
 import org.json.JSONException
+import java.util.Random
 
 class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBinding::inflate), StingView, CommonView {
 
@@ -85,7 +87,7 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         // 콕콕 찌르기 버튼을 클릭한 경우
         oldFriendsAdapter?.onOldFriendsItemClickListener2 = { position ->
             // 콕콕 찌르기 API 연결
-            stingFriend(newFriendsAdapter?.getNewFriend(position)!!.userName)
+            stingFriend(oldFriendsAdapter?.getOldFriend(position)!!.userName)
         }
     }
 
@@ -158,7 +160,12 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
     private fun stingFriend(name: String) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.stingFriend(StingFriendModel(name))
+        val userDB = AppDatabase.getUserDB()!!
+        val userName = userDB.userDao().getUser().name
+
+        val randomSting = listOf("$userName 님이 콕콕 찔렀어요!", "$userName 님이 외출 준비 할 시간이래요", "콕콕! 누군가가 $name 님을 찔렀어요")
+        val randomStingIndex = Random().nextInt(randomSting.size)
+        stingService.stingFriend(StingFriendModel(name, randomSting[randomStingIndex]))
     }
 
     // 친구 신청 수락 성공

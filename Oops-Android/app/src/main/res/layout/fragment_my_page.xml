@@ -40,7 +40,6 @@
                 android:id="@+id/tv_myPage_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="웁스팀입니다"
                 style="@style/H3"
                 android:textColor="@color/Black_33"
                 android:layout_gravity="center"

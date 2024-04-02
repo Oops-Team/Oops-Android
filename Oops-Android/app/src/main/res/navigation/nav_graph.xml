@@ -25,6 +25,37 @@
         <action
             android:id="@+id/action_homeFrm_to_todoFrm"
             app:destination="@id/todoFragment"/>
+        <action
+            android:id="@+id/action_homeFrm_to_stuffFrm"
+            app:destination="@id/stuffFragment"/>
+    </fragment>
+
+    <!-- 홈 -> 소지품 수정 화면 -->
+    <fragment
+        android:id="@+id/stuffFragment"
+        android:name="com.oops.oops_android.ui.Main.Inventory.Stuff.StuffFragment"
+        android:label="frm_stuff"
+        tools:layout="@layout/fragment_stuff">
+        <action
+            android:id="@+id/action_stuffFrm_to_homeFrm"
+            app:destination="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_stuffFrm_to_stuffAddFrm"
+            app:destination="@id/stuffAddFragment"/>
+        <!-- 일정 날짜 -->
+        <argument
+            android:name="todoDate"
+            app:argType="string"/>
+        <!-- 전체 인벤토리 리스트 -->
+        <argument
+            android:name="homeInventoryAllList"
+            app:argType="com.oops.oops_android.ui.Main.Home.HomeInventoryItem[]"
+            app:nullable="true"/>
+        <!-- 해당 일정의 소지품 리스트 -->
+        <argument
+            android:name="stuffAllList"
+            app:argType="com.oops.oops_android.ui.Main.Home.StuffItem[]"
+            app:nullable="true"/>
     </fragment>
 
     <!-- 일정 화면 -->
@@ -117,11 +148,22 @@
             android:name="stuffDivision"
             app:argType="string"/>
 
-        <!-- 현재 선택 중인 소지품 리스트 -->
+        <!-- 일정 날짜 -->
         <argument
-            android:name="stuffList"
-            app:argType="com.oops.oops_android.ui.Main.Inventory.CategoryItemUI"
+            android:name="todoDate"
+            app:argType="string"
             app:nullable="true"/>
+
+        <!-- 선택중인 인벤토리 id -->
+        <argument
+            android:name="inventoryId"
+            app:argType="long"/>
+
+        <!-- 소지품 추가 -> 인벤토리 -->
+        <action
+            android:id="@+id/action_stuffAddFrm_to_inventoryFrm"
+            app:destination="@id/inventoryFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->

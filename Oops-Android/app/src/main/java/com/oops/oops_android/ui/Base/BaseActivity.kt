@@ -28,9 +28,6 @@ import com.oops.oops_android.databinding.SnackbarBgBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import com.oops.oops_android.data.remote.Auth.Api.AuthService
-import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
-import com.oops.oops_android.utils.getNickname
 
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T) : AppCompatActivity() {
     private var mBinding: T? = null
@@ -69,7 +66,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         }
         // 알림 수신 미동의 했다면
         else {
-            connectOopsAPI(null)
+            connectOopsAPI(null, null)
         }
     }
 
@@ -93,23 +90,24 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     }
 
     // 현재 등록된 토큰 가져오기 및 API 연결
-    fun getFCMToken() {
+    fun getFCMToken(loginId: String? = null) {
         // 현재 등록된 토큰 가져오기
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             // 토큰 가져오기를 실패했을 경우
             if (!task.isSuccessful) {
                 Log.w("BaseActivity", "Fetching FCM registration token failed", task.exception)
+                connectOopsAPI(null, loginId)
                 return@OnCompleteListener
             }
 
             // FCM 토큰 가져오기
             val token = task.result
-            connectOopsAPI(token)
+            connectOopsAPI(token, loginId)
         })
     }
 
     // 각 API 연동
-    protected abstract fun connectOopsAPI(token: String?)
+    protected abstract fun connectOopsAPI(token: String?, loginId: String?)
 
     protected abstract fun beforeSetContentView()
 
