@@ -18,6 +18,7 @@ import com.oops.oops_android.databinding.FragmentStingBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import org.json.JSONArray
 import org.json.JSONException
+import java.util.Random
 
 /* 콕콕 찌르기 화면 */
 class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::inflate), StingView, CommonView {
@@ -69,6 +70,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                     val jsonArray = JSONArray(data.toString())
 
                     // 친구 데이터
+                    friendList.clear()
                     for (i in 0 until jsonArray.length()) {
                         val subObject = jsonArray.getJSONObject(i)
                         val userIdx = subObject.getLong("userIdx")
@@ -162,7 +164,10 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
         stingService.setCommonView(this)
         val userDB = AppDatabase.getUserDB()!!
         val userName = userDB.userDao().getUser().name
-        stingService.stingFriend(StingFriendModel(name, "$userName 님이 콕콕 찔렀어요!"))
+
+        val randomSting = listOf("$userName 님이 콕콕 찔렀어요!", "$userName 님이 외출 준비 할 시간이래요", "콕콕! 누군가가 $name 님을 찔렀어요")
+        val randomStingIndex = Random().nextInt(randomSting.size)
+        stingService.stingFriend(StingFriendModel(name, randomSting[randomStingIndex]))
     }
 
     // 콕콕 찌르기 성공
