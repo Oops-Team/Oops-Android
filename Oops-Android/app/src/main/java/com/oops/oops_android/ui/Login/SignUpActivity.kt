@@ -10,6 +10,7 @@ import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Auth.Api.SignUpView
+import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
@@ -17,6 +18,8 @@ import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveNickname
+import com.oops.oops_android.utils.saveToken
+import org.json.JSONObject
 import java.lang.Exception
 
 /* 회원가입 - 닉네임 입력 화면 */
@@ -36,6 +39,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         try {
             loginId = intent.getStringExtra("LoginId")
             serverEmail = intent.getStringExtra("Email")
+            Log.d("네이버 로그인", loginId.toString())
         } catch (e: Exception) {
             Log.e("SignUpActivity - intent", e.stackTraceToString())
         }
@@ -132,7 +136,18 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, tempLoginId: String?) {
+        val authService = AuthService()
+        authService.setSignUpView(this)
+        Log.d("커넥트 네이버 토큰 없음,,", tempLoginId.toString())
+        authService.serverLogin(
+            loginId!!,
+            ServerUserModel(
+                serverEmail.toString(),
+                binding.edtSignUpNickname.text.toString(),
+                token
+            )
+        )
     }
 
     // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
@@ -152,9 +167,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // 안드로이드12 이하라면
                 else {
                     // FCM 토큰 발급 및 로그인 API 연결
-                    getFCMToken()
+                    getFCMToken("naver")
                 }
-
             }
         } catch (e: Exception) {
             Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
@@ -253,7 +267,14 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 userDB.userDao().deleteAllUser()
 
                 // spf 기존 값 업데이트
+                saveNickname(binding.edtSignUpNickname.text.toString())
 
+                // json 파싱
+                val jsonObject = JSONObject(data.toString())
+
+                // accessToken 저장
+                val accessToken: String = jsonObject.getString("accessToken").toString()
+                saveToken(accessToken)
 
                 // Room DB에 값 저장
                 userDB.userDao().insertUser(User(

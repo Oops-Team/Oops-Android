@@ -5,6 +5,9 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.oops.oops_android.ApplicationClass
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
@@ -169,6 +172,25 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 // 유저 데이터 삭제
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
                 userDB.userDao().deleteAllUser()
+
+                // 네이버 애플리케이션 연동 해제
+                val loginId = userDB.userDao().getLoginId()
+                if (loginId == "naver") {
+                    NidOAuthLogin().callDeleteTokenApi(object : OAuthLoginCallback {
+                        override fun onError(errorCode: Int, message: String) {
+                            onFailure(errorCode, message)
+                        }
+
+                        override fun onFailure(httpStatus: Int, message: String) {
+                            Log.d("Withdrawal2Fragment", "errorCode: ${NaverIdLoginSDK.getLastErrorCode().code}")
+                            Log.d("Withdrawal2Fragment", "errorDesc: ${NaverIdLoginSDK.getLastErrorDescription()}")
+                        }
+
+                        override fun onSuccess() {
+                            // 삭제 성공
+                        }
+                    })
+                }
 
                 showToast(resources.getString(R.string.toast_user_withdrawal))
 

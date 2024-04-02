@@ -1,8 +1,7 @@
 package com.oops.oops_android.ui.Splash
 
 import android.animation.ObjectAnimator
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.animation.doOnEnd
@@ -12,7 +11,6 @@ import com.oops.oops_android.databinding.ActivitySplashBinding
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Login.LoginActivity
-import com.oops.oops_android.utils.clearToken
 import com.oops.oops_android.utils.getToken
 
 /* 스플래시 화면 */
@@ -24,7 +22,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         splashScreen = installSplashScreen()
     }
 
-    override fun connectOopsAPI(token: String?) {
+    override fun connectOopsAPI(token: String?, loginId: String?) {
     }
 
     override fun initAfterBinding() {

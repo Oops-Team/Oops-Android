@@ -9,7 +9,9 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
+import com.navercorp.nid.NaverIdLoginSDK
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
@@ -56,6 +58,11 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
         // 로그아웃을 클릭한 경우
         binding.tvMyPageLogout.setOnClickListener {
             clearToken()
+            val userDB = AppDatabase.getUserDB()!! // room db의 user db
+            val loginId = userDB.userDao().getLoginId()
+            if (loginId == "naver") {
+                NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
+            }
 
             // 로그인 화면으로 이동
             showToast("로그아웃했습니다")
