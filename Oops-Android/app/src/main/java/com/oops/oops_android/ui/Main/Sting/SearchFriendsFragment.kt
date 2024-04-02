@@ -10,6 +10,7 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
@@ -202,7 +203,9 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
     private fun stingFriend(name: String) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.stingFriend(StingFriendModel(name))
+        val userDB = AppDatabase.getUserDB()!!
+        val userName = userDB.userDao().getUser().name
+        stingService.stingFriend(StingFriendModel(name, "$userName 님이 콕콕 찔렀어요!"))
         getHideKeyboard(binding.root) // 키보드 숨기기
     }
 

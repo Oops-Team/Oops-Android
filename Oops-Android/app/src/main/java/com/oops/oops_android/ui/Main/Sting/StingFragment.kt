@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
@@ -159,7 +160,9 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     private fun stingFriend(name: String) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        stingService.stingFriend(StingFriendModel(name))
+        val userDB = AppDatabase.getUserDB()!!
+        val userName = userDB.userDao().getUser().name
+        stingService.stingFriend(StingFriendModel(name, "$userName 님이 콕콕 찔렀어요!"))
     }
 
     // 콕콕 찌르기 성공

@@ -18,6 +18,7 @@
         android:id="@+id/iv_item_inventory_category_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_all_box_inventory_24"
         android:textColor="#B3FFFFFF"
         android:layout_gravity="start|center"/>
 

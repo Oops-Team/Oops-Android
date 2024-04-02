@@ -62,9 +62,9 @@ class StingService {
     }
 
     // 콕콕 찌르기
-    fun stingFriend(name: StingFriendModel) {
+    fun stingFriend(stingFriendModel: StingFriendModel) {
         val stingService = retrofit.create(StingInterface::class.java)
-        stingService.stingFriend(name).enqueue(object : Callback<CommonResponse>{
+        stingService.stingFriend(stingFriendModel).enqueue(object : Callback<CommonResponse>{
             override fun onResponse(
                 call: Call<CommonResponse>,
                 response: Response<CommonResponse>
@@ -72,7 +72,7 @@ class StingService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Sting Friends", name.name)
+                    commonView.onCommonSuccess(resp.status, "Sting Friends", stingFriendModel.name)
                 }
                 // 실패
                 else {
