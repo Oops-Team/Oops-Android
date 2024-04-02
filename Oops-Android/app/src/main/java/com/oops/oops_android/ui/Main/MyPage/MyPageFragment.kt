@@ -61,7 +61,8 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
             showToast("로그아웃했습니다")
             requireActivity().let {
                 val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = FLAG_ACTIVITY_CLEAR_TOP
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
             }
         }
@@ -109,16 +110,22 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                         // 공지성 멘트라면
                         1 -> {
                             binding.lLayoutMyPageCommentNotice.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentTip.visibility = View.GONE
+                            binding.lLayoutMyPageCommentDefault.visibility = View.GONE
                             binding.tvMyPageCommentNotice.text = comment
                         }
                         // tip성 멘트라면
                         2 -> {
                             binding.lLayoutMyPageCommentTip.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentDefault.visibility = View.GONE
+                            binding.lLayoutMyPageCommentNotice.visibility = View.GONE
                             binding.tvMyPageCommentTip.text = comment
                         }
                         // 일반 멘트라면
                         3 -> {
                             binding.lLayoutMyPageCommentDefault.visibility = View.VISIBLE
+                            binding.lLayoutMyPageCommentNotice.visibility = View.GONE
+                            binding.lLayoutMyPageCommentTip.visibility = View.GONE
                             binding.tvMyPageCommentDefault.text = comment
                         }
                     }
@@ -135,5 +142,4 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
     override fun onGetMyPageFailure(status: Int, message: String) {
         showToast(resources.getString(R.string.toast_server_error))
     }
-
 }
