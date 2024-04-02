@@ -3,7 +3,9 @@ package com.oops.oops_android.ui.Main.Inventory.Stuff
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
@@ -109,6 +111,16 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
             })
         }
 
+        // 소지품 추가하기 버튼 클릭 이벤트
+        binding.btnStuffAdd.setOnClickListener {
+            // 소지품 추가 화면으로 이동하기
+            val actionToStuffAdd: NavDirections = StuffFragmentDirections.actionStuffFrmToStuffAddFrm(
+                "Home",
+                selectDate.toString(),
+                -1
+            )
+            findNavController().navigate(actionToStuffAdd)
+        }
     }
 
     // 챙겨야 할 것 수정(소지품 삭제) API 연결

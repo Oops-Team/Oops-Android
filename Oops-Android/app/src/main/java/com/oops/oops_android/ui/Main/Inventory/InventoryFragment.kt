@@ -124,7 +124,8 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         binding.lLayoutInventoryStuffDefault.setOnClickListener {
             // 소지품 추가 화면으로 이동하기
             val actionToStuffAdd: NavDirections = InventoryFragmentDirections.actionInventoryFrmToStuffAddFrm(
-                "Inventory",
+                "Inventory Add",
+                null,
                 categoryAdapter.getSelectedCategoryItem()!!.inventoryIdx
             )
             findNavController().navigate(actionToStuffAdd)

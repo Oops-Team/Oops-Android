@@ -32,8 +32,7 @@ class StuffAddListViewHolder(val binding: ItemTutorialStuffBinding): RecyclerVie
         var deviceWidth = applicationContext().resources.displayMetrics.widthPixels // 가로
         deviceWidth = (deviceWidth - 32) / 3
         stuffImg.layoutParams.width = deviceWidth
-        Log.d("deviceWidth", stuffImg.layoutParams.width.toString())
-        stuffImg.layoutParams.height = (deviceWidth / 1.5).toInt()
+        //stuffImg.layoutParams.height = (deviceWidth / 1.5).toInt()
         stuffImg.requestLayout()
 
         // 선택한 소지품이라면

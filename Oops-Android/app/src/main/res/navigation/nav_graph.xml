@@ -148,6 +148,12 @@
             android:name="stuffDivision"
             app:argType="string"/>
 
+        <!-- 일정 날짜 -->
+        <argument
+            android:name="todoDate"
+            app:argType="string"
+            app:nullable="true"/>
+
         <!-- 선택중인 인벤토리 id -->
         <argument
             android:name="inventoryId"

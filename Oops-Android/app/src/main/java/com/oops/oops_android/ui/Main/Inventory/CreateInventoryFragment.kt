@@ -104,6 +104,7 @@ class CreateInventoryFragment:
             // 소지품 추가 화면으로 이동하기
             val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
                 "Inventory Edit",
+                null,
                 inventoryItem.inventoryIdx
             )
             findNavController().navigate(actionToStuffAdd)
@@ -494,7 +495,8 @@ class CreateInventoryFragment:
                 // 소지품 추가 화면으로 이동하기
                 val actionToStuffAdd: NavDirections = CreateInventoryFragmentDirections.actionCreateInventoryFrmToStuffAddFrm(
                     "Inventory Add",
-                    data as Long
+                    null,
+                    data.toString().toDouble().toLong()
                 )
                 findNavController().navigate(actionToStuffAdd)
             }

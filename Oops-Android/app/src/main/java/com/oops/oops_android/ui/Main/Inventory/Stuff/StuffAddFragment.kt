@@ -22,6 +22,7 @@ import org.json.JSONArray
 /* 챙겨야 할 것 추가 & 물품 추가 화면 */
 class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBinding::inflate), StuffView, CommonView {
 
+    private lateinit var selectDate: String // 오늘 날짜
     private var inventoryId: Long = 0L // 인벤토리 id
     private var stuffList = ArrayList<StuffAddItem>() // 각 인벤토리 내의 소지품 리스트
     //private var allStuffList = ArrayList<StuffAddItem>() // 수정된 소지품 리스트
@@ -57,6 +58,8 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
             // 홈 화면에서 넘어 온 경우
             "Home" -> {
                 setToolbarTitle(binding.toolbarStuffAdd.tvSubToolbarTitle, "챙겨야 할 것")
+
+                selectDate = args.todoDate.toString()
                 screenDivision = 2
             }
         }
@@ -70,7 +73,12 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         }
 
         // 소지품 목록 조회 API 연결
-        getStuffList(inventoryId)
+        if (screenDivision == 0 || screenDivision == 1) {
+            getStuffList(null, inventoryId)
+        }
+        else {
+            getStuffList(selectDate, null)
+        }
 
         // 소지품 실시간 조회
         showStuffList()
@@ -216,10 +224,10 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
     }
 
     // 소지품 목록 조회 API 연결
-    private fun getStuffList(inventoryId: Long) {
+    private fun getStuffList(todoDate: String?, inventoryId: Long?) {
         val stuffService = StuffService()
         stuffService.setStuffView(this)
-        stuffService.getStuffList(StuffModel(null, inventoryId))
+        stuffService.getStuffList(StuffModel(todoDate, inventoryId))
     }
 
     // 소지품 목록 조회 성공

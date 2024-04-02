@@ -19,7 +19,7 @@ class InventoryStuffListViewHolder(val binding: ItemInventoryStuffBoxRvBinding):
             .load(item.stuffImgUrl)
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .error(R.drawable.stuff_usb_img) // fixme: 에러시 이미지 요청
+            .error(R.color.White)
             .into(stuffImg)
 
         stuffName.text = item.stuffName
