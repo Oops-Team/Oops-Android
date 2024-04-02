@@ -100,6 +100,9 @@
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/Main_500"/>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_noti_logo" />
         </service>
     </application>
 </manifest>

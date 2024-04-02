@@ -1,6 +1,5 @@
 package com.oops.oops_android.config
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,7 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.google.android.material.internal.ManufacturerUtils
+import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.oops.oops_android.R
@@ -79,9 +78,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val channelName = "Oops"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(getNotificationIcon())
             .setContentText(body)
             .setContentText(URLDecoder.decode(body, "UTF-8"))
+            .setColor(ContextCompat.getColor(this, R.color.Main_500))
+            .setSmallIcon(R.drawable.ic_noti_logo)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
@@ -97,15 +97,5 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         )
         notificationManager.createNotificationChannel(channel)
         notificationManager.notify(0, notificationBuilder.build())
-    }
-
-    // 삼성 핸드폰 유저를 위한 알림 아이콘 처리 함수
-    @SuppressLint("RestrictedApi")
-    private fun getNotificationIcon(): Int {
-        return if (ManufacturerUtils.isSamsungDevice()) {
-            R.drawable.ic_noti_samsung_logo
-        } else {
-            R.drawable.ic_noti_logo
-        }
     }
 }
