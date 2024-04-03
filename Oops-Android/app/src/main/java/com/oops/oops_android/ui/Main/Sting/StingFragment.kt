@@ -26,6 +26,32 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     // 외출 30분 전 친구 리스트
     private var friendList = ArrayList<FriendsItem>()
 
+    // 콕콕 찌르기 횟수 제한(10개)
+    // 친구 1명
+    private var count11: Int = 0
+
+    // 친구 2명
+    private var count21: Int = 0
+    private var count22: Int = 0
+
+    // 친구 3명
+    private var count31: Int = 0
+    private var count32: Int = 0
+    private var count33: Int = 0
+
+    // 친구 4명
+    private var count41: Int = 0
+    private var count42: Int = 0
+    private var count43: Int = 0
+    private var count44: Int = 0
+
+    // 친구 5명
+   private var count51: Int = 0
+   private var count52: Int = 0
+   private var count53: Int = 0
+   private var count54: Int = 0
+   private var count55: Int = 0
+
     override fun initViewCreated() {
         mainActivity?.hideBnv(false) // 나타내기
     }
@@ -38,20 +64,6 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
         binding.btnStingFriends.setOnClickListener {
             val actionToFriends : NavDirections = StingFragmentDirections.actionStingFrmToFriendsFrm()
             view?.findNavController()?.navigate(actionToFriends)
-        }
-
-        // 친구 프로필을 클릭한 경우
-        when (friendList.size) {
-            1 -> {
-                binding.ivStingFriend11.setOnClickListener {
-                    stingFriend(friendList[0].userName)
-                }
-            }
-            2 -> {
-                binding.ivStingFriend21.setOnClickListener {
-                    stingFriend(friendList[0].userName)
-                }
-            }
         }
     }
 
@@ -81,6 +93,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                     }
 
                     /* 뷰에 데이터 적용 */
+                    // 각 사용자마다 클릭 횟수 제한 10회
                     // 외출 임박한 친구가 1명이라면
                     when (friendList.size) {
                         1 -> {
@@ -88,7 +101,13 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend11, friendList[0].userImg)
 
                             binding.ivStingFriend11.setOnClickListener {
-                                stingFriend(friendList[0].userName)
+                                if (count11 <= 10) {
+                                    count11++
+                                    stingFriend(friendList[0].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
                             }
                         }
 
@@ -97,6 +116,26 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             binding.cLayoutStingFriends2.visibility = View.VISIBLE
                             setProfileImg(binding.ivStingFriend21, friendList[0].userImg)
                             setProfileImg(binding.ivStingFriend22, friendList[1].userImg)
+
+                            binding.ivStingFriend21.setOnClickListener {
+                                if (count21 <= 10) {
+                                    count21++
+                                    stingFriend(friendList[0].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend22.setOnClickListener {
+                                if (count22 <= 10) {
+                                    count22++
+                                    stingFriend(friendList[1].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
                         }
 
                         // 외출 임박한 친구가 3명이라면
@@ -105,6 +144,36 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend31, friendList[0].userImg)
                             setProfileImg(binding.ivStingFriend32, friendList[1].userImg)
                             setProfileImg(binding.ivStingFriend33, friendList[2].userImg)
+
+                            binding.ivStingFriend31.setOnClickListener {
+                                if (count31 <= 10) {
+                                    count31++
+                                    stingFriend(friendList[0].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend32.setOnClickListener {
+                                if (count32 <= 10) {
+                                    count32++
+                                    stingFriend(friendList[1].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend33.setOnClickListener {
+                                if (count33 <= 10) {
+                                    count33++
+                                    stingFriend(friendList[2].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
                         }
 
                         // 외출 임박한 친구가 4명이라면
@@ -114,6 +183,46 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend42, friendList[1].userImg)
                             setProfileImg(binding.ivStingFriend43, friendList[2].userImg)
                             setProfileImg(binding.ivStingFriend44, friendList[3].userImg)
+
+                            binding.ivStingFriend41.setOnClickListener {
+                                if (count41 <= 10) {
+                                    count41++
+                                    stingFriend(friendList[0].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend42.setOnClickListener {
+                                if (count42 <= 10) {
+                                    count42++
+                                    stingFriend(friendList[1].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend43.setOnClickListener {
+                                if (count43 <= 10) {
+                                    count43++
+                                    stingFriend(friendList[2].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend44.setOnClickListener {
+                                if (count44 <= 10) {
+                                    count44++
+                                    stingFriend(friendList[3].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
                         }
 
                         // 외출 임박한 친구가 5명이라면
@@ -124,6 +233,56 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend53, friendList[2].userImg)
                             setProfileImg(binding.ivStingFriend54, friendList[3].userImg)
                             setProfileImg(binding.ivStingFriend55, friendList[4].userImg)
+
+                            binding.ivStingFriend51.setOnClickListener {
+                                if (count51 <= 10) {
+                                    count51++
+                                    stingFriend(friendList[0].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend52.setOnClickListener {
+                                if (count52 <= 10) {
+                                    count52++
+                                    stingFriend(friendList[1].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend53.setOnClickListener {
+                                if (count53 <= 10) {
+                                    count53++
+                                    stingFriend(friendList[2].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend54.setOnClickListener {
+                                if (count54 <= 10) {
+                                    count54++
+                                    stingFriend(friendList[3].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
+
+                            binding.ivStingFriend55.setOnClickListener {
+                                if (count55 <= 10) {
+                                    count55++
+                                    stingFriend(friendList[4].userName)
+                                }
+                                else {
+                                    showCustomSnackBar(resources.getString(R.string.snackbar_sting_10))
+                                }
+                            }
                         }
                     }
 
