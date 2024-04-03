@@ -164,6 +164,12 @@
             android:id="@+id/action_stuffAddFrm_to_inventoryFrm"
             app:destination="@id/inventoryFragment"
             app:popUpToInclusive="false"/>
+
+        <!-- 소지품 추가 -> 홈 -->
+        <action
+            android:id="@+id/action_stuffAddFrm_to_homeFrm"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->

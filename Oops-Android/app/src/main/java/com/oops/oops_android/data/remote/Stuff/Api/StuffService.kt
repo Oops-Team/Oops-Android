@@ -8,6 +8,7 @@ import com.oops.oops_android.data.remote.Stuff.Model.InventoryChangeTodoModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffAddInventoryModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffDeleteHomeModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffModel
+import com.oops.oops_android.data.remote.Stuff.Model.StuffModifyHomeModel
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,7 +70,7 @@ class StuffService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Add Stuff", resp.data)
+                    commonView.onCommonSuccess(resp.status, "Inventory", resp.data)
                 }
                 else {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
@@ -98,7 +99,7 @@ class StuffService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Modify Stuff", resp.data)
+                    commonView.onCommonSuccess(resp.status, "Inventory", resp.data)
                 }
                 else {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
@@ -111,6 +112,35 @@ class StuffService {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("Stuff - Modify Stuff List / FAILURE", t.stackTraceToString())
+                commonView.onCommonFailure(-1, "")
+            }
+        })
+    }
+
+    // 홈 화면의 챙겨야 할 것 수정(소지품 수정)
+    fun modifyHomeStuff(stuffModifyHomeModel: StuffModifyHomeModel) {
+        val stuffService = retrofit.create(StuffInterface::class.java)
+        stuffService.modifyHomeStuff(stuffModifyHomeModel).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Home", stuffModifyHomeModel.isAddInventory)
+                }
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "홈 화면의 소지품 수정 실패")
+                    commonView.onCommonSuccess(statusObject, messageObject) // 실패
+                    Log.e("Stuff - Modify Home Stuff / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("Stuff - Modify Home Stuff / FAILURE", t.stackTraceToString())
                 commonView.onCommonFailure(-1, "")
             }
         })

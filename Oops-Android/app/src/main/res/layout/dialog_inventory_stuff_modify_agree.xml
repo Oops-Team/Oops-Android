@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 소지품 추가 완료 팝업(홈 -> 인벤토리에도 수정 사항 반영) -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/all_radius_12"
+    android:padding="16dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_home_inventory_agree"
+        style="@style/dialog_title"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_home_inventory_agree_info_1"
+        style="@style/dialog_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_popup_home_inventory_agree_confirm"
+        android:layout_width="264dp"
+        android:layout_height="33dp"
+        style="@style/PopUpButtonEnableStyle"
+        android:text="@string/popup_confirm"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>
