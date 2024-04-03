@@ -292,6 +292,10 @@
             android:id="@+id/action_withdrawal_1Frm_to_withdrawal_2Frm"
             app:destination="@id/withdrawal2Fragment"
             app:popUpTo="@id/withdrawal2Fragment"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
     </fragment>
 
     <!-- 회원 탈퇴 2 -->
@@ -309,6 +313,10 @@
         <argument
             android:name="isReadTerms"
             app:argType="boolean"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
         <action
             android:id="@+id/action_withdrawal_2Frm_to_termsFrm"
             app:destination="@id/termsFragment"/>
@@ -328,6 +336,10 @@
             android:name="tempWithdrawalItem"
             app:argType="com.oops.oops_android.ui.Main.MyPage.WithdrawalItem"
             app:nullable="true"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
         <action
             android:id="@+id/action_termsFrm_to_withdrawal_2Frm"
             app:destination="@id/withdrawal2Fragment"

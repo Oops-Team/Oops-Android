@@ -22,6 +22,7 @@ import com.oops.oops_android.utils.clearToken
 class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate), CommonView {
     private lateinit var withdrawalItem: WithdrawalItem // 탈퇴 사유 데이터
     private var isReadTerms: Boolean = false // 개인정보 처리 방침 읽음 여부
+    private var loginId = "" // 회원 탈퇴하려고 하는 계정 유형
 
     private var isEnable = false // 탈퇴할게요 버튼 활성화 여부
 
@@ -34,6 +35,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         try {
             withdrawalItem = args.withdrawalItem!!
             isReadTerms = args.isReadTerms
+            loginId = args.loginId
 
         } catch (e: Exception) {
             Log.e("Withdrawal2Fragment - Nav Item", e.stackTraceToString())
@@ -55,7 +57,8 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         // 개인 정보 처리 방침 버튼 클릭 이벤트
         binding.lLayoutWithdrawal2Terms.setOnClickListener {
             val actionToTerms: NavDirections = Withdrawal2FragmentDirections.actionWithdrawal2FrmToTermsFrm(
-                    withdrawalItem
+                    withdrawalItem,
+                    loginId
                 )
             view?.findNavController()?.navigate(actionToTerms) // 개인 정보 처리 방침 화면으로 이동
         }
@@ -122,11 +125,16 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         // 탈퇴할게요 버튼 클릭
         binding.btnWithdrawal2End.setOnClickListener {
             if (isEnable) {
-                // 전달 받은 데이터 출력
-                Log.d("Withdrawal2Fragment - api 전달할 데이터", withdrawalItem.toString())
-
-                // 회원 탈퇴 API 연동
-                oopsWithdrawal(UserWithdrawalModel(withdrawalItem.reasonType, withdrawalItem.subReason))
+                // 탈퇴 여부 재확인 팝업 띄우기
+                val withdrawalDialog = WithdrawalDialog(requireContext())
+                withdrawalDialog.showWithdrawalDialog()
+                withdrawalDialog.setOnClickedListener(object : WithdrawalDialog.WithdrawalBtnClickListener {
+                    // 회원 탈퇴 버튼을 클릭한 경우
+                    override fun onClicked() {
+                        // 회원 탈퇴 API 연동
+                        oopsWithdrawal(UserWithdrawalModel(withdrawalItem.reasonType, withdrawalItem.subReason))
+                    }
+                })
             }
         }
     }
@@ -174,7 +182,6 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 userDB.userDao().deleteAllUser()
 
                 // 네이버 애플리케이션 연동 해제
-                val loginId = userDB.userDao().getLoginId()
                 if (loginId == "naver") {
                     NidOAuthLogin().callDeleteTokenApi(object : OAuthLoginCallback {
                         override fun onError(errorCode: Int, message: String) {
