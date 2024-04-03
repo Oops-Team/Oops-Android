@@ -27,6 +27,8 @@
         android:background="@drawable/all_radius_50"
         android:backgroundTint="@color/Gray_100"
         android:drawableStart="@drawable/ic_search_27"
+        android:imeOptions="actionDone"
+        android:inputType="text"
         android:paddingTop="14dp"
         android:paddingStart="22dp"
         android:paddingEnd="22dp"

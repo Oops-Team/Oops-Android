@@ -90,9 +90,9 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
             for (i in 0 until stuffList.size) {
                 if (stuffList[i].stuffName == tvName) {
                     stuffList[i].isSelected = !stuffList[i].isSelected
+                    stuffAddListAdapter.notifyItemChanged(pos)
                 }
             }
-            stuffAddListAdapter.notifyDataSetChanged()
 
             when (screenDivision) {
                 // 인벤토리 추가 화면인 경우
