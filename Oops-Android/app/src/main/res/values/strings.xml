@@ -417,6 +417,8 @@
     <string name="popup_home_inventory_agree">소지품 추가 완료</string>
     <string name="popup_home_inventory_agree_info_1">인벤토리 내 소지품을 수정했어요</string>
     <string name="popup_home_inventory_agree_info_2">소지품 추가가 완료되었어요\n기존 인벤토리는 유지할게요</string>
+    <string name="popup_logout">로그아웃</string>
+    <string name="popup_logout_info">정말 로그아웃할까요?</string>
 
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>

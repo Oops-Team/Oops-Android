@@ -57,21 +57,27 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
         // 로그아웃을 클릭한 경우
         binding.tvMyPageLogout.setOnClickListener {
-            clearToken()
-            val userDB = AppDatabase.getUserDB()!! // room db의 user db
-            val loginId = userDB.userDao().getLoginId()
-            if (loginId == "naver") {
-                NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
-            }
+            val logoutDialog = LogoutDialog(requireContext())
+            logoutDialog.showLogoutDialog()
+            logoutDialog.setOnClickedListener(object : LogoutDialog.LogoutBtnClickListener {
 
-            // 로그인 화면으로 이동
-            showToast("로그아웃했습니다")
-            requireActivity().let {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
+                // 로그아웃 버튼을 누른 경우
+                override fun onClicked() {
+                    clearToken()
+                    if (myPageItem!!.loginType == "naver") {
+                        NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
+                    }
+
+                    // 로그인 화면으로 이동
+                    showToast("로그아웃했습니다")
+                    requireActivity().let {
+                        val intent = Intent(context, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        startActivity(intent)
+                    }
+                }
+            })
         }
     }
 
