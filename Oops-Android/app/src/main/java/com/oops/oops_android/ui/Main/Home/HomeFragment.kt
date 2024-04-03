@@ -430,15 +430,6 @@ class HomeFragment:
 
             // 일정 1개 삭제 API 연결
             deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
-
-            // 만약 아이템이 아예 없다면
-            if (todoAdapter?.itemCount == 0) {
-                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
-                binding.viewHome.visibility = View.VISIBLE
-                binding.iBtnHomeTodoAdd.visibility = View.GONE
-                binding.rvHomeStuff.visibility = View.GONE
-                binding.lLayoutHomeTodoTag.visibility = View.GONE
-            }
         }
     }
 
@@ -518,6 +509,7 @@ class HomeFragment:
                         }
 
                         // todoTagList data
+                        binding.lLayoutHomeTodoTag.removeAllViews()
                         val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
                         val todoTagList = ArrayList<Int>() // 일정 태그 리스트
                         for (i in 0 until (tempTodoTagList?.length() ?: 0)) {
@@ -699,6 +691,15 @@ class HomeFragment:
                 // 아이템 삭제
                 val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
                 todoAdapter?.deleteTodoList(todoItem)
+
+                // 만약 아이템이 아예 없다면
+                if (todoAdapter?.itemCount == 0) {
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                    binding.viewHome.visibility = View.VISIBLE
+                    binding.iBtnHomeTodoAdd.visibility = View.GONE
+                    binding.rvHomeStuff.visibility = View.GONE
+                    binding.lLayoutHomeTodoTag.visibility = View.GONE
+                }
             }
             "Todo Complete" -> {
                 // 일정 완료/미완료 수정 성공
