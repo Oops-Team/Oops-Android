@@ -60,7 +60,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             }
             else {
                 // 이메일 입력 형식 오류 문구 띄우기
-                isEmailValid = true
+                isEmailValid = false
                 binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
                 binding.tvSignUp2EmailAlert.text = getString(R.string.login_email_alert)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))

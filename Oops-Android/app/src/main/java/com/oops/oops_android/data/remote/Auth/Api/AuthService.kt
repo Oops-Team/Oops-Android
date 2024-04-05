@@ -191,4 +191,34 @@ class AuthService {
             }
         })
     }
+
+    // 이메일 찾기
+    fun findOopsEmail(email: String) {
+        val authService = retrofit.create(AuthInterface::class.java)
+        authService.findOopsEmail(email).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message, resp.data)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "")
+                    Log.e("AUTH - Find Email / ERROR", messageObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("AUTH - Find Email / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
+            }
+        })
+    }
 }

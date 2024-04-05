@@ -42,4 +42,10 @@ interface AuthInterface {
     fun oopsSignUp(
         @Body user: OopsUserModel
     ): Call<CommonResponse>
+
+    // 이메일 찾기
+    @GET("/user/find/email/{email}")
+    fun findOopsEmail(
+        @Path("email") email: String
+    ): Call<CommonResponse>
 }
