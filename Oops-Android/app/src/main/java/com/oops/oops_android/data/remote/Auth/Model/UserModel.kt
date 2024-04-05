@@ -16,3 +16,9 @@ data class ServerUserModel(
     @SerializedName("name") val name: String? = null, // 닉네임
     @SerializedName("fcmToken") val fcmToken: String? = null // firebase 토큰
 )
+
+/* 비밀번호 찾기 - 코드 인증 API에서 사용하는 모델 */
+data class FindOopsPwModel(
+    @SerializedName("code") val code: String, // 인증 코드
+    @SerializedName("email") val email: String // 사용자 이메일
+)

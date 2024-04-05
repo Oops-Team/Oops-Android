@@ -55,6 +55,10 @@
     <string name="find_id_email_info_2">으로 가입된 이메일입니다</string>
     <string name="find_id_email_info_3">등록된 이메일입니다</string>
     <string name="find_pw_code">인증코드 입력</string>
+    <string name="find_pw_code_info_1">이메일로 인증 코드를 전송했습니다</string>
+    <string name="find_pw_code_info_2">인증코드가 일치하지 않습니다</string>
+    <string name="find_pw_code_info_3">인증에 성공했습니다</string>
+    <string name="find_pw_code_info_4">인증 시간이 만료되었습니다\n다시 코드를 전송해주세요</string>
     <string name="find_pw">PW 찾기</string>
     <string name="find_pw_new">새로운 비밀번호 입력</string>
     <string name="find_pw_new_info_1">기존 비밀번호와 일치해 사용할 수 없어요</string>
