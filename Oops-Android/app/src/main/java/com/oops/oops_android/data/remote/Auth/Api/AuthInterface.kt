@@ -1,5 +1,6 @@
 package com.oops.oops_android.data.remote.Auth.Api
 
+import com.oops.oops_android.data.remote.Auth.Model.ChangeOopsPwModel
 import com.oops.oops_android.data.remote.Auth.Model.FindOopsPwModel
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
 import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
@@ -8,6 +9,8 @@ import com.oops.oops_android.data.remote.Common.CommonResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -62,4 +65,11 @@ interface AuthInterface {
     fun findOopsPw(
         @Body findOopsPwModel: FindOopsPwModel
     ): Call<CommonObjectResponse>
+
+    // 새로운 비밀번호로 변경
+    @PATCH("user/change/password")
+    fun changeOopsPw(
+        @Header("tempToken") token: String,
+        @Body password: ChangeOopsPwModel
+    ): Call<CommonResponse>
 }

@@ -2,6 +2,7 @@ package com.oops.oops_android.data.remote.Auth.Api
 
 import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
+import com.oops.oops_android.data.remote.Auth.Model.ChangeOopsPwModel
 import com.oops.oops_android.data.remote.Auth.Model.FindOopsPwModel
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
 import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
@@ -241,7 +242,7 @@ class AuthService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, resp.message)
+                    commonView.onCommonSuccess(resp.status, "Code")
                 }
                 // 실패
                 else {
@@ -286,6 +287,36 @@ class AuthService {
             override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
                 Log.e("AUTH - Find Pw / FAILURE", t.message.toString())
                 commonObjectView.onCommonObjectFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 새로운 비밀번호로 변경
+    fun changeOopsPw(token: String, password: ChangeOopsPwModel) {
+        val authService = retrofit.create(AuthInterface::class.java)
+        authService.changeOopsPw(token, password).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, "Change")
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "")
+                    Log.e("AUTH - Change Pwd / ERROR", messageObject.toString())
+                    commonView.onCommonFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("AUTH - Change Pwd / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
             }
         })
     }

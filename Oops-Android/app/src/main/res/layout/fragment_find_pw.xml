@@ -428,9 +428,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/SemiWideButtonDisableStyle"
-                    android:text="@string/btn_pw_reset"/>
+                    android:text="@string/btn_pw_reset_end"/>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-
     </FrameLayout>
 </LinearLayout>

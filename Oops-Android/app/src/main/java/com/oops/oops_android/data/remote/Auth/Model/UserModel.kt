@@ -22,3 +22,8 @@ data class FindOopsPwModel(
     @SerializedName("code") val code: String, // 인증 코드
     @SerializedName("email") val email: String // 사용자 이메일
 )
+
+/* 새로운 비밀번호로 변경 API에서 사용하는 모델 */
+data class ChangeOopsPwModel(
+    @SerializedName("password") val password: String // 비밀번호
+)

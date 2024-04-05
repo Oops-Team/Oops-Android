@@ -26,6 +26,7 @@
     <string name="btn_check_read">확인했습니다</string>
     <string name="btn_find">조회하기</string>
     <string name="btn_pw_reset">비밀번호 재설정</string>
+    <string name="btn_pw_reset_end">비밀번호 재설정 완료</string>
     <string name="btn_go_login">로그인하러 가기</string>
     <string name="btn_code_transmit">코드전송</string>
     <string name="btn_code_certify">인증하기</string>
