@@ -7,6 +7,13 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -122,6 +129,11 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             naverLogin()
         }
 
+        // 구글 로그인 버튼 클릭 이벤트
+        binding.iBtnLoginGoogle.setOnClickListener {
+            googleLogin()
+        }
+
         // 최근 로그인한 플랫폼에 따른 말풍선 띄우기
         try {
             val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -218,6 +230,23 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     }
 
                     NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+                }
+                // 구글 로그인 이라면
+                "google" -> {
+                    // 기존에 로그인했던 계정 확인하기
+                    val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+
+                    // Oops 서버 로그인 api 연결
+                    val authService = AuthService()
+                    authService.setSignUpView(this@LoginActivity)
+                    authService.serverLogin(
+                        loginId,
+                        ServerUserModel(
+                            googleSignInAccount!!.email.toString(), // 이메일
+                            null,
+                            token
+                        )
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -345,6 +374,81 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         }
 
         NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+    }
+
+    // 구글 로그인 서버 API 연결
+    private fun googleLogin() {
+        val gso = googleSignIn()
+
+        // 객체 생성
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // 기존에 로그인했던 계정 확인하기
+        val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+
+        // 기존에 로그인 했었다면
+        if (googleSignInAccount != null) {
+            getFCMToken("google")
+        }
+        // 신규 회원 가입이라면
+        else {
+            val signInIntent = googleSignInClient.signInIntent
+            getResult.launch(signInIntent)
+        }
+    }
+
+    // 구글 로그인 api 연결
+    private fun googleSignIn(): GoogleSignInOptions {
+        // 구글 로그인 옵션
+        return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.google_login_client_id))
+            .requestEmail()
+            .build()
+    }
+
+    // result 객체
+    private var getResult: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            handleSignInResult(task)
+        } else {
+            showToast("구글 로그인이 취소되었습니다.")
+            Log.e("구글 로그인 getResult resultCode", it.resultCode.toString()) // 0 : cancel, 1: user, -1 : ok
+            Log.e("구글 로그인", GoogleSignIn.getSignedInAccountFromIntent(it.data).exception.toString())
+        }
+    }
+
+    // 구글 로그인 - 토큰 요청
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val googleSignInAccount = completedTask.getResult(ApiException::class.java)
+            // 이메일 값 가져오기
+            if (googleSignInAccount != null) {
+                val email = googleSignInAccount.email
+
+                // 사용자 정보 저장
+                val userDB = AppDatabase.getUserDB()!!
+                userDB.userDao().deleteAllUser()
+                userDB.userDao().insertUser(
+                    User(
+                        "google"
+                    )
+                )
+
+                // 닉네임 설정 화면으로 이동
+                val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+                // 다음 화면에서 room db에 값 저장하기 위해 해당 값 전달
+                intent.putExtra("LoginId", "google")
+                intent.putExtra("Email", email)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent)
+            }
+
+        } catch (e: ApiException) {
+            Log.e("구글 로그인 토큰 요청 실패", e.statusCode.toString())
+        }
     }
 
     // 네이버, 구글 로그인 성공

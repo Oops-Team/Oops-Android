@@ -39,7 +39,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         try {
             loginId = intent.getStringExtra("LoginId")
             serverEmail = intent.getStringExtra("Email")
-            Log.d("네이버 로그인", loginId.toString())
         } catch (e: Exception) {
             Log.e("SignUpActivity - intent", e.stackTraceToString())
         }
@@ -159,10 +158,10 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     private fun clickNextBtn() {
         try {
             // 네이버에서 넘어온 화면이라면
-            if (loginId == "naver") {
+            if (loginId == "naver" || loginId == "google") {
                 // 닉네임 저장
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), "naver")
+                userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), loginId!!)
 
                 // 안드로이드13 이상이라면
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -172,7 +171,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // 안드로이드12 이하라면
                 else {
                     // FCM 토큰 발급 및 로그인 API 연결
-                    getFCMToken("naver")
+                    getFCMToken(loginId)
                 }
             }
         } catch (e: Exception) {
