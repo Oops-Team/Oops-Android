@@ -356,5 +356,9 @@
         <action
             android:id="@+id/action_alertFrm_to_myPageFrm"
             app:destination="@id/myPageFragment"/>
+        <!-- 알림 설정 여부 -->
+        <argument
+            android:name="isAlert"
+            app:argType="boolean"/>
     </fragment>
 </navigation>

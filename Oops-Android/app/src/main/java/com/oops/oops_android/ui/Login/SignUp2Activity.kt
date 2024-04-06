@@ -232,13 +232,19 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     override fun connectOopsAPI(token: String?, loginId: String?) {
         val authService = AuthService()
         authService.setSignUpView(this@SignUp2Activity)
-        Log.d("SignUp2Activity", "FCM 토큰 불러오기: " + token.toString())
+
+        var isAlert = false // 알림 설정 여부
+        if (token != null) {
+            isAlert = true
+        }
+
         authService.oopsSignUp(
             OopsUserModel(
                 binding.edtSignUp2Email.text.toString(),
                 binding.edtSignUp2Pwd.text.toString(),
                 getNickname(),
-                token
+                token,
+                isAlert
             )
         )
     }

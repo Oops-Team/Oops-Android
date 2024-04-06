@@ -2,8 +2,10 @@ package com.oops.oops_android.data.remote.MyPage.Api
 
 import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
+import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
+import com.oops.oops_android.data.remote.MyPage.Model.UserPushAlertChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.ui.Main.MyPage.WithdrawalItem
@@ -117,6 +119,36 @@ class MyPageService {
             override fun onFailure(call: Call<NoticeResponse>, t: Throwable) {
                 Log.e("MyPage - Get Notices / FAILURE", t.message.toString())
                 noticeView.onGetNoticeFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 푸시 알림
+    fun setPushAlert(isAlert: UserPushAlertChangeModel) {
+        val myPageService = retrofit.create(MyPageInterface::class.java)
+        myPageService.setPushAlert(isAlert).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message, isAlert.isAlert)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "푸시 알림 설정 변경 실패")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Push Alert / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                Log.e("MyPage - Push Alert / FAILURE", t.message.toString())
+                commonView.onCommonFailure(-1, "") // 실패
             }
         })
     }

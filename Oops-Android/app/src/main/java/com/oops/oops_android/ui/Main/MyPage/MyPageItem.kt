@@ -10,7 +10,8 @@ data class MyPageItem(
     val loginType: String, // 로그인 유형
     val userEmail: String, // 이메일
     val userName: String, // 사용자 이름
-    val isPublic: Boolean // 프로필 공개 여부
+    val isPublic: Boolean, // 프로필 공개 여부
+    val isAlert: Boolean // 알림 설정 여부
 ): Parcelable
 
 // 회원 탈퇴
