@@ -18,6 +18,7 @@ import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentSearchFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.utils.getNickname
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.Random
@@ -204,10 +205,10 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
     private fun stingFriend(name: String) {
         val stingService = StingService()
         stingService.setCommonView(this)
-        val userDB = AppDatabase.getUserDB()!!
-        val userName = userDB.userDao().getUser().name
+        //val userDB = AppDatabase.getUserDB()!!
+        //val userName = userDB.userDao().getUser().name
 
-        val randomSting = listOf("$userName 님이 콕콕 찔렀어요!", "$userName 님이 외출 준비 할 시간이래요", "콕콕! 누군가가 $name 님을 찔렀어요")
+        val randomSting = listOf("${getNickname()} 님이 콕콕 찔렀어요!", "${getNickname()} 님이 외출 준비 할 시간이래요", "콕콕! 누군가가 $name 님을 찔렀어요")
         val randomStingIndex = Random().nextInt(randomSting.size)
         stingService.stingFriend(StingFriendModel(name, randomSting[randomStingIndex]))
         getHideKeyboard(binding.root) // 키보드 숨기기
