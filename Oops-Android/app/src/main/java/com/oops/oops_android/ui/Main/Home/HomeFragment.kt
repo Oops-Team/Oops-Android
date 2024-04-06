@@ -536,17 +536,26 @@ class HomeFragment:
                             stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName, todoDate.toString()))
                         }
 
+                        // 소지품 여부
+                        val isCompleteStuff: Boolean = jsonObject.getBoolean("isCompleteStuff")
+
+                        // 소지품을 다 챙겼을 경우
+                        if (isCompleteStuff) {
+                            binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                        }
+
                         /* 데이터를 바탕으로 뷰 그리기 */
                         // 소지품이 1개 이상 있다면
                         if (stuffAdapter?.itemCount!! >= 1) {
                             binding.tvHomeStuffDefault.visibility = View.GONE
                             binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                         }
 
                         // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
-                        if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0) {
-                            binding.tvHomeStuffDefault.visibility = View.VISIBLE
-                            binding.tvHomeStuffDefault.text = "인벤토리가 비어 있어요\n소지품을 추가해 주세요!"
+                        if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0 && !isCompleteStuff) {
+                            binding.tvHomeStuffDefault.visibility = View.GONE
+                            binding.lLayoutHomeStuffNoInventory.visibility = View.VISIBLE
                             binding.lLayoutHomeTodoDefault.visibility = View.GONE
                             binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
                         }
@@ -554,6 +563,7 @@ class HomeFragment:
                         else if (todoAdapter?.itemCount!! >= 1) {
                             binding.lLayoutHomeTodoDefault.visibility = View.GONE // default 뷰 숨기기
                             binding.tvHomeStuffDefault.visibility = View.GONE
+                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                             binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
                             binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
                         }
@@ -577,6 +587,7 @@ class HomeFragment:
                     // default 뷰 띄우기
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                    binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
 
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
