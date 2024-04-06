@@ -550,6 +550,7 @@ class HomeFragment:
                             binding.tvHomeStuffDefault.visibility = View.GONE
                             binding.lLayoutHomeTodoDefault.visibility = View.GONE
                             binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
                         }
 
                         // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
@@ -557,6 +558,7 @@ class HomeFragment:
                             binding.tvHomeStuffDefault.visibility = View.GONE
                             binding.lLayoutHomeStuffNoInventory.visibility = View.VISIBLE
                             binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
                             binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
                         }
                         // 오늘 할 일이 1개 이상 있다면
@@ -588,6 +590,7 @@ class HomeFragment:
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.tvHomeStuffDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                    binding.lLayoutHomeStuffComplete.visibility = View.GONE
 
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
