@@ -1,6 +1,7 @@
 package com.oops.oops_android.data.remote.MyPage.Api
 
 import com.oops.oops_android.data.remote.Common.CommonResponse
+import com.oops.oops_android.data.remote.MyPage.Model.UserPushAlertChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import retrofit2.Call
@@ -32,4 +33,10 @@ interface MyPageInterface {
     @GET("/user/notices")
     fun getNotices(
     ): Call<NoticeResponse>
+
+    // 푸시 알림
+    @PATCH("/user/mypage/alert")
+    fun setPushAlert(
+        @Body isAlert: UserPushAlertChangeModel
+    ): Call<CommonResponse>
 }

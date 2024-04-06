@@ -1,7 +1,6 @@
 package com.oops.oops_android.data.remote.Stuff.Model
 
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
 
 /* 소지품 화면에서 사용하는 API 데이터 모델 */
 // 소지품 목록 조회
@@ -13,6 +12,14 @@ data class StuffModel(
 // 인벤토리 내 소지품 추가
 data class StuffAddInventoryModel(
     @SerializedName("stuffName") val stuffName: ArrayList<String> // 소지품 이름 리스트
+)
+
+// 챙겨야 할 것 수정(소지품 수정)
+data class StuffModifyHomeModel(
+    @SerializedName("date") val date: String, // 일정 날짜
+    @SerializedName("stuffName") val stuffName: ArrayList<String>, // 소지품 이름
+    @SerializedName("isAddInventory") val isAddInventory: Boolean, // 인벤토리에도 소지품을 추가할 지에 대한 여부
+    @SerializedName("inventoryId") val inventoryId: Long? = null // 인벤토리 아이디(isAddInventory가 true일 경우 보내주기)
 )
 
 // 챙겨야 할 것 수정(소지품 삭제)

@@ -1,11 +1,16 @@
 package com.oops.oops_android.data.remote.Auth.Api
 
+import com.oops.oops_android.data.remote.Auth.Model.ChangeOopsPwModel
+import com.oops.oops_android.data.remote.Auth.Model.FindOopsPwModel
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
 import com.oops.oops_android.data.remote.Auth.Model.ServerUserModel
+import com.oops.oops_android.data.remote.Common.CommonObjectResponse
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -41,5 +46,30 @@ interface AuthInterface {
     @POST("/user/sign-up")
     fun oopsSignUp(
         @Body user: OopsUserModel
+    ): Call<CommonResponse>
+
+    // 이메일 찾기
+    @GET("/user/find/email/{email}")
+    fun findOopsEmail(
+        @Path("email") email: String
+    ): Call<CommonResponse>
+
+    // 비밀번호 찾기 - 코드 전송
+    @GET("/user/find/password/{email}")
+    fun findOopsPwCode(
+        @Path("email") email: String
+    ): Call<CommonResponse>
+
+    // 비밀번호 찾기 - 코드 인증
+    @POST("/user/find/password")
+    fun findOopsPw(
+        @Body findOopsPwModel: FindOopsPwModel
+    ): Call<CommonObjectResponse>
+
+    // 새로운 비밀번호로 변경
+    @PATCH("user/change/password")
+    fun changeOopsPw(
+        @Header("tempToken") token: String,
+        @Body password: ChangeOopsPwModel
     ): Call<CommonResponse>
 }

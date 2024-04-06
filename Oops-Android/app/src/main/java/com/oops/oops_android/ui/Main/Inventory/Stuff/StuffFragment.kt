@@ -118,7 +118,7 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
             val actionToStuffAdd: NavDirections = StuffFragmentDirections.actionStuffFrmToStuffAddFrm(
                 "Home",
                 selectDate.toString(),
-                -1
+                nowInventoryId
             )
             findNavController().navigate(actionToStuffAdd)
         }

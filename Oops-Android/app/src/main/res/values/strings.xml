@@ -26,6 +26,7 @@
     <string name="btn_check_read">확인했습니다</string>
     <string name="btn_find">조회하기</string>
     <string name="btn_pw_reset">비밀번호 재설정</string>
+    <string name="btn_pw_reset_end">비밀번호 재설정 완료</string>
     <string name="btn_go_login">로그인하러 가기</string>
     <string name="btn_code_transmit">코드전송</string>
     <string name="btn_code_certify">인증하기</string>
@@ -52,9 +53,13 @@
     <string name="find_id">ID 찾기</string>
     <string name="find_id_email">이메일 입력</string>
     <string name="find_id_email_info_1">등록된 이메일이 없습니다</string>
-    <string name="find_id_email_info_2">(SNS이름)으로 가입된 이메일입니다</string>
+    <string name="find_id_email_info_2">으로 가입된 이메일입니다</string>
     <string name="find_id_email_info_3">등록된 이메일입니다</string>
     <string name="find_pw_code">인증코드 입력</string>
+    <string name="find_pw_code_info_1">이메일로 인증 코드를 전송했습니다</string>
+    <string name="find_pw_code_info_2">인증코드가 일치하지 않습니다</string>
+    <string name="find_pw_code_info_3">인증에 성공했습니다</string>
+    <string name="find_pw_code_info_4">인증 시간이 만료되었습니다\n다시 코드를 전송해주세요</string>
     <string name="find_pw">PW 찾기</string>
     <string name="find_pw_new">새로운 비밀번호 입력</string>
     <string name="find_pw_new_info_1">기존 비밀번호와 일치해 사용할 수 없어요</string>
@@ -377,6 +382,8 @@
     <string name="popup_cancel">취소</string>
     <string name="popup_use">사용</string>
     <string name="popup_delete">삭제</string>
+    <string name="popup_modify">수정</string>
+    <string name="popup_not_modify">수정 안함</string>
     <string name="popup_push_alert">푸시 알림 미동의</string>
     <string name="popup_push_alert_info">푸시 알림 미전송 시\n꼼꼼하게 챙겨드리기 어려워요!\n알림을 받으시겠어요?</string>
     <string name="popup_disagree">동의 안함</string>
@@ -410,6 +417,16 @@
     <string name="popup_friends_accept_info">친구가 되었어요\n오늘부터 우리는 짱친!</string>
     <string name="popup_friends_refuse">친구 신청 거절</string>
     <string name="popup_friends_refuse_info">친구 신청을 거절했어요</string>
+    <string name="popup_home_inventory">기존 인벤토리 수정</string>
+    <string name="popup_home_inventory_info">기존 인벤토리도 함께 수정할까요?</string>
+    <string name="popup_home_inventory_agree">소지품 추가 완료</string>
+    <string name="popup_home_inventory_agree_info_1">인벤토리 내 소지품을 수정했어요</string>
+    <string name="popup_home_inventory_agree_info_2">소지품 추가가 완료되었어요\n기존 인벤토리는 유지할게요</string>
+    <string name="popup_logout">로그아웃</string>
+    <string name="popup_logout_info">정말 로그아웃할까요?</string>
+    <string name="popup_withdrawal_title">회원 탈퇴</string>
+    <string name="popup_withdrawal_info">정말 탈퇴를 완료할까요?</string>
+    <string name="popup_withdrawal">탈퇴</string>
 
     <!-- 토스트 메시지 -->
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
@@ -420,6 +437,7 @@
 
     <!-- 스낵바 메시지 -->
     <string name="snackbar_read_terms">개인정보 처리 방침을 클릭하여 읽어 주세요!</string>
+    <string name="snackbar_sting_10">아야! 더 이상 찌를 수 없어요</string>
 
     <!-- 소지품 이름 -->
     <string name="stuff_computer">노트북</string>

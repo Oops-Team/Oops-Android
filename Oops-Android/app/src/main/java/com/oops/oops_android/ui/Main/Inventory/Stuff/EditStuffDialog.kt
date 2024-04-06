@@ -36,7 +36,6 @@ class EditStuffDialog(
 
         // 현재 선택 중인 인벤토리 정보
         try {
-
             when (inventoryList.size) {
                 1 -> {
                     binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
@@ -44,6 +43,7 @@ class EditStuffDialog(
                         binding.ivDialogEditStuffInventory1,
                         inventoryList[0].inventoryIconIdx
                     )
+                    binding.lLayoutDialogEditStuffInventory1.visibility = View.VISIBLE
                 }
                 2 -> {
                     binding.tvDialogEditStuffInventory1.text = inventoryList[0].inventoryName
@@ -51,6 +51,7 @@ class EditStuffDialog(
                         binding.ivDialogEditStuffInventory1,
                         inventoryList[0].inventoryIconIdx
                     )
+                    binding.lLayoutDialogEditStuffInventory1.visibility = View.VISIBLE
 
                     binding.tvDialogEditStuffInventory2.text = inventoryList[1].inventoryName
                     setInventoryItem(
@@ -65,6 +66,7 @@ class EditStuffDialog(
                         binding.ivDialogEditStuffInventory1,
                         inventoryList[0].inventoryIconIdx
                     )
+                    binding.lLayoutDialogEditStuffInventory1.visibility = View.VISIBLE
 
                     binding.tvDialogEditStuffInventory2.text = inventoryList[1].inventoryName
                     setInventoryItem(

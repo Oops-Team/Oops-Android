@@ -1,7 +1,6 @@
 package com.oops.oops_android.ui.Main.MyPage
 
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.util.Log
 import android.view.View
 import androidx.navigation.NavDirections
@@ -11,8 +10,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.navercorp.nid.NaverIdLoginSDK
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
-import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
 import com.oops.oops_android.databinding.FragmentMyPageBinding
@@ -51,27 +48,33 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
         // 알림 설정 탭을 클릭한 경우
         binding.lLayoutMyPageAlarm.setOnClickListener {
-            val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm()
+            val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm(myPageItem!!.isAlert)
             view?.findNavController()?.navigate(actionToAlert)
         }
 
         // 로그아웃을 클릭한 경우
         binding.tvMyPageLogout.setOnClickListener {
-            clearToken()
-            val userDB = AppDatabase.getUserDB()!! // room db의 user db
-            val loginId = userDB.userDao().getLoginId()
-            if (loginId == "naver") {
-                NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
-            }
+            val logoutDialog = LogoutDialog(requireContext())
+            logoutDialog.showLogoutDialog()
+            logoutDialog.setOnClickedListener(object : LogoutDialog.LogoutBtnClickListener {
 
-            // 로그인 화면으로 이동
-            showToast("로그아웃했습니다")
-            requireActivity().let {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                startActivity(intent)
-            }
+                // 로그아웃 버튼을 누른 경우
+                override fun onClicked() {
+                    clearToken()
+                    if (myPageItem!!.loginType == "naver") {
+                        NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
+                    }
+
+                    // 로그인 화면으로 이동
+                    showToast("로그아웃했습니다")
+                    requireActivity().let {
+                        val intent = Intent(context, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        startActivity(intent)
+                    }
+                }
+            })
         }
     }
 
@@ -94,13 +97,14 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                     val loginType = jsonObject.getString("loginType")
                     val userEmail = jsonObject.getString("userEmail")
                     val isPublic = jsonObject.getBoolean("isPublic")
+                    val isAlert = jsonObject.getBoolean("isAlert")
 
                     // 사용자 이름
                     val userName = jsonObject.getString("userName")
                     binding.tvMyPageName.text = userName
 
                     // 아이템 클래스에 저장
-                    myPageItem = MyPageItem(loginType, userEmail, userName, isPublic)
+                    myPageItem = MyPageItem(loginType, userEmail, userName, isPublic, isAlert)
 
                     // 프로필 사진
                     val userImgUrl = jsonObject.getString("userImgURI")

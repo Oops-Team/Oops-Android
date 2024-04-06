@@ -140,12 +140,17 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         val authService = AuthService()
         authService.setSignUpView(this)
         Log.d("커넥트 네이버 토큰 없음,,", tempLoginId.toString())
+        var isAlert = false
+        if (token != null) {
+            isAlert = true // 알림 설정 여부
+        }
         authService.serverLogin(
             loginId!!,
             ServerUserModel(
                 serverEmail.toString(),
                 binding.edtSignUpNickname.text.toString(),
-                token
+                token,
+                isAlert
             )
         )
     }
@@ -272,9 +277,9 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // json 파싱
                 val jsonObject = JSONObject(data.toString())
 
-                // accessToken 저장
-                val accessToken: String = jsonObject.getString("accessToken").toString()
-                saveToken(accessToken)
+                // xAuthToken 저장
+                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                saveToken(xAuthToken)
 
                 // Room DB에 값 저장
                 userDB.userDao().insertUser(User(

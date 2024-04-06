@@ -219,29 +219,39 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <!-- 구글 로그인 -->
-            <ImageView
-                android:id="@+id/iBtn_login_google"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="18dp"
-                android:outlineProvider="background"
-                android:src="@drawable/ic_login_google_18"
-                android:background="@drawable/login_google_bg"
-                android:scaleType="centerCrop"
-                android:elevation="10dp"
-                android:outlineSpotShadowColor="#1A000000"/>
+                android:background="@color/Gray_50"
+                android:outlineSpotShadowColor="#1A000000"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="10dp">
+                <ImageView
+                    android:id="@+id/iBtn_login_google"
+                    android:layout_width="42dp"
+                    android:layout_height="43dp"
+                    android:background="@color/Gray_50"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_login_google_18"/>
+            </androidx.cardview.widget.CardView>
 
             <!-- 네이버 로그인 -->
-            <ImageView
-                android:id="@+id/iBtn_login_naver"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:outlineProvider="background"
-                android:src="@drawable/ic_login_naver_18"
-                android:background="@drawable/login_google_bg"
-                android:scaleType="centerCrop"
-                android:elevation="10dp"
-                android:outlineSpotShadowColor="#1A000000"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:outlineSpotShadowColor="#1A000000"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="10dp">
+                <ImageView
+                    android:id="@+id/iBtn_login_naver"
+                    android:layout_width="42dp"
+                    android:layout_height="43dp"
+                    android:background="@color/White"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_login_naver_18"/>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <!-- 구글 로그인 버튼 기준 barrier -->

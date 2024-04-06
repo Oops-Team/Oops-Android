@@ -12,6 +12,7 @@ import com.oops.oops_android.ui.Base.BaseFragment
 /* 회원 탈퇴 과정 중 개인정보 처리 방침 화면 */
 class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
     private lateinit var withdrawalItem: WithdrawalItem // 전달받은 회원 탈퇴 사유 데이터
+    private var loginId = "" // 회원탈퇴하려고 하는 계정 유형
     private var positionFlag: Boolean = true
 
     override fun initViewCreated() {
@@ -25,6 +26,7 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
         val args: TermsFragmentArgs by navArgs()
         try {
             withdrawalItem = args.tempWithdrawalItem!!
+            loginId = args.loginId
 
         } catch (e: Exception) {
             Log.e("TermsFragment - Nav Item", e.stackTraceToString())
@@ -50,7 +52,8 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
                 // 이전 화면으로 이동
                 val actionToWithdrawal2 = TermsFragmentDirections.actionTermsFrmToWithdrawal2Frm(
                         withdrawalItem,
-                        true
+                        true,
+                        loginId
                     )
                 view?.findNavController()?.navigate(actionToWithdrawal2)
             }

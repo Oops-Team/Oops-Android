@@ -103,7 +103,6 @@ class HomeFragment:
 
         // 월간 캘린더
         binding.mcvHomeMonthlyCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
-        setCalendarTodoState()
     }
 
     override fun initAfterBinding() {
@@ -298,16 +297,6 @@ class HomeFragment:
         }
     }
 
-    // 월간 캘린더 - 일정 상태 표시(초기 진입시)
-    private fun setCalendarTodoState() {
-        val dates = mutableListOf<CalendarDay>()
-        dates.add(CalendarDay.today())
-        for (i in dates) {
-            val eventDecorator = EventDecorator(requireContext(), R.color.Main_100, i)
-            binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
-        }
-    }
-
     // 월간 캘린더 - 일정 상태 표시(API 연동시)
     private fun setMonthlyCalendar() {
         // 새로운 decorators 추가
@@ -430,15 +419,6 @@ class HomeFragment:
 
             // 일정 1개 삭제 API 연결
             deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
-
-            // 만약 아이템이 아예 없다면
-            if (todoAdapter?.itemCount == 0) {
-                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
-                binding.viewHome.visibility = View.VISIBLE
-                binding.iBtnHomeTodoAdd.visibility = View.GONE
-                binding.rvHomeStuff.visibility = View.GONE
-                binding.lLayoutHomeTodoTag.visibility = View.GONE
-            }
         }
     }
 
@@ -482,6 +462,7 @@ class HomeFragment:
                 todoAdapter?.resetTodoList()
                 stuffAdapter?.resetStuffList()
                 binding.lLayoutHomeTodoTag.removeAllViews()
+                todoListItem = null
 
                 // 일정이 있다면
                 if (data != null) {
@@ -518,6 +499,7 @@ class HomeFragment:
                         }
 
                         // todoTagList data
+                        binding.lLayoutHomeTodoTag.removeAllViews()
                         val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
                         val todoTagList = ArrayList<Int>() // 일정 태그 리스트
                         for (i in 0 until (tempTodoTagList?.length() ?: 0)) {
@@ -599,9 +581,6 @@ class HomeFragment:
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
-
-                    // 오늘 날짜의 일정 데이터 리스트 저장
-                    Log.d("날짜 데이터", todoDate.toString() + " - " + todoAdapter!!.getAllTodoList().toString())
                 }
             }
         }
@@ -699,6 +678,15 @@ class HomeFragment:
                 // 아이템 삭제
                 val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
                 todoAdapter?.deleteTodoList(todoItem)
+
+                // 만약 아이템이 아예 없다면
+                if (todoAdapter?.itemCount == 0) {
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                    binding.viewHome.visibility = View.VISIBLE
+                    binding.iBtnHomeTodoAdd.visibility = View.GONE
+                    binding.rvHomeStuff.visibility = View.GONE
+                    binding.lLayoutHomeTodoTag.visibility = View.GONE
+                }
             }
             "Todo Complete" -> {
                 // 일정 완료/미완료 수정 성공
@@ -707,7 +695,29 @@ class HomeFragment:
 
                 // 월간 캘린더가 보인다면
                 if (binding.mcvHomeMonthlyCalendarview.visibility == View.VISIBLE) {
-                    // todo: 캘린더 점 색상 변경(날짜 정보, 완료 여부 필요)
+                    // 캘린더 점 색상 변경
+                    var isAllComplete = true
+                    for (i in 0 until todoAdapter?.getAllTodoList()!!.size) {
+                        // 일정 중 1개라도 미완료라면
+                        if (!todoAdapter?.getTodoList(i)!!.isComplete) {
+                            isAllComplete = false
+                            break
+                        }
+                    }
+                    // 일정이 모두 완료되었다면
+                    if (isAllComplete) {
+                        // LocalDate값 파싱하기
+                        val day: CalendarDay = CalendarDay.from(selectDate.year, selectDate.monthValue, selectDate.dayOfMonth)
+                        val eventDecorator = EventDecorator(requireContext(), R.color.Main_500, day)
+                        binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+                    }
+                    // 일정이 안 완료되었다면
+                    else {
+                        // LocalDate값 파싱하기
+                        val day: CalendarDay = CalendarDay.from(selectDate.year, selectDate.monthValue, selectDate.dayOfMonth)
+                        val eventDecorator = EventDecorator(requireContext(), R.color.Main_400, day)
+                        binding.mcvHomeMonthlyCalendarview.addDecorator(eventDecorator)
+                    }
                 }
             }
             "Stuff Delete" -> {

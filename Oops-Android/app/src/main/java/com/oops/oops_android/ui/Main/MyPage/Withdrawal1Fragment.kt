@@ -1,23 +1,36 @@
 package com.oops.oops_android.ui.Main.MyPage
 
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.FragmentWithdrawal1Binding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
+import java.lang.Exception
 
 /* 회원 탈퇴 화면 1 */
 class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWithdrawal1Binding::inflate) {
     private lateinit var item: WithdrawalItem // 서버에서 전해 줄 회원 탈퇴 데이터
+    private var loginType = "" // 회원 탈퇴하려고 하는 계정 유형
     private var isSelectedReason5 = false // 5번 라디오 버튼 클릭 여부
     private var isEnable = false // 탈퇴할게요 버튼 활성화 여부
 
     override fun initViewCreated() {
         // 툴 바 제목 숨기기
         binding.toolbarWithdrawal1.tvSubToolbarTitle.visibility = View.GONE
+
+        // 로그인 유형 받기
+        try {
+            val args: Withdrawal1FragmentArgs by navArgs()
+            loginType = args.loginId
+        }
+        catch (e: Exception) {
+            Log.e("Withdrawal1Fragment - Get Nav Data", e.stackTraceToString())
+        }
     }
 
     override fun initAfterBinding() {
@@ -111,7 +124,8 @@ class Withdrawal1Fragment: BaseFragment<FragmentWithdrawal1Binding>(FragmentWith
                 // 회원 탈퇴 2 화면으로 이동
                 val actionToWithdrawal2: NavDirections = Withdrawal1FragmentDirections.actionWithdrawal1FrmToWithdrawal2Frm(
                         item,
-                        false
+                        false,
+                        loginType
                     )
                 view?.findNavController()?.navigate(actionToWithdrawal2)
             }

@@ -60,7 +60,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             }
             else {
                 // 이메일 입력 형식 오류 문구 띄우기
-                isEmailValid = true
+                isEmailValid = false
                 binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
                 binding.tvSignUp2EmailAlert.text = getString(R.string.login_email_alert)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
@@ -232,13 +232,19 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     override fun connectOopsAPI(token: String?, loginId: String?) {
         val authService = AuthService()
         authService.setSignUpView(this@SignUp2Activity)
-        Log.d("SignUp2Activity", "FCM 토큰 불러오기: " + token.toString())
+
+        var isAlert = false // 알림 설정 여부
+        if (token != null) {
+            isAlert = true
+        }
+
         authService.oopsSignUp(
             OopsUserModel(
                 binding.edtSignUp2Email.text.toString(),
                 binding.edtSignUp2Pwd.text.toString(),
                 getNickname(),
-                token
+                token,
+                isAlert
             )
         )
     }
@@ -302,9 +308,9 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 // json 파싱
                 val jsonObject = JSONObject(data.toString())
 
-                // accessToken 저장
-                val accessToken: String = jsonObject.getString("accessToken").toString()
-                saveToken(accessToken)
+                // xAuthToken 저장
+                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                saveToken(xAuthToken)
 
                 // spf 업데이트
                 saveNickname(getNickname())

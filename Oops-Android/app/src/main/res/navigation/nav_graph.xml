@@ -164,6 +164,12 @@
             android:id="@+id/action_stuffAddFrm_to_inventoryFrm"
             app:destination="@id/inventoryFragment"
             app:popUpToInclusive="false"/>
+
+        <!-- 소지품 추가 -> 홈 -->
+        <action
+            android:id="@+id/action_stuffAddFrm_to_homeFrm"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <!-- 콕콕 찌르기 -->
@@ -286,6 +292,10 @@
             android:id="@+id/action_withdrawal_1Frm_to_withdrawal_2Frm"
             app:destination="@id/withdrawal2Fragment"
             app:popUpTo="@id/withdrawal2Fragment"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
     </fragment>
 
     <!-- 회원 탈퇴 2 -->
@@ -303,6 +313,10 @@
         <argument
             android:name="isReadTerms"
             app:argType="boolean"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
         <action
             android:id="@+id/action_withdrawal_2Frm_to_termsFrm"
             app:destination="@id/termsFragment"/>
@@ -322,6 +336,10 @@
             android:name="tempWithdrawalItem"
             app:argType="com.oops.oops_android.ui.Main.MyPage.WithdrawalItem"
             app:nullable="true"/>
+        <!-- 회원 탈퇴하려는 계정 유형 -->
+        <argument
+            android:name="loginId"
+            app:argType="string"/>
         <action
             android:id="@+id/action_termsFrm_to_withdrawal_2Frm"
             app:destination="@id/withdrawal2Fragment"
@@ -338,5 +356,9 @@
         <action
             android:id="@+id/action_alertFrm_to_myPageFrm"
             app:destination="@id/myPageFragment"/>
+        <!-- 알림 설정 여부 -->
+        <argument
+            android:name="isAlert"
+            app:argType="boolean"/>
     </fragment>
 </navigation>
