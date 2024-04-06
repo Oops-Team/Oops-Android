@@ -308,7 +308,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 일정 목록 불러오기
                 val tempList = ArrayList<String>()
                 for (i in 0 until todoList.size) {
-                    tempList.add(todoList[i].edt.text.toString())
+                    if (todoList[i].edt.text.toString().isNotBlank()) {
+                        tempList.add(todoList[i].edt.text.toString())
+                    }
                 }
                 // 일정 추가 API 연결
                 createTodo(
@@ -330,7 +332,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 새롭게 추가한 일정 리스트
                 val tempTodoAddList = ArrayList<String>()
                 for (i in 0 until addTodoName.size) {
-                    tempTodoAddList.add(addTodoName[i].text.toString())
+                    if (addTodoName[i].text.toString().isNotBlank()) {
+                        tempTodoAddList.add(addTodoName[i].text.toString())
+                    }
                 }
                 // 수정한 일정 리스트
                 val tempTodoModifyList = ArrayList<TodoModifyItem2>()
