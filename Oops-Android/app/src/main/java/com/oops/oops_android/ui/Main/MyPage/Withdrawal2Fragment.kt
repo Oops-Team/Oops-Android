@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -197,6 +199,19 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                             // 삭제 성공
                         }
                     })
+                }
+                // 구글 애플리케이션 연동 해제
+                else if (loginId == "google") {
+                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.google_login_client_id))
+                        .requestEmail()
+                        .build()
+
+                    // 객체 생성
+                    val googleSignInClient = GoogleSignIn.getClient(mainActivity!!, gso)
+
+                    // 계정 삭제
+                    googleSignInClient.revokeAccess()
                 }
 
                 showToast(resources.getString(R.string.toast_user_withdrawal))

@@ -8,7 +8,6 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
-import com.navercorp.nid.NaverIdLoginSDK
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
@@ -61,9 +60,6 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                 // 로그아웃 버튼을 누른 경우
                 override fun onClicked() {
                     clearToken()
-                    if (myPageItem!!.loginType == "naver") {
-                        NaverIdLoginSDK.logout() // 네이버 로그인 로그아웃
-                    }
 
                     // 로그인 화면으로 이동
                     showToast("로그아웃했습니다")
