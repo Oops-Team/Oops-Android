@@ -413,6 +413,8 @@
     <string name="popup_inventory_delete_agree_info">삭제가 완료되었어요</string>
     <string name="popup_inventory_modify">인벤토리 수정 완료</string>
     <string name="popup_inventory_modify_info">수정이 완료되었어요\n수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
+    <string name="popup_friends_request">친구 신청</string>
+    <string name="popup_friends_request_info">님에게 친구 신청을 보냈어요</string>
     <string name="popup_friends_accept">친구 신청 수락</string>
     <string name="popup_friends_accept_info">친구가 되었어요\n오늘부터 우리는 짱친!</string>
     <string name="popup_friends_refuse">친구 신청 거절</string>

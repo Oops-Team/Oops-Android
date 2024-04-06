@@ -10,7 +10,6 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
@@ -224,7 +223,9 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                             // 친구 신청 성공
                             "Request Friends" -> {
                                 val tempData = data as StingRequestModel
-                                showToast("${tempData.name} 님에게 친구 신청을 보냈어요")
+                                // 팝업 띄우기
+                                val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_request, R.id.btn_popup_friends_request_confirm, tempData.name)
+                                acceptDialog.showFriendsAcceptDialog()
 
                                 // 대기중 상태로 바꾸기
                                 keywordList[tempData.position].userState = 2
