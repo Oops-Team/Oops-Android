@@ -83,33 +83,40 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
 
         // 인벤토리 변경 버튼 클릭 이벤트
         binding.iBtnStuffShowInventory.setOnClickListener {
-            // 현재 선택 중인 인벤토리 아이템을 제외하고 다른 화면에 넘겨주기
-            val tempInventoryList = ArrayList<HomeInventoryItem>()
-            for (i in 0 until inventoryList.size) {
-                if (!inventoryList[i].isInventoryUsed) {
-                    tempInventoryList.add(inventoryList[i])
-                }
+            // 만약 총 인벤토리가 1개 라면
+            if (inventoryList.size <= 1) {
+                showToast("변경 가능한 인벤토리가 없습니다")
             }
-            val dialog = EditStuffDialog(requireContext(), mainActivity!!, tempInventoryList)
-            dialog.showEditStuffDialog()
-
-            dialog.setOnClickedListener(object : EditStuffDialog.ButtonClickListener {
-                override fun onClicked(homeInventoryItem: HomeInventoryItem) {
-                    // 선택한 인벤토리로 변경
-                    for (i in 0 until inventoryList.size) {
-                        inventoryList[i].isInventoryUsed = false
+            // 총 인벤토리가 여러 개라면
+            else {
+                // 현재 선택 중인 인벤토리 아이템을 제외하고 다른 화면에 넘겨주기
+                val tempInventoryList = ArrayList<HomeInventoryItem>()
+                for (i in 0 until inventoryList.size) {
+                    if (!inventoryList[i].isInventoryUsed) {
+                        tempInventoryList.add(inventoryList[i])
                     }
-                    for (i in 0 until inventoryList.size) {
-                        if (inventoryList[i].inventoryId == homeInventoryItem.inventoryId) {
-                            inventoryList[i].isInventoryUsed = true
-                            break
-                        }
-                    }
-
-                    // 다른 인벤토리로 변경 API 연결
-                    changeTodoInventory(InventoryChangeTodoModel(selectDate.toString(), homeInventoryItem.inventoryName))
                 }
-            })
+                val dialog = EditStuffDialog(requireContext(), mainActivity!!, tempInventoryList)
+                dialog.showEditStuffDialog()
+
+                dialog.setOnClickedListener(object : EditStuffDialog.ButtonClickListener {
+                    override fun onClicked(homeInventoryItem: HomeInventoryItem) {
+                        // 선택한 인벤토리로 변경
+                        for (i in 0 until inventoryList.size) {
+                            inventoryList[i].isInventoryUsed = false
+                        }
+                        for (i in 0 until inventoryList.size) {
+                            if (inventoryList[i].inventoryId == homeInventoryItem.inventoryId) {
+                                inventoryList[i].isInventoryUsed = true
+                                break
+                            }
+                        }
+
+                        // 다른 인벤토리로 변경 API 연결
+                        changeTodoInventory(InventoryChangeTodoModel(selectDate.toString(), homeInventoryItem.inventoryName))
+                    }
+                })
+            }
         }
 
         // 소지품 추가하기 버튼 클릭 이벤트
