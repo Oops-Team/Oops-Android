@@ -93,9 +93,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val channel = NotificationChannel(
             channelId,
             channelName,
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH // 인앱에서 푸시 알림 + 헤드업 알림을 함께 띄우기
         )
         notificationManager.createNotificationChannel(channel)
-        notificationManager.notify(0, notificationBuilder.build())
+        // 알림 여러개 받도록 설정(id값을 다르게 설정)
+        notificationManager.notify((System.currentTimeMillis()).toInt(), notificationBuilder.build())
     }
 }
