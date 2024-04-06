@@ -272,9 +272,9 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // json 파싱
                 val jsonObject = JSONObject(data.toString())
 
-                // accessToken 저장
-                val accessToken: String = jsonObject.getString("accessToken").toString()
-                saveToken(accessToken)
+                // xAuthToken 저장
+                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                saveToken(xAuthToken)
 
                 // Room DB에 값 저장
                 userDB.userDao().insertUser(User(

@@ -302,9 +302,9 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 // json 파싱
                 val jsonObject = JSONObject(data.toString())
 
-                // accessToken 저장
-                val accessToken: String = jsonObject.getString("accessToken").toString()
-                saveToken(accessToken)
+                // xAuthToken 저장
+                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                saveToken(xAuthToken)
 
                 // spf 업데이트
                 saveNickname(getNickname())
