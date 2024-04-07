@@ -291,6 +291,16 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                 binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert)
                 binding.tvSignUp2EmailAlert.setTextColor(ContextCompat.getColor(applicationContext, R.color.Red_Medium))
                 binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Red_Dark))
+
+                // 팝업 띄우기
+                val signupEmailOverlapDialog = SignupEmailOverlapDialog(this)
+                signupEmailOverlapDialog.showSignupEmailOverlapDialog()
+                signupEmailOverlapDialog.setOnClickedListener(object : SignupEmailOverlapDialog.GoLoginBtnClickListener {
+                    override fun onClicked() {
+                        // 확인 버튼을 클릭한 경우 로그인 화면으로 이동
+                        startActivityWithClear(LoginActivity::class.java)
+                    }
+                })
             }
             else -> showToast(getString(R.string.toast_server_error))
         }
