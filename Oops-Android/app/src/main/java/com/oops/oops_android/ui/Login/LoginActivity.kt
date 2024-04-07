@@ -33,8 +33,10 @@ import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
+import com.oops.oops_android.utils.getLoginId
 import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
 import org.json.JSONException
@@ -139,7 +141,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             val userDB = AppDatabase.getUserDB()!! // room db의 user db
             val loginId = userDB.userDao().getLoginId()
 
-            //Log.d("user", userDB.userDao().getAllUser().toString())
+            Log.d("유저 room db", userDB.userDao().getAllUser().toString())
 
             if (loginId == "naver") {
                 binding.lLayoutLoginRecentNaver.visibility = View.VISIBLE
@@ -193,6 +195,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                             NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                                 // 호출 성공
                                 override fun onSuccess(result: NidProfileResponse) {
+                                    // 최신 로그인 유형 저장
+                                    saveLoginId("naver")
+
                                     val authService = AuthService()
                                     authService.setSignUpView(this@LoginActivity)
                                     authService.serverLogin(
@@ -235,6 +240,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                 "google" -> {
                     // 기존에 로그인했던 계정 확인하기
                     val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+
+                    // 최신 로그인 유형 저장
+                    saveLoginId("google")
 
                     // Oops 서버 로그인 api 연결
                     val authService = AuthService()
@@ -280,6 +288,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                             getNickname()
                         )
                     )
+
+                    // 최신 로그인 유형 저장
+                    saveLoginId("oops")
 
                     // 홈 화면으로 이동
                     startActivityWithClear(MainActivity::class.java)
@@ -467,6 +478,16 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     // 사용자 닉네임 저장
                     val name: String = jsonObject.getString("name").toString()
                     saveNickname(name)
+
+                    // 사용자 정보 저장
+                    val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                    userDB.userDao().deleteAllUser()
+                    userDB.userDao().insertUser(
+                        User(
+                            getLoginId(),
+                            getNickname()
+                        )
+                    )
 
                     // 홈 화면으로 이동
                     startActivityWithClear(MainActivity::class.java)

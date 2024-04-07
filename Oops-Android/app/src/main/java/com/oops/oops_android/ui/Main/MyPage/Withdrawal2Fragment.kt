@@ -19,7 +19,8 @@ import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal2Binding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.ButtonUtils
-import com.oops.oops_android.utils.clearToken
+import com.oops.oops_android.utils.clearSpf
+import com.oops.oops_android.utils.removeToken
 
 class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate), CommonView {
     private lateinit var withdrawalItem: WithdrawalItem // 탈퇴 사유 데이터
@@ -177,7 +178,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         when (status) {
             200 -> {
                 // 토큰 삭제
-                clearToken()
+                clearSpf()
 
                 // 유저 데이터 삭제
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db

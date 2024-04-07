@@ -19,6 +19,7 @@ import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
 import org.json.JSONObject
@@ -300,33 +301,38 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
-                val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                try {
+                    // json 파싱
+                    val jsonObject = JSONObject(data.toString())
 
-                // 기존 Room DB에 저장된 값 삭제
-                userDB.userDao().deleteAllUser()
+                    // xAuthToken 저장
+                    val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                    saveToken(xAuthToken)
 
-                // json 파싱
-                val jsonObject = JSONObject(data.toString())
+                    // spf 업데이트
+                    saveLoginId("oops")
 
-                // xAuthToken 저장
-                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
-                saveToken(xAuthToken)
+                    // room db의 user db
+                    val userDB = AppDatabase.getUserDB()!!
 
-                // spf 업데이트
-                saveNickname(getNickname())
+                    // 기존 Room DB에 저장된 값 삭제
+                    userDB.userDao().deleteAllUser()
 
-                // Room DB에 값 저장
-                userDB.userDao().insertUser(User("oops", getNickname()))
+                    // Room DB에 값 저장
+                    userDB.userDao().insertUser(User("oops", getNickname()))
 
-                // 알림 수신 동의했다면(=토큰이 있다면)
-                if (isGetToken) {
-                    // 알림 동의 완료 팝업 띄우기
-                    clickAgreeBtn()
-                }
-                // 알림 수신 동의를 안 했다면
-                else {
-                    // 알림 미동의 완료 팝업 띄우기
-                    clickDisAgreeBtn()
+                    // 알림 수신 동의했다면(=토큰이 있다면)
+                    if (isGetToken) {
+                        // 알림 동의 완료 팝업 띄우기
+                        clickAgreeBtn()
+                    }
+                    // 알림 수신 동의를 안 했다면
+                    else {
+                        // 알림 미동의 완료 팝업 띄우기
+                        clickDisAgreeBtn()
+                    }
+                } catch (e: Exception) {
+                    Log.e("SignUp2Activity - room db", e.stackTraceToString())
                 }
             }
         }

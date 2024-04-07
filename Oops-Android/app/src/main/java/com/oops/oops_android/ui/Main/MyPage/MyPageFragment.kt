@@ -14,7 +14,7 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
 import com.oops.oops_android.databinding.FragmentMyPageBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Login.LoginActivity
-import com.oops.oops_android.utils.clearToken
+import com.oops.oops_android.utils.removeToken
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -59,7 +59,7 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
                 // 로그아웃 버튼을 누른 경우
                 override fun onClicked() {
-                    clearToken()
+                    removeToken()
 
                     // 로그인 화면으로 이동
                     showToast("로그아웃했습니다")
