@@ -174,37 +174,4 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
 
         snackBar.show() // 스낵바 띄우기
     }
-
-    // 취소 버튼 이벤트
-    @SuppressLint("ClickableViewAccessibility")
-    fun clickCancelBtn(edt: EditText, alert: TextView) {
-        if (edt.text.toString().isNotBlank()) {
-            val cancelBtn = ContextCompat.getDrawable(applicationContext, R.drawable.ic_cancel_25)
-            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, cancelBtn, null)
-
-            // 취소 버튼 클릭 이벤트
-            edt.setOnTouchListener(View.OnTouchListener { _, event ->
-                val DRAWABLE_RIGHT = 2
-
-                try {
-                    if (event.action == MotionEvent.ACTION_UP) {
-                        if (event.rawX >= (edt.right -
-                                    edt.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 12)) {
-                            // 취소 버튼 삭제 및 입력된 text 삭제
-                            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-                            edt.text = null
-                            alert.text = null
-                            alert.visibility = View.INVISIBLE
-                            return@OnTouchListener true
-                        }
-                    }
-                    false
-                } catch (e: Exception) {
-                    false
-                }
-            })
-        }
-        else
-            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-    }
 }

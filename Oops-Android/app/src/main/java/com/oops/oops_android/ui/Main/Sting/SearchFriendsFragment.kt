@@ -80,6 +80,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                 // 값이 있다면
                 if (charSequence != null) {
                     if (charSequence.isNotBlank()) {
+                        clickCancelBtn(binding.edtFriendsSearchBox) // 취소 버튼 띄우기
                         Handler(Looper.getMainLooper()).postDelayed({
                             try {
                                 keyword = charSequence.toString()

@@ -194,6 +194,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
 
             // 검색 중
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                clickCancelBtn(binding.edtStuffAddSearchBox) // 취소 버튼 클릭 이벤트
                 stuffAddListAdapter.filter.filter(charSequence)
             }
 
