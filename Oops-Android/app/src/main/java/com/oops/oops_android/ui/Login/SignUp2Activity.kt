@@ -20,7 +20,6 @@ import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
-import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
 import org.json.JSONObject
 
@@ -311,15 +310,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
 
                     // spf 업데이트
                     saveLoginId("oops")
-
-                    // room db의 user db
-                    val userDB = AppDatabase.getUserDB()!!
-
-                    // 기존 Room DB에 저장된 값 삭제
-                    userDB.userDao().deleteAllUser()
-
-                    // Room DB에 값 저장
-                    userDB.userDao().insertUser(User("oops", getNickname()))
 
                     // 알림 수신 동의했다면(=토큰이 있다면)
                     if (isGetToken) {

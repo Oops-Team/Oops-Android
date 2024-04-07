@@ -16,6 +16,7 @@ import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
+import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
@@ -274,17 +275,12 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
                 saveToken(xAuthToken)
 
-                // room db의 user db
-                val userDB = AppDatabase.getUserDB()!!
-
-                // 기존 Room DB에 저장된 값 삭제
-                userDB.userDao().deleteAllUser()
-
-                // Room DB에 값 저장
-                userDB.userDao().insertUser(User(
-                    loginId!!,
-                    binding.edtSignUpNickname.text.toString()
-                ))
+                if (loginId == "naver") {
+                    // room db의 user db
+                    val userDB = AppDatabase.getUserDB()
+                    userDB?.userDao()?.deleteAllUser()
+                    userDB?.userDao()?.insertUser(User(loginId!!, binding.edtSignUpNickname.text.toString()))
+                }
 
                 // 알림 수신 동의했다면(=토큰이 있다면)
                 if (isGetToken) {

@@ -138,20 +138,21 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
         // 최근 로그인한 플랫폼에 따른 말풍선 띄우기
         try {
-            val userDB = AppDatabase.getUserDB()!! // room db의 user db
-            val loginId = userDB.userDao().getLoginId()
-
-            Log.d("유저 room db", userDB.userDao().getAllUser().toString())
-
-            if (loginId == "naver") {
+            if (getLoginId() == "naver") {
                 binding.lLayoutLoginRecentNaver.visibility = View.VISIBLE
+                binding.lLayoutLoginRecentGoogle.visibility = View.GONE
             }
-            else if (loginId == "google") {
+            else if (getLoginId() == "google") {
                 binding.lLayoutLoginRecentGoogle.visibility = View.VISIBLE
+                binding.lLayoutLoginRecentNaver.visibility = View.GONE
             }
         } catch (e: Exception) {
             Log.e("LoginActivity - LoginId", e.stackTraceToString())
         }
+
+        // room db의 user db
+        val userDB = AppDatabase.getUserDB()
+        Log.d("Login, room", userDB?.userDao()?.getAllUser().toString())
     }
 
     // 이메일, 비밀번호 유효성 검사
@@ -197,6 +198,16 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                                 override fun onSuccess(result: NidProfileResponse) {
                                     // 최신 로그인 유형 저장
                                     saveLoginId("naver")
+
+                                    // 사용자 정보 저장
+                                    val userDB = AppDatabase.getUserDB()!! // room db의 user db
+                                    userDB.userDao().deleteAllUser()
+                                    userDB.userDao().insertUser(
+                                        User(
+                                            "naver",
+                                            getNickname()
+                                        )
+                                    )
 
                                     val authService = AuthService()
                                     authService.setSignUpView(this@LoginActivity)
@@ -279,16 +290,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     val name: String = jsonObject.getString("name").toString()
                     saveNickname(name)
 
-                    // 사용자 정보 저장
-                    val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                    userDB.userDao().deleteAllUser()
-                    userDB.userDao().insertUser(
-                        User(
-                            "oops",
-                            getNickname()
-                        )
-                    )
-
                     // 최신 로그인 유형 저장
                     saveLoginId("oops")
 
@@ -325,8 +326,8 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
     // 네이버 로그인 서버 API 연결 성공
     private fun naverLogin() {
-        val userDB = AppDatabase.getUserDB()!! // room db의 user db
-        val loginId = userDB.userDao().getLoginId()
+        val userDB = AppDatabase.getUserDB() // room db의 user db
+        val loginId = userDB?.userDao()?.getLoginId()
 
         val oAuthLoginCallback = object : OAuthLoginCallback {
             // 인증 성공
@@ -336,18 +337,18 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     // 호출 성공
                     override fun onSuccess(result: NidProfileResponse) {
                         // 재로그인 이라면
-                        if (loginId == "naver") {
+                        if (loginId != null) {
                             getFCMToken("naver")
                         }
                         // 회원가입이라면
                         else {
+                            // 기존 값 삭제
+                            userDB?.userDao()?.deleteAllUser()
+
                             // 사용자 정보 저장
-                            userDB.userDao().deleteAllUser()
-                            userDB.userDao().insertUser(
-                                User(
-                                    "naver"
-                                )
-                            )
+                            // Room DB에 값 저장
+                            userDB?.userDao()?.insertUser(User("naver"))
+                            Log.d("Login, 저장, room", userDB?.userDao()?.getAllUser().toString())
 
                             // 닉네임 설정 화면으로 이동
                             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
@@ -438,15 +439,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             if (googleSignInAccount != null) {
                 val email = googleSignInAccount.email
 
-                // 사용자 정보 저장
-                val userDB = AppDatabase.getUserDB()!!
-                userDB.userDao().deleteAllUser()
-                userDB.userDao().insertUser(
-                    User(
-                        "google"
-                    )
-                )
-
                 // 닉네임 설정 화면으로 이동
                 val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
                 // 다음 화면에서 room db에 값 저장하기 위해 해당 값 전달
@@ -479,14 +471,10 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                     val name: String = jsonObject.getString("name").toString()
                     saveNickname(name)
 
-                    // 사용자 정보 저장
-                    val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                    userDB.userDao().deleteAllUser()
-                    userDB.userDao().insertUser(
-                        User(
-                            getLoginId(),
-                            getNickname()
-                        )
+                    val userDB = AppDatabase.getUserDB() // room db의 user db
+                    userDB?.userDao()?.updateUserName(
+                        name,
+                        "naver"
                     )
 
                     // 홈 화면으로 이동

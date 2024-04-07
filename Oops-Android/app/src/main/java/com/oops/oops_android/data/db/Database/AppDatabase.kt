@@ -8,7 +8,7 @@ import com.oops.oops_android.data.db.Dao.UserDao
 import com.oops.oops_android.data.db.Entity.User
 
 /* Room DB */
-@Database(entities = [User::class], version = 2)
+@Database(entities = [User::class], version = 3)
 abstract class AppDatabase: RoomDatabase() {
     // 사용자 정보
     abstract fun userDao(): UserDao
