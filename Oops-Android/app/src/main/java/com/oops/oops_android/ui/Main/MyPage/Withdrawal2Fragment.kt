@@ -18,6 +18,7 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal2Binding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.clearSpf
 import com.oops.oops_android.utils.removeToken
@@ -218,8 +219,9 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 showToast(resources.getString(R.string.toast_user_withdrawal))
 
                 // 로그인 화면으로 이동
-                val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
-                view?.findNavController()?.navigate(actionToLogin)
+                mainActivity?.startActivityWithClear(LoginActivity::class.java)
+                //val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
+                //view?.findNavController()?.navigate(actionToLogin)
             }
         }
     }
