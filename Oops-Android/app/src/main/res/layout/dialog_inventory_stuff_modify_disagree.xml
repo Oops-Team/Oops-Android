@@ -24,7 +24,7 @@
 
     <Button
         android:id="@+id/btn_popup_home_inventory_disagree_confirm"
-        android:layout_width="264dp"
+        android:layout_width="296dp"
         android:layout_height="33dp"
         style="@style/PopUpButtonEnableStyle"
         android:text="@string/popup_confirm"

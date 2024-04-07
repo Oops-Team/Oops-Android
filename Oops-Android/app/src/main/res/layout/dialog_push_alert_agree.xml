@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/btn_popup_push_alert_agree_confirm"
-        android:layout_width="264dp"
+        android:layout_width="296dp"
         android:layout_height="33dp"
         style="@style/PopUpButtonEnableStyle"
         android:text="@string/popup_confirm"
