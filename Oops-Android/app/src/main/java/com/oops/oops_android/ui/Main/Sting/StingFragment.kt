@@ -103,7 +103,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend11.setOnClickListener {
                                 count11++
-                                if (count11 <= 9) {
+                                if (count11 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -120,7 +120,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend21.setOnClickListener {
                                 count21++
-                                if (count21 <= 9) {
+                                if (count21 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -130,7 +130,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend22.setOnClickListener {
                                 count22++
-                                if (count22 <= 9) {
+                                if (count22 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -148,7 +148,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend31.setOnClickListener {
                                 count31++
-                                if (count31 <= 9) {
+                                if (count31 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -158,7 +158,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend32.setOnClickListener {
                                 count32++
-                                if (count32 <= 9) {
+                                if (count32 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -168,7 +168,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend33.setOnClickListener {
                                 count33++
-                                if (count33 <= 9) {
+                                if (count33 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -187,7 +187,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend41.setOnClickListener {
                                 count41++
-                                if (count41 <= 9) {
+                                if (count41 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -197,7 +197,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend42.setOnClickListener {
                                 count42++
-                                if (count42 <= 9) {
+                                if (count42 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -207,7 +207,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend43.setOnClickListener {
                                 count43++
-                                if (count43 <= 9) {
+                                if (count43 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -217,7 +217,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend44.setOnClickListener {
                                 count44++
-                                if (count44 <= 9) {
+                                if (count44 <= 4) {
                                     stingFriend(friendList[3].userName)
                                 }
                                 else {
@@ -237,7 +237,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend51.setOnClickListener {
                                 count51++
-                                if (count51 <= 9) {
+                                if (count51 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -247,7 +247,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend52.setOnClickListener {
                                 count52++
-                                if (count52 <= 9) {
+                                if (count52 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -257,7 +257,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend53.setOnClickListener {
                                 count53++
-                                if (count53 <= 9) {
+                                if (count53 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -267,7 +267,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend54.setOnClickListener {
                                 count54++
-                                if (count54 <= 9) {
+                                if (count54 <= 4) {
                                     stingFriend(friendList[3].userName)
                                 }
                                 else {
@@ -277,7 +277,7 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
 
                             binding.ivStingFriend55.setOnClickListener {
                                 count55++
-                                if (count55 <= 9) {
+                                if (count55 <= 4) {
                                     stingFriend(friendList[4].userName)
                                 }
                                 else {
