@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
@@ -340,7 +339,34 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     }
 
     // 콕콕 찌르기 실패
-    override fun onCommonFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
+        when (status) {
+            404 -> {
+                // 콕콕 찌르기 실패
+                when (message) {
+                    "해당 사용자가 존재하지 않습니다" -> {
+                        showToast("해당 사용자가 존재하지 않습니다")
+                    }
+
+                    "올바르지 않은 FCM 토큰입니다" -> {
+                        showToast("요청을 처리할 수 없습니다 재로그인해주세요")
+                    }
+                }
+            }
+            412 -> {
+                if (message == "콕콕 찌르기를 할 수 없습니다") {
+                    showToast("알림 설정을 동의해주세요!")
+                }
+            }
+            500 -> {
+                Log.e("FriendsFragment - 500", message)
+
+                // 콕콕 찌르기 실패
+                if (message == "콕콕 찌르기를 실패했습니다") {
+                    showToast(message)
+                }
+            }
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }

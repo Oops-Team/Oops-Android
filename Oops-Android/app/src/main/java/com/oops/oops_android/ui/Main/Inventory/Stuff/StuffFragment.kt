@@ -152,7 +152,7 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
     }
 
     // 챙겨야 할 것 수정(소지품 삭제) 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 

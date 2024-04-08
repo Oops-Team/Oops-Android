@@ -101,7 +101,7 @@ class AlertFragment: BaseFragment<FragmentAlertBinding>(FragmentAlertBinding::in
     }
 
     // 푸시 알림 설정 변경 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

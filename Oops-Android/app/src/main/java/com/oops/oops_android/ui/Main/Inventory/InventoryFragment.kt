@@ -352,7 +352,7 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
     }
 
     // 인벤토리 아이콘 변경 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

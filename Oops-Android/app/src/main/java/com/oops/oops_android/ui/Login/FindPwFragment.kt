@@ -6,8 +6,6 @@ import android.content.res.ColorStateList
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
@@ -302,7 +300,7 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
     }
 
     // 코드 전송 API, 비밀번호 변경 API 연결 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
             404 -> {
                 // 코드 전송 API - 등록된 이메일이 없는 경우

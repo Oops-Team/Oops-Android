@@ -752,7 +752,7 @@ class HomeFragment:
     }
 
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

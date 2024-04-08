@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
-import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Auth.Api.SignUpView
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
@@ -282,7 +280,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // 이메일 중복 확인 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
             // 이메일 중복
             409 -> {

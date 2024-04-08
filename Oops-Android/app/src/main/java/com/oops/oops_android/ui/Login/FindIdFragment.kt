@@ -92,7 +92,7 @@ class FindIdFragment: BaseFragment<FragmentFindIdBinding>(FragmentFindIdBinding:
     }
 
     // 이메일 찾기 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
             404 -> {
                 // 등록된 이메일이 없는 경우

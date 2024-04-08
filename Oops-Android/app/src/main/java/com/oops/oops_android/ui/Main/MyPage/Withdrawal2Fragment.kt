@@ -21,7 +21,6 @@ import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.clearSpf
-import com.oops.oops_android.utils.removeToken
 
 class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate), CommonView {
     private lateinit var withdrawalItem: WithdrawalItem // 탈퇴 사유 데이터
@@ -227,7 +226,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
     }
 
     // 탈퇴하기 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

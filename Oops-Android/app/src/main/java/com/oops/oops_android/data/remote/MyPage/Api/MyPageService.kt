@@ -2,13 +2,11 @@ package com.oops.oops_android.data.remote.MyPage.Api
 
 import android.util.Log
 import com.oops.oops_android.ApplicationClass.Companion.retrofit
-import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Common.CommonResponse
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Model.UserPushAlertChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
-import com.oops.oops_android.ui.Main.MyPage.WithdrawalItem
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback

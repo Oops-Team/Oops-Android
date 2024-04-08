@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 interface CommonView {
     fun onCommonSuccess(status: Int, message: String, data: Any? = null) // 성공
 
-    fun onCommonFailure(status: Int, message: String) // 실패
+    fun onCommonFailure(status: Int, message: String, data: String? = null) // 실패
 }
 
 interface CommonObjectView {

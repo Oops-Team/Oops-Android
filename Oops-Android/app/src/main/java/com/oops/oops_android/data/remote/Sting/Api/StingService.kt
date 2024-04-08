@@ -79,7 +79,7 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "콕콕 찌르기 실패")
-                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    commonView.onCommonFailure(statusObject, messageObject, "Sting") // 실패
                     Log.e("Sting - Get Sting Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
@@ -168,7 +168,7 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Request Friends")
-                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    commonView.onCommonFailure(statusObject, messageObject, "Request") // 실패
                     Log.e("Sting - Request Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
@@ -198,7 +198,7 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Accept Friends")
-                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    commonView.onCommonFailure(statusObject, messageObject, "Accept") // 실패
                     Log.e("Sting - Accept Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
@@ -233,7 +233,7 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Refuse Friends")
-                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    commonView.onCommonFailure(statusObject, messageObject, "Refuse") // 실패
                     Log.e("Sting - Refuse Friends / ERROR", "$jsonObject $messageObject")
                 }
             }

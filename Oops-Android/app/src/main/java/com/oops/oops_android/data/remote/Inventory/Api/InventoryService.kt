@@ -10,7 +10,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 /* 인벤토리 화면에서 사용하는 API 연결 함수 */
 class InventoryService {
