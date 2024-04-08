@@ -4,14 +4,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.oops.oops_android.ApplicationClass.Companion.applicationContext
+import com.oops.oops_android.data.db.Dao.RemindAlarmDao
 import com.oops.oops_android.data.db.Dao.UserDao
+import com.oops.oops_android.data.db.Entity.RemindAlarm
 import com.oops.oops_android.data.db.Entity.User
 
 /* Room DB */
-@Database(entities = [User::class], version = 3)
+@Database(entities = [User::class, RemindAlarm::class], version = 6)
 abstract class AppDatabase: RoomDatabase() {
-    // 사용자 정보
-    abstract fun userDao(): UserDao
+    abstract fun userDao(): UserDao // 사용자 정보
+    abstract fun alarmDao(): RemindAlarmDao // 알람 정보
 
     companion object {
         private var appDatabase: AppDatabase? = null

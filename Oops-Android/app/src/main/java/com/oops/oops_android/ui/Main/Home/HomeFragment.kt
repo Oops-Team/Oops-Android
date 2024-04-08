@@ -27,6 +27,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoMonthlyView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
@@ -106,6 +107,9 @@ class HomeFragment:
     }
 
     override fun initAfterBinding() {
+        // room db의 user db
+        val userDB = AppDatabase.getUserDB()
+        Log.d("Home, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
 
         // 일정 어댑터 연결
         todoAdapter = TodoListAdapter(requireContext())

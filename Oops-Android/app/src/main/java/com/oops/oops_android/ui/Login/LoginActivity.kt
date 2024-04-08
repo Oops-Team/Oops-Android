@@ -153,6 +153,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         // room db의 user db
         val userDB = AppDatabase.getUserDB()
         Log.d("Login, room", userDB?.userDao()?.getAllUser().toString())
+        Log.d("Login, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
     }
 
     // 이메일, 비밀번호 유효성 검사
