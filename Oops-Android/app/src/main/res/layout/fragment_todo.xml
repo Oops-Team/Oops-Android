@@ -159,29 +159,6 @@
                     android:src="@drawable/ic_delete_24"/>
             </LinearLayout>
 
-            <!-- 오늘 할 일 입력 박스 -->
-            <EditText
-                android:id="@+id/edt_todo"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:hint="@string/todo_today_info"
-                android:textColorHint="@color/Gray_300"
-                android:textColor="@color/Gray_900"
-                android:textSize="14sp"
-                android:typeface="normal"
-                android:maxLines="1"
-                android:maxLength="20"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:background="@drawable/edit_text_bg"
-                android:focusableInTouchMode="true"
-                android:focusable="true"
-                android:inputType="text"
-                android:imeOptions="actionDone"/>
-
             <!-- 추가될 오늘 할 일 입력 박스가 들어갈 레이아웃 -->
             <LinearLayout
                 android:id="@+id/lLayout_todo"

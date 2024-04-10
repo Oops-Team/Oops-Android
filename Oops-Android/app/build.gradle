@@ -96,6 +96,9 @@ dependencies {
     implementation 'com.navercorp.nid:oauth:5.9.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
 
+    // 구글 로그인 SDK 설정
+    implementation 'com.google.android.gms:play-services-auth:21.0.0'
+
     // 푸시 알림 권한
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
 

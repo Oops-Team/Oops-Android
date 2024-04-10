@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.StingView
@@ -102,8 +101,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend11, friendList[0].userImg)
 
                             binding.ivStingFriend11.setOnClickListener {
-                                if (count11 <= 10) {
-                                    count11++
+                                count11++
+                                if (count11 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -119,8 +118,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend22, friendList[1].userImg)
 
                             binding.ivStingFriend21.setOnClickListener {
-                                if (count21 <= 10) {
-                                    count21++
+                                count21++
+                                if (count21 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -129,8 +128,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend22.setOnClickListener {
-                                if (count22 <= 10) {
-                                    count22++
+                                count22++
+                                if (count22 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -147,8 +146,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend33, friendList[2].userImg)
 
                             binding.ivStingFriend31.setOnClickListener {
-                                if (count31 <= 10) {
-                                    count31++
+                                count31++
+                                if (count31 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -157,8 +156,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend32.setOnClickListener {
-                                if (count32 <= 10) {
-                                    count32++
+                                count32++
+                                if (count32 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -167,8 +166,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend33.setOnClickListener {
-                                if (count33 <= 10) {
-                                    count33++
+                                count33++
+                                if (count33 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -186,8 +185,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend44, friendList[3].userImg)
 
                             binding.ivStingFriend41.setOnClickListener {
-                                if (count41 <= 10) {
-                                    count41++
+                                count41++
+                                if (count41 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -196,8 +195,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend42.setOnClickListener {
-                                if (count42 <= 10) {
-                                    count42++
+                                count42++
+                                if (count42 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -206,8 +205,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend43.setOnClickListener {
-                                if (count43 <= 10) {
-                                    count43++
+                                count43++
+                                if (count43 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -216,8 +215,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend44.setOnClickListener {
-                                if (count44 <= 10) {
-                                    count44++
+                                count44++
+                                if (count44 <= 4) {
                                     stingFriend(friendList[3].userName)
                                 }
                                 else {
@@ -236,8 +235,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             setProfileImg(binding.ivStingFriend55, friendList[4].userImg)
 
                             binding.ivStingFriend51.setOnClickListener {
-                                if (count51 <= 10) {
-                                    count51++
+                                count51++
+                                if (count51 <= 4) {
                                     stingFriend(friendList[0].userName)
                                 }
                                 else {
@@ -246,8 +245,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend52.setOnClickListener {
-                                if (count52 <= 10) {
-                                    count52++
+                                count52++
+                                if (count52 <= 4) {
                                     stingFriend(friendList[1].userName)
                                 }
                                 else {
@@ -256,8 +255,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend53.setOnClickListener {
-                                if (count53 <= 10) {
-                                    count53++
+                                count53++
+                                if (count53 <= 4) {
                                     stingFriend(friendList[2].userName)
                                 }
                                 else {
@@ -266,8 +265,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend54.setOnClickListener {
-                                if (count54 <= 10) {
-                                    count54++
+                                count54++
+                                if (count54 <= 4) {
                                     stingFriend(friendList[3].userName)
                                 }
                                 else {
@@ -276,8 +275,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                             }
 
                             binding.ivStingFriend55.setOnClickListener {
-                                if (count55 <= 10) {
-                                    count55++
+                                count55++
+                                if (count55 <= 4) {
                                     stingFriend(friendList[4].userName)
                                 }
                                 else {
@@ -340,7 +339,34 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     }
 
     // 콕콕 찌르기 실패
-    override fun onCommonFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
+        when (status) {
+            404 -> {
+                // 콕콕 찌르기 실패
+                when (message) {
+                    "해당 사용자가 존재하지 않습니다" -> {
+                        showToast("해당 사용자가 존재하지 않습니다")
+                    }
+
+                    "올바르지 않은 FCM 토큰입니다" -> {
+                        showToast("요청을 처리할 수 없습니다 재로그인해주세요")
+                    }
+                }
+            }
+            412 -> {
+                if (message == "콕콕 찌르기를 할 수 없습니다") {
+                    showToast("알림 설정을 동의해주세요!")
+                }
+            }
+            500 -> {
+                Log.e("FriendsFragment - 500", message)
+
+                // 콕콕 찌르기 실패
+                if (message == "콕콕 찌르기를 실패했습니다") {
+                    showToast(message)
+                }
+            }
+            else -> showToast(resources.getString(R.string.toast_server_error))
+        }
     }
 }

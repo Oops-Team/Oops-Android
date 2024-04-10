@@ -16,8 +16,8 @@ interface UserDao {
 
     // 다중 로그인을 했을 경우
     // 이메일, 로그인 유형이 일치하는 사용자 정보를 가져오는 쿼리문
-    @Query("SELECT * FROM UserTable")
-    fun getUser(): User
+    @Query("SELECT * FROM UserTable WHERE loginId IN (:loginId)")
+    fun getUser(loginId: String): User
 
     // 로그인 유형 반환
     @Query("SELECT loginId FROM UserTable")
@@ -25,7 +25,7 @@ interface UserDao {
 
     // 닉네임 저장
     @Query("UPDATE UserTable set name = :name WHERE loginId IN (:loginId)")
-    fun insertUserName(name: String, loginId: String)
+    fun updateUserName(name: String, loginId: String)
 
     // 사용자 정보 삭제
     @Delete

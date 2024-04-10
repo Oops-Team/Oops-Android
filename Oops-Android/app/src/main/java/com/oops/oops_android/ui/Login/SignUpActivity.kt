@@ -17,6 +17,7 @@ import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
 import org.json.JSONObject
@@ -39,7 +40,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         try {
             loginId = intent.getStringExtra("LoginId")
             serverEmail = intent.getStringExtra("Email")
-            Log.d("네이버 로그인", loginId.toString())
         } catch (e: Exception) {
             Log.e("SignUpActivity - intent", e.stackTraceToString())
         }
@@ -139,7 +139,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     override fun connectOopsAPI(token: String?, tempLoginId: String?) {
         val authService = AuthService()
         authService.setSignUpView(this)
-        Log.d("커넥트 네이버 토큰 없음,,", tempLoginId.toString())
+
         var isAlert = false
         if (token != null) {
             isAlert = true // 알림 설정 여부
@@ -159,10 +159,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     private fun clickNextBtn() {
         try {
             // 네이버에서 넘어온 화면이라면
-            if (loginId == "naver") {
-                // 닉네임 저장
-                val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                userDB.userDao().insertUserName(binding.edtSignUpNickname.text.toString(), "naver")
+            if (loginId == "naver" || loginId == "google") {
 
                 // 안드로이드13 이상이라면
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -172,7 +169,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 // 안드로이드12 이하라면
                 else {
                     // FCM 토큰 발급 및 로그인 API 연결
-                    getFCMToken("naver")
+                    getFCMToken(loginId)
                 }
             }
         } catch (e: Exception) {
@@ -238,7 +235,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
     }
 
     // 닉네임 중복 검사 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
             // 닉네임 중복인 경우
             409 -> {
@@ -262,17 +259,13 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
-    // 네이버 & 구글 로그인 성공
+    // 네이버 & 구글 회원가입 성공
     override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
         when (status) {
             200 -> {
-                val userDB = AppDatabase.getUserDB()!! // room db의 user db
-
-                // 기존 Room DB에 저장된 값 삭제
-                userDB.userDao().deleteAllUser()
-
                 // spf 기존 값 업데이트
                 saveNickname(binding.edtSignUpNickname.text.toString())
+                saveLoginId(loginId!!)
 
                 // json 파싱
                 val jsonObject = JSONObject(data.toString())
@@ -281,11 +274,12 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
                 val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
                 saveToken(xAuthToken)
 
-                // Room DB에 값 저장
-                userDB.userDao().insertUser(User(
-                    loginId!!,
-                    binding.edtSignUpNickname.text.toString()
-                ))
+                if (loginId == "naver") {
+                    // room db의 user db
+                    val userDB = AppDatabase.getUserDB()
+                    userDB?.userDao()?.deleteAllUser()
+                    userDB?.userDao()?.insertUser(User(loginId!!, binding.edtSignUpNickname.text.toString()))
+                }
 
                 // 알림 수신 동의했다면(=토큰이 있다면)
                 if (isGetToken) {
@@ -303,6 +297,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
 
     // 네이버 & 구글 로그인 실패
     override fun onSignUpFailure(status: Int, message: String) {
-        TODO("Not yet implemented")
+        showToast(getString(R.string.toast_server_error))
     }
 }

@@ -30,7 +30,7 @@
         android:drawableStart="@drawable/ic_search_27"
         android:paddingTop="14dp"
         android:paddingStart="22dp"
-        android:paddingEnd="22dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="14dp"
         android:drawablePadding="13dp"
         android:layout_marginTop="8dp"

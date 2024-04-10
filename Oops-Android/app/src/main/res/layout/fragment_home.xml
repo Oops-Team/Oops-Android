@@ -190,9 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="챙겨야 할 것"
-                    android:textSize="18sp"
-                    android:textColor="#1C1C1C"
-                    android:fontFamily="@font/pretendard_bold"
+                    style="@style/H4"
+                    android:textColor="@color/Black_1C"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
@@ -242,11 +241,37 @@
                 android:id="@+id/tv_home_stuff_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginTop="49dp"
                 android:text="일정 추가 후 소지품이 추가돼요"
                 style="@style/Body2"
                 android:textColor="@color/Gray_400" />
+
+            <LinearLayout
+                android:id="@+id/lLayout_home_stuff_no_inventory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="인벤토리가 비어 있어요"
+                    style="@style/Body2"
+                    android:textColor="@color/Gray_400" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="소지품을 추가해 주세요!"
+                    style="@style/Body2"
+                    android:textColor="@color/Gray_400" />
+            </LinearLayout>
 
             <!-- 챙겨야 할 것 -->
             <androidx.recyclerview.widget.RecyclerView
@@ -279,9 +304,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="오늘 할 일"
-                    android:textSize="18sp"
-                    android:textColor="#1C1C1C"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/Black_1C"
+                    style="@style/H4"
                     android:layout_marginStart="16dp"/>
 
                 <!-- 홈 화면의 오늘 할 일 태그가 들어 갈 레이아웃 -->

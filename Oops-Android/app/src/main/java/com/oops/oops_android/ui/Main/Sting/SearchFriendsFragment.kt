@@ -10,7 +10,6 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
-import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Sting.Api.StingService
 import com.oops.oops_android.data.remote.Sting.Api.UsersView
@@ -81,6 +80,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                 // 값이 있다면
                 if (charSequence != null) {
                     if (charSequence.isNotBlank()) {
+                        clickCancelBtn(binding.edtFriendsSearchBox) // 취소 버튼 띄우기
                         Handler(Looper.getMainLooper()).postDelayed({
                             try {
                                 keyword = charSequence.toString()
@@ -214,7 +214,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         getHideKeyboard(binding.root) // 키보드 숨기기
     }
 
-    // 친구 신청하기 API 연결 성공
+    // 친구 신청하기 & 친구 끊기 & 콕콕 찌르기 연결 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (status) {
             200 -> {
@@ -224,7 +224,9 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                             // 친구 신청 성공
                             "Request Friends" -> {
                                 val tempData = data as StingRequestModel
-                                showToast("${tempData.name} 님에게 친구 신청을 보냈어요")
+                                // 팝업 띄우기
+                                val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_request, R.id.btn_popup_friends_request_confirm, tempData.name)
+                                acceptDialog.showFriendsAcceptDialog()
 
                                 // 대기중 상태로 바꾸기
                                 keywordList[tempData.position].userState = 2
@@ -260,10 +262,77 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
         }
     }
 
-    // 친구 신청하기 API 연결 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    // 친구 신청하기 & 친구 끊기 & 콕콕 찌르기 연결 실패
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
-            404, 409 -> showToast(message)
+            207 -> {
+                // 요청은 했으나, 알림 설정 해제로 인해 알림을 보내지 않는 경우
+                // 친구 신청, 끊기 ok
+                Log.e("FriendsFragment - 207", message)
+            }
+            404 -> {
+                // 콕콕 찌르기 실패
+                when (data) {
+                    "Sting" -> {
+                        when (message) {
+                            "해당 사용자가 존재하지 않습니다" -> {
+                                showToast("해당 사용자가 존재하지 않습니다")
+                            }
+
+                            "올바르지 않은 FCM 토큰입니다" -> {
+                                showToast("요청을 처리할 수 없습니다 재로그인해주세요")
+                            }
+                        }
+                    }
+
+                    // 친구 신청 실패
+                    "Request" -> {
+                        when (message) {
+                            "신청하려는 사용자가 존재하지 않습니다" -> {
+                                showToast("해당 사용자가 존재하지 않습니다")
+                            }
+                        }
+                    }
+
+                    // 친구 수락 실패
+                    "Accept" -> {
+                        when (message) {
+                            "수락할 사용자가 존재하지 않습니다" -> {
+                                showToast("해당 사용자가 존재하지 않습니다")
+                            }
+                        }
+                    }
+
+                    // 친구 삭제 실패
+                    "Refuse" -> {
+                        when (message) {
+                            "해당 사용자가 존재하지 않습니다" -> {
+                                showToast("해당 사용자가 존재하지 않습니다")
+                            }
+                        }
+                    }
+                }
+            }
+            // 이미 친구 신청한 사용자인 경우
+            409 -> {
+                Log.e("FriendsFragment - 409", message)
+                if (message == "이미 친구 신청한 사용자입니다") {
+                    showToast("이미 서로 친구에요!")
+                }
+            }
+            412 -> {
+                if (message == "콕콕 찌르기를 할 수 없습니다") {
+                    showToast("알림 설정을 동의해주세요!")
+                }
+            }
+            500 -> {
+                Log.e("FriendsFragment - 500", message)
+
+                // 콕콕 찌르기 실패
+                if (message == "콕콕 찌르기를 실패했습니다") {
+                    showToast(message)
+                }
+            }
             else -> showToast(resources.getString(R.string.toast_server_error))
         }
     }

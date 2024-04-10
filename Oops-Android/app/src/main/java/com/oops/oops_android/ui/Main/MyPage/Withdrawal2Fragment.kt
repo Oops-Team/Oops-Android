@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -16,8 +18,9 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal2Binding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.ButtonUtils
-import com.oops.oops_android.utils.clearToken
+import com.oops.oops_android.utils.clearSpf
 
 class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWithdrawal2Binding::inflate), CommonView {
     private lateinit var withdrawalItem: WithdrawalItem // 탈퇴 사유 데이터
@@ -175,7 +178,7 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
         when (status) {
             200 -> {
                 // 토큰 삭제
-                clearToken()
+                clearSpf()
 
                 // 유저 데이터 삭제
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
@@ -198,18 +201,32 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                         }
                     })
                 }
+                // 구글 애플리케이션 연동 해제
+                else if (loginId == "google") {
+                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.google_login_client_id))
+                        .requestEmail()
+                        .build()
+
+                    // 객체 생성
+                    val googleSignInClient = GoogleSignIn.getClient(mainActivity!!, gso)
+
+                    // 계정 삭제
+                    googleSignInClient.revokeAccess()
+                }
 
                 showToast(resources.getString(R.string.toast_user_withdrawal))
 
                 // 로그인 화면으로 이동
-                val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
-                view?.findNavController()?.navigate(actionToLogin)
+                mainActivity?.startActivityWithClear(LoginActivity::class.java)
+                //val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
+                //view?.findNavController()?.navigate(actionToLogin)
             }
         }
     }
 
     // 탈퇴하기 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
 }

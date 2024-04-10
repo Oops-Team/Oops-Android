@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 소지품 추가 완료 팝업(홈 -> 인벤토리에도 수정 사항 반영 안 함) -->
+<!-- 회원가입 시 기존 회원 정보가 있을 경우 뜨는 팝업 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -10,20 +10,20 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/popup_home_inventory_agree"
+        android:text="@string/popup_signup_email_overlap"
         style="@style/dialog_title"
         android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/popup_home_inventory_agree_info_2"
+        android:text="@string/popup_signup_email_overlap_info"
         style="@style/dialog_content"
         android:gravity="center"
         android:layout_marginTop="8dp"/>
 
     <Button
-        android:id="@+id/btn_popup_home_inventory_disagree_confirm"
+        android:id="@+id/btn_popup_signup_email_overlap_confirm"
         android:layout_width="296dp"
         android:layout_height="33dp"
         style="@style/PopUpButtonEnableStyle"

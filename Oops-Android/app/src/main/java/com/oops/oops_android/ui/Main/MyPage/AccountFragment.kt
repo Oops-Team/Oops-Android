@@ -83,7 +83,7 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
     }
 
     // 프로필 공개/비공개 전환 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         Log.d("AccountFragment", "$status $message Profile Failure")
     }
 }

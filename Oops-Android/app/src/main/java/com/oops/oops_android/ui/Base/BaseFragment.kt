@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -20,6 +21,7 @@ import com.oops.oops_android.databinding.SnackbarBgBinding
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.Inflate
 import com.google.android.material.snackbar.Snackbar
+import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 import java.lang.Exception
 
 abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): Fragment() {
@@ -117,5 +119,37 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
     // 툴 바 제목 설정
     fun setToolbarTitle(toolbar: TextView, title: String) {
         toolbar.text = title
+    }
+
+    // 취소 버튼 이벤트
+    @SuppressLint("ClickableViewAccessibility")
+    fun clickCancelBtn(edt: EditText) {
+        if (edt.text.toString().isNotBlank()) {
+            val cancelBtn = ContextCompat.getDrawable(applicationContext(), R.drawable.ic_cancel_20)
+            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, cancelBtn, null)
+
+            // 취소 버튼 클릭 이벤트
+            edt.setOnTouchListener(View.OnTouchListener { _, event ->
+                val DRAWABLE_RIGHT = 2
+
+                try {
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        if (event.rawX >= (edt.right -
+                                    edt.compoundDrawables[DRAWABLE_RIGHT].bounds.width() - 20)) {
+                            // 취소 버튼 삭제 및 입력된 text 삭제
+                            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                            edt.text = null
+                            Log.d("삭제", "삭제!")
+                            return@OnTouchListener true
+                        }
+                    }
+                    false
+                } catch (e: Exception) {
+                    false
+                }
+            })
+        }
+        else
+            edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
     }
 }

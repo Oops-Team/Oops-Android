@@ -89,6 +89,7 @@ class CreateInventoryFragment:
         // 소지품 추가 & 인벤토리 수정 버튼 동작 가능 여부 확인
         binding.edtCreateInventoryName.onTextChanged {
             updateButtonUI()
+            clickCancelBtn(binding.edtCreateInventoryName) // 취소 버튼 클릭 이벤트
         }
 
         // 소지품 추가 버튼 클릭 이벤트
@@ -553,7 +554,7 @@ class CreateInventoryFragment:
     }
 
     // 인벤토리 생성, 수정, 삭제 실패
-    override fun onCommonFailure(status: Int, message: String) {
+    override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
             400, 409, 404 -> showToast(message)
             else -> showToast(resources.getString(R.string.toast_server_error))
