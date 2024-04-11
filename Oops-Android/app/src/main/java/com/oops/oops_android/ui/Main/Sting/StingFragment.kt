@@ -309,7 +309,8 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
     override fun onGetFriendsFailure(status: Int, message: String) {
         when (status) {
             404 -> {
-
+                // 불러올 친구가 없는 경우
+                showToast(resources.getString(R.string.toast_server_error))
             }
             else -> {
                 showToast(resources.getString(R.string.toast_server_error))

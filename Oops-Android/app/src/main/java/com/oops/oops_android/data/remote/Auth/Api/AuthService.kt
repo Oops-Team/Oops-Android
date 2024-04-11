@@ -122,7 +122,7 @@ class AuthService {
                     val messageObject = jsonObject.optString("message", "이미 사용 중인 이메일이에요")
                     Log.e("AUTH - Overlap Email / ERROR", jsonObject.toString())
                     when (statusObject) {
-                        409 -> commonView.onCommonFailure(statusObject, messageObject) // 닉네임 중복인 경우
+                        409 -> commonView.onCommonFailure(statusObject, messageObject) // 이메일 중복인 경우
                         else -> commonView.onCommonFailure(statusObject, messageObject)
                     }
                 }

@@ -1162,7 +1162,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
     }
 
-    // 일정 추가 실패
+    // 일정 추가 & 일정 전체 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         showToast(resources.getString(R.string.toast_server_error))
     }
