@@ -164,21 +164,36 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
                     }
                     // 홈 화면에서 소지품 수정한 경우
                     2 -> {
-                        // 기존 인벤토리 수정 여부 팝업 띄우기
-                        val inventoryStuffModifyDialog = InventoryStuffModifyDialog(requireContext())
-                        inventoryStuffModifyDialog.showInventoryStuffModifyDialog()
-                        inventoryStuffModifyDialog.setOnClickedListener(object : InventoryStuffModifyDialog.ButtonClickListener {
-                            override fun onClicked(isModify: Boolean) {
-                                // 수정 버튼을 누른 경우
-                                if (isModify) {
-                                    modifyHomeStuffList(StuffModifyHomeModel(selectDate, tempStuffNameList, true, inventoryId))
-                                }
-                                // 수정 안함 버튼을 누른 경우
-                                else {
+                        // 인벤토리가 없는 경우
+                        if (inventoryId == 0L) {
+                            // 소지품 수정 여부 확인 팝업
+                            val inventoryNoStuffModifyDialog = InventoryNoStuffModifyDialog(requireContext())
+                            inventoryNoStuffModifyDialog.showInventoryNoStuffModify()
+                            inventoryNoStuffModifyDialog.setOnClickedListener(object : InventoryNoStuffModifyDialog.ButtonClickListener {
+                                override fun onClicked() {
+                                    // 예 버튼을 누른 경우
                                     modifyHomeStuffList(StuffModifyHomeModel(selectDate, tempStuffNameList, false, null))
                                 }
-                            }
-                        })
+                            })
+                        }
+                        // 인벤토리가 있는 경우
+                        else {
+                            // 기존 인벤토리 수정 여부 팝업 띄우기
+                            val inventoryStuffModifyDialog = InventoryStuffModifyDialog(requireContext())
+                            inventoryStuffModifyDialog.showInventoryStuffModifyDialog()
+                            inventoryStuffModifyDialog.setOnClickedListener(object : InventoryStuffModifyDialog.ButtonClickListener {
+                                override fun onClicked(isModify: Boolean) {
+                                    // 수정 버튼을 누른 경우
+                                    if (isModify) {
+                                        modifyHomeStuffList(StuffModifyHomeModel(selectDate, tempStuffNameList, true, inventoryId))
+                                    }
+                                    // 수정 안함 버튼을 누른 경우
+                                    else {
+                                        modifyHomeStuffList(StuffModifyHomeModel(selectDate, tempStuffNameList, false, null))
+                                    }
+                                }
+                            })
+                        }
                     }
                 }
             }
@@ -316,13 +331,12 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
             }
             // 홈 화면에서 소지품 추가&수정 했다면
             "Home" -> {
-                // 인벤토리내 소지품도 수정하도록 했다면
-                val isModifyInventory = data as Boolean
-                if (isModifyInventory) {
-                    // 인벤토리 내 소지품 수정 완료 팝업 띄우기
-                    val inventoryStuffModifyAgreeDialog = InventoryStuffModifyAgreeDialog(requireContext())
-                    inventoryStuffModifyAgreeDialog.showInventoryStuffModifyAgreeDialog()
-                    inventoryStuffModifyAgreeDialog.setOnClickedListener(object : InventoryStuffModifyAgreeDialog.ButtonClickListener {
+                // 인벤토리가 없다면
+                if (inventoryId == 0L) {
+                    // 소지품 수정 완료 팝업 띄우기
+                    val inventoryNoStuffModifyAgreeDialog = InventoryNoStuffModifyAgreeDialog(requireContext())
+                    inventoryNoStuffModifyAgreeDialog.showInventoryNoStuffModifyAgreeDialog()
+                    inventoryNoStuffModifyAgreeDialog.setOnClickedListener(object : InventoryNoStuffModifyAgreeDialog.ButtonClickListener {
                         override fun onClicked() {
                             // 확인 버튼 클릭 시 홈 화면으로 이동
                             val actionToHome: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToHomeFrm()
@@ -330,17 +344,34 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
                         }
                     })
                 }
+                // 인벤토리가 있다면
                 else {
-                    // 인벤토리 내 소지품 수정 안 함 완료 팝업 띄우기
-                    val inventoryStuffModifyDisagreeDialog = InventoryStuffModifyDisagreeDialog(requireContext())
-                    inventoryStuffModifyDisagreeDialog.showInventoryStuffModifyDisagreeDialog()
-                    inventoryStuffModifyDisagreeDialog.setOnClickedListener(object : InventoryStuffModifyDisagreeDialog.ButtonClickListener {
-                        override fun onClicked() {
-                            // 확인 버튼 클릭 시 홈 화면으로 이동
-                            val actionToHome: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToHomeFrm()
-                            findNavController().navigate(actionToHome)
-                        }
-                    })
+                    // 인벤토리내 소지품도 수정하도록 했다면
+                    val isModifyInventory = data as Boolean
+                    if (isModifyInventory) {
+                        // 인벤토리 내 소지품 수정 완료 팝업 띄우기
+                        val inventoryStuffModifyAgreeDialog = InventoryStuffModifyAgreeDialog(requireContext())
+                        inventoryStuffModifyAgreeDialog.showInventoryStuffModifyAgreeDialog()
+                        inventoryStuffModifyAgreeDialog.setOnClickedListener(object : InventoryStuffModifyAgreeDialog.ButtonClickListener {
+                            override fun onClicked() {
+                                // 확인 버튼 클릭 시 홈 화면으로 이동
+                                val actionToHome: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToHomeFrm()
+                                findNavController().navigate(actionToHome)
+                            }
+                        })
+                    }
+                    else {
+                        // 인벤토리 내 소지품 수정 안 함 완료 팝업 띄우기
+                        val inventoryStuffModifyDisagreeDialog = InventoryStuffModifyDisagreeDialog(requireContext())
+                        inventoryStuffModifyDisagreeDialog.showInventoryStuffModifyDisagreeDialog()
+                        inventoryStuffModifyDisagreeDialog.setOnClickedListener(object : InventoryStuffModifyDisagreeDialog.ButtonClickListener {
+                            override fun onClicked() {
+                                // 확인 버튼 클릭 시 홈 화면으로 이동
+                                val actionToHome: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToHomeFrm()
+                                findNavController().navigate(actionToHome)
+                            }
+                        })
+                    }
                 }
             }
         }

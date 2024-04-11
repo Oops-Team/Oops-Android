@@ -421,6 +421,9 @@
     <string name="popup_friends_accept_info">친구가 되었어요\n오늘부터 우리는 짱친!</string>
     <string name="popup_friends_refuse">친구 신청 거절</string>
     <string name="popup_friends_refuse_info">친구 신청을 거절했어요</string>
+    <string name="popup_home_inventory_no">소지품 수정</string>
+    <string name="popup_home_inventory_no_info_1">소지품을 수정할까요?</string>
+    <string name="popup_home_inventory_no_info_2">인벤토리가 존재하지 않아\n홈 화면에만 추가돼요</string>
     <string name="popup_home_inventory">기존 인벤토리 수정</string>
     <string name="popup_home_inventory_info">기존 인벤토리도 함께 수정할까요?</string>
     <string name="popup_home_inventory_agree">소지품 추가 완료</string>
