@@ -115,52 +115,45 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     // 일상
                     if (todoListItem!!.todoTag!![i] == 1) {
                         binding.cbTagDaily.isChecked = true
-                        tagList.add(1)
                         binding.cbTagDaily.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 직장
                     else if (todoListItem!!.todoTag!![i] == 2) {
                         binding.cbTagJob.isChecked = true
-                        tagList.add(2)
                         binding.cbTagJob.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 취미
                     else if (todoListItem!!.todoTag!![i] == 3) {
                         binding.cbTagHobby.isChecked = true
-                        tagList.add(3)
                         binding.cbTagHobby.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 공부
                     else if (todoListItem!!.todoTag!![i] == 4) {
                         binding.cbTagStudy.isChecked = true
-                        tagList.add(4)
                         binding.cbTagStudy.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 운동
                     else if (todoListItem!!.todoTag!![i] == 5) {
                         binding.cbTagSports.isChecked = true
-                        tagList.add(5)
                         binding.cbTagSports.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 독서
                     else if (todoListItem!!.todoTag!![i] == 6) {
                         binding.cbTagReading.isChecked = true
-                        tagList.add(6)
                         binding.cbTagReading.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 여행
                     else if (todoListItem!!.todoTag!![i] == 7) {
                         binding.cbTagTravel.isChecked = true
-                        tagList.add(7)
                         binding.cbTagTravel.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                     // 쇼핑
                     else if (todoListItem!!.todoTag!![i] == 8) {
                         binding.cbTagShopping.isChecked = true
-                        tagList.add(8)
                         binding.cbTagShopping.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
                     }
                 }
+                onCheckedChanged(binding.cbTagDaily, true)
 
                 // 외출 시간
                 binding.timepickerTodo.hour = todoListItem!!.goOutTime!!.hour
