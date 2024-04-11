@@ -17,8 +17,7 @@ class NewFriendsListViewHolder(val context: Context, val binding: ItemFriendsBox
 
         Glide.with(context)
             .load(item.userImg)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .fallback(R.color.White)
             .error(R.drawable.ic_friends_profile_default_50)
             .into(friendImg)
 
