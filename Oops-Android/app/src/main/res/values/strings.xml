@@ -413,6 +413,8 @@
     <string name="popup_inventory_delete_info">정말 삭제하시겠어요?\n삭제된 인벤토리는 복구되지 않아요</string>
     <string name="popup_inventory_delete_agree">인벤토리 삭제 완료</string>
     <string name="popup_inventory_delete_agree_info">삭제가 완료되었어요</string>
+    <string name="popup_inventory_create">인벤토리 제작 완료</string>
+    <string name="popup_inventory_create_info">인벤토리 제작이 완료되었어요!</string>
     <string name="popup_inventory_modify">인벤토리 수정 완료</string>
     <string name="popup_inventory_modify_info">수정이 완료되었어요\n수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
     <string name="popup_friends_request">친구 신청</string>

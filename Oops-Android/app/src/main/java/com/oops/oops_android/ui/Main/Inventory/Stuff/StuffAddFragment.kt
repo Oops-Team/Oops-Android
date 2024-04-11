@@ -16,6 +16,7 @@ import com.oops.oops_android.data.remote.Stuff.Model.StuffModel
 import com.oops.oops_android.data.remote.Stuff.Model.StuffModifyHomeModel
 import com.oops.oops_android.databinding.FragmentStuffAddBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Main.Inventory.InventoryCreateDialog
 import com.oops.oops_android.ui.Main.Inventory.InventoryModifyDialog
 import com.oops.oops_android.utils.ButtonUtils
 import org.json.JSONArray
@@ -315,19 +316,38 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         when (message) {
             // 인벤토리 화면에서 소지품을 추가&수정 했다면
             "Inventory" -> {
-                // 인벤토리 수정 완료 팝업 띄우기
-                val modifyInventoryDialog = InventoryModifyDialog(requireContext())
-                modifyInventoryDialog.showInventoryModifyDialog()
-                modifyInventoryDialog.setOnClickedListener(object : InventoryModifyDialog.InventoryModifyBtnClickListener{
-                    override fun onClicked() {
-                        // 확인 버튼 클릭 시
-                        val actionToInventory: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToInventoryFrm(
-                            "Stuff",
-                            null
-                        )
-                        findNavController().navigate(actionToInventory)
-                    }
-                })
+                // 인벤토리 추가화면에서 넘어왔다면
+                if (screenDivision == 0) {
+                    // 인벤토리 제작 완료 팝업 띄우기
+                    val inventoryCreateDialog = InventoryCreateDialog(requireContext())
+                    inventoryCreateDialog.showInventoryCreateDialog()
+                    inventoryCreateDialog.setOnClickedListener(object : InventoryCreateDialog.InventoryCreateBtnClickListener {
+                        override fun onClicked() {
+                            // 확인 버튼 클릭 시
+                            val actionToInventory: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToInventoryFrm(
+                                "Stuff",
+                                null
+                            )
+                            findNavController().navigate(actionToInventory)
+                        }
+                    })
+                }
+                // 인벤토리 수정화면에서 넘어왔다면
+                else if (screenDivision == 1) {
+                    // 인벤토리 수정 완료 팝업 띄우기
+                    val modifyInventoryDialog = InventoryModifyDialog(requireContext())
+                    modifyInventoryDialog.showInventoryModifyDialog()
+                    modifyInventoryDialog.setOnClickedListener(object : InventoryModifyDialog.InventoryModifyBtnClickListener{
+                        override fun onClicked() {
+                            // 확인 버튼 클릭 시
+                            val actionToInventory: NavDirections = StuffAddFragmentDirections.actionStuffAddFrmToInventoryFrm(
+                                "Stuff",
+                                null
+                            )
+                            findNavController().navigate(actionToInventory)
+                        }
+                    })
+                }
             }
             // 홈 화면에서 소지품 추가&수정 했다면
             "Home" -> {
