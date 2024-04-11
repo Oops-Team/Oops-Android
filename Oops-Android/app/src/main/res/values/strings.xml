@@ -417,6 +417,8 @@
     <string name="popup_inventory_create_info">인벤토리 제작이 완료되었어요!</string>
     <string name="popup_inventory_modify">인벤토리 수정 완료</string>
     <string name="popup_inventory_modify_info">수정이 완료되었어요\n수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
+    <string name="popup_friends_delete">친구 끊기</string>
+    <string name="popup_friends_delete_info">친구를 끊어도 다시 친구가 될 수 있어요</string>
     <string name="popup_friends_request">친구 신청</string>
     <string name="popup_friends_request_info">님에게 친구 신청을 보냈어요</string>
     <string name="popup_friends_accept">친구 신청 수락</string>

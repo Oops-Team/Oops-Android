@@ -75,13 +75,21 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
 
         // 친구 끊기 버튼을 클릭한 경우
         oldFriendsAdapter?.onOldFriendsItemClickListener1 = { position ->
-            // 친구 끊기 API 연결
-            refuseFriends(
-                oldFriendsAdapter?.getOldFriend(position)!!.userIdx,
-                false,
-                position,
-                oldFriendsAdapter?.getOldFriend(position)!!
-            )
+            // 친구를 끊을 것인지 재확인하는 팝업 띄우기
+            val friendsDeleteDialog = FriendsDeleteDialog(requireContext())
+            friendsDeleteDialog.showFriendsDeleteDialog()
+            friendsDeleteDialog.setOnClickedListener(object : FriendsDeleteDialog.FriendsDeleteBtnClickListener {
+                // 예 버튼을 누른 경우
+                override fun onClicked() {
+                    // 친구 끊기 API 연결
+                    refuseFriends(
+                        oldFriendsAdapter?.getOldFriend(position)!!.userIdx,
+                        false,
+                        position,
+                        oldFriendsAdapter?.getOldFriend(position)!!
+                    )
+                }
+            })
         }
 
         // 콕콕 찌르기 버튼을 클릭한 경우
