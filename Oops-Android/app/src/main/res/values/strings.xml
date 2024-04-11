@@ -64,7 +64,7 @@
     <string name="find_pw_new">새로운 비밀번호 입력</string>
     <string name="find_pw_new_info_1">기존 비밀번호와 일치해 사용할 수 없어요</string>
     <string name="find_pw_new_info_2">비밀번호 설정</string>
-    <string name="find_pw_new_info_3">비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 해요\n영문 대문자, 소문자 둘 중 하나만 입력해 주셔도 돼요</string>
+    <string name="find_pw_new_info_3">비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 해요\n영문 대문자, 소문자 둘 중 하나만 입력해 주셔도 돼요\n\n사용 가능한 특수문자: ?, !, *, ~, @, #, %, ^</string>
 
     <!-- 회원가입 -->
     <string name="signup_info_1">환영해요!</string>

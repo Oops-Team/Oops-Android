@@ -14,264 +14,320 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.Login.SignUp2Activity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_weight="4">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_sign_up_2_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_max="292dp"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="32sp"
-                android:textColor="@color/Main_500"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/signup_info_3"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="32sp"
-                android:textColor="@color/Black"
-                app:layout_constraintVertical_bias="1"
-                app:layout_constraintTop_toTopOf="@id/tv_sign_up_2_nickname"
-                app:layout_constraintStart_toEndOf="@id/tv_sign_up_2_nickname"
-                app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_2_nickname"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/signup_info_4"
-            android:fontFamily="@font/pretendard_bold"
-            android:textSize="30sp"
-            android:maxLines="2"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="22sp"
-            android:autoSizeMaxTextSize="30sp"
-            android:textColor="@color/Black"
-            android:lineSpacingExtra="9sp"
-            android:layout_marginTop="9dp"/>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <!-- 입력 박스 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="6">
-
-        <!-- 이메일 입력 박스 -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!-- 이메일 입력 edt -->
-            <EditText
-                android:id="@+id/edt_sign_up_2_email"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:hint="@string/signup_email"
-                android:textColorHint="@color/Gray_300"
-                android:textSize="18sp"
-                android:textColor="@color/Black"
-                android:fontFamily="@font/pretendard_regular"
-                android:background="@null"
-                android:focusableInTouchMode="true"
-                android:focusable="true"
-                android:includeFontPadding="true"
-                android:imeOptions="actionNext"
-                android:paddingTop="20dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="75dp"
-                android:paddingBottom="10dp"/>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="110dp">
 
-            <View
-                android:id="@+id/view_sign_up_2_email"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/Gray_300"
-                android:layout_gravity="bottom"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <!-- 중복 확인 -->
-            <TextView
-                android:id="@+id/tv_sign_up_2_overlap_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center"
-                android:background="@drawable/all_radius_08"
-                android:backgroundTint="@color/Gray_200"
-                android:text="@string/btn_overlap"
-                android:textColor="@color/Gray_400"
-                android:textSize="12sp"
-                android:fontFamily="@font/pretendard_bold"
-                android:paddingTop="9dp"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:paddingBottom="9dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/tv_sign_up_2_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintWidth_max="292dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="32sp"
+                        android:textColor="@color/Main_500"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <!-- 알럿 이모지 -->
-            <ImageView
-                android:id="@+id/iv_sign_up_2_email_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_confirm_25"
-                android:visibility="gone"
-                android:layout_gravity="end|center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"/>
-        </FrameLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signup_info_3"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="32sp"
+                        android:textColor="@color/Black"
+                        app:layout_constraintVertical_bias="1"
+                        app:layout_constraintTop_toTopOf="@id/tv_sign_up_2_nickname"
+                        app:layout_constraintStart_toEndOf="@id/tv_sign_up_2_nickname"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_2_nickname"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 이메일 - 안내 문구 -->
-        <TextView
-            android:id="@+id/tv_sign_up_2_email_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/Red_Medium"
-            android:fontFamily="@font/pretendard_regular"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="-22dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signup_info_4"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textSize="30sp"
+                    android:maxLines="2"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="22sp"
+                    android:autoSizeMaxTextSize="30sp"
+                    android:textColor="@color/Black"
+                    android:lineSpacingExtra="9sp"
+                    android:layout_marginTop="9dp"/>
+            </LinearLayout>
 
-        <!-- 비밀번호 -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp">
-            <EditText
-                android:id="@+id/edt_sign_up_2_pwd"
+            <!-- 입력 박스 -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:maxLength="24"
-                android:hint="@string/signup_pwd"
-                android:textColorHint="@color/Gray_300"
-                android:textSize="18sp"
-                android:textColor="@color/Black"
-                android:fontFamily="@font/pretendard_regular"
-                android:background="@null"
-                android:focusableInTouchMode="true"
-                android:focusable="true"
-                android:includeFontPadding="true"
-                android:imeOptions="actionNext"
-                android:paddingTop="20dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="75dp"
-                android:paddingBottom="10dp"/>
+                android:orientation="vertical"
+                android:layout_marginTop="48dp">
 
-            <View
-                android:id="@+id/view_sign_up_2_pwd"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/Gray_300"
-                android:layout_gravity="bottom"/>
+                <!-- 이메일 입력 박스 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/iBtn_sign_up_2_pwd_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pwd_mask_on_24"
-                android:layout_gravity="end|center_vertical"
-                android:background="@color/transparent"
-                android:paddingStart="8dp"/>
+                    <!-- 이메일 입력 edt -->
+                    <EditText
+                        android:id="@+id/edt_sign_up_2_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:hint="@string/signup_email"
+                        android:textColorHint="@color/Gray_300"
+                        android:textSize="18sp"
+                        android:textColor="@color/Black"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:background="@null"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
+                        android:includeFontPadding="true"
+                        android:imeOptions="actionNext"
+                        android:paddingTop="20dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="75dp"
+                        android:paddingBottom="10dp"/>
 
-            <!-- 알럿 이모지 -->
-            <ImageView
-                android:id="@+id/iv_sign_up_2_pwd_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_confirm_25"
-                android:layout_gravity="end|center"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"/>
-        </FrameLayout>
+                    <View
+                        android:id="@+id/view_sign_up_2_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/Gray_300"
+                        android:layout_gravity="bottom"/>
 
-        <!-- 비밀번호 경고 문구 -->
-        <TextView
-            android:id="@+id/tv_sign_up_2_pwd_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/Red_Medium"
-            android:fontFamily="@font/pretendard_regular"
-            android:visibility="gone"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="-22dp"/>
+                    <!-- 중복 확인 -->
+                    <TextView
+                        android:id="@+id/tv_sign_up_2_overlap_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:background="@drawable/all_radius_08"
+                        android:backgroundTint="@color/Gray_200"
+                        android:text="@string/btn_overlap"
+                        android:textColor="@color/Gray_400"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:paddingTop="9dp"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="7dp"
+                        android:paddingBottom="9dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="8dp"/>
 
-        <!-- 비밀번호 재확인 -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp">
-            <EditText
-                android:id="@+id/edt_sign_up_2_pwd_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:maxLength="24"
-                android:hint="@string/signup_pwd_check"
-                android:textColorHint="@color/Gray_300"
-                android:textSize="18sp"
-                android:textColor="@color/Black"
-                android:fontFamily="@font/pretendard_regular"
-                android:background="@null"
-                android:focusableInTouchMode="true"
-                android:focusable="true"
-                android:includeFontPadding="true"
-                android:imeOptions="actionDone"
-                android:paddingTop="20dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="75dp"
-                android:paddingBottom="10dp"/>
+                    <!-- 알럿 이모지 -->
+                    <ImageView
+                        android:id="@+id/iv_sign_up_2_email_alert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_confirm_25"
+                        android:visibility="gone"
+                        android:layout_gravity="end|center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="8dp"/>
+                </FrameLayout>
 
-            <View
-                android:id="@+id/view_sign_up_2_pwd_check"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/Gray_300"
-                android:layout_gravity="bottom"/>
+                <!-- 이메일 - 안내 문구 -->
+                <TextView
+                    android:id="@+id/tv_sign_up_2_email_alert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/Red_Medium"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="-22dp"/>
 
-            <ImageButton
-                android:id="@+id/iBtn_sign_up_2_pwd_check_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pwd_mask_on_24"
-                android:layout_gravity="end|center_vertical"
-                android:background="@color/transparent"
-                android:paddingStart="8dp"/>
-        </FrameLayout>
+                <!-- 비밀번호 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp">
+                    <EditText
+                        android:id="@+id/edt_sign_up_2_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:maxLength="24"
+                        android:hint="@string/signup_pwd"
+                        android:textColorHint="@color/Gray_300"
+                        android:textSize="18sp"
+                        android:textColor="@color/Black"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:background="@null"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
+                        android:includeFontPadding="true"
+                        android:imeOptions="actionNext"
+                        android:paddingTop="20dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="75dp"
+                        android:paddingBottom="10dp"/>
 
-        <!-- 비밀번호 재확인 - 경고 문구 -->
-        <TextView
-            android:id="@+id/tv_sign_up_2_pwd_check_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/Red_Medium"
-            android:fontFamily="@font/pretendard_regular"
-            android:visibility="gone"
-            android:layout_marginTop="4dp"/>
-    </LinearLayout>
+                    <View
+                        android:id="@+id/view_sign_up_2_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/Gray_300"
+                        android:layout_gravity="bottom"/>
+
+                    <ImageButton
+                        android:id="@+id/iBtn_sign_up_2_pwd_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pwd_mask_on_24"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@color/transparent"
+                        android:paddingStart="8dp"/>
+
+                    <!-- 알럿 이모지 -->
+                    <ImageView
+                        android:id="@+id/iv_sign_up_2_pwd_alert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_confirm_25"
+                        android:layout_gravity="end|center"
+                        android:visibility="gone"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="8dp"/>
+                </FrameLayout>
+
+                <!-- 비밀번호 경고 문구 -->
+                <TextView
+                    android:id="@+id/tv_sign_up_2_pwd_alert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/Red_Medium"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="-22dp"/>
+
+                <!-- 비밀번호 재확인 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp">
+                    <EditText
+                        android:id="@+id/edt_sign_up_2_pwd_check"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:maxLength="24"
+                        android:hint="@string/signup_pwd_check"
+                        android:textColorHint="@color/Gray_300"
+                        android:textSize="18sp"
+                        android:textColor="@color/Black"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:background="@null"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
+                        android:includeFontPadding="true"
+                        android:imeOptions="actionDone"
+                        android:paddingTop="20dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="75dp"
+                        android:paddingBottom="10dp"/>
+
+                    <View
+                        android:id="@+id/view_sign_up_2_pwd_check"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/Gray_300"
+                        android:layout_gravity="bottom"/>
+
+                    <ImageButton
+                        android:id="@+id/iBtn_sign_up_2_pwd_check_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pwd_mask_on_24"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@color/transparent"
+                        android:paddingStart="8dp"/>
+                </FrameLayout>
+
+                <!-- 비밀번호 재확인 - 경고 문구 -->
+                <TextView
+                    android:id="@+id/tv_sign_up_2_pwd_check_alert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/Red_Medium"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp"/>
+
+                <!-- 설명 창 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="66dp"
+                    android:layout_marginBottom="110dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/all_radius_12"
+                    android:backgroundTint="@color/Main_50"
+                    android:paddingTop="15dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_question_mark_16"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Body2"
+                            android:text="@string/find_pw_new_info_2"
+                            android:textColor="@color/Color_8E"
+                            android:layout_marginStart="4dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Button3"
+                        android:text="@string/find_pw_new_info_3"
+                        android:textColor="@color/Main_300"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
