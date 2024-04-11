@@ -20,8 +20,7 @@ class TutorialStuffListViewHolder(val context: Context, val binding: ItemTutoria
 
         Glide.with(context)
             .load(item.stuffImgUrl)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .fallback(R.color.White)
             .error(R.color.White)
             .into(stuffImg)
 

@@ -47,6 +47,16 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         binding.edtSignUp2Pwd.transformationMethod = CustomPasswordTransformationMethod()
         binding.edtSignUp2PwdCheck.transformationMethod = CustomPasswordTransformationMethod()
 
+        // 이메일 입력 이벤트 감지
+        binding.edtSignUp2Email.onTextChanged {
+            // 이메일 유효성 여부 초기화
+            isEmailValid = false
+            binding.ivSignUp2EmailAlert.visibility = View.GONE
+            binding.tvSignUp2EmailAlert.visibility = View.GONE
+            binding.viewSignUp2Email.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300))
+            binding.tvSignUp2OverlapBtn.visibility = View.VISIBLE // 중복 확인 버튼 띄우기
+        }
+
         // 이메일 중복 검사 버튼 클릭 이벤트
         binding.tvSignUp2OverlapBtn.setOnClickListener {
             // 이메일 형식이 맞다면
@@ -267,7 +277,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             // 중복이 아니라면
             200 -> {
                 isEmailValid = true
-                binding.edtSignUp2Email.isEnabled = false // 이메일 입력 막기
                 binding.ivSignUp2EmailAlert.visibility = View.VISIBLE
                 binding.tvSignUp2EmailAlert.visibility = View.VISIBLE
                 binding.tvSignUp2EmailAlert.text = getString(R.string.signup_email_alert_confirm)

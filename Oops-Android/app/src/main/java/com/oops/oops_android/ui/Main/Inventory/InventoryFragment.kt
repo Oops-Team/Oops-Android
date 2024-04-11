@@ -331,12 +331,9 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         }
     }
 
-    // 인벤토리 전체 리스트 조회 실패
+    // 인벤토리 전체 & 상세 리스트 조회 실패
     override fun onGetInventoryFailure(status: Int, message: String) {
-        when (status) {
-            404 -> showToast(message)
-            else -> showToast(resources.getString(R.string.toast_server_error))
-        }
+        showToast(resources.getString(R.string.toast_server_error))
     }
 
     // 인벤토리 아이콘 변경 API 연결

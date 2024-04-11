@@ -16,8 +16,7 @@ class StuffListViewHolder(val context: Context, val binding: ItemHomeStuffBindin
 
         Glide.with(context)
             .load(item.stuffImgUrl)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .fallback(R.color.White)
             .error(R.color.White)
             .into(stuffImg)
 

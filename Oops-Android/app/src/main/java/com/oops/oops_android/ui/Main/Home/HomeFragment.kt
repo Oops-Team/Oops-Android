@@ -2,7 +2,10 @@ package com.oops.oops_android.ui.Main.Home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.oops.oops_android.R
@@ -27,12 +31,14 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.oops.oops_android.ApplicationClass
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoMonthlyView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentHomeBinding
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -241,8 +247,8 @@ class HomeFragment:
 
         // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
-            val actionToTodo: NavDirections = HomeFragmentDirections.actionHomeFrmToTodoFrm(selectDate.toString(), todoListItem)
-            findNavController().navigate(actionToTodo)
+            // 뷰 추가하기
+            addTodoView()
         }
 
         // 일정 추가 버튼(상단 버튼) 클릭 이벤트
@@ -355,8 +361,151 @@ class HomeFragment:
         }
     }
 
+    // 동적 할 일 입력 뷰 추가
+    private fun addTodoView() {
+        // 동적 할 일 추가 뷰 초기화
+        binding.lLayoutHomeTodoAdd.removeAllViews()
+
+        // 동적 할 일 추가 뷰 띄우기
+        binding.lLayoutHomeTodoAdd.visibility = View.VISIBLE
+
+        // 동적으로 EditText 추가하기
+        val edtView = EditText(requireContext())
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(0, 0, 0, 36)
+
+        // 각 버튼 이미지
+        val completeBtn = ContextCompat.getDrawable(ApplicationClass.applicationContext(), R.drawable.ic_todo_default_rbtn_27)
+        val editBtn = ContextCompat.getDrawable(ApplicationClass.applicationContext(), R.drawable.ic_more_27)
+
+        // 스타일 적용
+        edtView.apply {
+            setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Black_1C)))
+            textSize = 14f
+            maxLines = 1
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(20)) // 최대 20자까지 작성 가능하도록 설정
+            inputType = InputType.TYPE_CLASS_TEXT
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setBackgroundResource(R.drawable.all_radius_12)
+            typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 기본값 사용
+            setPadding(48, 36, 48, 36)
+            setCompoundDrawablesWithIntrinsicBounds(completeBtn, null, editBtn, null)
+            compoundDrawablePadding = 24
+            requestFocus()
+            layoutParams = params
+        }
+        binding.lLayoutHomeTodoAdd.addView(edtView) // 레이아웃에 EditText 추가
+
+        // 딜레이를 주어 키보드 띄우기
+        edtView.postDelayed({
+            getShowKeyboard(edtView)
+        }, 300)
+
+        // 동적 생성한 EditText에 대한 입력 처리
+        setAddTodoViewEvent(edtView)
+    }
+
+    // 동적 생성한 오늘 할 일 EditText에 대한 입력 처리
+    private fun setAddTodoViewEvent(edtView: EditText) {
+        // 키보드의 완료 버튼을 눌렀을 경우
+        edtView.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(
+                v: TextView?,
+                actionId: Int,
+                event: KeyEvent?
+            ): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // 일정에 값이 없는 경우 뷰에서 EditText 삭제
+                    if (edtView.text.toString().isBlank()) {
+                        binding.lLayoutHomeTodoAdd.removeView(edtView)
+                        binding.lLayoutHomeTodoAdd.visibility = View.GONE
+                    }
+                    // 일정에 값이 있는 경우 일정 1개 추가 API 연결
+                    else {
+                        // 일정 수정 API 연결
+                        modifyTodo(
+                            TodoModifyModel(
+                                todoListItem!!.date.toString(),
+                                todoListItem!!.todoTag!!,
+                                LocalTime.of(todoListItem!!.goOutTime!!.hour, todoListItem!!.goOutTime!!.minute).toString(),
+                                todoListItem!!.remindTime!!,
+                                null,
+                                null,
+                                arrayListOf(edtView.text.toString())
+                            )
+                        )
+                    }
+
+                    getHideKeyboard(binding.root)
+                    return true
+                }
+                return false
+            }
+        })
+
+        // 화면 바깥을 클릭한 경우
+        binding.lLayoutHomeInside.setOnClickListener {
+            // 일정에 값이 없는 경우 뷰에서 EditText 삭제
+            if (edtView.text.toString().isBlank()) {
+                binding.lLayoutHomeTodoAdd.removeView(edtView)
+                binding.lLayoutHomeTodoAdd.visibility = View.GONE
+            }
+            // 일정에 값이 있는 경우 일정 1개 추가 API 연결
+            else {
+                // 일정 수정 API 연결
+                modifyTodo(
+                    TodoModifyModel(
+                        todoListItem!!.date.toString(),
+                        todoListItem!!.todoTag!!,
+                        LocalTime.of(todoListItem!!.goOutTime!!.hour, todoListItem!!.goOutTime!!.minute).toString(),
+                        todoListItem!!.remindTime!!,
+                        null,
+                        null,
+                        arrayListOf(edtView.text.toString())
+                    )
+                )
+            }
+
+            getHideKeyboard(binding.root)
+        }
+
+        // EditText에 Focus가 되어 있다면
+        /*edtView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // 화면 바깥을 클릭한 경우
+                binding.lLayoutHomeInside.setOnClickListener {
+                    // 일정에 값이 없는 경우 뷰에서 EditText 삭제
+                    if (edtView.text.toString().isBlank()) {
+                        binding.lLayoutHomeTodoAdd.removeView(edtView)
+                        binding.lLayoutHomeTodoAdd.visibility = View.GONE
+                    }
+                    // 일정에 값이 있는 경우 일정 1개 추가 API 연결
+                    else {
+                        // 일정 수정 API 연결
+                        modifyTodo(
+                            TodoModifyModel(
+                                todoListItem!!.date.toString(),
+                                todoListItem!!.todoTag!!,
+                                LocalTime.of(todoListItem!!.goOutTime!!.hour, todoListItem!!.goOutTime!!.minute).toString(),
+                                todoListItem!!.remindTime!!,
+                                null,
+                                null,
+                                arrayListOf(edtView.text.toString())
+                            )
+                        )
+                    }
+
+                    getHideKeyboard(binding.root)
+                }
+            }
+        }*/
+    }
+
     // 수정 팝업 띄우기(홈 화면의 오늘 할 일에서 사용)
-    private fun showEditPopup(itemPos: Int, iv: ImageView, tv: TextView, edt: EditText) {
+    private fun showEditPopup(itemPos: Int, iv: ImageView?, tv: TextView, edt: EditText) {
         val popup = layoutInflater.inflate(R.layout.item_home_todo_popup, null)
 
         // popupwindow 생성
@@ -462,6 +611,9 @@ class HomeFragment:
     ) {
         when (status) {
             200 -> {
+                // 동적 할 일 추가 뷰 숨기기
+                binding.lLayoutHomeTodoAdd.visibility = View.GONE
+
                 // rv 초기화
                 todoAdapter?.resetTodoList()
                 stuffAdapter?.resetStuffList()
@@ -655,6 +807,13 @@ class HomeFragment:
         showToast(resources.getString(R.string.toast_server_error))
     }
 
+    // 일정 수정
+    private fun modifyTodo(todoModifyItem: TodoModifyModel) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.modifyTodo(todoModifyItem)
+    }
+
     // 일정 1개 이름 수정
     private fun modifyTodoName(todoIdx: Long, todoName: String, todoModifyItem: TodoModifyItem) {
         val todoService = TodoService()
@@ -691,6 +850,12 @@ class HomeFragment:
                 val item = data as TodoModifyItem
                 item.tv.text = item.edt.text.toString()
                 todoAdapter?.modifyTodoList(item.itemPos, item.edt.text.toString()) // 입력한 값 저장 및 뷰의 아이템 값 수정
+            }
+            "Modify Todo" -> {
+                // 일정 수정 성공
+                // 일정 1개 조회 다시 불러오기
+                binding.lLayoutHomeTodoAdd.removeAllViews()
+                getTodo(selectDate)
             }
             "Todo Delete" -> {
                 // 아이템 삭제

@@ -28,7 +28,7 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
     private var stuffList = ArrayList<StuffItem>() // 소지품 목록
     private lateinit var stuffTodoListAdapter: StuffTodoListAdapter // 소지품 어댑터
-    private var nowInventoryId: Long = 0 // 현재 사용 중인 인벤토리 아이디
+    private var nowInventoryId: Long = 0L // 현재 사용 중인 인벤토리 아이디
 
     private val STUFF_TAG = "StuffFragment" // log용
 
@@ -58,6 +58,12 @@ class StuffFragment: BaseFragment<FragmentStuffBinding>(FragmentStuffBinding::in
                     nowInventoryId = inventoryList[i].inventoryId // 현재 사용 중인 인벤토리 아이디 저장
                     binding.tvStuffInfo.text = "현재 ${inventoryList[i].inventoryName} 인벤토리를 사용 중이에요"
                 }
+            }
+
+            // 인벤토리가 없는 경우
+            if (inventoryList.isEmpty()) {
+                binding.tvStuffInfo.text = "사용 중인 인벤토리가 없어요"
+                binding.iBtnStuffShowInventory.visibility = View.GONE
             }
         } catch (e: Exception) {
             Log.e(STUFF_TAG, "Get Nav Data ${e.stackTraceToString()}")

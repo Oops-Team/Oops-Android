@@ -556,7 +556,8 @@ class CreateInventoryFragment:
     // 인벤토리 생성, 수정, 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
-            400, 409, 404 -> showToast(message)
+            // 400 - 인벤토리 최대 생성 개수 초과
+            400, 404 -> showToast(message)
             else -> showToast(resources.getString(R.string.toast_server_error))
         }
     }

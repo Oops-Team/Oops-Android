@@ -20,8 +20,7 @@ class StuffTodoListViewHolder(val binding: ItemTutorialStuffBinding): RecyclerVi
 
         Glide.with(applicationContext())
             .load(item.stuffImgUrl)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .fallback(R.color.White)
             .error(R.color.White)
             .into(stuffImg)
 
