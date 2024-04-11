@@ -91,16 +91,11 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
 
         /** 닉네임 edt 입력 이벤트 **/
         binding.edtSignUpNickname.onTextChanged {
-            // 다음 버튼 숨기기
-            binding.cvSignUp1Next.visibility = View.INVISIBLE
-
-            // 10자 미만 입력됐다면
-            if (binding.edtSignUpNickname.length() in 1..6) {
-                binding.tvSignUpOverlapBtn.visibility = View.VISIBLE // 중복 확인 버튼 나타내기
-                binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300))
-                binding.ivSignUpAlert.visibility = View.GONE // 알럿 제거
-                binding.tvSignUpAlert.visibility = View.GONE // alert 제거
-            }
+            binding.tvSignUpOverlapBtn.visibility = View.VISIBLE // 중복 확인 버튼 나타내기
+            binding.viewSignUpNickname.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.Gray_300)) // view 컬러 기본색으로 변경
+            binding.ivSignUpAlert.visibility = View.GONE // 알럿 제거
+            binding.tvSignUpAlert.visibility = View.GONE // alert 제거
+            binding.cvSignUp1Next.visibility = View.INVISIBLE // 다음 버튼 숨기기
         }
 
         // 다음 버튼 클릭 이벤트
