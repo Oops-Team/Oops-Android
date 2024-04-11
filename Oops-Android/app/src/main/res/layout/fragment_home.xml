@@ -363,6 +363,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <!-- 추가될 오늘 할 일 입력 박스가 들어갈 레이아웃 -->
+            <LinearLayout
+                android:id="@+id/lLayout_home_todo_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"/>
+
             <!-- 할일 추가 -->
             <ImageButton
                 android:id="@+id/iBtn_home_todo_add"
@@ -371,7 +381,6 @@
                 android:src="@drawable/ic_todo_add_24"
                 app:tint="@color/Gray_500"
                 android:background="@drawable/all_radius_12"
-                android:visibility="gone"
                 android:paddingTop="18dp"
                 android:paddingBottom="18dp"
                 android:layout_marginStart="16dp"
