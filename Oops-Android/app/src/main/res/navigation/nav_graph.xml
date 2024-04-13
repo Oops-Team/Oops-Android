@@ -220,6 +220,11 @@
         android:label="frm_myPage"
         tools:layout="@layout/fragment_my_page">
         <action
+            android:id="@+id/action_myPageFrm_to_profileBottomSheetFrm"
+            app:destination="@id/profileBottomSheetFragment"
+            app:enterAnim="@anim/anim_slide_in_up"
+            app:popExitAnim="@anim/anim_slide_out_down"/>
+        <action
             android:id="@+id/action_myPageFrm_to_loginActivity"
             app:destination="@id/loginActivity"/>
         <action
@@ -232,6 +237,21 @@
             android:id="@+id/action_myPageFrm_to_alertFrm"
             app:destination="@id/alertFragment"/>
     </fragment>
+
+    <!-- 프로필 사진 변경 바텀 시트 -->
+    <dialog
+        android:id="@+id/profileBottomSheetFragment"
+        android:name="com.oops.oops_android.ui.Main.MyPage.ProfileBottomSheetFragment"
+        android:label="ProfileBottomSheetFragment">
+        <argument
+            android:name="profileDivision"
+            app:argType="boolean"/>
+        <action
+            android:id="@+id/action_profileBottomSheetFrm_to_myPageFrm"
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/myPageFragment"
+            app:popUpToInclusive="true"/>
+    </dialog>
 
     <!-- 공지사항 -->
     <fragment

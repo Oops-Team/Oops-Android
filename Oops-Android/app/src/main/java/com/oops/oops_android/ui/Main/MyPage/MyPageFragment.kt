@@ -1,12 +1,13 @@
 package com.oops.oops_android.ui.Main.MyPage
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
@@ -49,6 +50,40 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
         binding.lLayoutMyPageAlarm.setOnClickListener {
             val actionToAlert: NavDirections = MyPageFragmentDirections.actionMyPageFrmToAlertFrm(myPageItem!!.isAlert)
             view?.findNavController()?.navigate(actionToAlert)
+        }
+
+        // 프로필 사진을 클릭한 경우
+        binding.ivMyPageProfile.setOnClickListener {
+            /*// 프로필 사진 변경 바텀 시트 띄우기
+            val fragmentManager = requireActivity().supportFragmentManager
+            val bottomSheet = ProfileBottomSheetFragment()
+            val bundle = Bundle()
+
+            // 프로필 사진이 없다면
+            if (myPageItem!!.userImgURI!! == "null") {
+                Log.d("확인", "체크")
+                bundle.putBoolean("isDefault", true)
+                bottomSheet.arguments = bundle
+                bottomSheet.show(fragmentManager, "sheet")
+            }
+            // 프로필 사진이 있다면
+            else {
+                Log.d("확인", "체크2")
+                bundle.putBoolean("isDefault", false)
+                bottomSheet.arguments = bundle
+                bottomSheet.show(fragmentManager, "sheet")
+            }*/
+
+            // 프로필 사진이 없다면
+            if (myPageItem!!.userImgURI == "null") {
+                val actionToProfileBottomSheet = MyPageFragmentDirections.actionMyPageFrmToProfileBottomSheetFrm(false)
+                findNavController().navigate(actionToProfileBottomSheet)
+            }
+            // 프로필 사진이 있다면
+            else {
+                val actionToProfileBottomSheet = MyPageFragmentDirections.actionMyPageFrmToProfileBottomSheetFrm(true)
+                findNavController().navigate(actionToProfileBottomSheet)
+            }
         }
 
         // 로그아웃을 클릭한 경우
@@ -99,17 +134,26 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                     val userName = jsonObject.getString("userName")
                     binding.tvMyPageName.text = userName
 
-                    // 아이템 클래스에 저장
-                    myPageItem = MyPageItem(loginType, userEmail, userName, isPublic, isAlert)
-
                     // 프로필 사진
-                    val userImgUrl = jsonObject.getString("userImgURI")
-                    Glide.with(requireContext())
-                        .load(userImgUrl)
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .error(R.drawable.ic_friends_profile_default_50)
-                        .into(binding.ivMyPageProfile)
+                    val userImgUrl = jsonObject.getString("userImgURI") ?: "null"
+                    if (userImgUrl == "null") {
+                        Glide.with(requireContext())
+                            .load(R.drawable.ic_friends_profile_default_50)
+                            .fallback(R.drawable.ic_friends_profile_default_50)
+                            .error(R.drawable.ic_friends_profile_default_50)
+                            .into(binding.ivMyPageProfile)
+                    }
+                    // 프로필 사진이 없다면
+                    else {
+                        Glide.with(requireContext())
+                            .load(userImgUrl)
+                            .fallback(R.drawable.ic_friends_profile_default_50)
+                            .error(R.drawable.ic_friends_profile_default_50)
+                            .into(binding.ivMyPageProfile)
+                    }
+
+                    // 아이템 클래스에 저장
+                    myPageItem = MyPageItem(userImgUrl, loginType, userEmail, userName, isPublic, isAlert)
 
                     // 공지
                     val comment = jsonObject.getString("comment")

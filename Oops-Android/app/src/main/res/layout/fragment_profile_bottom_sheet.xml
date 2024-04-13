@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 프로필 사진 변경 바텀 시트 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/top_radius_30"
+    tools:context=".ui.Login.TermsBottomSheetFragment">
+
+    <TextView
+        android:id="@+id/tv_mypage_profile_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/myPage_profile_gallery"
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        style="@style/SubTitle"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Gray_100"/>
+
+    <TextView
+        android:id="@+id/tv_mypage_profile_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/myPage_profile_camera"
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        style="@style/SubTitle"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"/>
+
+    <View
+        android:id="@+id/view_mypage_profile_delete"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Gray_100"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_mypage_profile_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/myPage_profile_delete"
+        android:textAlignment="center"
+        android:textColor="@color/Red_FF"
+        style="@style/SubTitle"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"/>
+</LinearLayout>

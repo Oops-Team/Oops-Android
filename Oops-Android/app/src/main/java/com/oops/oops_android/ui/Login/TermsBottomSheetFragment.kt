@@ -53,6 +53,9 @@ class TermsBottomSheetFragment(val itemClick: (Int) -> Unit): BottomSheetDialogF
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 바텀 시트 높이 조절
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
         // 개인정보 수집 및 이용 동의 버튼을 클릭한 경우
         binding.ivTermsBottomSheetVital.setOnClickListener {
             isVitalCheck = true
