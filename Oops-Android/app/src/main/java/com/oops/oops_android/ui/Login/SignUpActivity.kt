@@ -23,6 +23,7 @@ import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -53,7 +54,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
 
         // 중복 확인 버튼 클릭 이벤트
-        binding.tvSignUpOverlapBtn.setOnClickListener {
+        binding.tvSignUpOverlapBtn.setOnSingleClickListener {
             val alert = binding.tvSignUpAlert
             val edt = binding.edtSignUpNickname
             val underLine = binding.viewSignUpNickname
@@ -102,7 +103,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
 
         // 다음 버튼 클릭 이벤트
-        binding.btnSignUp1Next.setOnClickListener {
+        binding.btnSignUp1Next.setOnSingleClickListener {
             // 닉네임 변경 불가 팝업 띄우기
             val dialog = NicknameDialog(this@SignUpActivity)
             dialog.nicknameDialogShow()

@@ -20,6 +20,7 @@ import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Inventory.InventoryCreateDialog
 import com.oops.oops_android.ui.Main.Inventory.InventoryModifyDialog
 import com.oops.oops_android.utils.ButtonUtils
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONArray
 
 /* 챙겨야 할 것 추가 & 물품 추가 화면 */
@@ -146,7 +147,7 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
         }
 
         // 소지품 추가 완료 버튼 클릭 이벤트
-        binding.btnStuffAddAdd.setOnClickListener {
+        binding.btnStuffAddAdd.setOnSingleClickListener {
             if (isEnable) {
                 val tempStuffNameList = ArrayList<String>()
                 for (i in 0 until stuffList.size) {

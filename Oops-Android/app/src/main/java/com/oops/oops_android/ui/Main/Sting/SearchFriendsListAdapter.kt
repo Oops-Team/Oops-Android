@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.oops.oops_android.databinding.ItemFriendsBoxRv3Binding
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 // 사용자 검색 결과 목록 어댑터
 class SearchFriendsListAdapter(private val userList: ArrayList<FriendsItem>): RecyclerView.Adapter<SearchFriendsListViewHolder>() {
@@ -24,12 +25,12 @@ class SearchFriendsListAdapter(private val userList: ArrayList<FriendsItem>): Re
         holder.bind(userList[position])
 
         // 친구 신청 버튼 클릭 이벤트
-        holder.binding.tvFriendsBox3Add.setOnClickListener {
+        holder.binding.tvFriendsBox3Add.setOnSingleClickListener {
             onItemClickListener1?.invoke(position)
         }
 
         // 친구 끊기 버튼 클릭 이벤트
-        holder.binding.tvFriendsBox3Delete.setOnClickListener {
+        holder.binding.tvFriendsBox3Delete.setOnSingleClickListener {
             onItemClickListener2?.invoke(position)
         }
 

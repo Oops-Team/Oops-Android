@@ -42,6 +42,7 @@ import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -116,7 +117,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         }
 
         // 로그인 버튼 클릭 이벤트
-        binding.btnLoginConfirm.setOnClickListener {
+        binding.btnLoginConfirm.setOnSingleClickListener {
             if (isEmailValid && isPwdValid) {
                 // FCM 토큰 가져오기 및 Oops 회원가입 API 연동
                 getFCMToken("oops")
@@ -134,12 +135,12 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         }
 
         // 네이버 로그인 버튼 클릭 이벤트
-        binding.iBtnLoginNaver.setOnClickListener {
+        binding.iBtnLoginNaver.setOnSingleClickListener {
             naverLogin()
         }
 
         // 구글 로그인 버튼 클릭 이벤트
-        binding.iBtnLoginGoogle.setOnClickListener {
+        binding.iBtnLoginGoogle.setOnSingleClickListener {
             // TODO: 추후 구글 로그인 API 승인 허가가 떨어지면 코드 수정하기
             //googleLogin()
         }

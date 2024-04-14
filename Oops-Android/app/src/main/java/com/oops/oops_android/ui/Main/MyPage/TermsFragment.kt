@@ -1,6 +1,8 @@
 package com.oops.oops_android.ui.Main.MyPage
 
 import android.animation.ObjectAnimator
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.navigation.findNavController
@@ -8,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.FragmentTermsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 회원 탈퇴 과정 중 개인정보 처리 방침 화면 */
 class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
@@ -35,16 +38,13 @@ class TermsFragment: BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::in
 
     override fun initAfterBinding() {
         // 버튼 클릭 이벤트
-        binding.btnTermsScrollToEnd.setOnClickListener {
+        binding.btnTermsScrollToEnd.setOnSingleClickListener {
             // 버튼 이름이 아래로 스크롤하기 라면
             if (binding.btnTermsScrollToEnd.text == getString(R.string.btn_scroll_down)) {
                 binding.svTerms.post {
                     // 하단으로 스크롤
                     //binding.svTerms.fullScroll(ScrollView.FOCUS_DOWN)
-                    ObjectAnimator.ofInt(binding.svTerms, "scrollY", 10000).setDuration(1000).start()
-
-                    // 버튼 텍스트 바꾸기
-                    binding.btnTermsScrollToEnd.text = getString(R.string.btn_check_read)
+                    ObjectAnimator.ofInt(binding.svTerms, "scrollY", 10000).setDuration(1500).start()
                 }
             }
             // 버튼 이름이 확인했습니다 라면

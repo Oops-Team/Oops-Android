@@ -18,6 +18,7 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Inventory.Api.InventoryService
 import com.oops.oops_android.data.remote.Inventory.Model.CreateInventory
 import com.oops.oops_android.ui.Login.LoginActivity
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 인벤토리 생성 & 수정 화면 */
 class CreateInventoryFragment:
@@ -94,7 +95,7 @@ class CreateInventoryFragment:
         }
 
         // 소지품 추가 버튼 클릭 이벤트
-        binding.btnCreateInventoryStuffAdd.setOnClickListener {
+        binding.btnCreateInventoryStuffAdd.setOnSingleClickListener {
             if (isEnable) {
                 // 인벤토리 생성 API 연결
                 createInventory(binding.edtCreateInventoryName.text.toString(), tagList)
@@ -113,7 +114,7 @@ class CreateInventoryFragment:
         }
 
         // 수정 완료 버튼 클릭 이벤트
-        binding.btnCreateInventoryEdit.setOnClickListener {
+        binding.btnCreateInventoryEdit.setOnSingleClickListener {
             if (isEnable) {
                 // 인벤토리 수정 API 연결
                 modifyInventory(inventoryItem.inventoryIdx, CreateInventory(binding.edtCreateInventoryName.text.toString(), tagList))

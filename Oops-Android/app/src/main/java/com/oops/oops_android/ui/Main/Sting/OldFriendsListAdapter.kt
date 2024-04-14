@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.oops.oops_android.databinding.ItemFriendsBoxRv2Binding
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 class OldFriendsListAdapter(val context: Context): RecyclerView.Adapter<OldFriendsListViewHolder>() {
     private var oldFriendsList = ArrayList<FriendsItem>() // 친구 목록
@@ -24,7 +25,7 @@ class OldFriendsListAdapter(val context: Context): RecyclerView.Adapter<OldFrien
         holder.bind(oldFriendsList[position])
 
         // 친구 삭제 버튼 클릭 이벤트
-        holder.binding.tvFriendsDelete.setOnClickListener {
+        holder.binding.tvFriendsDelete.setOnSingleClickListener {
             onOldFriendsItemClickListener1?.invoke(position)
         }
         // 친구 찌르기 버튼 클릭 이벤트

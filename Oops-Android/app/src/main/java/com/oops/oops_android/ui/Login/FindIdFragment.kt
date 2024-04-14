@@ -13,6 +13,7 @@ import com.oops.oops_android.databinding.FragmentFindIdBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONObject
 
 /* ID 찾기 화면 */
@@ -30,7 +31,7 @@ class FindIdFragment: BaseFragment<FragmentFindIdBinding>(FragmentFindIdBinding:
         }
 
         // 이메일 찾기 버튼 클릭 이벤트
-        binding.tvFindIdEmailBtn.setOnClickListener {
+        binding.tvFindIdEmailBtn.setOnSingleClickListener {
             // 이메일 형식이 맞다면
             if (EditTextUtils.emailRegex(binding.edtFindIdEmail.text.toString().trim())) {
                 // 이메일 찾기 API 연결

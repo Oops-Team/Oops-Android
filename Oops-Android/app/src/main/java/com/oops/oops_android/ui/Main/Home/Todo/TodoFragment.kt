@@ -41,6 +41,7 @@ import com.oops.oops_android.utils.AlarmUtils.setCancelAlarm
 import com.oops.oops_android.utils.AlarmUtils.setAllAlarm
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.setOnSingleClickListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.json.JSONArray
 import org.json.JSONException
@@ -353,7 +354,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 등록하기 버튼을 클릭한 경우
-        binding.btnTodoCreate.setOnClickListener {
+        binding.btnTodoCreate.setOnSingleClickListener {
             // 버튼 활성화가 되어 있다면
             if (isCreateBtnEnable) {
                 // 일정 목록 불러오기
@@ -380,7 +381,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 수정하기 버튼을 클릭한 경우
-        binding.btnTodoEdit.setOnClickListener {
+        binding.btnTodoEdit.setOnSingleClickListener {
             // 버튼 활성화가 되어 있다면
             if (isEditBtnEnable) {
                 // 새롭게 추가한 일정 리스트
@@ -423,7 +424,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 삭제하기 버튼을 클릭한 경우
-        binding.btnTodoDelete.setOnClickListener {
+        binding.btnTodoDelete.setOnSingleClickListener {
             // 일정 삭제 팝업 띄우기
             val todoDeleteDialog = TodoDeleteDialog(requireContext())
             todoDeleteDialog.showTodoDeleteDialog()

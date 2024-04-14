@@ -31,6 +31,7 @@ import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.FileUtils.drawableToFile
 import com.oops.oops_android.utils.FileUtils.getRealPathFromURI
 import com.oops.oops_android.utils.FileUtils.getUriPath
+import com.oops.oops_android.utils.setOnSingleClickListener
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -109,19 +110,19 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
         }
 
         // 갤러리에서 설정 버튼을 누른 경우
-        binding.tvMypageProfileGallery.setOnClickListener {
+        binding.tvMypageProfileGallery.setOnSingleClickListener {
             // 권한 체크
             checkGalleryPermission()
         }
 
         // 프로필 사진 촬영 버튼을 누른 경우
-        binding.tvMypageProfileCamera.setOnClickListener {
+        binding.tvMypageProfileCamera.setOnSingleClickListener {
             // 권한 체크
             checkCameraPermission()
         }
 
         // 프로필 사진 삭제 버튼을 누른 경우
-        binding.tvMypageProfileDelete.setOnClickListener {
+        binding.tvMypageProfileDelete.setOnSingleClickListener {
             // 프로필 사진 변경 API 연결
             //val fileUri = drawableToFileUri(R.drawable.ic_friends_profile_default)
             changeProfile(null, true)

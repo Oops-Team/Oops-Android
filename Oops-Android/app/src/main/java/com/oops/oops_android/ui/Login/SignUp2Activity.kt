@@ -24,6 +24,7 @@ import com.oops.oops_android.utils.getNickname
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveToken
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONObject
 
 /* 회원가입 - 이메일, 비밀번호 입력하는 화면 */
@@ -63,7 +64,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
         }
 
         // 이메일 중복 검사 버튼 클릭 이벤트
-        binding.tvSignUp2OverlapBtn.setOnClickListener {
+        binding.tvSignUp2OverlapBtn.setOnSingleClickListener {
             // 이메일 형식이 맞다면
             if (EditTextUtils.emailRegex(binding.edtSignUp2Email.text.toString().trim())) {
                 // 중복 확인 검사 API 연결

@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.FragmentTermsBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 // 개인정보 수집 및 이용 동의 약관 바텀 시트
 class TermsBottomSheetFragment(val itemClick: (Int) -> Unit): BottomSheetDialogFragment() {
@@ -81,7 +82,7 @@ class TermsBottomSheetFragment(val itemClick: (Int) -> Unit): BottomSheetDialogF
         }
 
         // 다음 버튼을 클릭한 경우
-        binding.btnTermsBottomSheetNext.setOnClickListener {
+        binding.btnTermsBottomSheetNext.setOnSingleClickListener {
             if (isVitalCheck)
                 itemClick(1)
         }

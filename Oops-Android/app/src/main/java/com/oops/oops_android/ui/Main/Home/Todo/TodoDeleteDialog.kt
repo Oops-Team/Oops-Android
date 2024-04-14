@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import com.oops.oops_android.R
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 일정 삭제 확인 팝업 */
 class TodoDeleteDialog(private val context: Context) {
@@ -23,7 +24,7 @@ class TodoDeleteDialog(private val context: Context) {
         }
 
         // 예 버튼을 누른 경우
-        dialog.findViewById<Button>(R.id.btn_popup_todo_delete_yes).setOnClickListener {
+        dialog.findViewById<Button>(R.id.btn_popup_todo_delete_yes).setOnSingleClickListener {
             onClickListener.onClicked()
             dialog.dismiss()
         }

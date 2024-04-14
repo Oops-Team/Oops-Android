@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.oops.oops_android.databinding.ItemFriendsBoxRvBinding
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 // 친구 신청 현황 목록 리스트 어댑터
 class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFriendsListViewHolder>() {
@@ -25,11 +26,11 @@ class NewFriendsListAdapter(val context: Context): RecyclerView.Adapter<NewFrien
         holder.bind(newFriendsList[position])
 
         // 친구 신청 수락 클릭 이벤트
-        holder.binding.tvFriendsConfirm.setOnClickListener {
+        holder.binding.tvFriendsConfirm.setOnSingleClickListener {
             onFriendsItemClickListener1?.invoke(position)
         }
         // 친구 신청 거절 클릭 이벤트
-        holder.binding.tvFriendsRefuse.setOnClickListener {
+        holder.binding.tvFriendsRefuse.setOnSingleClickListener {
             onFriendsItemClickListener2?.invoke(position)
         }
     }

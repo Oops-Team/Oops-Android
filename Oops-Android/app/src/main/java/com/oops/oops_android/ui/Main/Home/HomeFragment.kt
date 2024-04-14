@@ -45,6 +45,7 @@ import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Home.Todo.TodoDeleteAgreeDialog
 import com.oops.oops_android.ui.Main.Home.Todo.TodoFragmentDirections
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
+import com.oops.oops_android.utils.setOnSingleClickListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import org.json.JSONArray
@@ -588,14 +589,14 @@ class HomeFragment:
             })
 
             // 사용자가 입력 도중 바깥을 클릭했다면
-            binding.lLayoutHomeInside.setOnClickListener {
+            binding.lLayoutHomeInside.setOnSingleClickListener {
                 getEditDone(edt, tv, itemPos)
             }
         }
 
         // 삭제 버튼 클릭 이벤트
         val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
-        deleteBtn.setOnClickListener {
+        deleteBtn.setOnSingleClickListener {
             popupWindow.dismiss()
 
             // 일정 1개 삭제 API 연결
