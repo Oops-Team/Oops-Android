@@ -251,6 +251,8 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
             }
             // 새로운 비밀번호로 변경 API 연결 성공
             "Change" -> {
+                showToast(getString(R.string.toast_change_pw)) // 재설정 성공 토스트 띄우기
+                
                 // 로그인 화면으로 이동
                 val intent = Intent(activity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

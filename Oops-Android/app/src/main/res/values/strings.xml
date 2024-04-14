@@ -448,6 +448,7 @@
     <string name="toast_login_naver_failure">로그인이 취소되었습니다</string>
     <string name="toast_server_error">요청을 처리할 수 없습니다</string>
     <string name="toast_user_withdrawal">회원탈퇴 되었습니다</string>
+    <string name="toast_change_pw">비밀번호를 재설정했습니다</string>
 
     <!-- 스낵바 메시지 -->
     <string name="snackbar_read_terms">개인정보 처리 방침을 클릭하여 읽어 주세요!</string>

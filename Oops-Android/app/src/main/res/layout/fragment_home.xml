@@ -373,6 +373,7 @@
                 android:id="@+id/iBtn_home_todo_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:src="@drawable/ic_todo_add_24"
                 app:tint="@color/Gray_500"
                 android:background="@drawable/all_radius_12"
