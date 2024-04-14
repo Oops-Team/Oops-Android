@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:paddingTop="40dp"
+        android:paddingTop="20dp"
         android:layout_weight="4">
 
         <LinearLayout
@@ -75,7 +75,7 @@
             android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <!-- 프로갓생러 -->
@@ -173,6 +173,37 @@
                 </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
+
+        <!-- 하단 박스 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/all_radius_12"
+            android:backgroundTint="@color/Main_100"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info_fill_16"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tutorial_info_15"
+                style="@style/Button2"
+                android:textColor="@color/Main_400"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

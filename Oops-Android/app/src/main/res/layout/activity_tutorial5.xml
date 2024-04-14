@@ -51,8 +51,8 @@
         android:layout_weight="4">
 
         <!-- 할 일 박스 -->
-        <EditText
-            android:id="@+id/edt_tutorial_5_todo_default"
+        <TextView
+            android:id="@+id/tv_tutorial_5_todo_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tutorial_info_11"
@@ -61,17 +61,37 @@
             android:textSize="15dp"
             android:textStyle="bold"
             android:background="@drawable/all_radius_12_tutorial"
-            android:maxLines="1"
-            android:maxLength="20"
-            android:inputType="text"
-            android:imeOptions="actionDone"/>
+            android:maxLines="1"/>
 
-        <!-- 동적 할 일 레이아웃 -->
-        <LinearLayout
-            android:id="@+id/lLayout_tutorial_5_todo"
+        <!-- 할 일 박스 -->
+        <TextView
+            android:id="@+id/tv_tutorial_5_todo_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:visibility="gone"
+            android:hint="@string/tutorial_info_11"
+            android:textColorHint="@color/Gray_300"
+            android:textColor="@color/Gray_900"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:background="@drawable/all_radius_12_tutorial"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"/>
+
+        <!-- 할 일 박스 -->
+        <TextView
+            android:id="@+id/tv_tutorial_5_todo_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:hint="@string/tutorial_info_11"
+            android:textColorHint="@color/Gray_300"
+            android:textColor="@color/Gray_900"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:background="@drawable/all_radius_12_tutorial"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"/>
 
         <!-- 할일 추가 -->
         <ImageButton
