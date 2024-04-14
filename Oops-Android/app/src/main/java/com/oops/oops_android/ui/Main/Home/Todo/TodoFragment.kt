@@ -97,10 +97,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 일정 개수만큼 EditText 추가
                 for (i in 0 until todoListItem!!.todoItem.size) {
                     val tempEdt = addEditText()
-                    addTodoName.clear()
                     todoList.add(TodoCheckModifyItem(todoListItem!!.todoItem[i].todoIdx, tempEdt, todoListItem!!.todoItem[i].todoName))
                     todoList[i].edt.setText(todoListItem!!.todoItem[i].todoName) // 일정 edittext 리스트
                 }
+                addTodoName.clear()
                 Log.d("todoList created 일정 수정", todoList.toString())
 
                 // 관련 태그
@@ -404,7 +404,9 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 }
 
                 Log.d("일정 수정: 모두", todoList.toString())
-                Log.d("일정 수정: 추가", addTodoName.toString())
+                for (element in addTodoName) {
+                    Log.d("일정 수정: 추가", element.text.toString())
+                }
                 Log.d("일정 수정: 수정", tempTodoModifyList.toString())
                 Log.d("일정 수정: 삭제", deleteTodoIdx.toString())
 
@@ -1101,8 +1103,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             todoList[i].edt.setText(todoName)
                             tempTodoSaveList.add(TodoItem(todoIdx, todoName, false))
                         }
-
-                        Log.d("todoList 일정 조회 수정", todoList.toString())
+                        addTodoName.clear()
 
                         // todoTagList data
                         val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
