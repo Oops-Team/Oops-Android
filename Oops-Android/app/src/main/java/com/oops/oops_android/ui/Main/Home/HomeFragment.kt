@@ -268,8 +268,14 @@ class HomeFragment:
 
         // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
-            // 뷰 추가하기
-            addTodoView()
+            // 일정이 30개 이상이라면
+            if (todoAdapter?.itemCount!! >= 30) {
+                showCustomSnackBar(getString(R.string.toast_todo_not_add)) // 스낵바 띄우기
+            }
+            else {
+                // 뷰 추가하기
+                addTodoView()
+            }
         }
 
         // 일정 추가 버튼(상단 버튼) 클릭 이벤트
