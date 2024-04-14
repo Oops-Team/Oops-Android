@@ -178,8 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/myPage_withdrawal"
-        android:textSize="16sp"
-        android:fontFamily="@font/pretendard_bold"
+        style="@style/Button3"
         android:textColor="@color/Gray_300"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="45dp"/>
