@@ -1,8 +1,11 @@
 package com.oops.oops_android.ui.Main.Sting
 
 import android.util.Log
+import android.view.KeyEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
@@ -26,12 +29,23 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         mainActivity?.hideBnv(true) // 바텀 네비게이션 숨기기
 
         binding.friendsToolbarSub.tvSubToolbarTitle.text = getString(R.string.sting_friends)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 핸드폰의 뒤로가기 버튼 클릭 시
+                // 홈 화면으로 이동
+                val actionToHome = FriendsFragmentDirections.actionFriendsFrmToHomeFrm()
+                findNavController().navigate(actionToHome)
+            }
+        })
     }
 
     override fun initAfterBinding() {
         // 뒤로 가기 버튼을 누른 경우
         binding.friendsToolbarSub.ivSubToolbarBack.setOnClickListener {
-            view?.findNavController()?.popBackStack()
+            // 홈 화면으로 이동
+            val actionToHome = FriendsFragmentDirections.actionFriendsFrmToHomeFrm()
+            findNavController().navigate(actionToHome)
         }
 
         // 친구 리스트 조회 API 연결

@@ -200,6 +200,11 @@
         <action
             android:id="@+id/action_friendsFrm_to_searchFriendsFrm"
             app:destination="@id/searchFriendsFragment"/>
+        <action
+            android:id="@+id/action_friendsFrm_to_homeFrm"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <!-- 사용자 검색 창 -->
