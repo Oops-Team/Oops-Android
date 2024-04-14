@@ -317,7 +317,7 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
             409 -> {
                 Log.e("FriendsFragment - 409", message)
                 if (message == "이미 친구 신청한 사용자입니다") {
-                    showToast("이미 서로 친구에요!")
+                    showToast("이미 친구 신청을 보냈어요")
                 }
             }
             412 -> {
