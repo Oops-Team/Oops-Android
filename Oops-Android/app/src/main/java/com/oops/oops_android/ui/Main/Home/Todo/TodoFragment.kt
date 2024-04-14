@@ -33,6 +33,7 @@ import com.oops.oops_android.data.remote.Todo.Model.TodoModifyItem2
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentTodoBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Home.TodoCheckModifyItem
 import com.oops.oops_android.ui.Main.Home.TodoItem
 import com.oops.oops_android.ui.Main.Home.TodoListItem
@@ -1032,9 +1033,24 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
     }
 
-    // 일정 추가 & 일정 전체 삭제 실패
+    // 일정 추가 성공 & 일정 수정 & 일정 전체 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 일정 1개 조회
@@ -1214,7 +1230,22 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
 
     // 일정 1개 조회 실패
     override fun onGetTodoFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 기존에 선택되어 있던 값 초기화

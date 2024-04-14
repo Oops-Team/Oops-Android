@@ -25,6 +25,7 @@ import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.databinding.FragmentProfileBottomSheetBinding
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.CameraActivity
 import com.oops.oops_android.ui.Main.MainActivity
 import com.oops.oops_android.utils.FileUtils.drawableToFile
@@ -359,6 +360,12 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
     // 프로필 사진 변경 API 연결 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                dismiss()
+                Toast.makeText(requireContext(), resources.getString(R.string.toast_server_session), Toast.LENGTH_SHORT).show()
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
             409 -> {
                 // 기존 프로필 사진과 동일한 경우
                 Log.d("ProfileBottomSheetFragment", message)
@@ -369,9 +376,16 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
                 Toast.makeText(requireContext(), getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
                 dismiss()
             }
-            else -> {
-                Toast.makeText(requireContext(), getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
                 dismiss()
+                Toast.makeText(requireContext(), resources.getString(R.string.toast_server_error), Toast.LENGTH_SHORT).show()
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                dismiss()
+                Toast.makeText(requireContext(), getString(R.string.toast_server_error_to_login), Toast.LENGTH_SHORT).show()
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
             }
         }
     }

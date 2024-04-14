@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.FileUtils
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -187,6 +188,14 @@ class CameraActivity : AppCompatActivity(), CommonView {
     // 프로필 사진 변경 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                Toast.makeText(this, getString(R.string.toast_server_session), Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivity(intent) // 로그인 화면으로 이동
+            }
             409 -> {
                 // 기존 프로필 사진과 동일한 경우
                 Log.d("CameraActivity", message)

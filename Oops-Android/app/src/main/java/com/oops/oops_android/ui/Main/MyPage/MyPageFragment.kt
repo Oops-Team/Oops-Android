@@ -195,6 +195,21 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
     // 마이페이지 조회 실패
     override fun onGetMyPageFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

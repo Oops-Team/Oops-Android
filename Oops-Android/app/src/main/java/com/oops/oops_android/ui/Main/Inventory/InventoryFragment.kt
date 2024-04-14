@@ -19,6 +19,7 @@ import com.oops.oops_android.data.remote.Inventory.Api.InventoryView
 import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
 import com.oops.oops_android.databinding.FragmentInventoryBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Home.StuffItem
 import org.json.JSONObject
 
@@ -333,7 +334,22 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
     // 인벤토리 전체 & 상세 리스트 조회 실패
     override fun onGetInventoryFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 인벤토리 아이콘 변경 API 연결
@@ -350,6 +366,22 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
     // 인벤토리 아이콘 변경 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
+        // 404 : 해당 인벤토리가 없는 경우
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Inventory.Api.InventoryService
 import com.oops.oops_android.data.remote.Inventory.Model.CreateInventory
+import com.oops.oops_android.ui.Login.LoginActivity
 
 /* 인벤토리 생성 & 수정 화면 */
 class CreateInventoryFragment:
@@ -555,10 +556,23 @@ class CreateInventoryFragment:
 
     // 인벤토리 생성, 수정, 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
+        // 400 : 인벤토리 생성 개수 초과
+        // 409 : 이미 있는 이름인 경우
         when (status) {
-            // 400 - 인벤토리 최대 생성 개수 초과
-            400, 404 -> showToast(message)
-            else -> showToast(resources.getString(R.string.toast_server_error))
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
         }
     }
 }

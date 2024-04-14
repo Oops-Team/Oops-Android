@@ -446,7 +446,9 @@
     <string name="toast_todo_not_add">더이상 할 일을 추가할 수 없어요!</string>
     <string name="toast_todo_not_delete">하나 이상의 할일을 추가해야 해요!</string>
     <string name="toast_login_naver_failure">로그인이 취소되었습니다</string>
+    <string name="toast_server_session">로그인이 만료되었습니다\n다시 로그인해 주시기 바랍니다</string>
     <string name="toast_server_error">요청을 처리할 수 없습니다</string>
+    <string name="toast_server_error_to_login">요청을 처리할 수 없습니다\n다시 로그인해 주시기 바랍니다</string>
     <string name="toast_user_withdrawal">회원탈퇴 되었습니다</string>
     <string name="toast_change_pw">비밀번호를 재설정했습니다</string>
 

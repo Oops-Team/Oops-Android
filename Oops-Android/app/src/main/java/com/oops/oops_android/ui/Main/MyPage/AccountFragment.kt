@@ -10,6 +10,7 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.databinding.FragmentAccountBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 
 // 계정 관리 화면
 class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate), CommonView {
@@ -85,5 +86,23 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
     // 프로필 공개/비공개 전환 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         Log.d("AccountFragment", "$status $message Profile Failure")
+
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
+
     }
 }
