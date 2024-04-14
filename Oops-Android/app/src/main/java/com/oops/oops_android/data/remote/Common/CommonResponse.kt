@@ -1,5 +1,6 @@
 package com.oops.oops_android.data.remote.Common
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
@@ -13,5 +14,5 @@ data class CommonResponse(
 data class CommonObjectResponse(
     @SerializedName("status") var status: Int,
     @SerializedName("message") var message: String,
-    @SerializedName("data") var data: JsonObject
+    @SerializedName("data") var data: JsonElement
 )

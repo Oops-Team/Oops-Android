@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.oops.oops_android.data.db.Entity.User
 
 /* User Data Access Object */
+// 일단, 최신 유저 정보 1개만 저장하도록 설계함
 @Dao
 interface UserDao {
 

@@ -119,6 +119,7 @@ class HomeFragment:
         // room db의 user db
         val userDB = AppDatabase.getUserDB()
         Log.d("Home, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
+        Log.d("Home, room, user", userDB?.userDao()?.getAllUser().toString())
 
         Log.d("홈", "initAfterBinding")
         // 뷰 초기화

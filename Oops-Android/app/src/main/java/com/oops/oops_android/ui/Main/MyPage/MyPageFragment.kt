@@ -15,6 +15,7 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
 import com.oops.oops_android.databinding.FragmentMyPageBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Login.LoginActivity
+import com.oops.oops_android.utils.AlarmUtils
 import com.oops.oops_android.utils.removeToken
 import org.json.JSONException
 import org.json.JSONObject
@@ -95,6 +96,9 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                 // 로그아웃 버튼을 누른 경우
                 override fun onClicked() {
                     removeToken()
+
+                    // 기존에 저장되어 있던 모든 알람 삭제(db, 알람 취소)
+                    AlarmUtils.setCancelAllAlarm(requireContext())
 
                     // 로그인 화면으로 이동
                     showToast("로그아웃했습니다")

@@ -4,7 +4,10 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.google.gson.JsonObject
 import com.oops.oops_android.R
+import com.oops.oops_android.data.db.Database.AppDatabase
+import com.oops.oops_android.data.db.Entity.User
 import com.oops.oops_android.data.remote.Auth.Api.AuthService
 import com.oops.oops_android.data.remote.Auth.Api.SignUpView
 import com.oops.oops_android.data.remote.Auth.Model.OopsUserModel
@@ -12,6 +15,8 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUp2Binding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
+import com.oops.oops_android.utils.AlarmUtils
+import com.oops.oops_android.utils.AlarmUtils.setCancelAllAlarm
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
@@ -314,7 +319,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
     }
 
     // Oops 회원가입 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
+    override fun onSignUpSuccess(status: Int, message: String, data: JsonObject?, isGetToken: Boolean) {
         when (status) {
             200 -> {
                 try {
@@ -328,6 +333,14 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                     // spf 업데이트
                     saveLoginId("oops")
 
+                    // room db에 최신 유저 정보 저장
+                    val userDB = AppDatabase.getUserDB()
+                    userDB?.userDao()?.deleteAllUser()
+                    userDB?.userDao()?.insertUser(User("oops", getNickname()))
+
+                    // 기존에 저장되어 있던 모든 알람 삭제(db, 알람 취소)
+                    setCancelAllAlarm(this)
+
                     // 알림 수신 동의했다면(=토큰이 있다면)
                     if (isGetToken) {
                         // 알림 동의 완료 팝업 띄우기
@@ -339,7 +352,7 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
                         clickDisAgreeBtn()
                     }
                 } catch (e: Exception) {
-                    Log.e("SignUp2Activity - room db", e.stackTraceToString())
+                    Log.e("SignUp2Activity - Sign Up", e.stackTraceToString())
                 }
             }
         }
@@ -351,5 +364,6 @@ class SignUp2Activity: BaseActivity<ActivitySignUp2Binding>(ActivitySignUp2Bindi
             -1 -> showToast(getString(R.string.toast_server_error))
             else -> showToast(getString(R.string.toast_server_error))
         }
+        startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
     }
 }
