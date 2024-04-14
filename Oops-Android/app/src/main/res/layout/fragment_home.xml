@@ -212,9 +212,10 @@
                 android:id="@+id/lLayout_home_stuff_complete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_marginTop="50dp"
-                android:visibility="gone">
+                android:layout_marginBottom="50dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -231,8 +232,7 @@
                     android:text="오늘도 즐거운 외출 되세요"
                     style="@style/Button3"
                     android:textColor="@color/Gray_400"
-                    android:textAlignment="center"
-                    android:layout_marginBottom="36dp"/>
+                    android:textAlignment="center"/>
             </LinearLayout>
 
             <!-- 챙겨야 할 것이 없을 때 보이는 뷰 -->
@@ -243,17 +243,19 @@
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:text="일정 추가 후 소지품이 추가돼요"
                 style="@style/Body2"
                 android:textColor="@color/Gray_400" />
 
+            <!-- 인벤토리가 없는 경우 -->
             <LinearLayout
                 android:id="@+id/lLayout_home_stuff_no_inventory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="24dp"
                 android:visibility="gone"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -278,6 +280,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp"
                 android:clipToPadding="false"
                 android:paddingStart="4dp"
                 android:paddingEnd="16dp"
@@ -287,17 +290,10 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_home_stuff"/>
 
-            <View
-                android:id="@+id/view_home"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:visibility="gone"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"

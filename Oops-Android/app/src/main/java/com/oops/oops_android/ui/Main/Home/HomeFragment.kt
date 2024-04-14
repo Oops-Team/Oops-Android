@@ -131,7 +131,6 @@ class HomeFragment:
         binding.lLayoutHomeTodoTag.removeAllViews()
         todoListItem = null
         isWeeklyCalendar = true
-        binding.viewHome.visibility = View.GONE
 
         // 일정 어댑터 연결
         todoAdapter = TodoListAdapter(requireContext())
@@ -592,7 +591,10 @@ class HomeFragment:
         deleteBtn.setOnClickListener {
             popupWindow.dismiss()
 
-            // 일정이 1개라면
+            // 일정 1개 삭제 API 연결
+            deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
+
+            /*// 일정이 1개라면
             if (todoAdapter?.itemCount == 1) {
                 deleteAllTodo(TodoDeleteAllModel(selectDate.toString()))
             }
@@ -600,7 +602,7 @@ class HomeFragment:
             else {
                 // 일정 1개 삭제 API 연결
                 deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
-            }
+            }*/
         }
     }
 
@@ -725,48 +727,66 @@ class HomeFragment:
                         val isCompleteStuff: Boolean = jsonObject.getBoolean("isCompleteStuff")
 
                         /* 데이터를 바탕으로 뷰 그리기 */
-                        // 소지품, 할 일이 없다면
-                        if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
-                            binding.tvHomeStuffDefault.visibility = View.VISIBLE
-                            binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
-                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
-                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                            binding.viewHome.visibility = View.VISIBLE
-                            binding.iBtnHomeTodoAdd.visibility = View.GONE
-                            binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
-                        }
-                        // 소지품이 없지만, 할 일이 있다면
-                        else if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount!! >= 1) {
-                            // 소지품을 다 챙겼다면
-                            if (isCompleteStuff) {
+                        // 소지품을 다 챙겼다면
+                        if (isCompleteStuff) {
+                            // 할 일이 없다면
+                            if (todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
+                            // 할 일이 있다면
+                            else {
                                 binding.tvHomeStuffDefault.visibility = View.GONE
                                 binding.lLayoutHomeTodoDefault.visibility = View.GONE
                                 binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                                 binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
-                                binding.viewHome.visibility = View.GONE
                                 binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
                                 binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
                             }
-                            // 인벤토리가 없다면
-                            else {
+                        }
+                        // 소지품을 아직 안 챙겼다면
+                        else {
+                            // 소지품, 할 일이 없다면
+                            if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE
+                                binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
+                            }
+                            // 소지품이 없지만, 할 일이 있다면
+                            else if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount!! >= 1) {
+                                // 인벤토리가 없는 경우
                                 binding.tvHomeStuffDefault.visibility = View.GONE
                                 binding.lLayoutHomeTodoDefault.visibility = View.GONE
                                 binding.lLayoutHomeStuffNoInventory.visibility = View.VISIBLE
                                 binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                                binding.viewHome.visibility = View.GONE
                                 binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
                                 binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
                             }
-                        }
-                        // 소지품도 있고, 할 일도 있다면
-                        else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount!! >= 1) {
-                            binding.tvHomeStuffDefault.visibility = View.GONE
-                            binding.lLayoutHomeTodoDefault.visibility = View.GONE
-                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
-                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                            binding.viewHome.visibility = View.GONE
-                            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-                            binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            // 소지품은 있지만, 할 일은 없다면
+                            else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
+                            // 소지품도 있고, 할 일도 있다면
+                            else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount!! >= 1) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
                         }
 
                         // 오늘 날짜의 일정 데이터 리스트 저장
@@ -790,7 +810,6 @@ class HomeFragment:
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                     binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                    binding.viewHome.visibility = View.VISIBLE
 
                     // edit버튼, +버튼 숨기기
                     binding.ivHomeEdit.visibility = View.INVISIBLE
@@ -872,7 +891,7 @@ class HomeFragment:
         todoService.deleteTodo(todoIdx, itemPos)
     }
 
-    // 일정 삭제
+    // 일정 전체 삭제
     private fun deleteAllTodo(date: TodoDeleteAllModel) {
         val todoService = TodoService()
         todoService.setCommonView(this)
@@ -913,19 +932,24 @@ class HomeFragment:
                 val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
                 todoAdapter?.deleteTodoList(todoItem)
 
-                // 만약 아이템이 아예 없다면
-                if (todoAdapter?.itemCount == 0) {
+                // 소지품도 없고, 일정도 없다면
+                if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
                     // default 뷰 띄우기
                     binding.tvHomeStuffDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                     binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                    binding.viewHome.visibility = View.GONE
-                    binding.lLayoutHomeTodoTag.removeAllViews()
-
-                    // edit버튼, +버튼 숨기기
-                    binding.ivHomeEdit.visibility = View.INVISIBLE
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
+                    binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
+                }
+                // 소지품은 있지만, 할 일은 없다면
+                else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount == 0) {
+                    binding.tvHomeStuffDefault.visibility = View.GONE
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                    binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                    binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                    binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                    binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
                 }
             }
             "Todo Complete" -> {
@@ -970,7 +994,7 @@ class HomeFragment:
                     binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
                 }
             }
-            "Delete All Todo" -> {
+            /*"Delete All Todo" -> {
                 // 리스트 초기화
                 todoAdapter?.resetTodoList()
                 stuffAdapter?.resetStuffList()
@@ -1000,7 +1024,7 @@ class HomeFragment:
                     binding.mcvHomeMonthlyCalendarview.removeDecorator(eventDecorator2)
                     binding.mcvHomeMonthlyCalendarview.invalidateDecorators()
                 }
-            }
+            }*/
         }
     }
 
