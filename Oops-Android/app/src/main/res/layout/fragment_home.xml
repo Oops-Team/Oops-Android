@@ -213,13 +213,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="50dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
                     android:text="소지품을 모두 챙겼어요"
                     android:textSize="14dp"
                     android:fontFamily="@font/pretendard_regular"
@@ -243,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="49dp"
+                android:layout_marginTop="50dp"
                 android:text="일정 추가 후 소지품이 추가돼요"
                 style="@style/Body2"
                 android:textColor="@color/Gray_400" />
@@ -252,7 +251,7 @@
                 android:id="@+id/lLayout_home_stuff_no_inventory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="24dp"
                 android:visibility="gone"
                 android:orientation="vertical">
@@ -267,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="8dp"
                     android:text="소지품을 추가해 주세요!"
                     style="@style/Body2"
                     android:textColor="@color/Gray_400" />
@@ -291,7 +290,7 @@
             <View
                 android:id="@+id/view_home"
                 android:layout_width="match_parent"
-                android:layout_height="112dp"
+                android:layout_height="50dp"
                 android:visibility="gone"/>
 
             <LinearLayout
