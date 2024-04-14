@@ -29,7 +29,8 @@
             android:id="@+id/tv_notice_detail_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Button2"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_bold"
             android:textColor="@color/Black"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>

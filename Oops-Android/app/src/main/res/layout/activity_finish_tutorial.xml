@@ -25,8 +25,8 @@
             style="@style/H1"
             android:maxLines="2"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="26dp"
-            android:autoSizeMaxTextSize="30dp"
+            android:autoSizeMinTextSize="26sp"
+            android:autoSizeMaxTextSize="30sp"
             android:text="@string/tutorial_info_12"
             android:textColor="@color/Black"/>
 
