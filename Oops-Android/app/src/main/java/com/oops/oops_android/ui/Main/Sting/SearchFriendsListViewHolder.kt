@@ -27,6 +27,7 @@ class SearchFriendsListViewHolder(val binding: ItemFriendsBoxRv3Binding): Recycl
             1 -> {
                 // 친구임
                 binding.iBtnFriendsBox3Sting.visibility = View.VISIBLE
+                binding.tvFriendsBox3Delete.visibility = View.VISIBLE
             }
             2 -> {
                 // 대기 중

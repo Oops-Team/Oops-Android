@@ -275,17 +275,32 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                     showToast(resources.getString(R.string.toast_server_error)) // 실패
                 }
             }
+            // 상대의 알림 설정이 해제된 상태인 경우
+            207 -> {
+                if (data != null) {
+                    when (message) {
+                        // 친구 신청 성공
+                        "Request Friends" -> {
+                            val tempData = data as StingRequestModel
+                            // 팝업 띄우기
+                            val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_request, R.id.btn_popup_friends_request_confirm, tempData.name)
+                            acceptDialog.showFriendsAcceptDialog()
+
+                            // 대기중 상태로 바꾸기
+                            keywordList[tempData.position].userState = 2
+
+                            // 어댑터 갱신
+                            searchFriendsAdapter.notifyItemChanged(tempData.position)
+                        }
+                    }
+                }
+            }
         }
     }
 
     // 친구 신청하기 & 친구 끊기 & 콕콕 찌르기 연결 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
-            207 -> {
-                // 요청은 했으나, 알림 설정 해제로 인해 알림을 보내지 않는 경우
-                // 친구 신청, 끊기 ok
-                Log.e("FriendsFragment - 207", message)
-            }
             // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
             400, 401 -> {
                 showToast(resources.getString(R.string.toast_server_session))
@@ -297,12 +312,15 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                     "Sting" -> {
                         when (message) {
                             "해당 사용자가 존재하지 않습니다" -> {
-                                showToast(resources.getString(R.string.toast_server_error))
+                                showToast("해당 사용자가 존재하지 않습니다")
                             }
 
                             "올바르지 않은 FCM 토큰입니다" -> {
-                                showToast(resources.getString(R.string.toast_server_error_to_login))
-                                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                            }
+
+                            "해당 사용자의 FCM 토큰 데이터가 없습니다" -> {
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                             }
                         }
                     }
@@ -343,8 +361,9 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                 }
             }
             412 -> {
-                // fixme: 분기 처리를 어떻게 해야할지 모르겠음
-                // "콕콕 찌르기를 할 수 없습니다"
+                if (message == "콕콕 찌르기를 할 수 없습니다") {
+                    showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                }
             }
             500 -> {
                 Log.e("FriendsFragment - 500", message)

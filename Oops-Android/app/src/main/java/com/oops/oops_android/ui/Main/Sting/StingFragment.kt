@@ -367,14 +367,18 @@ class StingFragment: BaseFragment<FragmentStingBinding>(FragmentStingBinding::in
                     }
 
                     "올바르지 않은 FCM 토큰입니다" -> {
-                        showToast(resources.getString(R.string.toast_server_error_to_login))
-                        mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+                        showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                    }
+
+                    "해당 사용자의 FCM 토큰 데이터가 없습니다" -> {
+                        showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                     }
                 }
             }
             412 -> {
-                // fixme: 분기 처리를 어떻게 해야할지 모르겠음
-                // "콕콕 찌르기를 할 수 없습니다"
+                if (message == "콕콕 찌르기를 할 수 없습니다") {
+                    showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                }
             }
             500 -> {
                 Log.e("FriendsFragment - 500", message)
