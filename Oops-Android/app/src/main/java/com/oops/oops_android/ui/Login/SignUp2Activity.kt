@@ -15,7 +15,6 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUp2Binding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
-import com.oops.oops_android.utils.AlarmUtils
 import com.oops.oops_android.utils.AlarmUtils.setCancelAllAlarm
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod

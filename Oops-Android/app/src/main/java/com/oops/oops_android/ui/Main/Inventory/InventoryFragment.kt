@@ -57,27 +57,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
         // 인벤토리 All 소지품 어댑터 연결
         binding.rvInventoryStuff.adapter = stuffAdapter
 
-        // 인벤토리 생성&수정 화면에서 넘어왔다면
-        /*try {
-            val args: InventoryFragmentArgs by navArgs()
-            val categoryItem = args.newInventoryItem
-
-            when (args.inventoryDivision) {
-                // 인벤토리 삭제의 경우
-                "InventoryDelete" -> {
-                    // 인벤토리 idx가 같은 아이템 찾기
-                    for (i in 0 until categoryList.size) {
-                        if (categoryList[i].inventoryIdx == categoryItem?.inventoryIdx) {
-                            // 값 삭제
-                            categoryList.removeAt(i)
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.i("Inventory Fragment Error", e.message.toString())
-        }*/
-
         // 카테고리 버튼 클릭 이벤트
         categoryAdapter.onCategoryItemClickListener = { position ->
             categoryAdapter.setCategorySelected(position)
@@ -320,12 +299,10 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
                 // 소지품 아이템이 있다면
                 if (stuffNum >= 1) {
-                    Log.d("소지품 개수 in", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
                 }
                 // 소지품이 없다면
                 else {
-                    Log.d("소지품 개수 out", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.VISIBLE // default 뷰 띄우기
                 }
             }

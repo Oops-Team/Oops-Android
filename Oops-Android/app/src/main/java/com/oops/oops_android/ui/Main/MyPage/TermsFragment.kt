@@ -1,8 +1,6 @@
 package com.oops.oops_android.ui.Main.MyPage
 
 import android.animation.ObjectAnimator
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.navigation.findNavController

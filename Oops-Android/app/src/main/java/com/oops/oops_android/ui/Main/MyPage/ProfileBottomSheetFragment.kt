@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -93,12 +92,6 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
 
         // 네비게이션 값 읽기
         try {
-            /*Log.d("확인", requireArguments().getBoolean("isDefault").toString())
-            // 프로필 사진이 있다면 프로필 삭제 메뉴 띄우기
-            if (!requireArguments().getBoolean("isDefault")) {
-                binding.tvMypageProfileDelete.visibility = View.VISIBLE
-                binding.viewMypageProfileDelete.visibility = View.VISIBLE
-            }*/
             val args: ProfileBottomSheetFragmentArgs by navArgs()
             if (args.profileDivision) {
                 binding.tvMypageProfileDelete.visibility = View.VISIBLE
@@ -197,13 +190,11 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
                 ) == PackageManager.PERMISSION_GRANTED })
         {
             // 카메라 화면으로 이동
-            Log.d("카메라 권한 허용 여부", "1-1")
             val intent = Intent(requireContext(), CameraActivity::class.java)
             cameraResultActivity.launch(intent)
         }
         // 권한이 없다면
         else {
-            Log.d("카메라 권한 허용 여부", "1-2")
             requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
     }
@@ -215,17 +206,14 @@ class ProfileBottomSheetFragment: BottomSheetDialogFragment(), CommonView {
             requireContext(),
             android.Manifest.permission.READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED) {
-            Log.d("갤러리 권한 허용 여부", "1-1")
             goGallery() // 갤러리로 이동
         }
         // 권한이 없다면
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                Log.d("갤러리 권한 허용 여부", "1-2-1")
                 requestGalleryPermissionLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
             }
             else {
-                Log.d("갤러리 권한 허용 여부", "1-2-2")
                 requestGalleryPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }

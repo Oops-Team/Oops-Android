@@ -1,7 +1,6 @@
 package com.oops.oops_android.ui.Splash
 
 import android.animation.ObjectAnimator
-import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.animation.doOnEnd

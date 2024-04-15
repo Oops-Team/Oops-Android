@@ -31,9 +31,7 @@ import com.oops.oops_android.data.remote.Common.CommonObjectView
 import com.oops.oops_android.databinding.ActivityLoginBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Main.MainActivity
-import com.oops.oops_android.utils.AlarmUtils
 import com.oops.oops_android.utils.AlarmUtils.setAllAlarm
-import com.oops.oops_android.utils.AlarmUtils.setCancelAlarm
 import com.oops.oops_android.utils.AlarmUtils.setCancelAllAlarm
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
@@ -160,10 +158,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         } catch (e: Exception) {
             Log.e("LoginActivity - LoginId", e.stackTraceToString())
         }
-
-        val userDB = AppDatabase.getUserDB()
-        Log.d("Home, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
-        Log.d("Home, room, user", userDB?.userDao()?.getAllUser().toString())
     }
 
     // 이메일, 비밀번호 유효성 검사

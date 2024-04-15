@@ -10,7 +10,6 @@ import android.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.WindowManager
@@ -94,7 +93,6 @@ class CameraActivity : AppCompatActivity(), CommonView {
     // 액티비티 인텐트 실행
     private var getResult: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
-        Log.d("인텐트", it.resultCode.toString())
         when (it.resultCode) {
             RESULT_OK -> {
                 val bitmap = BitmapFactory.decodeFile(imageFilePath)
@@ -164,7 +162,6 @@ class CameraActivity : AppCompatActivity(), CommonView {
                 val myPageService = MyPageService()
                 myPageService.setCommonView(this)
                 myPageService.changeProfile(multipartBody)
-                Log.d("카메라", filePath.toString())
 
             } catch(e: Exception) {
                 Log.d("CameraActivity", e.stackTraceToString())
@@ -198,7 +195,6 @@ class CameraActivity : AppCompatActivity(), CommonView {
             }
             409 -> {
                 // 기존 프로필 사진과 동일한 경우
-                Log.d("CameraActivity", message)
                 intent.putExtra("Camera", false)
                 setResult(RESULT_OK, intent)
                 finish()

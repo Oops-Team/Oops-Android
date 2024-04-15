@@ -47,14 +47,12 @@ object AlarmUtils {
 
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
                 val alarmCodeDate = userDB.alarmDao().getAlarmWitDate(alarmDate)
-                Log.d("alarm date 1", alarmCodeDate.toString())
 
                 try {
                     // 기존에 설정된 해당날짜의 알람이 있다면
                     if (alarmCodeDate.isNotEmpty()) {
                         for (element in alarmCodeDate) {
                             cancelAlarm(context, element.alarmCode) // 알람 취소
-                            Log.d("alarm date 2", alarmCodeDate.toString())
                         }
                         userDB.alarmDao().deleteAlarmWithDate(alarmDate) // db에서 삭제
                     }
@@ -72,7 +70,6 @@ object AlarmUtils {
                         val newRemindTime = tempRemindTime.format(dateFormat2)
                         val newAlarmCode = "${alarmDate}2".toInt()
 
-                        Log.d("alarm 5 minute", newRemindTime.toString())
                         setAlarm(context, newRemindTime.toString(), newAlarmCode) // 알람 등록
                         userDB.alarmDao().addAlarm( // db에 알람 추가
                             RemindAlarm(
@@ -90,7 +87,6 @@ object AlarmUtils {
                         val newRemindTime = tempRemindTime.format(dateFormat2)
                         val newAlarmCode = "${alarmDate}3".toInt()
 
-                        Log.d("alarm 30 minute", newRemindTime.toString())
                         setAlarm(context, newRemindTime.toString(), newAlarmCode) // 알람 등록
                         userDB.alarmDao().addAlarm( // db에 알람 추가
                             RemindAlarm(
@@ -108,7 +104,6 @@ object AlarmUtils {
                         val newRemindTime = tempRemindTime.format(dateFormat2)
                         val newAlarmCode = "${alarmDate}4".toInt()
 
-                        Log.d("alarm 1 hour", newRemindTime.toString())
                         setAlarm(context, newRemindTime.toString(), newAlarmCode) // 알람 등록
                         userDB.alarmDao().addAlarm( // db에 알람 추가
                             RemindAlarm(
@@ -126,7 +121,6 @@ object AlarmUtils {
                         val newRemindTime = tempRemindTime.format(dateFormat2)
                         val newAlarmCode = "${alarmDate}5".toInt()
 
-                        Log.d("alarm 1 day", newRemindTime.toString())
                         setAlarm(context, newRemindTime.toString(), newAlarmCode) // 알람 등록
                         userDB.alarmDao().addAlarm( // db에 알람 추가
                             RemindAlarm(

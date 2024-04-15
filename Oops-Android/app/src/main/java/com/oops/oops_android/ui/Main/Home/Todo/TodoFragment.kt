@@ -101,7 +101,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     todoList[i].edt.setText(todoListItem!!.todoItem[i].todoName) // 일정 edittext 리스트
                 }
                 addTodoName.clear()
-                Log.d("todoList created 일정 수정", todoList.toString())
 
                 // 관련 태그
                 for (i in 0 until todoListItem!!.todoTag!!.size) {
@@ -192,7 +191,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 binding.btnTodoCreate.visibility = View.VISIBLE
                 val tempEdt = addEditText()
                 todoList.add(TodoCheckModifyItem(null, tempEdt, null))
-                Log.d("todoList created - 일정 추가", todoList.toString())
                 isEdit = false
             }
         } catch (e: Exception) {
@@ -292,7 +290,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 동적 EditText 추가하기
                 val tempEdt = addEditText()
                 todoList.add(TodoCheckModifyItem(null, tempEdt, null)) // 리스트에 EditText 추가
-                Log.d("todoList 동적 리스트", todoList.toString())
             }
         }
 
@@ -365,8 +362,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     }
                 }
 
-                Log.d("일정 추가: 모두", todoList.toString())
-
                 // 일정 추가 API 연결
                 createTodo(
                     TodoCreateModel(
@@ -403,13 +398,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     }
                 }
 
-                Log.d("일정 수정: 모두", todoList.toString())
-                for (element in addTodoName) {
-                    Log.d("일정 수정: 추가", element.text.toString())
-                }
-                Log.d("일정 수정: 수정", tempTodoModifyList.toString())
-                Log.d("일정 수정: 삭제", deleteTodoIdx.toString())
-
                 // 일정 수정 API 연결
                 modifyTodo(
                     TodoModifyModel(
@@ -435,7 +423,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
             todoDeleteDialog.setOnClickedListener(object : TodoDeleteDialog.TodoDeleteBtnClickListener {
                 override fun onClicked() {
                     // 일정 전체 삭제 API 연동
-                    Log.d("삭제할 날짜", selectDate.toString())
                     deleteAllTodo(TodoDeleteAllModel(selectDate.toString()))
                 }
             })
@@ -635,7 +622,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     private fun setRemindCheckedChanged(checkBox: CompoundButton, isChecked: Boolean, itemCode: Int) {
         if (isChecked) { // 선택했다면
             remindList.add(itemCode) // 값 추가
-            Log.d("확인1 set remind if", remindList.toString())
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
 
             // 없음 항목 체크 해제
@@ -647,7 +633,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
         else { // 선택을 해제했다면
             remindList.remove(itemCode) // 선택 해제한 값 삭제
-            Log.d("확인1 set remind else", remindList.toString())
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
         }
 
@@ -881,13 +866,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "일정 이름")
-                        Log.d("확인1", "$tempNameList $tempNameList2")
                     }
 
                     // 관련 태그 중복이 아니라면
                     // item의 태그와 선택한 태그가 중복이라면(= 값이 안 바뀌었다면)
-                    Log.d("확인1 update", remindList.toString())
                     isOverlapTag = compareTagLists(todoListItem!!.todoTag, tagList)
                     if (!isOverlapTag) {
                         // 버튼 활성화 상태가 아니라면
@@ -895,8 +877,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "관련 태그")
-                        Log.d("확인1", "${todoListItem!!.todoTag} $tagList")
                     }
 
                     // 외출 시간 중복이 아니라면
@@ -906,7 +886,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "외출 시간")
                     }
 
                     // 외출 알림 시간 중복이 아니라면
@@ -917,8 +896,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "외출 시간 알림")
-                        Log.d("확인1", "${todoListItem!!.remindTime} $remindList")
                     }
 
                     // 모든 값이 중복이라면
@@ -1223,7 +1200,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     binding.lLayoutTodoEdit.visibility = View.GONE
                     val tempEdt = addEditText()
                     todoList.add(TodoCheckModifyItem(null, tempEdt, null))
-                    Log.d("todoList 일정 조회 추가", todoList.toString())
                     isEdit = false
                 }
             }

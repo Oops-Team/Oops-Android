@@ -1,7 +1,6 @@
 package com.oops.oops_android.ui.Main.MyPage
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.navigation.NavDirections
@@ -55,26 +54,6 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
         // 프로필 사진을 클릭한 경우
         binding.ivMyPageProfile.setOnClickListener {
-            /*// 프로필 사진 변경 바텀 시트 띄우기
-            val fragmentManager = requireActivity().supportFragmentManager
-            val bottomSheet = ProfileBottomSheetFragment()
-            val bundle = Bundle()
-
-            // 프로필 사진이 없다면
-            if (myPageItem!!.userImgURI!! == "null") {
-                Log.d("확인", "체크")
-                bundle.putBoolean("isDefault", true)
-                bottomSheet.arguments = bundle
-                bottomSheet.show(fragmentManager, "sheet")
-            }
-            // 프로필 사진이 있다면
-            else {
-                Log.d("확인", "체크2")
-                bundle.putBoolean("isDefault", false)
-                bottomSheet.arguments = bundle
-                bottomSheet.show(fragmentManager, "sheet")
-            }*/
-
             // 프로필 사진이 없다면
             if (myPageItem!!.userImgURI == "null") {
                 val actionToProfileBottomSheet = MyPageFragmentDirections.actionMyPageFrmToProfileBottomSheetFrm(false)

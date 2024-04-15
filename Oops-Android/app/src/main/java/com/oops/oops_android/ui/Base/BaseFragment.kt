@@ -139,7 +139,6 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflate: Inflate<VB>): 
                             // 취소 버튼 삭제 및 입력된 text 삭제
                             edt.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
                             edt.text = null
-                            Log.d("삭제", "삭제!")
                             return@OnTouchListener true
                         }
                     }

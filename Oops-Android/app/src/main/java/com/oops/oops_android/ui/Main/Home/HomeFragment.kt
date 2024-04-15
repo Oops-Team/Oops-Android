@@ -42,12 +42,9 @@ import com.oops.oops_android.data.remote.Todo.Model.TodoDeleteAllModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentHomeBinding
 import com.oops.oops_android.ui.Login.LoginActivity
-import com.oops.oops_android.ui.Main.Home.Todo.TodoDeleteAgreeDialog
-import com.oops.oops_android.ui.Main.Home.Todo.TodoFragmentDirections
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
 import com.oops.oops_android.utils.setOnSingleClickListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -113,17 +110,9 @@ class HomeFragment:
 
         // 선택되어 있는 날짜 설정
         selectDate = LocalDate.parse(getTodayDate().toString().split("T")[0])
-
-        Log.d("홈", "viewCreated")
     }
 
     override fun initAfterBinding() {
-        // room db의 user db
-        val userDB = AppDatabase.getUserDB()
-        Log.d("Home, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
-        Log.d("Home, room, user", userDB?.userDao()?.getAllUser().toString())
-
-        Log.d("홈", "initAfterBinding")
         // 뷰 초기화
         binding.mcvHomeMonthlyCalendarview.visibility = View.GONE
         binding.rvHomeWeeklyCalendar.visibility = View.VISIBLE

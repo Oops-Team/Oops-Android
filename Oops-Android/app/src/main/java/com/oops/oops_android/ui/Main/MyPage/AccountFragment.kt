@@ -85,8 +85,6 @@ class AccountFragment: BaseFragment<FragmentAccountBinding>(FragmentAccountBindi
 
     // 프로필 공개/비공개 전환 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        Log.d("AccountFragment", "$status $message Profile Failure")
-
         when (status) {
             // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
             400, 401, 404 -> {

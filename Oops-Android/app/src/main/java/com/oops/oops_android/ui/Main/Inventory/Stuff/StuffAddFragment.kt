@@ -219,21 +219,6 @@ class StuffAddFragment: BaseFragment<FragmentStuffAddBinding>(FragmentStuffAddBi
             // 검색 후
             @SuppressLint("NotifyDataSetChanged")
             override fun afterTextChanged(s: Editable?) {
-                /*keyword = binding.edtStuffAddSearchBox.text.toString()
-
-                if (keyword == "") {
-                }
-                else {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        try {
-                            getStuffs(keyword!!) // 검색 목록 찾기
-                        } catch (e: Exception) {
-                            Log.w("StuffAddFragment - Find Stuff", e.stackTraceToString())
-                        }
-                    }, 200L)
-                }
-
-                // TODO: 취소 버튼 클릭 이벤트*/
             }
         })
     }

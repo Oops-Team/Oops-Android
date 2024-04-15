@@ -223,8 +223,6 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
 
                 // 로그인 화면으로 이동
                 mainActivity?.startActivityWithClear(LoginActivity::class.java)
-                //val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
-                //view?.findNavController()?.navigate(actionToLogin)
             }
         }
     }

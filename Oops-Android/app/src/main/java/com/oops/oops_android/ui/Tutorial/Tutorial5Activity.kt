@@ -1,15 +1,6 @@
 package com.oops.oops_android.ui.Tutorial
 
-import android.content.res.ColorStateList
-import android.graphics.Typeface
-import android.text.InputFilter
-import android.text.InputType
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
-import com.oops.oops_android.R
 import com.oops.oops_android.databinding.ActivityTutorial5Binding
 import com.oops.oops_android.ui.Base.BaseActivity
 

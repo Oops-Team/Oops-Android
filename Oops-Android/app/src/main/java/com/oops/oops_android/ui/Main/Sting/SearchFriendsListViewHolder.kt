@@ -3,7 +3,6 @@ package com.oops.oops_android.ui.Main.Sting
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 import com.oops.oops_android.R
 import com.oops.oops_android.databinding.ItemFriendsBoxRv3Binding

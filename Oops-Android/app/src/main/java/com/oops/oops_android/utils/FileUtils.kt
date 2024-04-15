@@ -67,7 +67,6 @@ object FileUtils {
         } catch (e: FileNotFoundException) {
             Log.e("Bitmap To Uri", e.stackTraceToString())
         } catch (e: Exception) {
-            Log.d("Bitmap To Uri", "사진 저장 실패")
             Log.e("Bitmap To Uri", e.stackTraceToString())
         }
         finally {
@@ -79,7 +78,6 @@ object FileUtils {
                 Log.e("Bitmap To Uri", e.stackTraceToString())
             }
         }
-        Log.d("Bitmap To Uri", "사진 저장 성공")
         return FileProvider.getUriForFile(context, "${applicationContext().packageName}.fileprovider", imageFile)
     }
 
