@@ -27,19 +27,33 @@ class SearchFriendsListViewHolder(val binding: ItemFriendsBoxRv3Binding): Recycl
                 // 친구임
                 binding.iBtnFriendsBox3Sting.visibility = View.VISIBLE
                 binding.tvFriendsBox3Delete.visibility = View.VISIBLE
+                binding.tvFriendsBox3Wait.visibility = View.GONE
+                binding.tvFriendsBox3Add.visibility = View.GONE
+                binding.lLayoutFriendsBox3Btn.visibility = View.GONE
             }
             2 -> {
                 // 대기 중
                 binding.tvFriendsBox3Wait.visibility = View.VISIBLE
                 binding.tvFriendsBox3Add.visibility = View.GONE
+                binding.iBtnFriendsBox3Sting.visibility = View.GONE
+                binding.tvFriendsBox3Delete.visibility = View.GONE
+                binding.lLayoutFriendsBox3Btn.visibility = View.GONE
             }
             3 -> {
                 // 친구 요청이 들어 온 경우
                 binding.lLayoutFriendsBox3Btn.visibility = View.VISIBLE
+                binding.tvFriendsBox3Wait.visibility = View.GONE
+                binding.tvFriendsBox3Add.visibility = View.GONE
+                binding.iBtnFriendsBox3Sting.visibility = View.GONE
+                binding.tvFriendsBox3Delete.visibility = View.GONE
             }
             else -> {
                 // 친구 아님
                 binding.tvFriendsBox3Add.visibility = View.VISIBLE
+                binding.tvFriendsBox3Wait.visibility = View.GONE
+                binding.iBtnFriendsBox3Sting.visibility = View.GONE
+                binding.tvFriendsBox3Delete.visibility = View.GONE
+                binding.lLayoutFriendsBox3Btn.visibility = View.GONE
             }
         }
     }
