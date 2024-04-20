@@ -20,4 +20,20 @@ class EventDecorator(
         // 각 색상에 맞춰서 날짜 밑에 dot 찍기
         view?.addSpan(DotSpan(6F, ContextCompat.getColor(context, eventColor)))
     }
+
+    // decorator 삭제하기
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as EventDecorator
+
+        if (date != other.date) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return date.hashCode()
+    }
 }

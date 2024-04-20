@@ -15,9 +15,6 @@ class ButtonUtils {
         // 비밀번호가 보인다면
         if (isPwdMask) {
             toggleIBtn.setImageResource(R.drawable.ic_pwd_mask_on_24)
-            /* 기본으로 제공하는 메소드
-            binding.edtLoginPwd.transformationMethod = PasswordTransformationMethod.getInstance()
-            */
             pwdEdt.transformationMethod = CustomPasswordTransformationMethod() // 커스텀 메소드 적용 '●'
         }
         // 비밀번호가 안 보인다면

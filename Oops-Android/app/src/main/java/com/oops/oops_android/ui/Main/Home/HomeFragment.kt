@@ -38,9 +38,12 @@ import com.oops.oops_android.data.remote.Todo.Api.TodoMonthlyView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
 import com.oops.oops_android.data.remote.Todo.Model.StuffDeleteModel
+import com.oops.oops_android.data.remote.Todo.Model.TodoDeleteAllModel
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentHomeBinding
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.CalendarUtils.Companion.getTodayDate
+import com.oops.oops_android.utils.setOnSingleClickListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.json.JSONArray
 import org.json.JSONException
@@ -102,20 +105,23 @@ class HomeFragment:
             binding.rvHomeWeeklyCalendar.adapter = weeklyAdapter
         }
 
-        // 일주일의 시작 날짜 가져오기
-        val weekDate = CalendarUtils.getTodayDateList()[1] as LocalDateTime
-
-        // 주간 캘린더 설정
-        setWeeklyCalendar(weekDate)
-
         // 월간 캘린더
         binding.mcvHomeMonthlyCalendarview.topbarVisible = false // 년도, 좌우 버튼 숨기기
+
+        // 선택되어 있는 날짜 설정
+        selectDate = LocalDate.parse(getTodayDate().toString().split("T")[0])
     }
 
     override fun initAfterBinding() {
-        // room db의 user db
-        val userDB = AppDatabase.getUserDB()
-        Log.d("Home, room, alarm", userDB?.alarmDao()?.getAllAlarms().toString())
+        // 뷰 초기화
+        binding.mcvHomeMonthlyCalendarview.visibility = View.GONE
+        binding.rvHomeWeeklyCalendar.visibility = View.VISIBLE
+        binding.lLayoutWeeklyWeek.visibility = View.GONE
+        todoAdapter?.resetTodoList()
+        stuffAdapter?.resetStuffList()
+        binding.lLayoutHomeTodoTag.removeAllViews()
+        todoListItem = null
+        isWeeklyCalendar = true
 
         // 일정 어댑터 연결
         todoAdapter = TodoListAdapter(requireContext())
@@ -125,8 +131,14 @@ class HomeFragment:
         stuffAdapter = StuffListAdapter(requireContext())
         binding.rvHomeStuff.adapter = stuffAdapter
 
-        // 선택되어 있는 날짜 설정
-        selectDate = LocalDate.parse(getTodayDate().toString().split("T")[0])
+        // 선택된 날짜의 일주일 시작 날짜 정보 찾기
+        val weekDate = CalendarUtils.getStartDate(LocalDate.of(selectDate.year, selectDate.month, selectDate.dayOfMonth))
+
+        // 현재 선택되어 있는 날짜 정보를 주간 캘린더에 적용하기
+        weeklyAdapter?.resetWeeklyList() // 리스트 초기화
+        setWeeklyCalendar(weekDate) // 주간 캘린더 날짜 설정
+        val date = LocalDate.of(selectDate.year, selectDate.month, selectDate.dayOfMonth)
+        weeklyAdapter?.setDateSelected(weeklyAdapter!!.getItemIndex(date.toString())) // 선택된 날짜 설정
 
         // 일정 1개 조회 API 연결(전체 인벤토리 리스트, 일정 리스트, 챙겨야 할 것 리스트 불러오기)
         getTodo(selectDate)
@@ -247,8 +259,14 @@ class HomeFragment:
 
         // 일정 추가 버튼(하단 버튼) 클릭 이벤트
         binding.iBtnHomeTodoAdd.setOnClickListener {
-            // 뷰 추가하기
-            addTodoView()
+            // 일정이 30개 이상이라면
+            if (todoAdapter?.itemCount!! >= 30) {
+                showCustomSnackBar(getString(R.string.toast_todo_not_add)) // 스낵바 띄우기
+            }
+            else {
+                // 뷰 추가하기
+                addTodoView()
+            }
         }
 
         // 일정 추가 버튼(상단 버튼) 클릭 이벤트
@@ -560,18 +578,28 @@ class HomeFragment:
             })
 
             // 사용자가 입력 도중 바깥을 클릭했다면
-            binding.lLayoutHomeInside.setOnClickListener {
+            binding.lLayoutHomeInside.setOnSingleClickListener {
                 getEditDone(edt, tv, itemPos)
             }
         }
 
         // 삭제 버튼 클릭 이벤트
         val deleteBtn: LinearLayout = popup.findViewById(R.id.lLayout_home_todo_delete_popup)
-        deleteBtn.setOnClickListener {
+        deleteBtn.setOnSingleClickListener {
             popupWindow.dismiss()
 
             // 일정 1개 삭제 API 연결
             deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
+
+            /*// 일정이 1개라면
+            if (todoAdapter?.itemCount == 1) {
+                deleteAllTodo(TodoDeleteAllModel(selectDate.toString()))
+            }
+            // 일정이 여러 개라면
+            else {
+                // 일정 1개 삭제 API 연결
+                deleteTodo(todoAdapter?.getTodoList(itemPos)!!.todoIdx, itemPos)
+            }*/
         }
     }
 
@@ -695,35 +723,67 @@ class HomeFragment:
                         // 소지품 여부
                         val isCompleteStuff: Boolean = jsonObject.getBoolean("isCompleteStuff")
 
-                        // 소지품을 다 챙겼을 경우
-                        if (isCompleteStuff) {
-                            binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
-                        }
-
                         /* 데이터를 바탕으로 뷰 그리기 */
-                        // 소지품이 1개 이상 있다면
-                        if (stuffAdapter?.itemCount!! >= 1) {
-                            binding.tvHomeStuffDefault.visibility = View.GONE
-                            binding.lLayoutHomeTodoDefault.visibility = View.GONE
-                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
-                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                        // 소지품을 다 챙겼다면
+                        if (isCompleteStuff) {
+                            // 할 일이 없다면
+                            if (todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
+                            // 할 일이 있다면
+                            else {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
+                                binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
                         }
-
-                        // 오늘 할 일이 1개 이상이지만, 소지품이 없다면
-                        if (todoAdapter?.itemCount!! >= 1 && stuffAdapter?.itemCount == 0 && !isCompleteStuff) {
-                            binding.tvHomeStuffDefault.visibility = View.GONE
-                            binding.lLayoutHomeStuffNoInventory.visibility = View.VISIBLE
-                            binding.lLayoutHomeTodoDefault.visibility = View.GONE
-                            binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-                        }
-                        // 오늘 할 일이 1개 이상 있다면
-                        else if (todoAdapter?.itemCount!! >= 1) {
-                            binding.lLayoutHomeTodoDefault.visibility = View.GONE // default 뷰 숨기기
-                            binding.tvHomeStuffDefault.visibility = View.GONE
-                            binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
-                            binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
-                            binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                        // 소지품을 아직 안 챙겼다면
+                        else {
+                            // 소지품, 할 일이 없다면
+                            if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE
+                                binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
+                            }
+                            // 소지품이 없지만, 할 일이 있다면
+                            else if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount!! >= 1) {
+                                // 인벤토리가 없는 경우
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                                binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
+                            }
+                            // 소지품은 있지만, 할 일은 없다면
+                            else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount == 0) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
+                            // 소지품도 있고, 할 일도 있다면
+                            else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount!! >= 1) {
+                                binding.tvHomeStuffDefault.visibility = View.GONE
+                                binding.lLayoutHomeTodoDefault.visibility = View.GONE
+                                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                                binding.iBtnHomeTodoAdd.visibility = View.VISIBLE // 하단의 +버튼 띄우기
+                                binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                            }
                         }
 
                         // 오늘 날짜의 일정 데이터 리스트 저장
@@ -743,8 +803,8 @@ class HomeFragment:
                 // 일정이 없다면
                 else {
                     // default 뷰 띄우기
-                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
                     binding.lLayoutHomeStuffComplete.visibility = View.GONE
 
@@ -758,7 +818,22 @@ class HomeFragment:
 
     // 일정 1개 조회 실패
     override fun onGetTodoFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 일정 전체(1달) 조회
@@ -804,7 +879,22 @@ class HomeFragment:
 
     // 일정 전체(1달) 조회 실패
     override fun onGetMonthlyTodoFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 일정 수정
@@ -828,6 +918,13 @@ class HomeFragment:
         todoService.deleteTodo(todoIdx, itemPos)
     }
 
+    // 일정 전체 삭제
+    private fun deleteAllTodo(date: TodoDeleteAllModel) {
+        val todoService = TodoService()
+        todoService.setCommonView(this)
+        todoService.deleteAllTodo(date)
+    }
+
     // 일정 완료/미완료 변경
     private fun completeTodo(todoIdx: Long, isTodoComplete: Boolean, itemPos: Int) {
         val todoService = TodoService()
@@ -842,7 +939,7 @@ class HomeFragment:
         todoService.deleteStuff(StuffDeleteModel(date.toString(), stuffName), stuff)
     }
 
-    // 일정 1개 이름 수정/삭제 & 소지품 삭제 성공
+    // 일정 1개 이름 수정/삭제 & 일정 전체 삭제 & 소지품 삭제 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
             "Todo Modify" -> {
@@ -862,13 +959,24 @@ class HomeFragment:
                 val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
                 todoAdapter?.deleteTodoList(todoItem)
 
-                // 만약 아이템이 아예 없다면
-                if (todoAdapter?.itemCount == 0) {
+                // 소지품도 없고, 일정도 없다면
+                if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
+                    // default 뷰 띄우기
+                    binding.tvHomeStuffDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
-                    binding.viewHome.visibility = View.VISIBLE
+                    binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                    binding.lLayoutHomeStuffComplete.visibility = View.GONE
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
-                    binding.rvHomeStuff.visibility = View.GONE
-                    binding.lLayoutHomeTodoTag.visibility = View.GONE
+                    binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
+                }
+                // 소지품은 있지만, 할 일은 없다면
+                else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount == 0) {
+                    binding.tvHomeStuffDefault.visibility = View.GONE
+                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                    binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                    binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                    binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
+                    binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
                 }
             }
             "Todo Complete" -> {
@@ -913,11 +1021,57 @@ class HomeFragment:
                     binding.lLayoutHomeStuffComplete.visibility = View.VISIBLE
                 }
             }
+            /*"Delete All Todo" -> {
+                // 리스트 초기화
+                todoAdapter?.resetTodoList()
+                stuffAdapter?.resetStuffList()
+                todoListItem = null
+
+                // default 뷰 띄우기
+                binding.tvHomeStuffDefault.visibility = View.VISIBLE
+                binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
+                binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
+                binding.lLayoutHomeStuffComplete.visibility = View.GONE
+                binding.viewHome.visibility = View.VISIBLE
+                binding.lLayoutHomeTodoTag.removeAllViews()
+
+                // edit버튼, +버튼 숨기기
+                binding.ivHomeEdit.visibility = View.INVISIBLE
+                binding.iBtnHomeTodoAdd.visibility = View.GONE
+
+                // 월간 캘린더가 보인다면
+                if (binding.mcvHomeMonthlyCalendarview.visibility == View.VISIBLE) {
+                    // LocalDate값 파싱하기
+                    val day: CalendarDay = CalendarDay.from(selectDate.year, selectDate.monthValue, selectDate.dayOfMonth)
+                    val eventDecorator = EventDecorator(requireContext(), R.color.Main_400, day)
+                    val eventDecorator2 = EventDecorator(requireContext(), R.color.Main_500, day)
+
+                    // decorator 삭제하기
+                    binding.mcvHomeMonthlyCalendarview.removeDecorator(eventDecorator)
+                    binding.mcvHomeMonthlyCalendarview.removeDecorator(eventDecorator2)
+                    binding.mcvHomeMonthlyCalendarview.invalidateDecorators()
+                }
+            }*/
         }
     }
 
     // 일정 1개 이름 수정/삭제 & 소지품 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

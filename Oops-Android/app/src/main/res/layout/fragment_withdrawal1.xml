@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="28dp"
+            android:textSize="28sp"
             android:fontFamily="@font/pretendard_bold"
             android:text="@string/withdrawal_info_1"
             android:textColor="@color/Black"/>

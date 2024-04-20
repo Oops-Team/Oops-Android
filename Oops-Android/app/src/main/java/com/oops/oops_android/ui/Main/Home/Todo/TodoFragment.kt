@@ -1,11 +1,8 @@
 package com.oops.oops_android.ui.Main.Home.Todo
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
@@ -26,10 +23,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.gson.JsonObject
 import com.oops.oops_android.ApplicationClass.Companion.applicationContext
 import com.oops.oops_android.R
-import com.oops.oops_android.config.AlarmFunctions
 import com.oops.oops_android.custom.SelectedDecorator
-import com.oops.oops_android.data.db.Database.AppDatabase
-import com.oops.oops_android.data.db.Entity.RemindAlarm
 import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.Todo.Api.TodoService
 import com.oops.oops_android.data.remote.Todo.Api.TodoView
@@ -39,20 +33,21 @@ import com.oops.oops_android.data.remote.Todo.Model.TodoModifyItem2
 import com.oops.oops_android.data.remote.Todo.Model.TodoModifyModel
 import com.oops.oops_android.databinding.FragmentTodoBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Home.TodoCheckModifyItem
 import com.oops.oops_android.ui.Main.Home.TodoItem
 import com.oops.oops_android.ui.Main.Home.TodoListItem
+import com.oops.oops_android.utils.AlarmUtils.setCancelAlarm
+import com.oops.oops_android.utils.AlarmUtils.setAllAlarm
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.setOnSingleClickListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 // 일정 추가 & 수정 화면
 class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::inflate),
@@ -78,8 +73,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     private var deleteTodoIdx = ArrayList<Long>() // 사용자가 삭제한 일정 idx 리스트
     private var addTodoName = ArrayList<EditText>() // 사용자가 추가한 일정 리스트
 
-    private var alarmContent = "외출 준비를 시작해 볼까요?" // 외출 시간 임박 알림 내용
-
     override fun initViewCreated() {
         // 바텀 네비게이션 숨기기
         mainActivity?.hideBnv(true)
@@ -104,11 +97,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 일정 개수만큼 EditText 추가
                 for (i in 0 until todoListItem!!.todoItem.size) {
                     val tempEdt = addEditText()
-                    addTodoName.clear()
                     todoList.add(TodoCheckModifyItem(todoListItem!!.todoItem[i].todoIdx, tempEdt, todoListItem!!.todoItem[i].todoName))
                     todoList[i].edt.setText(todoListItem!!.todoItem[i].todoName) // 일정 edittext 리스트
                 }
-                Log.d("todoList created 일정 수정", todoList.toString())
+                addTodoName.clear()
 
                 // 관련 태그
                 for (i in 0 until todoListItem!!.todoTag!!.size) {
@@ -199,7 +191,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 binding.btnTodoCreate.visibility = View.VISIBLE
                 val tempEdt = addEditText()
                 todoList.add(TodoCheckModifyItem(null, tempEdt, null))
-                Log.d("todoList created - 일정 추가", todoList.toString())
                 isEdit = false
             }
         } catch (e: Exception) {
@@ -299,7 +290,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                 // 동적 EditText 추가하기
                 val tempEdt = addEditText()
                 todoList.add(TodoCheckModifyItem(null, tempEdt, null)) // 리스트에 EditText 추가
-                Log.d("todoList 동적 리스트", todoList.toString())
             }
         }
 
@@ -361,7 +351,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 등록하기 버튼을 클릭한 경우
-        binding.btnTodoCreate.setOnClickListener {
+        binding.btnTodoCreate.setOnSingleClickListener {
             // 버튼 활성화가 되어 있다면
             if (isCreateBtnEnable) {
                 // 일정 목록 불러오기
@@ -371,8 +361,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                         tempList.add(todoList[i].edt.text.toString())
                     }
                 }
-
-                Log.d("일정 추가: 모두", todoList.toString())
 
                 // 일정 추가 API 연결
                 createTodo(
@@ -388,7 +376,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 수정하기 버튼을 클릭한 경우
-        binding.btnTodoEdit.setOnClickListener {
+        binding.btnTodoEdit.setOnSingleClickListener {
             // 버튼 활성화가 되어 있다면
             if (isEditBtnEnable) {
                 // 새롭게 추가한 일정 리스트
@@ -410,11 +398,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     }
                 }
 
-                Log.d("일정 수정: 모두", todoList.toString())
-                Log.d("일정 수정: 추가", addTodoName.toString())
-                Log.d("일정 수정: 수정", tempTodoModifyList.toString())
-                Log.d("일정 수정: 삭제", deleteTodoIdx.toString())
-
                 // 일정 수정 API 연결
                 modifyTodo(
                     TodoModifyModel(
@@ -431,7 +414,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
 
         // 삭제하기 버튼을 클릭한 경우
-        binding.btnTodoDelete.setOnClickListener {
+        binding.btnTodoDelete.setOnSingleClickListener {
             // 일정 삭제 팝업 띄우기
             val todoDeleteDialog = TodoDeleteDialog(requireContext())
             todoDeleteDialog.showTodoDeleteDialog()
@@ -440,7 +423,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
             todoDeleteDialog.setOnClickedListener(object : TodoDeleteDialog.TodoDeleteBtnClickListener {
                 override fun onClicked() {
                     // 일정 전체 삭제 API 연동
-                    Log.d("삭제할 날짜", selectDate.toString())
                     deleteAllTodo(TodoDeleteAllModel(selectDate.toString()))
                 }
             })
@@ -640,7 +622,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
     private fun setRemindCheckedChanged(checkBox: CompoundButton, isChecked: Boolean, itemCode: Int) {
         if (isChecked) { // 선택했다면
             remindList.add(itemCode) // 값 추가
-            Log.d("확인1 set remind if", remindList.toString())
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.White)))
 
             // 없음 항목 체크 해제
@@ -652,7 +633,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
         else { // 선택을 해제했다면
             remindList.remove(itemCode) // 선택 해제한 값 삭제
-            Log.d("확인1 set remind else", remindList.toString())
             checkBox.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.Gray_400)))
         }
 
@@ -886,13 +866,10 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "일정 이름")
-                        Log.d("확인1", "$tempNameList $tempNameList2")
                     }
 
                     // 관련 태그 중복이 아니라면
                     // item의 태그와 선택한 태그가 중복이라면(= 값이 안 바뀌었다면)
-                    Log.d("확인1 update", remindList.toString())
                     isOverlapTag = compareTagLists(todoListItem!!.todoTag, tagList)
                     if (!isOverlapTag) {
                         // 버튼 활성화 상태가 아니라면
@@ -900,8 +877,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "관련 태그")
-                        Log.d("확인1", "${todoListItem!!.todoTag} $tagList")
                     }
 
                     // 외출 시간 중복이 아니라면
@@ -911,7 +886,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "외출 시간")
                     }
 
                     // 외출 알림 시간 중복이 아니라면
@@ -922,8 +896,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             ButtonUtils().setAllColorAnimation(binding.btnTodoEdit)
                             isEditBtnEnable = true
                         }
-                        Log.d("확인1", "외출 시간 알림")
-                        Log.d("확인1", "${todoListItem!!.remindTime} $remindList")
                     }
 
                     // 모든 값이 중복이라면
@@ -980,134 +952,13 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         todoService.deleteAllTodo(date)
     }
 
-    // 알람 등록하기 코드
-    @SuppressLint("SimpleDateFormat")
-    private fun setAllAlarm() {
-        try {
-            // 알람 등록하기
-            val alarmManager: AlarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val hasPermission: Boolean = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                alarmManager.canScheduleExactAlarms()
-            } else {
-                true
-            }
-
-            // 알림 권한이 있다면
-            if (hasPermission) {
-                val tempGoOutTime = String.format(Locale.getDefault(), "%02d:%02d", binding.timepickerTodo.hour, binding.timepickerTodo.minute)
-                val tempGoOutDateTime = "$selectDate " + // 날짜
-                        tempGoOutTime + // 시, 분
-                        ":00" // 초
-
-                // 외출 시간
-                val dateFormat1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-                val dateFormat2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                val tempDateTime = LocalDateTime.parse(tempGoOutDateTime, dateFormat2)
-
-                // 알림 요청 코드 및 알람 날짜
-                //val code = "${selectDate.year}${selectDate.monthValue}${selectDate.dayOfMonth}${binding.timepickerTodo.hour}${binding.timepickerTodo.minute}"
-                val alarmDate = "${selectDate.year}${selectDate.monthValue}${selectDate.dayOfMonth}"
-
-                val userDB = AppDatabase.getUserDB()!! // room db의 user db
-                val alarmCodeDate = userDB.alarmDao().getAlarmWitDate(alarmDate)
-                Log.d("alarm date 1", alarmCodeDate.toString())
-
-                try {
-                    // 기존에 설정된 해당날짜의 알람이 있다면
-                    if (alarmCodeDate.isNotEmpty()) {
-                        for (element in alarmCodeDate) {
-                            cancelAlarm(element.alarmCode) // 알람 취소
-                            Log.d("alarm date 2", alarmCodeDate.toString())
-                        }
-                        userDB.alarmDao().deleteAlarmWithDate(alarmDate) // db에서 삭제
-                    }
-                } catch (e: Exception) {
-                    Log.e("TodoFrm - alarm", "의도된 오류")
-                }
-
-                for (i in 0 until remindList.size) {
-                    // 새로운 값 저장
-                    // 5분 전
-                    if (remindList[i] == 2) {
-                        val tempRemindTime = LocalDateTime.parse(tempDateTime.minusMinutes(5).toString(), dateFormat1)
-
-                        // 포맷 변경
-                        val newRemindTime = tempRemindTime.format(dateFormat2)
-                        val newAlarmCode = "${alarmDate}2".toInt()
-
-                        Log.d("alarm 5 minute", newRemindTime.toString())
-                        setAlarm(newRemindTime.toString(), newAlarmCode)
-                        userDB.alarmDao().addAlarm(RemindAlarm(
-                            newAlarmCode,
-                            alarmDate,
-                            newRemindTime.toString(),
-                            alarmContent
-                        ))
-                    }
-                    // 30분 전
-                    else if (remindList[i] == 3) {
-                        val tempRemindTime = LocalDateTime.parse(tempDateTime.minusMinutes(30).toString(), dateFormat1)
-
-                        // 포맷 변경
-                        val newRemindTime = tempRemindTime.format(dateFormat2)
-                        val newAlarmCode = "${alarmDate}3".toInt()
-
-                        Log.d("alarm 30 minute", newRemindTime.toString())
-                        setAlarm(newRemindTime.toString(), newAlarmCode)
-                        userDB.alarmDao().addAlarm(RemindAlarm(
-                            newAlarmCode,
-                            alarmDate,
-                            newRemindTime.toString(),
-                            alarmContent
-                        ))
-                    }
-                    // 1시간 전
-                    else if (remindList[i] == 4) {
-                        val tempRemindTime = LocalDateTime.parse(tempDateTime.minusHours(1).toString(), dateFormat1)
-
-                        // 포맷 변경
-                        val newRemindTime = tempRemindTime.format(dateFormat2)
-                        val newAlarmCode = "${alarmDate}4".toInt()
-
-                        Log.d("alarm 1 hour", newRemindTime.toString())
-                        setAlarm(newRemindTime.toString(), newAlarmCode)
-                        userDB.alarmDao().addAlarm(RemindAlarm(
-                            newAlarmCode,
-                            alarmDate,
-                            newRemindTime.toString(),
-                            alarmContent
-                        ))
-                    }
-                    // 하루 전
-                    else if (remindList[i] == 5) {
-                        val tempRemindTime = LocalDateTime.parse(tempDateTime.minusDays(1).toString(), dateFormat1)
-
-                        // 포맷 변경
-                        val newRemindTime = tempRemindTime.format(dateFormat2)
-                        val newAlarmCode = "${alarmDate}5".toInt()
-
-                        Log.d("alarm 1 day", newRemindTime.toString())
-                        setAlarm(newRemindTime.toString(), newAlarmCode)
-                        userDB.alarmDao().addAlarm(RemindAlarm(
-                            newAlarmCode,
-                            alarmDate,
-                            newRemindTime.toString(),
-                            alarmContent
-                        ))
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("TodoFragment - set alarm", e.stackTraceToString())
-        }
-    }
-
     // 일정 추가 성공 & 일정 수정 & 일정 전체 삭제 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
+            // 일정 추가
             "Create Todo" -> {
                 // 알람 등록하기
-                setAllAlarm()
+                setAllAlarm(requireContext(), selectDate, binding.timepickerTodo.hour, binding.timepickerTodo.minute, remindList)
 
                 // 일정 추가 성공 팝업 띄우기
                 val todoCreateDialog = TodoCreateDialog(requireContext())
@@ -1122,9 +973,11 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     }
                 })
             }
+
+            // 일정 수정
             "Modify Todo" -> {
                 // 알람 등록하기
-                setAllAlarm()
+                setAllAlarm(requireContext(), selectDate, binding.timepickerTodo.hour, binding.timepickerTodo.minute, remindList)
 
                 // 일정 수정 성공 팝업 띄우기
                 val todoModifyDialog = TodoModifyDialog(requireContext())
@@ -1139,7 +992,12 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     }
                 })
             }
+
+            // 일정 삭제
             "Delete All Todo" -> {
+                // 알림 삭제하기
+                setCancelAlarm(requireContext(), selectDate)
+
                 // 삭제 성공 팝업 띄우기
                 val todoDeleteAgreeDialog = TodoDeleteAgreeDialog(requireContext())
                 todoDeleteAgreeDialog.showTodoDeleteAgreeDialog()
@@ -1155,19 +1013,24 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
         }
     }
 
-    // 일정 추가 & 일정 전체 삭제 실패
+    // 일정 추가 성공 & 일정 수정 & 일정 전체 삭제 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
-    }
-
-    // 외출 시간 알림 설정(앱에 저장)
-    private fun setAlarm(time: String, alarmCode: Int, content: String? = null) {
-        AlarmFunctions(requireContext()).callAlarm(time, alarmCode, "외출 준비를 시작해 볼까요?")
-    }
-
-    // 외출 시간 알림 취소
-    private fun cancelAlarm(alarmCode: Int) {
-        AlarmFunctions(requireContext()).cancelAlarm(alarmCode)
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 일정 1개 조회
@@ -1217,8 +1080,7 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                             todoList[i].edt.setText(todoName)
                             tempTodoSaveList.add(TodoItem(todoIdx, todoName, false))
                         }
-
-                        Log.d("todoList 일정 조회 수정", todoList.toString())
+                        addTodoName.clear()
 
                         // todoTagList data
                         val tempTodoTagList: JSONArray? = jsonObject.getJSONArray("todoTagList")
@@ -1338,7 +1200,6 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
                     binding.lLayoutTodoEdit.visibility = View.GONE
                     val tempEdt = addEditText()
                     todoList.add(TodoCheckModifyItem(null, tempEdt, null))
-                    Log.d("todoList 일정 조회 추가", todoList.toString())
                     isEdit = false
                 }
             }
@@ -1347,7 +1208,22 @@ class TodoFragment: BaseFragment<FragmentTodoBinding>(FragmentTodoBinding::infla
 
     // 일정 1개 조회 실패
     override fun onGetTodoFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 기존에 선택되어 있던 값 초기화

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import com.oops.oops_android.R
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 기존 인벤토리 수정 팝업 */
 class InventoryStuffModifyDialog(private val context: Context) {
@@ -25,7 +26,7 @@ class InventoryStuffModifyDialog(private val context: Context) {
         }
 
         // 수정 버튼을 누른 경우
-        dialog.findViewById<Button>(R.id.btn_popup_inventory_stuff_modify_confirm).setOnClickListener {
+        dialog.findViewById<Button>(R.id.btn_popup_inventory_stuff_modify_confirm).setOnSingleClickListener {
             onClickListener.onClicked(true)
             dialog.dismiss()
         }

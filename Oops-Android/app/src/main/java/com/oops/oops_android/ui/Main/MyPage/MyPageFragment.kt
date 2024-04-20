@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.JsonObject
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.MyPage.Api.MyPageService
@@ -14,6 +14,7 @@ import com.oops.oops_android.data.remote.MyPage.Api.MyPageView
 import com.oops.oops_android.databinding.FragmentMyPageBinding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Login.LoginActivity
+import com.oops.oops_android.utils.AlarmUtils
 import com.oops.oops_android.utils.removeToken
 import org.json.JSONException
 import org.json.JSONObject
@@ -51,6 +52,20 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
             view?.findNavController()?.navigate(actionToAlert)
         }
 
+        // 프로필 사진을 클릭한 경우
+        binding.ivMyPageProfile.setOnClickListener {
+            // 프로필 사진이 없다면
+            if (myPageItem!!.userImgURI == "null") {
+                val actionToProfileBottomSheet = MyPageFragmentDirections.actionMyPageFrmToProfileBottomSheetFrm(false)
+                findNavController().navigate(actionToProfileBottomSheet)
+            }
+            // 프로필 사진이 있다면
+            else {
+                val actionToProfileBottomSheet = MyPageFragmentDirections.actionMyPageFrmToProfileBottomSheetFrm(true)
+                findNavController().navigate(actionToProfileBottomSheet)
+            }
+        }
+
         // 로그아웃을 클릭한 경우
         binding.tvMyPageLogout.setOnClickListener {
             val logoutDialog = LogoutDialog(requireContext())
@@ -60,6 +75,9 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                 // 로그아웃 버튼을 누른 경우
                 override fun onClicked() {
                     removeToken()
+
+                    // 기존에 저장되어 있던 모든 알람 삭제(db, 알람 취소)
+                    AlarmUtils.setCancelAllAlarm(requireContext())
 
                     // 로그인 화면으로 이동
                     showToast("로그아웃했습니다")
@@ -99,17 +117,26 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
                     val userName = jsonObject.getString("userName")
                     binding.tvMyPageName.text = userName
 
-                    // 아이템 클래스에 저장
-                    myPageItem = MyPageItem(loginType, userEmail, userName, isPublic, isAlert)
-
                     // 프로필 사진
-                    val userImgUrl = jsonObject.getString("userImgURI")
-                    Glide.with(requireContext())
-                        .load(userImgUrl)
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .error(R.drawable.ic_friends_profile_default_50)
-                        .into(binding.ivMyPageProfile)
+                    val userImgUrl = jsonObject.getString("userImgURI") ?: "null"
+                    if (userImgUrl == "null") {
+                        Glide.with(requireContext())
+                            .load(R.drawable.ic_friends_profile_default_50)
+                            .fallback(R.drawable.ic_friends_profile_default_50)
+                            .error(R.drawable.ic_friends_profile_default_50)
+                            .into(binding.ivMyPageProfile)
+                    }
+                    // 프로필 사진이 없다면
+                    else {
+                        Glide.with(requireContext())
+                            .load(userImgUrl)
+                            .fallback(R.drawable.ic_friends_profile_default_50)
+                            .error(R.drawable.ic_friends_profile_default_50)
+                            .into(binding.ivMyPageProfile)
+                    }
+
+                    // 아이템 클래스에 저장
+                    myPageItem = MyPageItem(userImgUrl, loginType, userEmail, userName, isPublic, isAlert)
 
                     // 공지
                     val comment = jsonObject.getString("comment")
@@ -147,6 +174,21 @@ class MyPageFragment: BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding:
 
     // 마이페이지 조회 실패
     override fun onGetMyPageFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

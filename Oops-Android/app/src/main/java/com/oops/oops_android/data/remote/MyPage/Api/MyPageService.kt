@@ -7,6 +7,7 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.data.remote.MyPage.Model.UserPushAlertChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserShowProfileChangeModel
 import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
+import okhttp3.MultipartBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -57,6 +58,35 @@ class MyPageService {
             override fun onFailure(call: Call<MyPageResponse>, t: Throwable) {
                 Log.e("MyPage - Get MyPage / FAILURE", t.message.toString())
                 myPageView.onGetMyPageFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 프로필 사진 변경
+    fun changeProfile(file: MultipartBody.Part?) {
+        val myPageService = retrofit.create(MyPageInterface::class.java)
+        myPageService.changeProfile(file).enqueue(object : Callback<CommonResponse> {
+            override fun onResponse(
+                call: Call<CommonResponse>,
+                response: Response<CommonResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonResponse = response.body()!!
+                    commonView.onCommonSuccess(resp.status, resp.message)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "프로필 사진 변경 실패")
+                    commonView.onCommonFailure(statusObject, messageObject) // 실패
+                    Log.e("MyPage - Change Profile / ERROR", "$jsonObject $messageObject")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                commonView.onCommonFailure(-1, "") // 실패
             }
         })
     }

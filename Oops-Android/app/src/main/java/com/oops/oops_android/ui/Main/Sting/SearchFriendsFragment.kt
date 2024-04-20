@@ -17,6 +17,7 @@ import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentSearchFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.getNickname
 import org.json.JSONException
 import org.json.JSONObject
@@ -177,7 +178,22 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
 
     // 사용자 리스트 조회 API 연결 실패
     override fun onGetUsersFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 친구 신청하기 API 연결
@@ -259,16 +275,36 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                     showToast(resources.getString(R.string.toast_server_error)) // 실패
                 }
             }
+            // 상대의 알림 설정이 해제된 상태인 경우
+            207 -> {
+                if (data != null) {
+                    when (message) {
+                        // 친구 신청 성공
+                        "Request Friends" -> {
+                            val tempData = data as StingRequestModel
+                            // 팝업 띄우기
+                            val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_request, R.id.btn_popup_friends_request_confirm, tempData.name)
+                            acceptDialog.showFriendsAcceptDialog()
+
+                            // 대기중 상태로 바꾸기
+                            keywordList[tempData.position].userState = 2
+
+                            // 어댑터 갱신
+                            searchFriendsAdapter.notifyItemChanged(tempData.position)
+                        }
+                    }
+                }
+            }
         }
     }
 
     // 친구 신청하기 & 친구 끊기 & 콕콕 찌르기 연결 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
-            207 -> {
-                // 요청은 했으나, 알림 설정 해제로 인해 알림을 보내지 않는 경우
-                // 친구 신청, 끊기 ok
-                Log.e("FriendsFragment - 207", message)
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
             }
             404 -> {
                 // 콕콕 찌르기 실패
@@ -280,7 +316,11 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                             }
 
                             "올바르지 않은 FCM 토큰입니다" -> {
-                                showToast("요청을 처리할 수 없습니다 재로그인해주세요")
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                            }
+
+                            "해당 사용자의 FCM 토큰 데이터가 없습니다" -> {
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                             }
                         }
                     }
@@ -317,12 +357,12 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
             409 -> {
                 Log.e("FriendsFragment - 409", message)
                 if (message == "이미 친구 신청한 사용자입니다") {
-                    showToast("이미 서로 친구에요!")
+                    showToast("이미 친구 신청을 보냈어요")
                 }
             }
             412 -> {
                 if (message == "콕콕 찌르기를 할 수 없습니다") {
-                    showToast("알림 설정을 동의해주세요!")
+                    showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                 }
             }
             500 -> {
@@ -333,7 +373,15 @@ class SearchFriendsFragment: BaseFragment<FragmentSearchFriendsBinding>(Fragment
                     showToast(message)
                 }
             }
-            else -> showToast(resources.getString(R.string.toast_server_error))
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
         }
     }
 }

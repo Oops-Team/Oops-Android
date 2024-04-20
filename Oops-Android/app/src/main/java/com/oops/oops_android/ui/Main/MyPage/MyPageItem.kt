@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 // 사용자 정보
 @Parcelize
 data class MyPageItem(
+    val userImgURI: String?, // 사용자 프로필 사진
     val loginType: String, // 로그인 유형
     val userEmail: String, // 이메일
     val userName: String, // 사용자 이름

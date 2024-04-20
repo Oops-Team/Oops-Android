@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import com.google.gson.JsonObject
 import com.oops.oops_android.R
 import com.oops.oops_android.data.db.Database.AppDatabase
 import com.oops.oops_android.data.db.Entity.User
@@ -15,11 +16,13 @@ import com.oops.oops_android.data.remote.Common.CommonView
 import com.oops.oops_android.databinding.ActivitySignUpBinding
 import com.oops.oops_android.ui.Base.BaseActivity
 import com.oops.oops_android.ui.Tutorial.TutorialActivity
+import com.oops.oops_android.utils.AlarmUtils.setCancelAllAlarm
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
 import com.oops.oops_android.utils.saveLoginId
 import com.oops.oops_android.utils.saveNickname
 import com.oops.oops_android.utils.saveToken
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -50,7 +53,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
 
         // 중복 확인 버튼 클릭 이벤트
-        binding.tvSignUpOverlapBtn.setOnClickListener {
+        binding.tvSignUpOverlapBtn.setOnSingleClickListener {
             val alert = binding.tvSignUpAlert
             val edt = binding.edtSignUpNickname
             val underLine = binding.viewSignUpNickname
@@ -99,7 +102,7 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
 
         // 다음 버튼 클릭 이벤트
-        binding.btnSignUp1Next.setOnClickListener {
+        binding.btnSignUp1Next.setOnSingleClickListener {
             // 닉네임 변경 불가 팝업 띄우기
             val dialog = NicknameDialog(this@SignUpActivity)
             dialog.nicknameDialogShow()
@@ -131,41 +134,59 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
         }
     }
 
-    override fun connectOopsAPI(token: String?, tempLoginId: String?) {
-        val authService = AuthService()
-        authService.setSignUpView(this)
-
+    // 네이버 회원가입 또는 구글 회원가입 API 연결
+    override fun connectOopsAPI(token: String?, loginId: String?) {
+        // 토큰이 있다면, 알림 설정 여부 ok
         var isAlert = false
         if (token != null) {
-            isAlert = true // 알림 설정 여부
+            isAlert = true
         }
-        authService.serverLogin(
-            loginId!!,
-            ServerUserModel(
-                serverEmail.toString(),
-                binding.edtSignUpNickname.text.toString(),
-                token,
-                isAlert
+
+        // 네이버 회원가입 이라면
+        if (this.loginId == "naver") {
+            // 네이버 회원가입 - 2 API 연결
+            val authService = AuthService()
+            authService.setSignUpView(this)
+            authService.naverSignUp(
+                ServerUserModel(
+                    serverEmail.toString(),
+                    binding.edtSignUpNickname.text.toString(),
+                    token,
+                    isAlert
+                )
             )
-        )
+        }
+        // 구글 회원가입 이라면
+        else if (this.loginId == "google") {
+            val authService = AuthService()
+            authService.setSignUpView(this)
+            authService.googleLogin(
+                this.loginId!!,
+                ServerUserModel(
+                    serverEmail.toString(),
+                    binding.edtSignUpNickname.text.toString(),
+                    token,
+                    isAlert
+                )
+            )
+        }
     }
 
-    // 네이버 & 구글 로그인 시 다음 버튼 클릭 이벤트
+    // 네이버 & 구글 회원가입 시 다음 버튼 클릭 이벤트
     private fun clickNextBtn() {
         try {
-            // 네이버에서 넘어온 화면이라면
-            if (loginId == "naver" || loginId == "google") {
+            // 다음 버튼 클릭 막기
+            binding.btnSignUp1Next.isEnabled = false
 
-                // 안드로이드13 이상이라면
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    // 알림 수신 권한 설정 창 띄우기
-                    askNotificationPermission()
-                }
-                // 안드로이드12 이하라면
-                else {
-                    // FCM 토큰 발급 및 로그인 API 연결
-                    getFCMToken(loginId)
-                }
+            // 안드로이드13 이상이라면
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // 알림 수신 권한 설정 창 띄우기
+                askNotificationPermission()
+            }
+            // 안드로이드12 이하라면
+            else {
+                // FCM 토큰 발급 및 sns 회원가입 API 연결
+                getFCMToken(loginId)
             }
         } catch (e: Exception) {
             Log.e("SingUpActivity - clickNextBtn", e.stackTraceToString())
@@ -250,48 +271,55 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding:
             }
             else -> {
                 showToast(getString(R.string.toast_server_error))
+                startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
             }
         }
     }
 
     // 네이버 & 구글 회원가입 성공
-    override fun onSignUpSuccess(status: Int, message: String, data: Any?, isGetToken: Boolean) {
+    override fun onSignUpSuccess(status: Int, message: String, data: JsonObject?, isGetToken: Boolean) {
         when (status) {
             200 -> {
-                // spf 기존 값 업데이트
-                saveNickname(binding.edtSignUpNickname.text.toString())
-                saveLoginId(loginId!!)
+                try {
+                    // spf 기존 값 업데이트
+                    saveNickname(binding.edtSignUpNickname.text.toString())
+                    saveLoginId(loginId!!)
 
-                // json 파싱
-                val jsonObject = JSONObject(data.toString())
+                    // json 파싱
+                    val jsonObject = JSONObject(data.toString())
 
-                // xAuthToken 저장
-                val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
-                saveToken(xAuthToken)
+                    // xAuthToken 저장
+                    val xAuthToken: String = jsonObject.getString("xAuthToken").toString()
+                    saveToken(xAuthToken)
 
-                if (loginId == "naver") {
-                    // room db의 user db
+                    // room db에 최신 유저 정보 저장
                     val userDB = AppDatabase.getUserDB()
                     userDB?.userDao()?.deleteAllUser()
                     userDB?.userDao()?.insertUser(User(loginId!!, binding.edtSignUpNickname.text.toString()))
-                }
 
-                // 알림 수신 동의했다면(=토큰이 있다면)
-                if (isGetToken) {
-                    // 알림 동의 완료 팝업 띄우기
-                    clickAgreeBtn()
-                }
-                // 알림 수신 동의를 안 했다면
-                else {
-                    // 알림 미동의 완료 팝업 띄우기
-                    clickDisAgreeBtn()
+                    // 기존에 저장되어 있던 모든 알람 삭제(db, 알람 취소)
+                    setCancelAllAlarm(this)
+
+                    // 알림 수신 동의했다면(=토큰이 있다면)
+                    if (isGetToken) {
+                        // 알림 동의 완료 팝업 띄우기
+                        clickAgreeBtn()
+                    }
+                    // 알림 수신 동의를 안 했다면
+                    else {
+                        // 알림 미동의 완료 팝업 띄우기
+                        clickDisAgreeBtn()
+                    }
+                } catch (e: Exception) {
+                    Log.e("SignUpActivity - SignUp", e.stackTraceToString())
                 }
             }
         }
     }
 
-    // 네이버 & 구글 로그인 실패
+    // 네이버 & 구글 회원가입 실패
     override fun onSignUpFailure(status: Int, message: String) {
         showToast(getString(R.string.toast_server_error))
+        startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
     }
 }

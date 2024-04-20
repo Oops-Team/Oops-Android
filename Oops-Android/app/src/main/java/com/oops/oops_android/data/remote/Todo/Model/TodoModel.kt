@@ -1,9 +1,6 @@
 package com.oops.oops_android.data.remote.Todo.Model
 
 import com.google.gson.annotations.SerializedName
-import com.oops.oops_android.ui.Main.Home.TodoModifyItem
-import java.time.LocalDate
-import java.time.LocalTime
 
 /* 홈 화면 & 일정 화면에서 사용하는 데이터 모델 */
 /* 홈 화면 */

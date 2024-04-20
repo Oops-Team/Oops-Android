@@ -71,4 +71,10 @@
   <path
       android:pathData="M16.1,81.47L64,42.69C49.99,24.28 11.31,-9.51 -31.34,2.54C-74,14.58 -98.22,57.44 -105,77.36L-49.42,102C-49.87,99.87 -46.44,91.96 -29.09,77.36C-11.73,62.76 8.27,74.02 16.1,81.47Z"
       android:fillColor="#FCDE6D"/>
+  <path
+      android:pathData="M28.5,87L41.5,108.5"
+      android:strokeWidth="4"
+      android:fillColor="#00000000"
+      android:strokeColor="#FCDE6D"
+      android:strokeLineCap="round"/>
 </vector>

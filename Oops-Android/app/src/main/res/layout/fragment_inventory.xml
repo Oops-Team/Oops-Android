@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bnv_menu_2"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textColor="@color/White"
         android:fontFamily="@font/pretendard_bold"
         android:gravity="center"

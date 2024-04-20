@@ -1,8 +1,10 @@
 package com.oops.oops_android.ui.Main.Sting
 
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.gson.JsonArray
 import com.oops.oops_android.R
 import com.oops.oops_android.data.remote.Common.CommonView
@@ -12,6 +14,7 @@ import com.oops.oops_android.data.remote.Sting.Model.StingFriendIdModel
 import com.oops.oops_android.data.remote.Sting.Model.StingFriendModel
 import com.oops.oops_android.databinding.FragmentFriendsBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.utils.getNickname
 import org.json.JSONArray
 import org.json.JSONException
@@ -26,12 +29,23 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         mainActivity?.hideBnv(true) // 바텀 네비게이션 숨기기
 
         binding.friendsToolbarSub.tvSubToolbarTitle.text = getString(R.string.sting_friends)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 핸드폰의 뒤로가기 버튼 클릭 시
+                // 홈 화면으로 이동
+                val actionToHome = FriendsFragmentDirections.actionFriendsFrmToHomeFrm()
+                findNavController().navigate(actionToHome)
+            }
+        })
     }
 
     override fun initAfterBinding() {
         // 뒤로 가기 버튼을 누른 경우
         binding.friendsToolbarSub.ivSubToolbarBack.setOnClickListener {
-            view?.findNavController()?.popBackStack()
+            // 홈 화면으로 이동
+            val actionToHome = FriendsFragmentDirections.actionFriendsFrmToHomeFrm()
+            findNavController().navigate(actionToHome)
         }
 
         // 친구 리스트 조회 API 연결
@@ -75,13 +89,21 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
 
         // 친구 끊기 버튼을 클릭한 경우
         oldFriendsAdapter?.onOldFriendsItemClickListener1 = { position ->
-            // 친구 끊기 API 연결
-            refuseFriends(
-                oldFriendsAdapter?.getOldFriend(position)!!.userIdx,
-                false,
-                position,
-                oldFriendsAdapter?.getOldFriend(position)!!
-            )
+            // 친구를 끊을 것인지 재확인하는 팝업 띄우기
+            val friendsDeleteDialog = FriendsDeleteDialog(requireContext())
+            friendsDeleteDialog.showFriendsDeleteDialog()
+            friendsDeleteDialog.setOnClickedListener(object : FriendsDeleteDialog.FriendsDeleteBtnClickListener {
+                // 예 버튼을 누른 경우
+                override fun onClicked() {
+                    // 친구 끊기 API 연결
+                    refuseFriends(
+                        oldFriendsAdapter?.getOldFriend(position)!!.userIdx,
+                        false,
+                        position,
+                        oldFriendsAdapter?.getOldFriend(position)!!
+                    )
+                }
+            })
         }
 
         // 콕콕 찌르기 버튼을 클릭한 경우
@@ -134,7 +156,22 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
 
     // 친구 리스트 조회 API 연결 실패
     override fun onGetFriendsFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 친구 신청 수락 API 연결
@@ -168,10 +205,10 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         stingService.stingFriend(StingFriendModel(name, randomSting[randomStingIndex]))
     }
 
-    // 친구 신청 수락 성공
+    // 친구 api 연결 성공
     override fun onCommonSuccess(status: Int, message: String, data: Any?) {
         when (message) {
-            // 친구 신청 수락 성공
+            // 친구 신청 수락 성공 200, 207
             "Accept Friends" -> {
                 // 팝업 띄우기
                 val acceptDialog = FriendsAcceptDialog(requireContext(), R.layout.dialog_friends_accept, R.id.btn_popup_friends_accept_confirm)
@@ -182,7 +219,7 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
                 newFriendsAdapter?.removeFriend(item.position)
                 oldFriendsAdapter?.addOldFriendsList(item.newFriend)
             }
-            // 친구 끊기 & 거절
+            // 친구 끊기 & 거절 - 200, 207
             "Refuse Friends" -> {
                 // 친구 거절인 경우
                 val item = data as StingRefuseModel
@@ -207,13 +244,13 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
         }
     }
 
-    // 친구 신청 수락 실패
+    // 친구 api 연결 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
         when (status) {
-            207 -> {
-                // 요청은 했으나, 알림 설정 해제로 인해 알림을 보내지 않는 경우
-                // 친구 신청, 끊기 ok
-                Log.e("FriendsFragment - 207", message)
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
             }
             404 -> {
                 // 콕콕 찌르기 실패
@@ -225,7 +262,11 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
                             }
 
                             "올바르지 않은 FCM 토큰입니다" -> {
-                                showToast("요청을 처리할 수 없습니다 재로그인해주세요")
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
+                            }
+
+                            "해당 사용자의 FCM 토큰 데이터가 없습니다" -> {
+                                showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                             }
                         }
                     }
@@ -262,12 +303,12 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
             409 -> {
                 Log.e("FriendsFragment - 409", message)
                 if (message == "이미 친구 신청한 사용자입니다") {
-                    showToast("이미 서로 친구에요!")
+                    showToast("이미 친구 신청을 보냈어요")
                 }
             }
             412 -> {
                 if (message == "콕콕 찌르기를 할 수 없습니다") {
-                    showToast("알림 설정을 동의해주세요!")
+                    showToast("친구가 알림 설정을 하지 않아서 콕콕 찌를 수가 없어요!")
                 }
             }
             500 -> {
@@ -278,7 +319,15 @@ class FriendsFragment: BaseFragment<FragmentFriendsBinding>(FragmentFriendsBindi
                     showToast(message)
                 }
             }
-            else -> showToast(resources.getString(R.string.toast_server_error))
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
         }
     }
 }

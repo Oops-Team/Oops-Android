@@ -2,7 +2,6 @@ package com.oops.oops_android.ui.Main.Home
 
 import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 /* 홈 화면에서 사용하는 인벤토리 리스트 */
 data class HomeInventoryItem(

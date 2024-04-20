@@ -20,6 +20,7 @@ import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.CustomPasswordTransformationMethod
 import com.oops.oops_android.utils.EditTextUtils
 import com.oops.oops_android.utils.onTextChanged
+import com.oops.oops_android.utils.setOnSingleClickListener
 import org.json.JSONObject
 import java.util.*
 
@@ -55,7 +56,7 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
         }
 
         // 코드 전송 버튼 클릭 이벤트
-        binding.tvFindPwCodeBtn.setOnClickListener {
+        binding.tvFindPwCodeBtn.setOnSingleClickListener {
             // 이메일 형식이 맞다면
             if (EditTextUtils.emailRegex(binding.edtFindPwEmail.text.toString().trim())) {
                 binding.tvFindPwCodeTimer.text = "02:00"
@@ -83,14 +84,14 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
         }
 
         // 인증하기 버튼 클릭 이벤트
-        binding.tvFindPwCodeCertifyBtn.setOnClickListener {
+        binding.tvFindPwCodeCertifyBtn.setOnSingleClickListener {
             val authService = AuthService()
             authService.setCommonObjectView(this)
             authService.findOopsPw(FindOopsPwModel(binding.edtFindPwCode.text.toString(), binding.edtFindPwEmail.text.toString()))
         }
 
         // 비밀번호 재설정 버튼 클릭 이벤트
-        binding.btnFindIdPwReset.setOnClickListener {
+        binding.btnFindIdPwReset.setOnSingleClickListener {
             if (isBtnEnable) {
                 // 비밀번호 재설정 뷰로 바꾸기
                 binding.lLayoutFindPwCode.visibility = View.GONE
@@ -209,7 +210,7 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
         }
 
         // 비밀번호 재설정 완료 버튼 클릭 이벤트
-        binding.btnFindIdPwCheckReset.setOnClickListener {
+        binding.btnFindIdPwCheckReset.setOnSingleClickListener {
             if (isPwdValid && isPwdCheckValid) {
                 // 새로운 비밀번호로 변경 API 연결
                 val authService = AuthService()
@@ -251,6 +252,8 @@ class FindPwFragment: BaseFragment<FragmentFindPwBinding>(FragmentFindPwBinding:
             }
             // 새로운 비밀번호로 변경 API 연결 성공
             "Change" -> {
+                showToast(getString(R.string.toast_change_pw)) // 재설정 성공 토스트 띄우기
+                
                 // 로그인 화면으로 이동
                 val intent = Intent(activity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/Gray_400"
                 android:fontFamily="@font/pretendard_semibold"/>
         </LinearLayout>
@@ -70,7 +70,7 @@
                 android:gravity="end"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/Gray_400"
                 android:fontFamily="@font/pretendard_semibold"/>
         </LinearLayout>
@@ -138,6 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:cardCornerRadius="100dp"
             app:cardElevation="0dp"
             android:elevation="0dp">
@@ -178,8 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/myPage_withdrawal"
-        android:textSize="16sp"
-        android:fontFamily="@font/pretendard_bold"
+        style="@style/Button3"
         android:textColor="@color/Gray_300"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="45dp"/>

@@ -32,7 +32,7 @@
                     android:id="@+id/iv_myPage_profile"
                     android:layout_width="89dp"
                     android:layout_height="89dp"
-                    android:src="@drawable/ic_friends_profile_default_50"/>
+                    android:scaleType="centerCrop"/>
             </androidx.cardview.widget.CardView>
 
             <!-- 사용자 닉네임 -->

@@ -2,11 +2,9 @@ package com.oops.oops_android.ui.Main.Inventory.Stuff
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.oops.oops_android.databinding.ItemTutorialStuffBinding
 import java.util.Locale

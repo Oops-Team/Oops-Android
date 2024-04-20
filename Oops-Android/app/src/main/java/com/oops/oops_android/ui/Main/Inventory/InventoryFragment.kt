@@ -19,6 +19,7 @@ import com.oops.oops_android.data.remote.Inventory.Api.InventoryView
 import com.oops.oops_android.data.remote.Inventory.Model.ChangeIconIdx
 import com.oops.oops_android.databinding.FragmentInventoryBinding
 import com.oops.oops_android.ui.Base.BaseFragment
+import com.oops.oops_android.ui.Login.LoginActivity
 import com.oops.oops_android.ui.Main.Home.StuffItem
 import org.json.JSONObject
 
@@ -55,27 +56,6 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
         // 인벤토리 All 소지품 어댑터 연결
         binding.rvInventoryStuff.adapter = stuffAdapter
-
-        // 인벤토리 생성&수정 화면에서 넘어왔다면
-        /*try {
-            val args: InventoryFragmentArgs by navArgs()
-            val categoryItem = args.newInventoryItem
-
-            when (args.inventoryDivision) {
-                // 인벤토리 삭제의 경우
-                "InventoryDelete" -> {
-                    // 인벤토리 idx가 같은 아이템 찾기
-                    for (i in 0 until categoryList.size) {
-                        if (categoryList[i].inventoryIdx == categoryItem?.inventoryIdx) {
-                            // 값 삭제
-                            categoryList.removeAt(i)
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.i("Inventory Fragment Error", e.message.toString())
-        }*/
 
         // 카테고리 버튼 클릭 이벤트
         categoryAdapter.onCategoryItemClickListener = { position ->
@@ -319,12 +299,10 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
                 // 소지품 아이템이 있다면
                 if (stuffNum >= 1) {
-                    Log.d("소지품 개수 in", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.GONE // default 뷰 숨기기
                 }
                 // 소지품이 없다면
                 else {
-                    Log.d("소지품 개수 out", stuffNum.toString())
                     binding.lLayoutInventoryStuffDefault.visibility = View.VISIBLE // default 뷰 띄우기
                 }
             }
@@ -333,7 +311,22 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
     // 인벤토리 전체 & 상세 리스트 조회 실패
     override fun onGetInventoryFailure(status: Int, message: String) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 
     // 인벤토리 아이콘 변경 API 연결
@@ -350,6 +343,22 @@ class InventoryFragment: BaseFragment<FragmentInventoryBinding>(FragmentInventor
 
     // 인벤토리 아이콘 변경 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
+        // 404 : 해당 인벤토리가 없는 경우
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

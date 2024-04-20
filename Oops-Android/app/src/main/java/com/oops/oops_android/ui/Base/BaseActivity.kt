@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -79,12 +78,10 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
             // notification설정이 안 되어 있다면, 권한 체크 알림창 띄우기
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                Log.d("BaseActivity", "알림 설정 안 되어 있음, 권한 띄우기")
             }
             // 설정이 되어 있다면
             else {
                 getFCMToken()
-                Log.d("BaseActivity", "알림 설정 되어 있음, 토큰 불러오기")
             }
         }
     }

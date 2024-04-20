@@ -13,7 +13,7 @@ class EditTextUtils {
         private const val passwordPattern: String = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[?!*~@#%^])[a-zA-Z0-9?!*~@#%^]{8,15}$"
 
         // 닉네임 패턴(한글, 영어 대소문자 허용)
-        private const val nicknamePattern: String = "^[A-Za-zㄱ-ㅎ가-힣]{1,6}\$"
+        private const val nicknamePattern: String = "^[A-Za-zㄱ-ㅎ가-힣ㅏ-ㅣ\\x20i]{1,6}$"
 
         // 이메일 정규식 확인
         fun emailRegex(email: String): Boolean {

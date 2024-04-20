@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import com.oops.oops_android.R
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 인벤토리가 없을 경우, 소지품 수정 여부 확인 팝업 */
 class InventoryNoStuffModifyDialog(private val context: Context) {
@@ -24,7 +25,7 @@ class InventoryNoStuffModifyDialog(private val context: Context) {
         }
 
         // 예 버튼을 누른 경우
-        dialog.findViewById<Button>(R.id.btn_popup_inventory_no_stuff_modify_confirm).setOnClickListener {
+        dialog.findViewById<Button>(R.id.btn_popup_inventory_no_stuff_modify_confirm).setOnSingleClickListener {
             onClickListener.onClicked()
             dialog.dismiss()
         }

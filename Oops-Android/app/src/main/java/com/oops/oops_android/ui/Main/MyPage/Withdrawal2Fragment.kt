@@ -19,6 +19,7 @@ import com.oops.oops_android.data.remote.MyPage.Model.UserWithdrawalModel
 import com.oops.oops_android.databinding.FragmentWithdrawal2Binding
 import com.oops.oops_android.ui.Base.BaseFragment
 import com.oops.oops_android.ui.Login.LoginActivity
+import com.oops.oops_android.utils.AlarmUtils
 import com.oops.oops_android.utils.ButtonUtils
 import com.oops.oops_android.utils.clearSpf
 
@@ -184,6 +185,9 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
                 val userDB = AppDatabase.getUserDB()!! // room db의 user db
                 userDB.userDao().deleteAllUser()
 
+                // 기존에 저장되어 있던 모든 알람 삭제(db, 알람 취소)
+                AlarmUtils.setCancelAllAlarm(requireContext())
+
                 // 네이버 애플리케이션 연동 해제
                 if (loginId == "naver") {
                     NidOAuthLogin().callDeleteTokenApi(object : OAuthLoginCallback {
@@ -219,14 +223,27 @@ class Withdrawal2Fragment: BaseFragment<FragmentWithdrawal2Binding>(FragmentWith
 
                 // 로그인 화면으로 이동
                 mainActivity?.startActivityWithClear(LoginActivity::class.java)
-                //val actionToLogin = Withdrawal2FragmentDirections.actionWithdrawal2FrmToLoginActivity()
-                //view?.findNavController()?.navigate(actionToLogin)
             }
         }
     }
 
     // 탈퇴하기 실패
     override fun onCommonFailure(status: Int, message: String, data: String?) {
-        showToast(resources.getString(R.string.toast_server_error))
+        when (status) {
+            // 토큰이 존재하지 않는 경우, 토큰이 만료된 경우, 사용자가 존재하지 않는 경우
+            400, 401, 404 -> {
+                showToast(resources.getString(R.string.toast_server_session))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+            // 서버의 네트워크 에러인 경우
+            -1 -> {
+                showToast(resources.getString(R.string.toast_server_error))
+            }
+            // 알 수 없는 오류인 경우
+            else -> {
+                showToast(resources.getString(R.string.toast_server_error_to_login))
+                mainActivity?.startActivityWithClear(LoginActivity::class.java) // 로그인 화면으로 이동
+            }
+        }
     }
 }

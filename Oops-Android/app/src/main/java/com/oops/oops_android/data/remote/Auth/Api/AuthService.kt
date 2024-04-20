@@ -71,15 +71,15 @@ class AuthService {
     // Oops 로그인
     fun oopsLogin(loginId: String, user: OopsUserModel) {
         val authService = retrofit.create(AuthInterface::class.java)
-        authService.oopsLogin(loginId, user).enqueue(object : Callback<CommonResponse> {
+        authService.oopsLogin(loginId, user).enqueue(object : Callback<CommonObjectResponse> {
             override fun onResponse(
-                call: Call<CommonResponse>,
-                response: Response<CommonResponse>
+                call: Call<CommonObjectResponse>,
+                response: Response<CommonObjectResponse>
             ) {
                 // 성공
                 if (response.isSuccessful) {
-                    val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, resp.message, resp.data)
+                    val resp: CommonObjectResponse = response.body()!!
+                    commonObjectView.onCommonObjectSuccess(resp.status, "oops", resp.data.asJsonObject)
                 }
                 // 실패
                 else {
@@ -89,15 +89,15 @@ class AuthService {
                     Log.e("AUTH - Oops Login / ERROR", messageObject.toString())
                     when (statusObject) {
                         // 이메일 및 비밀번호 불일치 오류
-                        404, 400 -> commonView.onCommonFailure(statusObject, messageObject)
-                        else -> commonView.onCommonFailure(statusObject, messageObject)
+                        404, 400 -> commonObjectView.onCommonObjectFailure(statusObject, "oops")
+                        else -> commonObjectView.onCommonObjectFailure(statusObject, messageObject)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
                 Log.e("AUTH - Oops Login / FAILURE", t.message.toString())
-                commonView.onCommonFailure(-1, "") // 실패
+                commonObjectView.onCommonObjectFailure(-1, "") // 실패
             }
         })
     }
@@ -138,18 +138,18 @@ class AuthService {
     // Oops 회원가입
     fun oopsSignUp(user: OopsUserModel) {
         val authService = retrofit.create(AuthInterface::class.java)
-        authService.oopsSignUp(user).enqueue(object : Callback<CommonResponse> {
+        authService.oopsSignUp(user).enqueue(object : Callback<CommonObjectResponse> {
             override fun onResponse(
-                call: Call<CommonResponse>,
-                response: Response<CommonResponse>
+                call: Call<CommonObjectResponse>,
+                response: Response<CommonObjectResponse>
             ) {
                 // 성공
                 if (response.isSuccessful) {
-                    val resp: CommonResponse = response.body()!!
+                    val resp: CommonObjectResponse = response.body()!!
                     // FCM 토큰이 여부 확인
                     val isGetToken = user.fcmToken != null
 
-                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data, isGetToken)
+                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data.asJsonObject, isGetToken)
                 }
                 // 실패
                 else {
@@ -161,28 +161,28 @@ class AuthService {
                 }
             }
 
-            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
                 Log.e("AUTH - Oops SignUp / FAILURE", t.message.toString())
                 signUpView.onSignUpFailure(-1, "") // 실패
             }
         })
     }
 
-    // 카카오톡, 구글 회원가입
-    fun serverLogin(loginId: String, user: ServerUserModel) {
+    // 구글 회원가입 및 로그인
+    fun googleLogin(loginId: String, user: ServerUserModel) {
         val authService = retrofit.create(AuthInterface::class.java)
-        authService.serverLogin(loginId, user).enqueue(object : Callback<CommonResponse> {
+        authService.googleLogin(loginId, user).enqueue(object : Callback<CommonObjectResponse> {
             override fun onResponse(
-                call: Call<CommonResponse>,
-                response: Response<CommonResponse>
+                call: Call<CommonObjectResponse>,
+                response: Response<CommonObjectResponse>
             ) {
                 // 성공
                 if (response.isSuccessful) {
-                    val resp: CommonResponse = response.body()!!
+                    val resp: CommonObjectResponse = response.body()!!
                     // FCM 토큰이 여부 확인
                     val isGetToken = user.fcmToken != null
 
-                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data, isGetToken)
+                    signUpView.onSignUpSuccess(resp.status, resp.message, resp.data.asJsonObject, isGetToken)
                 }
                 // 실패
                 else {
@@ -194,8 +194,79 @@ class AuthService {
                 }
             }
 
-            override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
                 Log.e("AUTH - Server SignUp / FAILURE", t.message.toString())
+                signUpView.onSignUpFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 네이버 로그인 - 1 (재로그인, 회원가입 - 1)
+    fun naverLogin(loginId: String, user: ServerUserModel) {
+        val authService = retrofit.create(AuthInterface::class.java)
+        authService.naverLogin(loginId, user).enqueue(object : Callback<CommonObjectResponse> {
+            override fun onResponse(
+                call: Call<CommonObjectResponse>,
+                response: Response<CommonObjectResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonObjectResponse = response.body()!!
+
+                    // 최초 회원가입일 경우
+                    if (resp.message == "회원가입을 진행해주시기 바랍니다") {
+                        commonObjectView.onCommonObjectSuccess(resp.status, resp.message)
+                    }
+                    // 재로그인일 경우
+                    else {
+                        commonObjectView.onCommonObjectSuccess(resp.status, "naver", resp.data.asJsonObject)
+                    }
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "")
+                    Log.e("AUTH - Naver - 1 Login / ERROR", messageObject.toString())
+                    commonObjectView.onCommonObjectSuccess(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
+                Log.e("AUTH - Naver - 1 Login / FAILURE", t.message.toString())
+                commonObjectView.onCommonObjectFailure(-1, "") // 실패
+            }
+        })
+    }
+
+    // 네이버 로그인 - 2 (회원가입 - 2)
+    fun naverSignUp(user: ServerUserModel) {
+        val authService = retrofit.create(AuthInterface::class.java)
+        authService.naverSignUp(user).enqueue(object : Callback<CommonObjectResponse> {
+            override fun onResponse(
+                call: Call<CommonObjectResponse>,
+                response: Response<CommonObjectResponse>
+            ) {
+                // 성공
+                if (response.isSuccessful) {
+                    val resp: CommonObjectResponse = response.body()!!
+                    // FCM 토큰이 여부 확인
+                    val isGetToken = user.fcmToken != null
+
+                    signUpView.onSignUpSuccess(resp.status, "naver", resp.data.asJsonObject, isGetToken)
+                }
+                // 실패
+                else {
+                    val jsonObject = JSONObject(response.errorBody()?.string().toString())
+                    val statusObject = jsonObject.getInt("status")
+                    val messageObject = jsonObject.optString("message", "")
+                    Log.e("AUTH - Naver - 2 SignUp / ERROR", messageObject.toString())
+                    signUpView.onSignUpFailure(statusObject, messageObject)
+                }
+            }
+
+            override fun onFailure(call: Call<CommonObjectResponse>, t: Throwable) {
+                Log.e("AUTH - Naver - 2 SignUp / FAILURE", t.message.toString())
                 signUpView.onSignUpFailure(-1, "") // 실패
             }
         })
@@ -272,7 +343,7 @@ class AuthService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonObjectResponse = response.body()!!
-                    commonObjectView.onCommonObjectSuccess(resp.status, resp.message, resp.data)
+                    commonObjectView.onCommonObjectSuccess(resp.status, resp.message, resp.data.asJsonObject)
                 }
                 // 실패
                 else {

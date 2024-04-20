@@ -21,14 +21,27 @@ interface AuthInterface {
     fun oopsLogin(
         @Path("loginId") loginId: String,
         @Body user: OopsUserModel
-    ): Call<CommonResponse>
+    ): Call<CommonObjectResponse>
 
-    // 카카오톡 & 구글 로그인
+    // 구글 로그인
     @POST("/user/login/{loginId}")
-    fun serverLogin(
+    fun googleLogin(
         @Path("loginId") loginId: String,
         @Body user: ServerUserModel
-    ): Call<CommonResponse>
+    ): Call<CommonObjectResponse>
+
+    // 네이버 로그인 - 1 (재로그인, 회원가입 - 1)
+    @POST("/user/login/{loginId}")
+    fun naverLogin(
+        @Path("loginId") loginId: String,
+        @Body user: ServerUserModel
+    ): Call<CommonObjectResponse>
+
+    // 네이버 로그인 - 2 (회원가입 - 2)
+    @POST("/user/sign-up/naver")
+    fun naverSignUp(
+        @Body user: ServerUserModel
+    ): Call<CommonObjectResponse>
 
     // 닉네임 중복 검사
     @GET("/user/nickname/{name}")
@@ -46,7 +59,7 @@ interface AuthInterface {
     @POST("/user/sign-up")
     fun oopsSignUp(
         @Body user: OopsUserModel
-    ): Call<CommonResponse>
+    ): Call<CommonObjectResponse>
 
     // 이메일 찾기
     @GET("/user/find/email/{email}")

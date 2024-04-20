@@ -168,7 +168,29 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Request Friends")
-                    commonView.onCommonFailure(statusObject, messageObject, "Request") // 실패
+                    // 상대의 fcm 토큰에 문제가 있지만, 친구 신청이 올바르게 된 경우
+                    if (statusObject ==  404) {
+                        if (messageObject == "해당 사용자의 FCM 토큰 데이터가 없습니다") {
+                            commonView.onCommonSuccess(200, "Request Friends", StingRequestModel(name.name, position))
+                        }
+                        else if (messageObject == "올바르지 않은 FCM 토큰입니다") {
+                            commonView.onCommonSuccess(200, "Request Friends", StingRequestModel(name.name, position))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Request") // 실패
+                        }
+                    }
+                    else if (statusObject == 500) {
+                        if (messageObject == "친구 신청 알림을 보내지 못했습니다") {
+                            commonView.onCommonSuccess(200, "Request Friends", StingRequestModel(name.name, position))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Request") // 실패
+                        }
+                    }
+                    else {
+                        commonView.onCommonFailure(statusObject, messageObject, "Request") // 실패
+                    }
                     Log.e("Sting - Request Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
@@ -198,7 +220,30 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Accept Friends")
-                    commonView.onCommonFailure(statusObject, messageObject, "Accept") // 실패
+                    // 친구 수락은 성공했으나, 상대의 fcm 토큰에 이슈가 있는 경우
+                    if (statusObject == 404) {
+                        if (messageObject == "해당 사용자의 FCM 토큰 데이터가 없습니다") {
+                            commonView.onCommonSuccess(200, "Accept Friends", StingAcceptModel(position, newFriend))
+                        }
+                        else if (messageObject == "올바르지 않은 FCM 토큰입니다") {
+                            commonView.onCommonSuccess(200, "Accept Friends", StingAcceptModel(position, newFriend))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Accept") // 실패
+                        }
+                    }
+                    else if (statusObject == 500) {
+                        if (messageObject == "친구 수락 알림을 보내지 못했습니다") {
+                            commonView.onCommonSuccess(200, "Accept Friends", StingAcceptModel(position, newFriend))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Accept") // 실패
+                        }
+                    }
+                    else {
+                        commonView.onCommonFailure(statusObject, messageObject, "Accept") // 실패
+                    }
+
                     Log.e("Sting - Accept Friends / ERROR", "$jsonObject $messageObject")
                 }
             }
@@ -233,7 +278,30 @@ class StingService {
                     val jsonObject = JSONObject(response.errorBody()?.string().toString())
                     val statusObject = jsonObject.getInt("status")
                     val messageObject = jsonObject.optString("message", "Refuse Friends")
-                    commonView.onCommonFailure(statusObject, messageObject, "Refuse") // 실패
+                    // 친구 거절&끊기 성공, 그러나 상대의 fcm 토큰 이슈가 있는 경우
+                    if (statusObject == 404) {
+                        if (messageObject == "해당 사용자의 FCM 토큰 데이터가 없습니다") {
+                            commonView.onCommonSuccess(200, "Refuse Friends", StingRefuseModel(isRefuse, position, newFriend))
+                        }
+                        else if (messageObject == "올바르지 않은 FCM 토큰입니다") {
+                            commonView.onCommonSuccess(200, "Refuse Friends", StingRefuseModel(isRefuse, position, newFriend))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Refuse") // 실패
+                        }
+                    }
+                    else if (statusObject == 500) {
+                        if (messageObject == "친구 거절 알림을 보내지 못했습니다") {
+                            commonView.onCommonSuccess(200, "Refuse Friends", StingRefuseModel(isRefuse, position, newFriend))
+                        }
+                        else {
+                            commonView.onCommonFailure(statusObject, messageObject, "Refuse") // 실패
+                        }
+                    }
+                    else {
+                        commonView.onCommonFailure(statusObject, messageObject, "Refuse") // 실패
+                    }
+
                     Log.e("Sting - Refuse Friends / ERROR", "$jsonObject $messageObject")
                 }
             }

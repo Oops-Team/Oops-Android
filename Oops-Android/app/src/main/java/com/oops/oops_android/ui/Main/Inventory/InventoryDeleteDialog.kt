@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import com.oops.oops_android.R
+import com.oops.oops_android.utils.setOnSingleClickListener
 
 /* 인벤토리 삭제 팝업 */
 class InventoryDeleteDialog(private val context: Context) {
@@ -23,7 +24,7 @@ class InventoryDeleteDialog(private val context: Context) {
         }
 
         // 삭제 버튼을 누른 경우
-        dialog.findViewById<Button>(R.id.btn_popup_inventory_delete_confirm).setOnClickListener {
+        dialog.findViewById<Button>(R.id.btn_popup_inventory_delete_confirm).setOnSingleClickListener {
             onClickListener.onClicked()
             dialog.dismiss()
         }

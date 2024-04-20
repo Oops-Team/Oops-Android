@@ -36,6 +36,7 @@
     <color name="Cursor_main">#33BDBDBD</color>
     <color name="Color_EA">#EAECF7</color>
     <color name="Color_8E">#8E9EEB</color>
+    <color name="Red_FF">#FF4010</color>
     <!-- 투명 색상 -->
     <color name="transparent">#00ff0000</color>
 </resources>
