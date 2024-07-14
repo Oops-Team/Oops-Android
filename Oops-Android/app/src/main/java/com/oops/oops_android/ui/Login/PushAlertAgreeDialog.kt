@@ -21,13 +21,6 @@ class PushAlertAgreeDialog(private val context: Context) {
         dialog.setCancelable(false) // 화면 바깥 클릭 시 dialog 닫지 않기
         dialog.show()
 
-        // 날짜 정보 넣기
-        val dateList = CalendarUtils.getToday()[0]
-        val timeList = CalendarUtils.getToday()[1]
-        val today = dateList[0] + "년 " + dateList[1] + "월 " + dateList[2] + "일 " +
-                timeList[0] + "시 " + timeList[1] + "분"
-        dialog.findViewById<TextView>(R.id.tv_popup_push_alert_agree_date).text = today
-
         // 확인 버튼을 누른 경우
         dialog.findViewById<Button>(R.id.btn_popup_push_alert_agree_confirm).setOnClickListener {
             onClickListener.onClicked()

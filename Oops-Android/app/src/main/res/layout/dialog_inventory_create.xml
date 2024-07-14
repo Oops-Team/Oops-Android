@@ -25,7 +25,7 @@
     <Button
         android:id="@+id/btn_popup_inventory_create_confirm"
         android:layout_width="296dp"
-        android:layout_height="33dp"
+        android:layout_height="40dp"
         style="@style/PopUpButtonEnableStyle"
         android:text="@string/popup_confirm"
         android:layout_marginTop="24dp"/>
