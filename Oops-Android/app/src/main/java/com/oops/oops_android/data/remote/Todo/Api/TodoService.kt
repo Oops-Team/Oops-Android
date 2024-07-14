@@ -149,7 +149,13 @@ class TodoService {
                 // 성공
                 if (response.isSuccessful) {
                     val resp: CommonResponse = response.body()!!
-                    commonView.onCommonSuccess(resp.status, "Todo Delete", itemPos)
+                    if (resp.message == "성공") {
+                        commonView.onCommonSuccess(resp.status, "Todo Delete", itemPos)
+                    }
+                    // 일정이 1개도 없다면
+                    else {
+                        commonView.onCommonSuccess(resp.status, "Todo Delete", null)
+                    }
                 }
                 // 실패
                 else {

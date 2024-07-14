@@ -955,12 +955,15 @@ class HomeFragment:
                 getTodo(selectDate)
             }
             "Todo Delete" -> {
-                // 아이템 삭제
-                val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
-                todoAdapter?.deleteTodoList(todoItem)
+                // 일정을 전부 삭제했다면
+                if (data == null) {
+                    todoAdapter?.resetTodoList()
+                    stuffAdapter?.resetStuffList()
+                    todoListItem = null
+                    binding.rvHomeTodo.removeAllViews()
+                    binding.rvHomeStuff.removeAllViews()
+                    binding.lLayoutHomeTodoTag.removeAllViews()
 
-                // 소지품도 없고, 일정도 없다면
-                if (stuffAdapter?.itemCount == 0 && todoAdapter?.itemCount == 0) {
                     // default 뷰 띄우기
                     binding.tvHomeStuffDefault.visibility = View.VISIBLE
                     binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
@@ -969,14 +972,11 @@ class HomeFragment:
                     binding.iBtnHomeTodoAdd.visibility = View.GONE
                     binding.ivHomeEdit.visibility = View.INVISIBLE // 수정 버튼 숨기기
                 }
-                // 소지품은 있지만, 할 일은 없다면
-                else if (stuffAdapter?.itemCount!! >= 1 && todoAdapter?.itemCount == 0) {
-                    binding.tvHomeStuffDefault.visibility = View.GONE
-                    binding.lLayoutHomeTodoDefault.visibility = View.VISIBLE
-                    binding.lLayoutHomeStuffNoInventory.visibility = View.GONE
-                    binding.lLayoutHomeStuffComplete.visibility = View.GONE
-                    binding.iBtnHomeTodoAdd.visibility = View.GONE // 하단의 +버튼 숨기기
-                    binding.ivHomeEdit.visibility = View.VISIBLE // 수정 버튼 띄우기
+                // 일정 1개만 삭제했다면
+                else {
+                    // 아이템 삭제
+                    val todoItem: TodoItem? = todoAdapter?.getTodoList(data as Int)
+                    todoAdapter?.deleteTodoList(todoItem)
                 }
             }
             "Todo Complete" -> {
