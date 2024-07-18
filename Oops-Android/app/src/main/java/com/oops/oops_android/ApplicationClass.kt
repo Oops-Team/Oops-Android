@@ -45,8 +45,13 @@ class ApplicationClass: Application() {
         // 네이버 로그인 SDK 초기화
         NaverIdLoginSDK.initialize(this, getString(R.string.naver_login_client_id) , getString(R.string.naver_login_client_secret), getString(R.string.app_name))
 
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
 
         // http 통신 타이머 설정
         val client: OkHttpClient = OkHttpClient.Builder()
