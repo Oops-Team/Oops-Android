@@ -63,13 +63,6 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
         notifyDataSetChanged()
     }
 
-    // 소지품 핸들러 업데이트
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateStuffHandler(position: Int, handler: Handler) {
-        stuffList[position].handler = handler
-        notifyDataSetChanged()
-    }
-
     // 소지품 이름 정보 가져오기
     fun getStuffName(position: Int): String {
         return stuffList[position].stuffName
@@ -77,6 +70,11 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
 
     // 소지품 내보내기
     fun getStuff(position: Int): StuffItem = stuffList[position]
+
+    // 이름에 따른 소지품 내보내기
+    fun getStuffToName(stuffName: String): StuffItem? {
+        return stuffList.find { it.stuffName == stuffName }
+    }
 
     // 전체 소지품 목록 내보내기
     fun getStuffList(): ArrayList<StuffItem> = stuffList

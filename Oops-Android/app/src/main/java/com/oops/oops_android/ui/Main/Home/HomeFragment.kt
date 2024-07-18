@@ -74,8 +74,8 @@ class HomeFragment:
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
     private var monthlyItemList = ArrayList<MonthlyItem>() // 월간 캘린더 아이템 리스트
 
-    // 소지품 클릭 이벤트 변수
-    private var lastStuffClickTime: Long = 0 // 소지품 마지막 클릭 시간
+    // 클릭했던 소지품 리스트
+    private var clickedStuffList = ArrayList<String>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -117,6 +117,7 @@ class HomeFragment:
         selectDate = LocalDate.parse(getTodayDate().toString().split("T")[0])
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun initAfterBinding() {
         // 뷰 초기화
         binding.mcvHomeMonthlyCalendarview.visibility = View.GONE
@@ -298,13 +299,14 @@ class HomeFragment:
         stuffAdapter?.onItemClickListener = { position ->
             val currentTime = System.currentTimeMillis()
             val stuff = stuffAdapter?.getStuff(position)
+            clickedStuffList.add(stuff?.stuffName.toString()) // 클릭한 소지품 이름 추가
 
             // 클릭 시간 업데이트
             val previousClickTime = stuff?.lastClickTime ?: 0
             stuff?.lastClickTime = currentTime
 
             if (stuffAdapter?.getStuffState(position) == false) {
-                Log.d("초반 소지품 클릭 시간 및 상태 업데이트", position.toString())
+                Log.d("1초 초반 소지품 클릭 시간 및 상태 업데이트", position.toString())
                 // 클릭 시간 업데이트
                 stuffAdapter?.updateStuffClickTime(position, currentTime)
 
@@ -320,6 +322,8 @@ class HomeFragment:
 
                     // 기존 handler 취소
                     stuff.handler?.removeCallbacksAndMessages(null)
+
+                    stuffAdapter?.notifyDataSetChanged()
                 }
                 else {
                     // 소지품 1개 삭제(챙김 완료) API 연결
@@ -328,10 +332,14 @@ class HomeFragment:
                     // 1초 후 삭제
                     val handler = Handler(Looper.getMainLooper())
                     val runnable = Runnable {
-                        deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), stuffAdapter?.getStuff(position))
+                        Log.d("1초 후 삭제할 소지품 이름", clickedStuffList.first())
+                        Log.d("1초 후 삭제할 소지품 정보", stuffAdapter?.getStuffToName(clickedStuffList.first()).toString())
+                        deleteStuff(selectDate, clickedStuffList.first(), stuffAdapter?.getStuffToName(clickedStuffList.first()))
                     }
                     handler.postDelayed(runnable, 1000)
                     stuff.handler = handler
+
+                    stuffAdapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -1056,6 +1064,7 @@ class HomeFragment:
                 // 소지품 1개 삭제 성공
                 val stuffItem = data as StuffItem
                 stuffAdapter?.deleteStuff(stuffItem)
+                clickedStuffList.remove(stuffItem.stuffName)
 
                 // 소지품을 다 챙겼다면, 뷰 띄우기
                 if (stuffAdapter?.itemCount == 0) {
