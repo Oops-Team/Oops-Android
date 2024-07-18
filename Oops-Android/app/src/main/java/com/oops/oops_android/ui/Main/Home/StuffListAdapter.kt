@@ -1,6 +1,8 @@
 package com.oops.oops_android.ui.Main.Home
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +42,32 @@ class StuffListAdapter(val context: Context): RecyclerView.Adapter<StuffListView
     fun addStuffList(stuffItem: StuffItem) {
         stuffList.add(stuffItem)
         notifyItemChanged(stuffList.size)
+    }
+
+    // 소지품 상태 내보내기
+    fun getStuffState(position: Int): Boolean {
+        return stuffList[position].isTakeStuff!!
+    }
+
+    // 소지품 선택 상태 변경
+    @SuppressLint("NotifyDataSetChanged")
+    fun changeStuffState(position: Int, isTakeStuff: Boolean) {
+        stuffList[position].isTakeStuff = isTakeStuff
+        notifyDataSetChanged()
+    }
+
+    // 소지품 클릭 시간 업데이트
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateStuffClickTime(position: Int, lastClickTime: Long) {
+        stuffList[position].lastClickTime = lastClickTime
+        notifyDataSetChanged()
+    }
+
+    // 소지품 핸들러 업데이트
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateStuffHandler(position: Int, handler: Handler) {
+        stuffList[position].handler = handler
+        notifyDataSetChanged()
     }
 
     // 소지품 이름 정보 가져오기

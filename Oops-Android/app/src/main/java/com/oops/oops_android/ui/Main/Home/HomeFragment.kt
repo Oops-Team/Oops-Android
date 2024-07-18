@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.os.Handler
+import android.os.Looper
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
@@ -71,6 +73,9 @@ class HomeFragment:
     private var todoListItem: TodoListItem? = null // 오늘 날짜의 데이터 리스트(일정 수정 화면에 넘겨주기 위함)
     private var inventoryList = ArrayList<HomeInventoryItem>() // 전체 인벤토리 리스트
     private var monthlyItemList = ArrayList<MonthlyItem>() // 월간 캘린더 아이템 리스트
+
+    // 소지품 클릭 이벤트 변수
+    private var lastStuffClickTime: Long = 0 // 소지품 마지막 클릭 시간
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -291,8 +296,44 @@ class HomeFragment:
 
         // 소지품 클릭 이벤트
         stuffAdapter?.onItemClickListener = { position ->
-            // 소지품 1개 삭제(챙김 완료) API 연결
-            deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), stuffAdapter?.getStuff(position))
+            val currentTime = System.currentTimeMillis()
+            val stuff = stuffAdapter?.getStuff(position)
+
+            // 클릭 시간 업데이트
+            val previousClickTime = stuff?.lastClickTime ?: 0
+            stuff?.lastClickTime = currentTime
+
+            if (stuffAdapter?.getStuffState(position) == false) {
+                Log.d("초반 소지품 클릭 시간 및 상태 업데이트", position.toString())
+                // 클릭 시간 업데이트
+                stuffAdapter?.updateStuffClickTime(position, currentTime)
+
+                // 클릭 상태로 변경
+                stuffAdapter?.changeStuffState(position, true)
+            }
+
+            if (stuff != null) {
+                if ((currentTime - previousClickTime) <= 1000) {
+                    // 1초 이내에 동일한 소지품을 재클릭했다면 색상을 원상복구
+                    Log.d("1초 이내 재클릭", position.toString())
+                    stuffAdapter?.changeStuffState(position, false)
+
+                    // 기존 handler 취소
+                    stuff.handler?.removeCallbacksAndMessages(null)
+                }
+                else {
+                    // 소지품 1개 삭제(챙김 완료) API 연결
+                    Log.d("1초 후", position.toString())
+
+                    // 1초 후 삭제
+                    val handler = Handler(Looper.getMainLooper())
+                    val runnable = Runnable {
+                        deleteStuff(selectDate, stuffAdapter?.getStuffName(position).toString(), stuffAdapter?.getStuff(position))
+                    }
+                    handler.postDelayed(runnable, 1000)
+                    stuff.handler = handler
+                }
+            }
         }
     }
 
@@ -717,7 +758,7 @@ class HomeFragment:
                             val stuffName = subJsonObject.getString("stuffName")
 
                             // 소지품 어댑터에 소지품 데이터 저장
-                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName, todoDate.toString()))
+                            stuffAdapter?.addStuffList(StuffItem(stuffImgUrl, stuffName, todoDate.toString(), false))
                         }
 
                         // 소지품 여부
