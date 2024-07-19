@@ -12,12 +12,12 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     namespace 'com.oops.oops_android'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.oops.oops_android"
         minSdk 28
-        targetSdk 34
+        targetSdk 35
         versionCode 10
         versionName "1.0.0"
 
