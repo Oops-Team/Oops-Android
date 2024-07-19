@@ -299,19 +299,24 @@ class HomeFragment:
         stuffAdapter?.onItemClickListener = { position ->
             val currentTime = System.currentTimeMillis()
             val stuff = stuffAdapter?.getStuff(position)
-            clickedStuffList.add(stuff?.stuffName.toString()) // 클릭한 소지품 이름 추가
 
             // 클릭 시간 업데이트
             val previousClickTime = stuff?.lastClickTime ?: 0
             stuff?.lastClickTime = currentTime
 
-            if (stuffAdapter?.getStuffState(position) == false) {
-                Log.d("1초 초반 소지품 클릭 시간 및 상태 업데이트", position.toString())
-                // 클릭 시간 업데이트
-                stuffAdapter?.updateStuffClickTime(position, currentTime)
+            // 소지품을 처음 클릭했다면
+            if (stuff != null) {
+                if (stuff.handler == null) {
+                    clickedStuffList.add(stuff.stuffName) // 클릭한 소지품 이름 추가
 
-                // 클릭 상태로 변경
-                stuffAdapter?.changeStuffState(position, true)
+                    Log.d("1초 초반 소지품 클릭 시간 및 상태 업데이트", position.toString())
+
+                    // 클릭 시간 업데이트
+                    stuffAdapter?.updateStuffClickTime(position, currentTime)
+
+                    // 클릭 상태로 변경
+                    stuffAdapter?.changeStuffState(position, true)
+                }
             }
 
             if (stuff != null) {
@@ -322,6 +327,10 @@ class HomeFragment:
 
                     // 기존 handler 취소
                     stuff.handler?.removeCallbacksAndMessages(null)
+                    stuff.handler = null
+
+                    // 클릭한 소지품 이름 삭제
+                    clickedStuffList.remove(stuff.stuffName)
 
                     stuffAdapter?.notifyDataSetChanged()
                 }
@@ -332,9 +341,12 @@ class HomeFragment:
                     // 1초 후 삭제
                     val handler = Handler(Looper.getMainLooper())
                     val runnable = Runnable {
-                        Log.d("1초 후 삭제할 소지품 이름", clickedStuffList.first())
-                        Log.d("1초 후 삭제할 소지품 정보", stuffAdapter?.getStuffToName(clickedStuffList.first()).toString())
-                        deleteStuff(selectDate, clickedStuffList.first(), stuffAdapter?.getStuffToName(clickedStuffList.first()))
+                        if (clickedStuffList.isNotEmpty()) {
+                            Log.d("1초 후 삭제 소지품 목록", clickedStuffList.toString())
+                            Log.d("1초 후 삭제할 소지품 이름", clickedStuffList.first())
+                            Log.d("1초 후 삭제할 소지품 정보", stuffAdapter?.getStuffToName(clickedStuffList.first()).toString())
+                            deleteStuff(selectDate, clickedStuffList.first(), stuffAdapter?.getStuffToName(clickedStuffList.first()))
+                        }
                     }
                     handler.postDelayed(runnable, 1000)
                     stuff.handler = handler
