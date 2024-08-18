@@ -388,7 +388,7 @@
     <string name="popup_modify">수정</string>
     <string name="popup_not_modify">수정 안함</string>
     <string name="popup_signup_email_overlap">기존 회원이셨군요!</string>
-    <string name="popup_signup_email_overlap_info">이미 Oops에 가입한 회원이시네요\n로그인 페이지로 돌아가 SNS로 로그인 해 주세요</string>
+    <string name="popup_signup_email_overlap_info">가입한 SNS를 통해\n다시 로그인해 주세요</string>
     <string name="popup_push_alert">푸시 알림 미동의</string>
     <string name="popup_push_alert_info">푸시 알림 미전송 시\n꼼꼼하게 챙겨드리기 어려워요!\n알림을 받으시겠어요?</string>
     <string name="popup_disagree">동의 안함</string>
@@ -396,16 +396,16 @@
     <string name="popup_yes">예</string>
     <string name="popup_no">아니오</string>
     <string name="popup_push_alert_disagree">앱 푸시 알림 미동의</string>
-    <string name="popup_push_alert_disagree_info">푸시 알림에 미동의하셨습니다</string>
+    <string name="popup_push_alert_disagree_info">알림 설정을 통해 언제든\n동의할 수 있어요</string>
     <string name="popup_confirm">확인</string>
     <string name="popup_push_alert_agree">앱 푸시 알림 동의</string>
     <string name="popup_push_alert_agree_info_1">동의해 주셔서 감사해요!\n앞으로 더욱 꼼꼼한 Oops가 될게요</string>
     <string name="popup_push_alert_agree_info_2">푸시 알림에 동의하셨습니다</string>
     <string name="popup_push_alert_disable">알림 비활성화</string>
-    <string name="popup_push_alert_disable_info">앗! 잠깐! 알림을 끄면 꼼꼼하게 챙겨 드릴 수가 없어요\n그래도 알림을 그만 보낼까요?</string>
+    <string name="popup_push_alert_disable_info">앗! 잠깐! 알림을 끄면\n꼼꼼하게 챙겨 드릴 수가 없어요\n그래도 알림을 그만 보낼까요?</string>
     <string name="popup_disable">비활성화</string>
     <string name="popup_todo_create">일정 추가 완료</string>
-    <string name="popup_todo_create_info">말씀하신 일정을 잘 기록했어요!\n잘 기억해 놓을게요</string>
+    <string name="popup_todo_create_info">말씀하신 일정을 홈 화면에 추가했어요\nOops가 잘 기억해 놓을게요</string>
     <string name="popup_todo_modify">일정 수정 완료</string>
     <string name="popup_todo_modify_info">수정이 성공적으로 완료되었어요!\n홈 화면을 통해 확인해 주세요</string>
     <string name="popup_todo_delete">일정을 삭제할까요?</string>
@@ -419,7 +419,7 @@
     <string name="popup_inventory_create">인벤토리 제작 완료</string>
     <string name="popup_inventory_create_info">인벤토리 제작이 완료되었어요!</string>
     <string name="popup_inventory_modify">인벤토리 수정 완료</string>
-    <string name="popup_inventory_modify_info">수정이 완료되었어요\n수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
+    <string name="popup_inventory_modify_info">수정된 소지품은 인벤토리 화면에서\n확인하실 수 있어요</string>
     <string name="popup_friends_delete">친구 끊기</string>
     <string name="popup_friends_delete_info">친구를 끊어도 다시 친구가 될 수 있어요</string>
     <string name="popup_friends_request">친구 신청</string>

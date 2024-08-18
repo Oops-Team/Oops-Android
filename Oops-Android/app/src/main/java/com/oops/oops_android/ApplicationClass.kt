@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.concurrent.TimeUnit
+import com.oops.oops_android.BuildConfig
 
 /* 공통적으로 사용하는 데이터를 관리하는 파일 */
 class ApplicationClass: Application() {
@@ -31,7 +32,7 @@ class ApplicationClass: Application() {
         const val X_AUTH_TOKEN: String = "xAuthToken" // token 키 값
         const val TAG: String = "AUTH" // SharedPreferences 키 값
         private const val DEV_URL: String = "http://10.0.2.2:8080" // 테스트 주소
-        private const val PROD_URL: String = "http://13.124.161.80:8080" // 실서버 주소
+        private const val PROD_URL: String = BuildConfig.API_KEY // 실서버 주소
         const val BASE_URL: String = PROD_URL // 서버를 번갈아 가며 테스트하기 위한 변수
 
         lateinit var retrofit: Retrofit
@@ -44,8 +45,13 @@ class ApplicationClass: Application() {
         // 네이버 로그인 SDK 초기화
         NaverIdLoginSDK.initialize(this, getString(R.string.naver_login_client_id) , getString(R.string.naver_login_client_secret), getString(R.string.app_name))
 
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
 
         // http 통신 타이머 설정
         val client: OkHttpClient = OkHttpClient.Builder()

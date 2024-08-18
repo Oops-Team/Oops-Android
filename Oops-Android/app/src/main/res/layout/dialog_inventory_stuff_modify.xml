@@ -30,7 +30,7 @@
         <Button
             android:id="@+id/btn_popup_inventory_stuff_modify_not_modify"
             android:layout_width="0dp"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             style="@style/PopUpButtonCancelStyle"
             android:text="@string/popup_not_modify"
             android:layout_weight="1"
@@ -38,8 +38,8 @@
         <Button
             android:id="@+id/btn_popup_inventory_stuff_modify_confirm"
             android:layout_width="0dp"
-            android:layout_height="33dp"
-            style="@style/PopUpButtonEnableStyle"
+            android:layout_height="40dp"
+            style="@style/PopUpButtonDisableStyle"
             android:text="@string/popup_modify"
             android:layout_weight="1"/>
     </LinearLayout>

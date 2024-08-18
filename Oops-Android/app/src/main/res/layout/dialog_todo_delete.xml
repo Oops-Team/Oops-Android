@@ -31,7 +31,7 @@
         <Button
             android:id="@+id/btn_popup_todo_delete_cancel"
             android:layout_width="0dp"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             style="@style/PopUpButtonCancelStyle"
             android:text="@string/popup_no"
             android:layout_weight="1"
@@ -39,7 +39,7 @@
         <Button
             android:id="@+id/btn_popup_todo_delete_yes"
             android:layout_width="0dp"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             style="@style/PopUpButtonDisableStyle"
             android:text="@string/popup_yes"
             android:layout_weight="1"/>

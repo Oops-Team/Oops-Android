@@ -1,6 +1,9 @@
 package com.oops.oops_android.ui.Main.Home
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oops.oops_android.R
@@ -21,5 +24,26 @@ class StuffListViewHolder(val context: Context, val binding: ItemHomeStuffBindin
 
         stuffName.text = item.stuffName
         //stuffImg.setImageResource(item.stuffImgUrl)
+
+        // 선택한 아이템이라면
+        if (item.isTakeStuff == true) {
+            // 이미지를 흑백으로 변경
+            val matrix = ColorMatrix()
+            matrix.setSaturation(0F)
+            val colorFilter = ColorMatrixColorFilter(matrix)
+            stuffImg.colorFilter = colorFilter
+
+            stuffName.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.Gray_50))
+            stuffName.setTextAppearance(R.style.Button3)
+            stuffName.setTextColor(ColorStateList.valueOf(context.getColor(R.color.Gray_400)))
+        }
+        // 선택하지 않은 아이템이라면
+        else {
+            stuffImg.clearColorFilter()
+
+            stuffName.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.Main_400))
+            stuffName.setTextAppearance(R.style.Button3_Active)
+            stuffName.setTextColor(ColorStateList.valueOf(context.getColor(R.color.White)))
+        }
     }
 }

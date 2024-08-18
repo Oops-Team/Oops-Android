@@ -1,5 +1,6 @@
 package com.oops.oops_android.ui.Main.Home
 
+import android.os.Handler
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -8,13 +9,17 @@ data class StuffItem(
     var stuffImgUrl: String, // 소지품 이미지
     var stuffName: String, // 소지품 이름
     var date: String? = null, // 날짜
-    var isTakeStuff: Boolean? = null // 챙김 여부(0: 안 챙김, 1: 챙김)
+    var isTakeStuff: Boolean? = null, // 챙김 여부(0: 안 챙김, 1: 챙김)
+    var lastClickTime: Long = 0, // 소지품 마지막 클릭 시간
+    var handler: Handler? = null
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readLong(),
+        parcel.readValue(Handler::class.java.classLoader) as? Handler
     ) {
     }
 
@@ -23,6 +28,8 @@ data class StuffItem(
         parcel.writeString(stuffName)
         parcel.writeString(date)
         parcel.writeValue(isTakeStuff)
+        parcel.writeLong(lastClickTime)
+        parcel.writeValue(handler)
     }
 
     override fun describeContents(): Int {

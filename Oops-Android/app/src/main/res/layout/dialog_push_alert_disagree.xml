@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="296dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/all_radius_12"
     android:padding="16dp">
@@ -15,25 +15,17 @@
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/tv_popup_push_alert_disagree_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="{yyyy}년 {mm}월 {dd}일 {hh}시 {mm}분"
-        style="@style/dialog_content"
-        android:gravity="center"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/popup_push_alert_disagree_info"
         style="@style/dialog_content"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/btn_popup_push_alert_disagree_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
+        android:layout_width="296dp"
+        android:layout_height="40dp"
         style="@style/PopUpButtonEnableStyle"
         android:text="@string/popup_confirm"
         android:layout_marginTop="24dp"/>
